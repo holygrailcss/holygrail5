@@ -9,7 +9,8 @@
   "scripts": {
     "generate": "node generator.js",
     "start": "node generator.js && npx http-server -p 3000 -o",
-    "test": "node generator.js"
+    "dev": "node generator.js && npx http-server -p 3000 -o",
+    "prepublishOnly": "npm run generate"
   },
   "keywords": [
     "css",
@@ -21,7 +22,7 @@
     "css-framework",
     "design-tokens"
   ],
-  "author": "",
+  "author": "HolyGrail CSS",
   "license": "MIT",
   "repository": {
     "type": "git",
