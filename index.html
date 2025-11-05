@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HolyGrail5 - Guía de Tipografía</title>
+  <link rel="stylesheet" href="output.css">
+  <style>
+    body {
+      font-family: var(--hg-typo-font-family-primary);
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #f5f5f5;
+    }
+
+    .header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid #000;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 900;
+    }
+
+    .header p {
+      margin: 1rem 0 0 0;
+      opacity: 0.7;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .typography-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      font-size: 0.875rem;
+    
+    }
+
+    .typography-table thead {
+      background: #f5f5f5;
+    }
+
+    .typography-table th {
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid #ddd;
+      position: sticky;
+      top: 0;
+      background: #f5f5f5;
+      z-index: 10;
+    }
+
+    .typography-table th.mobile-header {
+      background: #e6f2ff;
+      color: #000000;
+      text-align: center;
+    }
+
+    .typography-table th.desktop-header {
+      background: #fff4e6;
+      color: #cc6600;
+      text-align: center;
+    }
+
+    .typography-table .sub-header th {
+      border-top: none;
+      border-bottom: 1px solid #ddd;
+      font-weight: 500;
+      font-size: 0.6875rem;
+    }
+
+    .typography-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+    }
+
+    .typography-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .typography-table .class-name {
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: #000000;
+      white-space: nowrap;
+    }
+
+    .typography-table .preview-cell {
+
+    }
+
+    .typography-table .typography-preview {
+      padding: 0.5rem;
+
+ 
+      font-size: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      text-align: center;
+    }
+
+    .typography-table .mobile-value {
+      background: #f0f8ff;
+      color: #000000;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .typography-table .desktop-value {
+      background: #fff8f0;
+      color: #cc6600;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .typography-table tbody td {
+      font-family: 'Courier New', monospace;
+    }
+
+    .font-families-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      font-size: 0.875rem;
+     
+    }
+
+    .font-families-table thead {
+      background: #f5f5f5;
+    }
+
+    .font-families-table th {
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .font-families-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+    }
+
+    .font-families-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .font-families-table .font-family-name {
+      font-weight: 600;
+      color: #000000;
+      font-family: 'Courier New', monospace;
+    }
+
+    .font-families-table .font-family-preview {
+      min-width: 100px;
+      padding: 0.75rem;
+     
+   
+ 
+      min-height: 50px;
+
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .font-families-table .font-family-value {
+      font-family: 'Courier New', monospace;
+      color: #666;
+    }
+
+    .font-families-table .font-family-var {
+      font-family: 'Courier New', monospace;
+      color: #000000;
+      font-weight: 500;
+    }
+
+    .variables-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      font-size: 0.875rem;
+     
+    }
+
+    .variables-table thead {
+      background: #f5f5f5;
+    }
+
+    .variables-table th {
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .variables-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+    }
+
+    .variables-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .variables-table .variable-name {
+      font-family: 'Courier New', monospace;
+      color: #000000;
+      font-weight: 600;
+    }
+
+    .variables-table .variable-value {
+      font-family: 'Courier New', monospace;
+      color: #333;
+    }
+
+    .variables-table .variable-rem {
+      font-family: 'Courier New', monospace;
+      color: #000000;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .variables-table .variable-px {
+      font-family: 'Courier New', monospace;
+      color: #cc6600;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .breakpoints-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      font-size: 0.875rem;
+    }
+
+    .breakpoints-table thead {
+      background: #f5f5f5;
+    }
+
+    .breakpoints-table th {
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .breakpoints-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+    }
+
+    .breakpoints-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .breakpoints-table .breakpoint-name {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .breakpoints-table .breakpoint-value {
+      font-family: 'Courier New', monospace;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="h2">HolyGrail5</h1>
+    <p class="text-m">Guía de Tipografía - Framework CSS Generator</p>
+  </div>
+
+  
+  <div class="section">
+    <h2 class="section-title">Font Families</h2>
+    
+    <table class="font-families-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Preview</th>
+          <th>Valor</th>
+          <th>Variable CSS</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr>
+        <td class="font-family-name">primary</td>
+        <td class="font-family-preview" style='font-family: arial, sans-serif;'>Aa</td>
+        <td class="font-family-value">arial, sans-serif</td>
+        <td class="font-family-var">--hg-typo-font-family-primary</td>
+      </tr>
+      <tr>
+        <td class="font-family-name">secondary</td>
+        <td class="font-family-preview" style='font-family: "ms-serif", serif;'>Aa</td>
+        <td class="font-family-value">"ms-serif", serif</td>
+        <td class="font-family-var">--hg-typo-font-family-secondary</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  
+
+  <div class="section">
+    <h2 class="section-title">Clases de Tipografía</h2>
+    
+    <table class="typography-table">
+      <thead>
+        <tr>
+          <th>Clase</th>
+          <th>Preview</th>
+          <th>Font Family</th>
+          <th>Font Weight</th>
+          <th>Letter Spacing</th>
+          <th>Text Transform</th>
+          <th colspan="2" class="mobile-header">Mobile</th>
+          <th colspan="2" class="desktop-header">Desktop</th>
+        </tr>
+        <tr class="sub-header">
+          <th colspan="6"></th>
+          <th class="mobile-value">Font Size</th>
+          <th class="mobile-value">Line Height</th>
+          <th class="desktop-value">Font Size</th>
+          <th class="desktop-value">Line Height</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr>
+        <td class="class-name">.h2</td>
+        <td class="preview-cell">
+          <div class="typography-preview h2">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>900</td>
+        <td>0rem</td>
+        <td>none</td>
+        <td class="mobile-value">1.125rem</td>
+        <td class="mobile-value">1.2</td>
+        <td class="desktop-value">1.5rem</td>
+        <td class="desktop-value">1.2</td>
+      </tr>
+      <tr>
+        <td class="class-name">.title-l-b</td>
+        <td class="preview-cell">
+          <div class="typography-preview title-l-b">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>700</td>
+        <td>0rem</td>
+        <td>uppercase</td>
+        <td class="mobile-value">0.875rem</td>
+        <td class="mobile-value">1.4</td>
+        <td class="desktop-value">0.875rem</td>
+        <td class="desktop-value">1.4</td>
+      </tr>
+      <tr>
+        <td class="class-name">.title-s</td>
+        <td class="preview-cell">
+          <div class="typography-preview title-s">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>400</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.75rem</td>
+        <td class="mobile-value">1.4</td>
+        <td class="desktop-value">0.75rem</td>
+        <td class="desktop-value">1.4</td>
+      </tr>
+      <tr>
+        <td class="class-name">.suisse-1</td>
+        <td class="preview-cell">
+          <div class="typography-preview suisse-1">Aa</div>
+        </td>
+        <td>secondary</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">1rem</td>
+        <td class="mobile-value">1.5</td>
+        <td class="desktop-value">1.25rem</td>
+        <td class="desktop-value">1.5</td>
+      </tr>
+      <tr>
+        <td class="class-name">.suisse-2</td>
+        <td class="preview-cell">
+          <div class="typography-preview suisse-2">Aa</div>
+        </td>
+        <td>secondary</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.8125rem</td>
+        <td class="mobile-value">1.1</td>
+        <td class="desktop-value">0.875rem</td>
+        <td class="desktop-value">1.1</td>
+      </tr>
+      <tr>
+        <td class="class-name">.suisse-body</td>
+        <td class="preview-cell">
+          <div class="typography-preview suisse-body">Aa</div>
+        </td>
+        <td>secondary</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.625rem</td>
+        <td class="mobile-value">1.1</td>
+        <td class="desktop-value">0.75rem</td>
+        <td class="desktop-value">1.1</td>
+      </tr>
+      <tr>
+        <td class="class-name">.p-tag</td>
+        <td class="preview-cell">
+          <div class="typography-preview p-tag">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>100</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.5rem</td>
+        <td class="mobile-value">1</td>
+        <td class="desktop-value">0.5rem</td>
+        <td class="desktop-value">1</td>
+      </tr>
+      <tr>
+        <td class="class-name">.semantic</td>
+        <td class="preview-cell">
+          <div class="typography-preview semantic">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>100</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.8125rem</td>
+        <td class="mobile-value">1</td>
+        <td class="desktop-value">0.8125rem</td>
+        <td class="desktop-value">1</td>
+      </tr>
+      <tr>
+        <td class="class-name">.title-l</td>
+        <td class="preview-cell">
+          <div class="typography-preview title-l">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>100</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.875rem</td>
+        <td class="mobile-value">1.4</td>
+        <td class="desktop-value">0.875rem</td>
+        <td class="desktop-value">1.4</td>
+      </tr>
+      <tr>
+        <td class="class-name">.title-m</td>
+        <td class="preview-cell">
+          <div class="typography-preview title-m">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>100</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.75rem</td>
+        <td class="mobile-value">1.4</td>
+        <td class="desktop-value">0.75rem</td>
+        <td class="desktop-value">1.4</td>
+      </tr>
+      <tr>
+        <td class="class-name">.text-m</td>
+        <td class="preview-cell">
+          <div class="typography-preview text-m">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>100</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.75rem</td>
+        <td class="mobile-value">1.5</td>
+        <td class="desktop-value">0.8125rem</td>
+        <td class="desktop-value">1.5</td>
+      </tr>
+      <tr>
+        <td class="class-name">.text-l</td>
+        <td class="preview-cell">
+          <div class="typography-preview text-l">Aa</div>
+        </td>
+        <td>primary</td>
+        <td>100</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="mobile-value">0.75rem</td>
+        <td class="mobile-value">1.5</td>
+        <td class="desktop-value">0.75rem</td>
+        <td class="desktop-value">1.5</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Variables CSS Compartidas</h2>
+    
+    <table class="variables-table">
+      <thead>
+        <tr>
+          <th>Variable CSS</th>
+          <th>Valor</th>
+          <th>Rem</th>
+          <th>Píxeles</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr>
+        <td class="variable-name">--hg-typo-font-family-primary</td>
+        <td class="variable-value">arial, sans-serif</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-family-secondary</td>
+        <td class="variable-value">"ms-serif", serif</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-line-height-1-2</td>
+        <td class="variable-value">1.2</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-line-height-1-4</td>
+        <td class="variable-value">1.4</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-line-height-1-5</td>
+        <td class="variable-value">1.5</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-line-height-1-1</td>
+        <td class="variable-value">1.1</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-line-height-1</td>
+        <td class="variable-value">1</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-weight-900</td>
+        <td class="variable-value">900</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-weight-700</td>
+        <td class="variable-value">700</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-weight-400</td>
+        <td class="variable-value">400</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-weight-100</td>
+        <td class="variable-value">100</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-letter-spacing-0</td>
+        <td class="variable-value">0rem</td>
+        <td class="variable-rem">0rem</td>
+        <td class="variable-px">0px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-text-transform-none</td>
+        <td class="variable-value">none</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-text-transform-uppercase</td>
+        <td class="variable-value">uppercase</td>
+        <td class="variable-rem">-</td>
+        <td class="variable-px">-</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-18</td>
+        <td class="variable-value">1.125rem</td>
+        <td class="variable-rem">1.125rem</td>
+        <td class="variable-px">18px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-24</td>
+        <td class="variable-value">1.5rem</td>
+        <td class="variable-rem">1.5rem</td>
+        <td class="variable-px">24px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-14</td>
+        <td class="variable-value">0.875rem</td>
+        <td class="variable-rem">0.875rem</td>
+        <td class="variable-px">14px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-12</td>
+        <td class="variable-value">0.75rem</td>
+        <td class="variable-rem">0.75rem</td>
+        <td class="variable-px">12px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-16</td>
+        <td class="variable-value">1rem</td>
+        <td class="variable-rem">1rem</td>
+        <td class="variable-px">16px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-20</td>
+        <td class="variable-value">1.25rem</td>
+        <td class="variable-rem">1.25rem</td>
+        <td class="variable-px">20px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-13</td>
+        <td class="variable-value">0.8125rem</td>
+        <td class="variable-rem">0.8125rem</td>
+        <td class="variable-px">13px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-10</td>
+        <td class="variable-value">0.625rem</td>
+        <td class="variable-rem">0.625rem</td>
+        <td class="variable-px">10px</td>
+      </tr>
+      <tr>
+        <td class="variable-name">--hg-typo-font-size-8</td>
+        <td class="variable-value">0.5rem</td>
+        <td class="variable-rem">0.5rem</td>
+        <td class="variable-px">8px</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Breakpoints</h2>
+    <table class="breakpoints-table">
+      <thead>
+        <tr>
+          <th>Breakpoint</th>
+          <th>Min-width</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="breakpoint-name">Mobile</td>
+          <td class="breakpoint-value">1px</td>
+        </tr>
+        <tr>
+          <td class="breakpoint-name">Desktop</td>
+          <td class="breakpoint-value">992px</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="text-m" style="margin-top: 1rem;">
+      Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
+      Resize la ventana del navegador para ver los cambios.
+    </p>
+  </div>
+</body>
+</html>

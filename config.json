@@ -1,6 +1,10 @@
 {
   "prefix": "hg",
   "category": "typo",
+  "fontFamilyMap": {
+    "primary": "arial, sans-serif",
+    "secondary": "\"ms-serif\", serif"
+  },
   "breakpoints": {
     "mobile": "1px",
     "desktop": "992px"
