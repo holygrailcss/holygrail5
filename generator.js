@@ -76,10 +76,10 @@ function toKebabCase(str) {
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
-function pxToRem(value) {
+function pxToRem(value, baseFontSize = BASE_FONT_SIZE) {
   if (typeof value === 'string' && value.endsWith('px')) {
     const pxValue = parseFloat(value);
-    const remValue = pxValue / BASE_FONT_SIZE;
+    const remValue = pxValue / baseFontSize;
     return `${parseFloat(remValue.toFixed(4))}rem`;
   }
   return value;
@@ -222,7 +222,7 @@ function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, l
   return variables.join('\n');
 }
 
-function getFinalProps(cls, breakpoint) {
+function getFinalProps(cls, breakpoint, baseFontSize = BASE_FONT_SIZE) {
   const props = {};
   
   ['fontFamily', 'fontWeight', 'letterSpacing', 'textTransform'].forEach(prop => {
@@ -230,15 +230,15 @@ function getFinalProps(cls, breakpoint) {
   });
   
   if (cls[breakpoint]) {
-    if (cls[breakpoint].fontSize !== undefined) props.fontSize = pxToRem(cls[breakpoint].fontSize);
+    if (cls[breakpoint].fontSize !== undefined) props.fontSize = pxToRem(cls[breakpoint].fontSize, baseFontSize);
     if (cls[breakpoint].lineHeight !== undefined) props.lineHeight = cls[breakpoint].lineHeight;
   }
   
   return props;
 }
 
-function generateClassCSS(className, cls, breakpointName, valueMap) {
-  const props = getFinalProps(cls, breakpointName);
+function generateClassCSS(className, cls, breakpointName, valueMap, baseFontSize = BASE_FONT_SIZE) {
+  const props = getFinalProps(cls, breakpointName, baseFontSize);
   const cssProps = [];
   
   PROPERTIES.forEach(prop => {
@@ -263,12 +263,15 @@ function generateClassCSS(className, cls, breakpointName, valueMap) {
   return cssProps.length ? `  .${className} {\n${cssProps.join('\n')}\n  }` : '';
 }
 
-function generateMediaQuery(breakpointName, minWidth, classes, valueMap) {
+function generateMediaQuery(breakpointName, minWidth, classes, valueMap, baseFontSize = BASE_FONT_SIZE) {
+  // Convertir breakpoint de px a rem si es necesario
+  const minWidthRem = pxToRem(minWidth, baseFontSize);
+  
   const cssClasses = Object.entries(classes)
-    .map(([className, cls]) => generateClassCSS(className, cls, breakpointName, valueMap))
+    .map(([className, cls]) => generateClassCSS(className, cls, breakpointName, valueMap, baseFontSize))
     .filter(Boolean);
   
-  return `@media (min-width: ${minWidth}) {\n\n${cssClasses.join('\n\n')}\n\n}`;
+  return `@media (min-width: ${minWidthRem}) {\n\n${cssClasses.join('\n\n')}\n\n}`;
 }
 
 function generateResetCSS(baseFontSize = 16) {
@@ -302,8 +305,8 @@ function generateCSS(configData = config) {
   
   const baseFontSize = configData.baseFontSize || BASE_FONT_SIZE;
   const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars);
-  const mobileQuery = generateMediaQuery('mobile', configData.breakpoints.mobile, configData.classes, valueMap);
-  const desktopQuery = generateMediaQuery('desktop', configData.breakpoints.desktop, configData.classes, valueMap);
+  const mobileQuery = generateMediaQuery('mobile', configData.breakpoints.mobile, configData.classes, valueMap, baseFontSize);
+  const desktopQuery = generateMediaQuery('desktop', configData.breakpoints.desktop, configData.classes, valueMap, baseFontSize);
   
   return generateResetCSS(baseFontSize) + `:root {\n${rootVars}\n}\n\n${mobileQuery}\n\n${desktopQuery}`;
 }
@@ -313,6 +316,7 @@ function generateHTML(configData = config) {
   const classNames = Object.keys(configData.classes);
   const prefix = configData.prefix || VAR_PREFIX;
   const category = configData.category || VAR_CATEGORY;
+  const baseFontSize = configData.baseFontSize || BASE_FONT_SIZE;
   
   const { fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars } = 
     buildValueMap(configData.classes, configData.fontFamilyMap);
@@ -404,7 +408,6 @@ function generateHTML(configData = config) {
     </table>` : '';
   
   // Generar tabla de variables
-  const baseFontSize = configData.baseFontSize || BASE_FONT_SIZE;
   const variableRows = allVariables.map(variable => {
     const remValue = variable.value.match(/^([\d.]+)rem$/) ? variable.value : '-';
     const pxValue = remValue !== '-' ? remToPx(variable.value, baseFontSize) : '-';
@@ -652,11 +655,17 @@ function generateHTML(configData = config) {
       <tbody>
         <tr>
           <td class="breakpoint-name">Mobile</td>
-          <td class="breakpoint-value">${configData.breakpoints.mobile}</td>
+          <td class="breakpoint-value">
+            ${configData.breakpoints.mobile} 
+            ${configData.breakpoints.mobile.endsWith('px') ? `(${pxToRem(configData.breakpoints.mobile, baseFontSize)})` : ''}
+          </td>
         </tr>
         <tr>
           <td class="breakpoint-name">Desktop</td>
-          <td class="breakpoint-value">${configData.breakpoints.desktop}</td>
+          <td class="breakpoint-value">
+            ${configData.breakpoints.desktop} 
+            ${configData.breakpoints.desktop.endsWith('px') ? `(${pxToRem(configData.breakpoints.desktop, baseFontSize)})` : ''}
+          </td>
         </tr>
       </tbody>
     </table>

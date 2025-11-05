@@ -6,7 +6,7 @@
     "secondary": "\"ms-serif\", serif"
   },
   "breakpoints": {
-    "mobile": "1px",
+    "mobile": "0px",
     "desktop": "992px"
   },
   "classes": {
