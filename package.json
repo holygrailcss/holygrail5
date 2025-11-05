@@ -7,7 +7,7 @@
     "holygrail5": "./generator.js"
   },
   "scripts": {
-    "generate": "node generator.js",
+    "start": "node generator.js",
     "test": "node generator.js"
   },
   "keywords": [

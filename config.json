@@ -1,4 +1,6 @@
 {
+  "prefix": "hg",
+  "category": "typo",
   "breakpoints": {
     "mobile": "1px",
     "desktop": "992px"
@@ -7,6 +9,8 @@
     "h2": {
       "fontFamily": "arial, sans-serif",
       "fontWeight": "900",
+      "letterSpacing": "0rem",
+      "textTransform": "none",
       "mobile": {
         "fontSize": "18px",
         "lineHeight": "1.2"
@@ -19,6 +23,8 @@
     "title-l-b": {
       "fontFamily": "arial, sans-serif",
       "fontWeight": "700",
+      "letterSpacing": "0rem",
+      "textTransform": "uppercase",
       "mobile": {
         "fontSize": "14px",
         "lineHeight": "1.4"
