@@ -437,6 +437,38 @@ npx holygrail5 --config=./ruta/config.json
 
 **Solución**: Es solo una advertencia. El breakpoint existe pero no tiene propiedades. Puedes ignorarla o agregar propiedades al breakpoint.
 
+## 🌐 GitHub Pages
+
+Puedes desplegar automáticamente la guía HTML a GitHub Pages usando el workflow incluido.
+
+### Configuración automática
+
+1. **Habilita GitHub Pages** en tu repositorio:
+   - Ve a Settings → Pages
+   - Source: selecciona "GitHub Actions"
+
+2. **El workflow se ejecutará automáticamente** cuando hagas push a `main` o `master`
+
+3. **Genera manualmente** si prefieres:
+   ```bash
+   node generator.js --output=./docs/output.css --html=./docs/index.html
+   ```
+   Luego configura GitHub Pages para usar la carpeta `docs/`
+
+### Usar carpeta docs localmente
+
+Si quieres generar los archivos en la carpeta `docs/` para GitHub Pages:
+
+```bash
+# Crear carpeta docs si no existe
+mkdir -p docs
+
+# Generar archivos en docs/
+node generator.js --output=./docs/output.css --html=./docs/index.html
+```
+
+El workflow de GitHub Actions (`.github/workflows/deploy.yml`) hará esto automáticamente en cada push.
+
 ## 📚 Recursos adicionales
 
 - **Repositorio**: [GitHub](https://github.com/holygrailcss/holygrail5.git)

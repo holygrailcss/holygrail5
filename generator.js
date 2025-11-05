@@ -708,8 +708,21 @@ if (require.main === module) {
     const cssContent = generateCSS(configData);
     writeFile(outputPath, cssContent, 'CSS');
     
-    // Generar HTML
-    const htmlContent = generateHTML(configData);
+    // Generar HTML (ajustar ruta del CSS en el HTML si está en carpeta diferente)
+    let htmlContent = generateHTML(configData);
+    
+    // Si el HTML y CSS están en carpetas diferentes, ajustar la ruta del CSS
+    const outputDir = path.dirname(outputPath);
+    const htmlDir = path.dirname(htmlPath);
+    
+    if (outputDir !== htmlDir) {
+      // Calcular ruta relativa del HTML al CSS
+      const relativePath = path.relative(htmlDir, outputDir);
+      const cssFileName = path.basename(outputPath);
+      const cssRelativePath = path.join(relativePath, cssFileName).replace(/\\/g, '/');
+      htmlContent = htmlContent.replace(/href="output\.css"/, `href="${cssRelativePath}"`);
+    }
+    
     writeFile(htmlPath, htmlContent, 'HTML');
     
     console.log('\n🎉 Generación completada exitosamente!');
