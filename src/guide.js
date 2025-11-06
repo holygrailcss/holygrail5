@@ -399,9 +399,9 @@ function generateHTML(configData, previousValuesPath = null) {
     const pxValue = value;
     const isChanged = changedValues.has(`spacingMap.${key}`);
     
-    return `
+        return `
       <tr>
-        <td class="spacing-class">.p-${key}, .pr-${key}, .pl-${key}, .pb-${key}, .pt-${key}<br>.m-${key}, .mr-${key}, .ml-${key}, .mb-${key}, .mt-${key}</td>
+        <td class="spacing-class">.p-${key}, .pr-${key} (end), .pl-${key} (start), .pb-${key}, .pt-${key}<br>.m-${key}, .mr-${key} (end), .ml-${key} (start), .mb-${key}, .mt-${key}</td>
         <td class="spacing-var ${isChanged ? 'changed' : ''}">${varName}</td>
         <td class="spacing-value ${isChanged ? 'changed' : ''}">${remValue}</td>
         <td class="spacing-px ${isChanged ? 'changed' : ''}">${pxValue}</td>

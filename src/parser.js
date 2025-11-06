@@ -288,38 +288,38 @@ function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontS
   const desktopHelpers = [];
   const desktopBreakpointRem = pxToRem(desktopBreakpoint, baseFontSize);
   
-  // Generar helpers para cada valor en spacingMap
-  Object.entries(spacingMap).forEach(([key, value]) => {
-    const varName = `--${prefix}-spacing-${key}`;
-    
-    // Padding helpers base (mobile) usando variables CSS
-    helpers.push(`  .p-${key} { padding: var(${varName}); }`);
-    helpers.push(`  .pr-${key} { padding-right: var(${varName}); }`);
-    helpers.push(`  .pl-${key} { padding-left: var(${varName}); }`);
-    helpers.push(`  .pb-${key} { padding-bottom: var(${varName}); }`);
-    helpers.push(`  .pt-${key} { padding-top: var(${varName}); }`);
-    
-    // Margin helpers base (mobile) usando variables CSS
-    helpers.push(`  .m-${key} { margin: var(${varName}); }`);
-    helpers.push(`  .mr-${key} { margin-right: var(${varName}); }`);
-    helpers.push(`  .ml-${key} { margin-left: var(${varName}); }`);
-    helpers.push(`  .mb-${key} { margin-bottom: var(${varName}); }`);
-    helpers.push(`  .mt-${key} { margin-top: var(${varName}); }`);
-    
-    // Padding helpers con prefijo md: (desktop) usando variables CSS
-    desktopHelpers.push(`    .md\\:p-${key} { padding: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:pr-${key} { padding-right: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:pl-${key} { padding-left: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:pb-${key} { padding-bottom: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:pt-${key} { padding-top: var(${varName}); }`);
-    
-    // Margin helpers con prefijo md: (desktop) usando variables CSS
-    desktopHelpers.push(`    .md\\:m-${key} { margin: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:mr-${key} { margin-right: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:ml-${key} { margin-left: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
-    desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
-  });
+      // Generar helpers para cada valor en spacingMap
+      Object.entries(spacingMap).forEach(([key, value]) => {
+        const varName = `--${prefix}-spacing-${key}`;
+        
+        // Padding helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
+        helpers.push(`  .p-${key} { padding: var(${varName}); }`);
+        helpers.push(`  .pr-${key} { padding-inline-end: var(${varName}); }`);
+        helpers.push(`  .pl-${key} { padding-inline-start: var(${varName}); }`);
+        helpers.push(`  .pb-${key} { padding-bottom: var(${varName}); }`);
+        helpers.push(`  .pt-${key} { padding-top: var(${varName}); }`);
+        
+        // Margin helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
+        helpers.push(`  .m-${key} { margin: var(${varName}); }`);
+        helpers.push(`  .mr-${key} { margin-inline-end: var(${varName}); }`);
+        helpers.push(`  .ml-${key} { margin-inline-start: var(${varName}); }`);
+        helpers.push(`  .mb-${key} { margin-bottom: var(${varName}); }`);
+        helpers.push(`  .mt-${key} { margin-top: var(${varName}); }`);
+        
+        // Padding helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
+        desktopHelpers.push(`    .md\\:p-${key} { padding: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:pr-${key} { padding-inline-end: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:pl-${key} { padding-inline-start: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:pb-${key} { padding-bottom: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:pt-${key} { padding-top: var(${varName}); }`);
+        
+        // Margin helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
+        desktopHelpers.push(`    .md\\:m-${key} { margin: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:mr-${key} { margin-inline-end: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:ml-${key} { margin-inline-start: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
+      });
   
   if (helpers.length === 0) {
     return '';
