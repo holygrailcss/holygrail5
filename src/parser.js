@@ -251,21 +251,24 @@ body {
 `;
 }
 
+// Función principal que genera todo el CSS desde la configuración JSON
+// Organiza el CSS en bloques separados: reset, variables, tipografías mobile y desktop
 function generateCSS(configData) {
   const prefix = configData.prefix || 'hg';
   const category = configData.category || 'typo';
   const baseFontSize = configData.baseFontSize || 16;
   
+  // Construye el mapa de variables compartidas
   const { valueMap, fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars } = 
     buildValueMap(configData.classes, configData.fontFamilyMap, prefix, category);
   
-  // Generar bloques separados
+  // Genera cada bloque del CSS
   const resetCSS = generateResetCSS(baseFontSize);
   const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars);
   const mobileTypography = generateTypographyBlock('mobile', configData.breakpoints.mobile, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   const desktopTypography = generateTypographyBlock('desktop', configData.breakpoints.desktop, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   
-  // Organizar CSS en bloques separados
+  // Combina todos los bloques en el orden correcto
   return `${resetCSS}/* Variables CSS Compartidas */
 :root {
 ${rootVars}
