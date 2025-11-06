@@ -277,41 +277,66 @@ body {
 // Genera helpers de spacing (padding y margin) basados en spacingMap
 // Crea clases como p-4, pr-4, pl-4, pb-4, pt-4 para padding
 // y m-4, mr-4, ml-4, mb-4, mt-4 para margin
+// También genera versiones con prefijo md: para el breakpoint desktop
 // Usa las variables CSS definidas en :root
-function generateSpacingHelpers(spacingMap, prefix) {
+function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontSize = 16) {
   if (!spacingMap || typeof spacingMap !== 'object') {
     return '';
   }
   
   const helpers = [];
+  const desktopHelpers = [];
+  const desktopBreakpointRem = pxToRem(desktopBreakpoint, baseFontSize);
   
   // Generar helpers para cada valor en spacingMap
   Object.entries(spacingMap).forEach(([key, value]) => {
     const varName = `--${prefix}-spacing-${key}`;
     
-    // Padding helpers usando variables CSS
+    // Padding helpers base (mobile) usando variables CSS
     helpers.push(`  .p-${key} { padding: var(${varName}); }`);
     helpers.push(`  .pr-${key} { padding-right: var(${varName}); }`);
     helpers.push(`  .pl-${key} { padding-left: var(${varName}); }`);
     helpers.push(`  .pb-${key} { padding-bottom: var(${varName}); }`);
     helpers.push(`  .pt-${key} { padding-top: var(${varName}); }`);
     
-    // Margin helpers usando variables CSS
+    // Margin helpers base (mobile) usando variables CSS
     helpers.push(`  .m-${key} { margin: var(${varName}); }`);
     helpers.push(`  .mr-${key} { margin-right: var(${varName}); }`);
     helpers.push(`  .ml-${key} { margin-left: var(${varName}); }`);
     helpers.push(`  .mb-${key} { margin-bottom: var(${varName}); }`);
     helpers.push(`  .mt-${key} { margin-top: var(${varName}); }`);
+    
+    // Padding helpers con prefijo md: (desktop) usando variables CSS
+    desktopHelpers.push(`    .md\\:p-${key} { padding: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pr-${key} { padding-right: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pl-${key} { padding-left: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pb-${key} { padding-bottom: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pt-${key} { padding-top: var(${varName}); }`);
+    
+    // Margin helpers con prefijo md: (desktop) usando variables CSS
+    desktopHelpers.push(`    .md\\:m-${key} { margin: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:mr-${key} { margin-right: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:ml-${key} { margin-left: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
   });
   
   if (helpers.length === 0) {
     return '';
   }
   
-  return `/* Helpers de Spacing (Padding y Margin) */
+  // Generar bloque base (mobile) y bloque con media query (desktop)
+  const baseHelpers = `/* Helpers de Spacing (Padding y Margin) - Mobile */
 ${helpers.join('\n')}
 
+/* Helpers de Spacing (Padding y Margin) - Desktop (md:) */
+@media (min-width: ${desktopBreakpointRem}) {
+${desktopHelpers.join('\n')}
+}
+
 `;
+  
+  return baseHelpers;
 }
 
 // Función principal que genera todo el CSS desde la configuración JSON
@@ -331,7 +356,7 @@ function generateCSS(configData) {
   // Genera cada bloque del CSS
   const resetCSS = generateResetCSS(baseFontSize);
   const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars);
-  const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix);
+  const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize);
   const mobileTypography = generateTypographyBlock('mobile', configData.breakpoints.mobile, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   const desktopTypography = generateTypographyBlock('desktop', configData.breakpoints.desktop, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   

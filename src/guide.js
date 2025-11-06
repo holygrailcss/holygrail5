@@ -714,6 +714,33 @@ function generateHTML(configData, previousValuesPath = null) {
       Clases helper para padding y margin basadas en el spacingMap. 
       Usa las variables CSS definidas en :root.
     </p>
+    
+    <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
+      <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Helpers con prefijo md: (Desktop)</h3>
+      <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
+        Los helpers con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
+      </p>
+      <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
+        <strong>Ejemplos de uso:</strong>
+      </p>
+      <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
+        <li class="text-m" style="margin-bottom: 0.5rem;">
+          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+        </li>
+        <li class="text-m" style="margin-bottom: 0.5rem;">
+          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
+        </li>
+        <li class="text-m" style="margin-bottom: 0.5rem;">
+          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:pr-8</code> - Aplica padding-right de 8px solo en desktop
+        </li>
+        <li class="text-m" style="margin-bottom: 0.5rem;">
+          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+        </li>
+      </ul>
+      <p class="text-m" style="margin: 0; line-height: 1.6; font-size: 0.875rem; opacity: 0.8;">
+        <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4 md:p-8</code> aplica 4px en mobile y 8px en desktop.
+      </p>
+    </div>
   </div>
   ` : ''}
 
