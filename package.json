@@ -9,7 +9,9 @@
   "scripts": {
     "generate": "node generator.js",
     "start": "node generator.js && npx http-server -p 3000 -o",
-    "dev": "node generator.js && npx http-server -p 3000 -o",
+    "dev": "node src/dev.js",
+    "watch": "node src/watch.js",
+    "serve": "npx http-server -p 3000 -o",
     "test": "node tests/run-all.js",
     "prepublishOnly": "npm run generate"
   },

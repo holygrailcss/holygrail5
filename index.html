@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
-  <link rel="stylesheet" href="output.css">
+  <link rel="stylesheet" href="output.css?v=1762431499071">
   <style>
     body {
       font-family: var(--hg-typo-font-family-primary);
@@ -46,7 +49,7 @@
       letter-spacing: 0.05em;
     }
     
-    .typography-table, .font-families-table, .variables-table, .breakpoints-table {
+    .typography-table, .font-families-table, .variables-table, .breakpoints-table, .spacing-helpers-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
@@ -54,11 +57,11 @@
       font-size: 0.875rem;
     }
 
-    .typography-table thead, .font-families-table thead, .variables-table thead, .breakpoints-table thead {
+    .typography-table thead, .font-families-table thead, .variables-table thead, .breakpoints-table thead, .spacing-helpers-table thead {
       background: #f5f5f5;
     }
 
-    .typography-table th, .font-families-table th, .variables-table th, .breakpoints-table th {
+    .typography-table th, .font-families-table th, .variables-table th, .breakpoints-table th, .spacing-helpers-table th {
       padding: 0.75rem;
       text-align: left;
       font-weight: 600;
@@ -68,14 +71,14 @@
       border-bottom: 2px solid #ddd;
     }
 
-    .typography-table td, .font-families-table td, .variables-table td, .breakpoints-table td {
+    .typography-table td, .font-families-table td, .variables-table td, .breakpoints-table td, .spacing-helpers-table td {
       padding: 0.75rem;
       border-bottom: 1px solid #e0e0e0;
       vertical-align: middle;
     }
 
     .typography-table tbody tr:hover, .font-families-table tbody tr:hover, 
-    .variables-table tbody tr:hover, .breakpoints-table tbody tr:hover {
+    .variables-table tbody tr:hover, .breakpoints-table tbody tr:hover, .spacing-helpers-table tbody tr:hover {
       background: #f9f9f9;
     }
 
@@ -143,11 +146,33 @@
       text-align: center;
     }
 
+    .typography-table td.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+      font-weight: 600;
+    }
+
+    .typography-table td.mobile-value.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+    }
+
+    .typography-table td.desktop-value.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+    }
+
     .typography-table tbody td, .font-families-table .font-family-value, 
     .font-families-table .font-family-var, .variables-table .variable-value,
     .variables-table .variable-rem, .variables-table .variable-px,
     .breakpoints-table .breakpoint-value {
       font-family: 'Courier New', monospace;
+    }
+
+    .breakpoints-table .breakpoint-value.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+      font-weight: 600;
     }
 
     .font-families-table .font-family-preview {
@@ -160,6 +185,12 @@
 
     .font-families-table .font-family-value {
       color: #666;
+    }
+
+    .font-families-table .font-family-value.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+      font-weight: 600;
     }
 
     .variables-table .variable-value {
@@ -177,12 +208,57 @@
       font-weight: 500;
       text-align: center;
     }
+
+    .variables-table .variable-name.changed,
+    .variables-table .variable-value.changed,
+    .variables-table .variable-rem.changed,
+    .variables-table .variable-px.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+      font-weight: 600;
+    }
+
+    .spacing-helpers-table .spacing-class {
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .spacing-helpers-table .spacing-var {
+      font-family: 'Courier New', monospace;
+      color: #333;
+    }
+
+    .spacing-helpers-table .spacing-value {
+      font-family: 'Courier New', monospace;
+      color: #000000;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .spacing-helpers-table .spacing-px {
+      font-family: 'Courier New', monospace;
+      color: #cc6600;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .spacing-helpers-table .spacing-var.changed,
+    .spacing-helpers-table .spacing-value.changed,
+    .spacing-helpers-table .spacing-px.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
   <div class="header">
     <h1 class="h2">HolyGrail5</h1>
     <p class="text-m">Guía de Tipografía - Framework CSS Generator</p>
+    <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
+      Última actualización: 6/11/2025, 13:18:19
+    </p>
   </div>
 
   
@@ -203,13 +279,13 @@
       <tr>
         <td class="font-family-name">primary</td>
         <td class="font-family-preview" style='font-family: arial, sans-serif;'>Aa</td>
-        <td class="font-family-value">arial, sans-serif</td>
+        <td class="font-family-value ">arial, sans-serif</td>
         <td class="font-family-var">--hg-typo-font-family-primary</td>
       </tr>
       <tr>
         <td class="font-family-name">secondary</td>
         <td class="font-family-preview" style='font-family: "ms-serif", serif;'>Aa</td>
-        <td class="font-family-value">"ms-serif", serif</td>
+        <td class="font-family-value ">"ms-serif", serif</td>
         <td class="font-family-var">--hg-typo-font-family-secondary</td>
       </tr>
       </tbody>
@@ -247,168 +323,168 @@
         <td class="preview-cell">
           <div class="typography-preview h2">Aa</div>
         </td>
-        <td>primary</td>
-        <td>900</td>
-        <td>0rem</td>
-        <td>none</td>
-        <td class="mobile-value">1.125rem</td>
-        <td class="mobile-value">1.2</td>
-        <td class="desktop-value">1.5rem</td>
-        <td class="desktop-value">1.2</td>
+        <td class="">primary</td>
+        <td class="">900</td>
+        <td class="">0rem</td>
+        <td class="">none</td>
+        <td class="mobile-value ">1.125rem</td>
+        <td class="mobile-value ">1.976</td>
+        <td class="desktop-value ">1.5rem</td>
+        <td class="desktop-value ">1.2</td>
       </tr>
       <tr>
         <td class="class-name">.title-l-b</td>
         <td class="preview-cell">
           <div class="typography-preview title-l-b">Aa</div>
         </td>
-        <td>primary</td>
-        <td>700</td>
-        <td>0rem</td>
-        <td>uppercase</td>
-        <td class="mobile-value">0.875rem</td>
-        <td class="mobile-value">1.4</td>
-        <td class="desktop-value">0.875rem</td>
-        <td class="desktop-value">1.4</td>
+        <td class="">primary</td>
+        <td class="">700</td>
+        <td class="">0rem</td>
+        <td class="">uppercase</td>
+        <td class="mobile-value ">0.875rem</td>
+        <td class="mobile-value ">1.2</td>
+        <td class="desktop-value ">0.875rem</td>
+        <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
         <td class="class-name">.title-s</td>
         <td class="preview-cell">
           <div class="typography-preview title-s">Aa</div>
         </td>
-        <td>primary</td>
-        <td>400</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.75rem</td>
-        <td class="mobile-value">1.4</td>
-        <td class="desktop-value">0.75rem</td>
-        <td class="desktop-value">1.4</td>
+        <td class="">primary</td>
+        <td class="">400</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.75rem</td>
+        <td class="mobile-value ">1.4</td>
+        <td class="desktop-value ">0.75rem</td>
+        <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
         <td class="class-name">.suisse-1</td>
         <td class="preview-cell">
           <div class="typography-preview suisse-1">Aa</div>
         </td>
-        <td>secondary</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">1rem</td>
-        <td class="mobile-value">1.5</td>
-        <td class="desktop-value">1.25rem</td>
-        <td class="desktop-value">1.5</td>
+        <td class="">secondary</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">1rem</td>
+        <td class="mobile-value ">1.5</td>
+        <td class="desktop-value ">1.25rem</td>
+        <td class="desktop-value ">1.5</td>
       </tr>
       <tr>
         <td class="class-name">.suisse-2</td>
         <td class="preview-cell">
           <div class="typography-preview suisse-2">Aa</div>
         </td>
-        <td>secondary</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.8125rem</td>
-        <td class="mobile-value">1.1</td>
-        <td class="desktop-value">0.875rem</td>
-        <td class="desktop-value">1.1</td>
+        <td class="">secondary</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.8125rem</td>
+        <td class="mobile-value ">1.1</td>
+        <td class="desktop-value ">0.875rem</td>
+        <td class="desktop-value ">1.1</td>
       </tr>
       <tr>
         <td class="class-name">.suisse-body</td>
         <td class="preview-cell">
           <div class="typography-preview suisse-body">Aa</div>
         </td>
-        <td>secondary</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.625rem</td>
-        <td class="mobile-value">1.1</td>
-        <td class="desktop-value">0.75rem</td>
-        <td class="desktop-value">1.1</td>
+        <td class="">secondary</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.625rem</td>
+        <td class="mobile-value ">1.1</td>
+        <td class="desktop-value ">0.75rem</td>
+        <td class="desktop-value ">1.1</td>
       </tr>
       <tr>
         <td class="class-name">.p-tag</td>
         <td class="preview-cell">
           <div class="typography-preview p-tag">Aa</div>
         </td>
-        <td>primary</td>
-        <td>100</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.5rem</td>
-        <td class="mobile-value">1</td>
-        <td class="desktop-value">0.5rem</td>
-        <td class="desktop-value">1</td>
+        <td class="">primary</td>
+        <td class="">100</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.5rem</td>
+        <td class="mobile-value ">1</td>
+        <td class="desktop-value ">0.5rem</td>
+        <td class="desktop-value ">1</td>
       </tr>
       <tr>
         <td class="class-name">.semantic</td>
         <td class="preview-cell">
           <div class="typography-preview semantic">Aa</div>
         </td>
-        <td>primary</td>
-        <td>100</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.8125rem</td>
-        <td class="mobile-value">1</td>
-        <td class="desktop-value">0.8125rem</td>
-        <td class="desktop-value">1</td>
+        <td class="">primary</td>
+        <td class="">100</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.8125rem</td>
+        <td class="mobile-value ">1</td>
+        <td class="desktop-value ">0.8125rem</td>
+        <td class="desktop-value ">1</td>
       </tr>
       <tr>
         <td class="class-name">.title-l</td>
         <td class="preview-cell">
           <div class="typography-preview title-l">Aa</div>
         </td>
-        <td>primary</td>
-        <td>100</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.875rem</td>
-        <td class="mobile-value">1.4</td>
-        <td class="desktop-value">0.875rem</td>
-        <td class="desktop-value">1.4</td>
+        <td class="">primary</td>
+        <td class="">100</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.875rem</td>
+        <td class="mobile-value ">1.4</td>
+        <td class="desktop-value ">0.875rem</td>
+        <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
         <td class="class-name">.title-m</td>
         <td class="preview-cell">
           <div class="typography-preview title-m">Aa</div>
         </td>
-        <td>primary</td>
-        <td>100</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.75rem</td>
-        <td class="mobile-value">1.4</td>
-        <td class="desktop-value">0.75rem</td>
-        <td class="desktop-value">1.4</td>
+        <td class="">primary</td>
+        <td class="">100</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.75rem</td>
+        <td class="mobile-value ">1.4</td>
+        <td class="desktop-value ">0.75rem</td>
+        <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
         <td class="class-name">.text-m</td>
         <td class="preview-cell">
           <div class="typography-preview text-m">Aa</div>
         </td>
-        <td>primary</td>
-        <td>100</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.75rem</td>
-        <td class="mobile-value">1.5</td>
-        <td class="desktop-value">0.8125rem</td>
-        <td class="desktop-value">1.5</td>
+        <td class="">primary</td>
+        <td class="">100</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.75rem</td>
+        <td class="mobile-value ">1.5</td>
+        <td class="desktop-value ">0.8125rem</td>
+        <td class="desktop-value ">1.5</td>
       </tr>
       <tr>
         <td class="class-name">.text-l</td>
         <td class="preview-cell">
           <div class="typography-preview text-l">Aa</div>
         </td>
-        <td>primary</td>
-        <td>100</td>
-        <td>-</td>
-        <td>-</td>
-        <td class="mobile-value">0.75rem</td>
-        <td class="mobile-value">1.5</td>
-        <td class="desktop-value">0.75rem</td>
-        <td class="desktop-value">1.5</td>
+        <td class="">primary</td>
+        <td class="">100</td>
+        <td class="">-</td>
+        <td class="">-</td>
+        <td class="mobile-value ">0.75rem</td>
+        <td class="mobile-value ">1.5</td>
+        <td class="desktop-value ">0.75rem</td>
+        <td class="desktop-value ">1.5</td>
       </tr>
       </tbody>
     </table>
@@ -428,147 +504,297 @@
       </thead>
       <tbody>
         
-      <tr>
-        <td class="variable-name">--hg-typo-font-family-primary</td>
-        <td class="variable-value">arial, sans-serif</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-family-secondary</td>
-        <td class="variable-value">"ms-serif", serif</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-line-height-1-2</td>
-        <td class="variable-value">1.2</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-line-height-1-4</td>
-        <td class="variable-value">1.4</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-line-height-1-5</td>
-        <td class="variable-value">1.5</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-line-height-1-1</td>
-        <td class="variable-value">1.1</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-line-height-1</td>
-        <td class="variable-value">1</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-weight-900</td>
-        <td class="variable-value">900</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-weight-700</td>
-        <td class="variable-value">700</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-weight-400</td>
-        <td class="variable-value">400</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-weight-100</td>
-        <td class="variable-value">100</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-letter-spacing-0</td>
-        <td class="variable-value">0rem</td>
-        <td class="variable-rem">0rem</td>
-        <td class="variable-px">0px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-text-transform-none</td>
-        <td class="variable-value">none</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-text-transform-uppercase</td>
-        <td class="variable-value">uppercase</td>
-        <td class="variable-rem">-</td>
-        <td class="variable-px">-</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-18</td>
-        <td class="variable-value">1.125rem</td>
-        <td class="variable-rem">1.125rem</td>
-        <td class="variable-px">18px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-24</td>
-        <td class="variable-value">1.5rem</td>
-        <td class="variable-rem">1.5rem</td>
-        <td class="variable-px">24px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-14</td>
-        <td class="variable-value">0.875rem</td>
-        <td class="variable-rem">0.875rem</td>
-        <td class="variable-px">14px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-12</td>
-        <td class="variable-value">0.75rem</td>
-        <td class="variable-rem">0.75rem</td>
-        <td class="variable-px">12px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-16</td>
-        <td class="variable-value">1rem</td>
-        <td class="variable-rem">1rem</td>
-        <td class="variable-px">16px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-20</td>
-        <td class="variable-value">1.25rem</td>
-        <td class="variable-rem">1.25rem</td>
-        <td class="variable-px">20px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-13</td>
-        <td class="variable-value">0.8125rem</td>
-        <td class="variable-rem">0.8125rem</td>
-        <td class="variable-px">13px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-10</td>
-        <td class="variable-value">0.625rem</td>
-        <td class="variable-rem">0.625rem</td>
-        <td class="variable-px">10px</td>
-      </tr>
-      <tr>
-        <td class="variable-name">--hg-typo-font-size-8</td>
-        <td class="variable-value">0.5rem</td>
-        <td class="variable-rem">0.5rem</td>
-        <td class="variable-px">8px</td>
-      </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-family-primary</td>
+            <td class="variable-value ">arial, sans-serif</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-family-secondary</td>
+            <td class="variable-value ">"ms-serif", serif</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-line-height-1-976</td>
+            <td class="variable-value ">1.976</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-line-height-1-2</td>
+            <td class="variable-value ">1.2</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-line-height-1-4</td>
+            <td class="variable-value ">1.4</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-line-height-1-5</td>
+            <td class="variable-value ">1.5</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-line-height-1-1</td>
+            <td class="variable-value ">1.1</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-line-height-1</td>
+            <td class="variable-value ">1</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-weight-900</td>
+            <td class="variable-value ">900</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-weight-700</td>
+            <td class="variable-value ">700</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-weight-400</td>
+            <td class="variable-value ">400</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-weight-100</td>
+            <td class="variable-value ">100</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-letter-spacing-0</td>
+            <td class="variable-value ">0rem</td>
+            <td class="variable-rem ">0rem</td>
+            <td class="variable-px ">0px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-text-transform-none</td>
+            <td class="variable-value ">none</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-text-transform-uppercase</td>
+            <td class="variable-value ">uppercase</td>
+            <td class="variable-rem ">-</td>
+            <td class="variable-px ">-</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-18</td>
+            <td class="variable-value ">1.125rem</td>
+            <td class="variable-rem ">1.125rem</td>
+            <td class="variable-px ">18px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-24</td>
+            <td class="variable-value ">1.5rem</td>
+            <td class="variable-rem ">1.5rem</td>
+            <td class="variable-px ">24px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-14</td>
+            <td class="variable-value ">0.875rem</td>
+            <td class="variable-rem ">0.875rem</td>
+            <td class="variable-px ">14px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-12</td>
+            <td class="variable-value ">0.75rem</td>
+            <td class="variable-rem ">0.75rem</td>
+            <td class="variable-px ">12px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-16</td>
+            <td class="variable-value ">1rem</td>
+            <td class="variable-rem ">1rem</td>
+            <td class="variable-px ">16px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-20</td>
+            <td class="variable-value ">1.25rem</td>
+            <td class="variable-rem ">1.25rem</td>
+            <td class="variable-px ">20px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-13</td>
+            <td class="variable-value ">0.8125rem</td>
+            <td class="variable-rem ">0.8125rem</td>
+            <td class="variable-px ">13px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-10</td>
+            <td class="variable-value ">0.625rem</td>
+            <td class="variable-rem ">0.625rem</td>
+            <td class="variable-px ">10px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-typo-font-size-8</td>
+            <td class="variable-value ">0.5rem</td>
+            <td class="variable-rem ">0.5rem</td>
+            <td class="variable-px ">8px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-4</td>
+            <td class="variable-value ">0.25rem</td>
+            <td class="variable-rem ">0.25rem</td>
+            <td class="variable-px ">4px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-8</td>
+            <td class="variable-value ">0.5rem</td>
+            <td class="variable-rem ">0.5rem</td>
+            <td class="variable-px ">8px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-12</td>
+            <td class="variable-value ">0.75rem</td>
+            <td class="variable-rem ">0.75rem</td>
+            <td class="variable-px ">12px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-16</td>
+            <td class="variable-value ">1rem</td>
+            <td class="variable-rem ">1rem</td>
+            <td class="variable-px ">16px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-20</td>
+            <td class="variable-value ">1.25rem</td>
+            <td class="variable-rem ">1.25rem</td>
+            <td class="variable-px ">20px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-24</td>
+            <td class="variable-value ">1.5rem</td>
+            <td class="variable-rem ">1.5rem</td>
+            <td class="variable-px ">24px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-28</td>
+            <td class="variable-value ">1.75rem</td>
+            <td class="variable-rem ">1.75rem</td>
+            <td class="variable-px ">28px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-32</td>
+            <td class="variable-value ">2rem</td>
+            <td class="variable-rem ">2rem</td>
+            <td class="variable-px ">32px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-36</td>
+            <td class="variable-value ">2.25rem</td>
+            <td class="variable-rem ">2.25rem</td>
+            <td class="variable-px ">36px</td>
+          </tr>
+          <tr>
+            <td class="variable-name ">--hg-spacing-40</td>
+            <td class="variable-value ">2.5rem</td>
+            <td class="variable-rem ">2.5rem</td>
+            <td class="variable-px ">40px</td>
+          </tr>
       </tbody>
     </table>
   </div>
+
+  
+  <div class="section">
+    <h2 class="section-title">Helpers de Spacing</h2>
+    
+    <table class="spacing-helpers-table">
+      <thead>
+        <tr>
+          <th>Clases Helper</th>
+          <th>Variable CSS</th>
+          <th>Valor (rem)</th>
+          <th>Valor (px)</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr>
+        <td class="spacing-class">.p-4, .pr-4, .pl-4, .pb-4, .pt-4<br>.m-4, .mr-4, .ml-4, .mb-4, .mt-4</td>
+        <td class="spacing-var ">--hg-spacing-4</td>
+        <td class="spacing-value ">0.25rem</td>
+        <td class="spacing-px ">4px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-8, .pr-8, .pl-8, .pb-8, .pt-8<br>.m-8, .mr-8, .ml-8, .mb-8, .mt-8</td>
+        <td class="spacing-var ">--hg-spacing-8</td>
+        <td class="spacing-value ">0.5rem</td>
+        <td class="spacing-px ">8px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-12, .pr-12, .pl-12, .pb-12, .pt-12<br>.m-12, .mr-12, .ml-12, .mb-12, .mt-12</td>
+        <td class="spacing-var ">--hg-spacing-12</td>
+        <td class="spacing-value ">0.75rem</td>
+        <td class="spacing-px ">12px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-16, .pr-16, .pl-16, .pb-16, .pt-16<br>.m-16, .mr-16, .ml-16, .mb-16, .mt-16</td>
+        <td class="spacing-var ">--hg-spacing-16</td>
+        <td class="spacing-value ">1rem</td>
+        <td class="spacing-px ">16px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-20, .pr-20, .pl-20, .pb-20, .pt-20<br>.m-20, .mr-20, .ml-20, .mb-20, .mt-20</td>
+        <td class="spacing-var ">--hg-spacing-20</td>
+        <td class="spacing-value ">1.25rem</td>
+        <td class="spacing-px ">20px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-24, .pr-24, .pl-24, .pb-24, .pt-24<br>.m-24, .mr-24, .ml-24, .mb-24, .mt-24</td>
+        <td class="spacing-var ">--hg-spacing-24</td>
+        <td class="spacing-value ">1.5rem</td>
+        <td class="spacing-px ">24px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-28, .pr-28, .pl-28, .pb-28, .pt-28<br>.m-28, .mr-28, .ml-28, .mb-28, .mt-28</td>
+        <td class="spacing-var ">--hg-spacing-28</td>
+        <td class="spacing-value ">1.75rem</td>
+        <td class="spacing-px ">28px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-32, .pr-32, .pl-32, .pb-32, .pt-32<br>.m-32, .mr-32, .ml-32, .mb-32, .mt-32</td>
+        <td class="spacing-var ">--hg-spacing-32</td>
+        <td class="spacing-value ">2rem</td>
+        <td class="spacing-px ">32px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-36, .pr-36, .pl-36, .pb-36, .pt-36<br>.m-36, .mr-36, .ml-36, .mb-36, .mt-36</td>
+        <td class="spacing-var ">--hg-spacing-36</td>
+        <td class="spacing-value ">2.25rem</td>
+        <td class="spacing-px ">36px</td>
+      </tr>
+      <tr>
+        <td class="spacing-class">.p-40, .pr-40, .pl-40, .pb-40, .pt-40<br>.m-40, .mr-40, .ml-40, .mb-40, .mt-40</td>
+        <td class="spacing-var ">--hg-spacing-40</td>
+        <td class="spacing-value ">2.5rem</td>
+        <td class="spacing-px ">40px</td>
+      </tr>
+      </tbody>
+    </table>
+    <p class="text-m" style="margin-top: 1rem;">
+      Clases helper para padding y margin basadas en el spacingMap. 
+      Usa las variables CSS definidas en :root.
+    </p>
+  </div>
+  
 
   <div class="section">
     <h2 class="section-title">Breakpoints</h2>
@@ -582,14 +808,14 @@
       <tbody>
         <tr>
           <td class="breakpoint-name">Mobile</td>
-          <td class="breakpoint-value">
+          <td class="breakpoint-value ">
             0px 
             (0rem)
           </td>
         </tr>
         <tr>
           <td class="breakpoint-name">Desktop</td>
-          <td class="breakpoint-value">
+          <td class="breakpoint-value ">
             992px 
             (62rem)
           </td>

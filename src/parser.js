@@ -123,9 +123,27 @@ function buildValueMap(classes, fontFamilyMap, prefix, category) {
   return { valueMap, fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars };
 }
 
+// Genera variables CSS para spacing (padding y margin)
+// Crea variables como --hg-spacing-4, --hg-spacing-8, etc.
+function generateSpacingVariables(spacingMap, prefix, baseFontSize = 16) {
+  if (!spacingMap || typeof spacingMap !== 'object') {
+    return [];
+  }
+  
+  const variables = [];
+  
+  Object.entries(spacingMap).forEach(([key, value]) => {
+    const remValue = pxToRem(value, baseFontSize);
+    const varName = `--${prefix}-spacing-${key}`;
+    variables.push({ varName, value: remValue, key });
+  });
+  
+  return variables;
+}
+
 // Genera todas las variables CSS en el bloque :root
 // Recorre todos los mapas de variables y las convierte en declaraciones CSS
-function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars) {
+function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars = []) {
   const variables = [];
   const allMaps = [
     { map: fontFamilyVars, name: 'font-family' },
@@ -140,6 +158,11 @@ function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, l
     Array.from(map.values()).forEach(item => {
       variables.push(`  ${item.varName}: ${item.value};`);
     });
+  });
+  
+  // Agregar variables de spacing
+  spacingVars.forEach(item => {
+    variables.push(`  ${item.varName}: ${item.value};`);
   });
   
   return variables.join('\n');
@@ -251,6 +274,46 @@ body {
 `;
 }
 
+// Genera helpers de spacing (padding y margin) basados en spacingMap
+// Crea clases como p-4, pr-4, pl-4, pb-4, pt-4 para padding
+// y m-4, mr-4, ml-4, mb-4, mt-4 para margin
+// Usa las variables CSS definidas en :root
+function generateSpacingHelpers(spacingMap, prefix) {
+  if (!spacingMap || typeof spacingMap !== 'object') {
+    return '';
+  }
+  
+  const helpers = [];
+  
+  // Generar helpers para cada valor en spacingMap
+  Object.entries(spacingMap).forEach(([key, value]) => {
+    const varName = `--${prefix}-spacing-${key}`;
+    
+    // Padding helpers usando variables CSS
+    helpers.push(`  .p-${key} { padding: var(${varName}); }`);
+    helpers.push(`  .pr-${key} { padding-right: var(${varName}); }`);
+    helpers.push(`  .pl-${key} { padding-left: var(${varName}); }`);
+    helpers.push(`  .pb-${key} { padding-bottom: var(${varName}); }`);
+    helpers.push(`  .pt-${key} { padding-top: var(${varName}); }`);
+    
+    // Margin helpers usando variables CSS
+    helpers.push(`  .m-${key} { margin: var(${varName}); }`);
+    helpers.push(`  .mr-${key} { margin-right: var(${varName}); }`);
+    helpers.push(`  .ml-${key} { margin-left: var(${varName}); }`);
+    helpers.push(`  .mb-${key} { margin-bottom: var(${varName}); }`);
+    helpers.push(`  .mt-${key} { margin-top: var(${varName}); }`);
+  });
+  
+  if (helpers.length === 0) {
+    return '';
+  }
+  
+  return `/* Helpers de Spacing (Padding y Margin) */
+${helpers.join('\n')}
+
+`;
+}
+
 // Función principal que genera todo el CSS desde la configuración JSON
 // Organiza el CSS en bloques separados: reset, variables, tipografías mobile y desktop
 function generateCSS(configData) {
@@ -262,9 +325,13 @@ function generateCSS(configData) {
   const { valueMap, fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars } = 
     buildValueMap(configData.classes, configData.fontFamilyMap, prefix, category);
   
+  // Genera variables de spacing
+  const spacingVars = generateSpacingVariables(configData.spacingMap, prefix, baseFontSize);
+  
   // Genera cada bloque del CSS
   const resetCSS = generateResetCSS(baseFontSize);
-  const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars);
+  const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars);
+  const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix);
   const mobileTypography = generateTypographyBlock('mobile', configData.breakpoints.mobile, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   const desktopTypography = generateTypographyBlock('desktop', configData.breakpoints.desktop, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   
@@ -274,7 +341,7 @@ function generateCSS(configData) {
 ${rootVars}
 }
 
-${mobileTypography}
+${spacingHelpers}${mobileTypography}
 
 ${desktopTypography}`;
 }
@@ -282,6 +349,7 @@ ${desktopTypography}`;
 module.exports = {
   generateCSS,
   buildValueMap,
-  generateResetCSS
+  generateResetCSS,
+  generateSpacingVariables
 };
 

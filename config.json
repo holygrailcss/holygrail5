@@ -9,6 +9,19 @@
     "mobile": "0px",
     "desktop": "992px"
   },
+  "spacingMap": {
+    "4": "4px",
+    "8": "8px",
+    "12": "12px",
+    "16": "16px",
+    "20": "20px",
+    "24": "24px",
+    "28": "28px",
+    "32": "32px",
+    "36": "36px",
+    "40": "40px"
+
+  },  
   "classes": {
     "h2": {
       "fontFamily": "arial, sans-serif",
@@ -17,7 +30,7 @@
       "textTransform": "none",
       "mobile": {
         "fontSize": "18px",
-        "lineHeight": "1.2"
+        "lineHeight": "1.976"
       },
       "desktop": {
         "fontSize": "24px",
@@ -31,7 +44,7 @@
       "textTransform": "uppercase",
       "mobile": {
         "fontSize": "14px",
-        "lineHeight": "1.4"
+        "lineHeight": "1.2"
       },
       "desktop": {
         "fontSize": "14px",

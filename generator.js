@@ -15,8 +15,11 @@ function writeFile(filePath, content, description) {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
+    // Forzar escritura del archivo para asegurar que se actualice
     fs.writeFileSync(filePath, content, 'utf8');
-    console.log(`✅ ${description} generado exitosamente en ${filePath}`);
+    // Verificar que el archivo se escribió correctamente
+    const stats = fs.statSync(filePath);
+    console.log(`✅ ${description} generado exitosamente en ${filePath} (${stats.size} bytes)`);
   } catch (error) {
     console.error(`❌ Error al escribir ${description} en ${filePath}:`, error.message);
     process.exit(1);
