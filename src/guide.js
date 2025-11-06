@@ -625,7 +625,25 @@ function generateHTML(configData, previousValuesPath = null) {
       font-weight: 600;
     }`;
   
-  return `<!DOCTYPE html>
+      // Construir menú lateral
+      const menuItems = [];
+      if (fontFamiliesTableHTML) {
+        menuItems.push({ id: 'font-families', label: 'Font Families' });
+      }
+      menuItems.push(
+        { id: 'tipografia', label: 'Tipografía' },
+        { id: 'variables', label: 'Variables CSS' }
+      );
+      if (spacingHelpersTableHTML) {
+        menuItems.push({ id: 'spacing', label: 'Helpers de Spacing' });
+      }
+      menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
+      
+      const menuHTML = menuItems.map(item => `
+        <a href="#${item.id}" class="menu-item" data-section="${item.id}">${item.label}</a>
+      `).join('');
+      
+      return `<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -636,12 +654,111 @@ function generateHTML(configData, previousValuesPath = null) {
   <title>HolyGrail5 - Guía de Tipografía</title>
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
   <style>
+    * {
+      scroll-behavior: smooth;
+    }
+    
     body {
       font-family: var(--${prefix}-${category}-font-family-primary);
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
+      margin: 0;
+      padding: 0;
       background: #f5f5f5;
+      display: flex;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background: white;
+      border-right: 1px solid #e0e0e0;
+      padding: 2rem 0;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+    }
+    
+    .sidebar-header {
+      padding: 0 1.5rem 2rem 1.5rem;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #000;
+    }
+    
+    .sidebar-nav {
+      padding: 0 1rem;
+    }
+    
+    .menu-item {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.25rem;
+      color: #666;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .menu-item:hover {
+      background: #f0f0f0;
+      color: #000;
+    }
+    
+    .menu-item.active {
+      color: black;
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      flex: 1;
+      padding: 2rem;
+      max-width: calc(100% - 250px);
+    }
+    
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 101;
+      background: white;
+      border: 1px solid #e0e0e0;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        max-width: 100%;
+        padding: 1rem;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
     }
 
     .header {
@@ -679,100 +796,179 @@ function generateHTML(configData, previousValuesPath = null) {
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1 class="${classNames[0] || 'h2'}">HolyGrail5</h1>
-    <p class="text-m">Guía de Tipografía - Framework CSS Generator</p>
-    <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
-      Última actualización: ${new Date().toLocaleString('es-ES')}
-    </p>
-  </div>
-
-  ${fontFamiliesTableHTML ? `
-  <div class="section">
-    <h2 class="section-title">Font Families</h2>
-    ${fontFamiliesTableHTML}
-  </div>
-  ` : ''}
-
-  <div class="section">
-    <h2 class="section-title">Clases de Tipografía</h2>
-    ${classesHTML}
-  </div>
-
-  <div class="section">
-    <h2 class="section-title">Variables CSS Compartidas</h2>
-    ${variablesTableHTML}
-  </div>
-
-  ${spacingHelpersTableHTML ? `
-  <div class="section">
-    <h2 class="section-title">Helpers de Spacing</h2>
-    ${spacingHelpersTableHTML}
-    <p class="text-m" style="margin-top: 1rem;">
-      Clases helper para padding y margin basadas en el spacingMap. 
-      Usa las variables CSS definidas en :root.
-    </p>
-    
-    <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
-      <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Helpers con prefijo md: (Desktop)</h3>
-      <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
-        Los helpers con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
-      </p>
-      <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
-        <strong>Ejemplos de uso:</strong>
-      </p>
-      <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
-        <li class="text-m" style="margin-bottom: 0.5rem;">
-          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
-        </li>
-        <li class="text-m" style="margin-bottom: 0.5rem;">
-          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
-        </li>
-        <li class="text-m" style="margin-bottom: 0.5rem;">
-          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:pr-8</code> - Aplica padding-right de 8px solo en desktop
-        </li>
-        <li class="text-m" style="margin-bottom: 0.5rem;">
-          <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:mt-16</code> - Aplica margin-top de 16px solo en desktop
-        </li>
-      </ul>
-      <p class="text-m" style="margin: 0; line-height: 1.6; font-size: 0.875rem; opacity: 0.8;">
-        <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4 md:p-8</code> aplica 4px en mobile y 8px en desktop.
+  <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+  
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>HolyGrail5</h2>
+    </div>
+    <nav class="sidebar-nav">
+      ${menuHTML}
+    </nav>
+  </aside>
+  
+  <main class="main-content">
+    <div class="header">
+      <h1 class="${classNames[0] || 'h2'}">HolyGrail5</h1>
+      <p class="text-m">Guía de Tipografía - Framework CSS Generator</p>
+      <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
+        Última actualización: ${new Date().toLocaleString('es-ES')}
       </p>
     </div>
-  </div>
-  ` : ''}
 
-  <div class="section">
-    <h2 class="section-title">Breakpoints</h2>
-    <table class="breakpoints-table">
-      <thead>
-        <tr>
-          <th>Breakpoint</th>
-          <th>Min-width</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="breakpoint-name">Mobile</td>
-          <td class="breakpoint-value ${changedValues.has('breakpoints.mobile') ? 'changed' : ''}">
-            ${configData.breakpoints.mobile} 
-            ${configData.breakpoints.mobile.endsWith('px') ? `(${pxToRem(configData.breakpoints.mobile, baseFontSize)})` : ''}
-          </td>
-        </tr>
-        <tr>
-          <td class="breakpoint-name">Desktop</td>
-          <td class="breakpoint-value ${changedValues.has('breakpoints.desktop') ? 'changed' : ''}">
-            ${configData.breakpoints.desktop} 
-            ${configData.breakpoints.desktop.endsWith('px') ? `(${pxToRem(configData.breakpoints.desktop, baseFontSize)})` : ''}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="text-m" style="margin-top: 1rem;">
-      Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
-      Resize la ventana del navegador para ver los cambios.
-    </p>
-  </div>
+    ${fontFamiliesTableHTML ? `
+    <div class="section" id="font-families">
+      <h2 class="section-title">Font Families</h2>
+      ${fontFamiliesTableHTML}
+    </div>
+    ` : ''}
+
+    <div class="section" id="tipografia">
+      <h2 class="section-title">Clases de Tipografía</h2>
+      ${classesHTML}
+    </div>
+
+    <div class="section" id="variables">
+      <h2 class="section-title">Variables CSS Compartidas</h2>
+      ${variablesTableHTML}
+    </div>
+
+    ${spacingHelpersTableHTML ? `
+    <div class="section" id="spacing">
+      <h2 class="section-title">Helpers de Spacing</h2>
+      ${spacingHelpersTableHTML}
+      <p class="text-m" style="margin-top: 1rem;">
+        Clases helper para padding y margin basadas en el spacingMap. 
+        Usa las variables CSS definidas en :root.
+      </p>
+      
+      <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Helpers con prefijo md: (Desktop)</h3>
+        <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
+          Los helpers con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
+        </p>
+        <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
+          <strong>Ejemplos de uso:</strong>
+        </p>
+        <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:pr-8</code> - Aplica padding-right de 8px solo en desktop
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+          </li>
+        </ul>
+        <p class="text-m" style="margin: 0; line-height: 1.6; font-size: 0.875rem; opacity: 0.8;">
+          <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4 md:p-8</code> aplica 4px en mobile y 8px en desktop.
+        </p>
+      </div>
+    </div>
+    ` : ''}
+
+    <div class="section" id="breakpoints">
+      <h2 class="section-title">Breakpoints</h2>
+      <table class="breakpoints-table">
+        <thead>
+          <tr>
+            <th>Breakpoint</th>
+            <th>Min-width</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="breakpoint-name">Mobile</td>
+            <td class="breakpoint-value ${changedValues.has('breakpoints.mobile') ? 'changed' : ''}">
+              ${configData.breakpoints.mobile} 
+              ${configData.breakpoints.mobile.endsWith('px') ? `(${pxToRem(configData.breakpoints.mobile, baseFontSize)})` : ''}
+            </td>
+          </tr>
+          <tr>
+            <td class="breakpoint-name">Desktop</td>
+            <td class="breakpoint-value ${changedValues.has('breakpoints.desktop') ? 'changed' : ''}">
+              ${configData.breakpoints.desktop} 
+              ${configData.breakpoints.desktop.endsWith('px') ? `(${pxToRem(configData.breakpoints.desktop, baseFontSize)})` : ''}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-m" style="margin-top: 1rem;">
+        Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
+        Resize la ventana del navegador para ver los cambios.
+      </p>
+    </div>
+  </main>
+  
+  <script>
+    // Scroll suave y resaltado de sección activa
+    const menuItems = document.querySelectorAll('.menu-item');
+    const sections = document.querySelectorAll('.section');
+    
+    // Manejar clic en menú
+    menuItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = item.getAttribute('data-section');
+        const targetSection = document.getElementById(targetId);
+        
+        if (targetSection) {
+          const offset = 80; // Offset para compensar header
+          const targetPosition = targetSection.offsetTop - offset;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          
+          // Cerrar menú en mobile
+          if (window.innerWidth <= 768) {
+            document.querySelector('.sidebar').classList.remove('open');
+          }
+        }
+      });
+    });
+    
+    // Resaltar sección activa al hacer scroll
+    function updateActiveSection() {
+      const scrollPosition = window.scrollY + 150;
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          menuItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('data-section') === sectionId) {
+              item.classList.add('active');
+            }
+          });
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateActiveSection);
+    window.addEventListener('load', updateActiveSection);
+    
+    // Cerrar menú al hacer clic fuera en mobile
+    document.addEventListener('click', (e) => {
+      const sidebar = document.querySelector('.sidebar');
+      const menuToggle = document.querySelector('.menu-toggle');
+      
+      if (window.innerWidth <= 768 && 
+          sidebar.classList.contains('open') && 
+          !sidebar.contains(e.target) && 
+          !menuToggle.contains(e.target)) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
 </body>
 </html>`;
 }
