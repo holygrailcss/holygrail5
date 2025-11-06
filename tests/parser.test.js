@@ -1,5 +1,7 @@
 // Tests para parseador JSON a CSS
 
+const fs = require('fs');
+const path = require('path');
 const { generateCSS, buildValueMap } = require('../src/parser');
 const { loadConfig } = require('../src/config');
 
@@ -33,6 +35,24 @@ try {
   console.log('  - Incluye media queries:', hasMediaQuery ? '✅' : '❌');
   console.log('  - Incluye clases:', hasClasses ? '✅' : '❌');
   console.log('  - Longitud CSS:', css.length, 'caracteres');
+  
+  // Test peso del archivo output.css
+  const outputPath = path.join(__dirname, '..', 'output.css');
+  if (fs.existsSync(outputPath)) {
+    const stats = fs.statSync(outputPath);
+    const fileSizeInBytes = stats.size;
+    const fileSizeInKB = (fileSizeInBytes / 1024).toFixed(2);
+    const fileSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(4);
+    
+    console.log('  - Peso del archivo output.css:');
+    console.log('    * Bytes:', fileSizeInBytes, 'bytes');
+    console.log('    * Kilobytes:', fileSizeInKB, 'KB');
+    if (fileSizeInBytes > 1024) {
+      console.log('    * Megabytes:', fileSizeInMB, 'MB');
+    }
+  } else {
+    console.log('  - ⚠️  Archivo output.css no encontrado');
+  }
   
 } catch (error) {
   console.log('❌ Error en tests de parseador:', error.message);

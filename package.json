@@ -10,6 +10,7 @@
     "generate": "node generator.js",
     "start": "node generator.js && npx http-server -p 3000 -o",
     "dev": "node generator.js && npx http-server -p 3000 -o",
+    "test": "node tests/run-all.js",
     "prepublishOnly": "npm run generate"
   },
   "keywords": [
