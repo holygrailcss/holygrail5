@@ -433,18 +433,16 @@ function generateHTML(configData, previousValuesPath = null) {
       font-size: 0.875rem;
     }
 
-    .typography-table thead, .font-families-table thead, .variables-table thead, .breakpoints-table thead, .spacing-helpers-table thead {
-      background: #f5f5f5;
-    }
+
 
     .typography-table th, .font-families-table th, .variables-table th, .breakpoints-table th, .spacing-helpers-table th {
       padding: 0.75rem;
       text-align: left;
       font-weight: 600;
-      text-transform: uppercase;
+
       font-size: 0.75rem;
       letter-spacing: 0.05em;
-      border-bottom: 2px solid #ddd;
+      border-bottom: 1px solid #ddd;
     }
 
     .typography-table td, .font-families-table td, .variables-table td, .breakpoints-table td, .spacing-helpers-table td {
