@@ -133,9 +133,11 @@ function generateSpacingVariables(spacingMap, prefix, baseFontSize = 16) {
   const variables = [];
   
   Object.entries(spacingMap).forEach(([key, value]) => {
+    // Si la key termina en !, la limpiamos para la variable CSS
+    const cleanKey = key.endsWith('!') ? key.slice(0, -1) : key;
     const remValue = pxToRem(value, baseFontSize);
-    const varName = `--${prefix}-spacing-${key}`;
-    variables.push({ varName, value: remValue, key });
+    const varName = `--${prefix}-spacing-${cleanKey}`;
+    variables.push({ varName, value: remValue, key: cleanKey });
   });
   
   return variables;
@@ -251,32 +253,67 @@ ${cssClasses.join('\n\n')}
 // Establece el tamaño de fuente base del HTML para que los rem funcionen
 function generateResetCSS(baseFontSize = 16) {
   return `/* Reset CSS Mínimo */
-*,
-*::before,
-*::after {
+html {
   box-sizing: border-box;
+  font-size: ${baseFontSize}px;
 }
 
-html {
-  font-size: ${baseFontSize}px;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
   tab-size: 4;
 }
 
+* {
+  margin: 0;
+}
+
+html,
 body {
   margin: 0;
   padding: 0;
-  font-family: inherit;
-  line-height: inherit;
 }
 
+body {
+  line-height: calc(1em + 0.5rem);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+ol,
+ul,
+dl {
+  list-style: none;
+  padding-inline-start: unset;
+}
+
+img, picture, video, canvas, svg {
+  display: inline-block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
 `;
 }
 
 // Genera helpers de spacing (padding y margin) basados en spacingMap
-// Crea clases como p-4, pr-4, pl-4, pb-4, pt-4 para padding
-// y m-4, mr-4, ml-4, mb-4, mt-4 para margin
+// Crea clases como hg-p-4, hg-pr-4, hg-pl-4, hg-pb-4, hg-pt-4 para padding
+// y hg-m-4, hg-mr-4, hg-ml-4, hg-mb-4, hg-mt-4 para margin
 // También genera versiones con prefijo md: para el breakpoint desktop
 // Usa las variables CSS definidas en :root
 function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontSize = 16) {
@@ -290,35 +327,40 @@ function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontS
   
       // Generar helpers para cada valor en spacingMap
       Object.entries(spacingMap).forEach(([key, value]) => {
-        const varName = `--${prefix}-spacing-${key}`;
+        // Detectar si la key termina en ! para aplicar !important
+        const hasImportant = key.endsWith('!');
+        const cleanKey = hasImportant ? key.slice(0, -1) : key;
+        const varName = `--${prefix}-spacing-${cleanKey}`;
+        const important = hasImportant ? ' !important' : '';
+        const escapedExclamation = hasImportant ? '\\!' : '';
         
         // Padding helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
-        helpers.push(`  .p-${key} { padding: var(${varName}); }`);
-        helpers.push(`  .pr-${key} { padding-inline-end: var(${varName}); }`);
-        helpers.push(`  .pl-${key} { padding-inline-start: var(${varName}); }`);
-        helpers.push(`  .pb-${key} { padding-bottom: var(${varName}); }`);
-        helpers.push(`  .pt-${key} { padding-top: var(${varName}); }`);
+        helpers.push(`  .${prefix}-p-${cleanKey}${escapedExclamation} { padding: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-pr-${cleanKey}${escapedExclamation} { padding-inline-end: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-pl-${cleanKey}${escapedExclamation} { padding-inline-start: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-pb-${cleanKey}${escapedExclamation} { padding-bottom: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-pt-${cleanKey}${escapedExclamation} { padding-top: var(${varName})${important}; }`);
         
         // Margin helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
-        helpers.push(`  .m-${key} { margin: var(${varName}); }`);
-        helpers.push(`  .mr-${key} { margin-inline-end: var(${varName}); }`);
-        helpers.push(`  .ml-${key} { margin-inline-start: var(${varName}); }`);
-        helpers.push(`  .mb-${key} { margin-bottom: var(${varName}); }`);
-        helpers.push(`  .mt-${key} { margin-top: var(${varName}); }`);
+        helpers.push(`  .${prefix}-m-${cleanKey}${escapedExclamation} { margin: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-mr-${cleanKey}${escapedExclamation} { margin-inline-end: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-ml-${cleanKey}${escapedExclamation} { margin-inline-start: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-mb-${cleanKey}${escapedExclamation} { margin-bottom: var(${varName})${important}; }`);
+        helpers.push(`  .${prefix}-mt-${cleanKey}${escapedExclamation} { margin-top: var(${varName})${important}; }`);
         
         // Padding helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
-        desktopHelpers.push(`    .md\\:p-${key} { padding: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pr-${key} { padding-inline-end: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pl-${key} { padding-inline-start: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pb-${key} { padding-bottom: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pt-${key} { padding-top: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:${prefix}-p-${cleanKey}${escapedExclamation} { padding: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-pr-${cleanKey}${escapedExclamation} { padding-inline-end: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-pl-${cleanKey}${escapedExclamation} { padding-inline-start: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-pb-${cleanKey}${escapedExclamation} { padding-bottom: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-pt-${cleanKey}${escapedExclamation} { padding-top: var(${varName})${important}; }`);
         
         // Margin helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
-        desktopHelpers.push(`    .md\\:m-${key} { margin: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:mr-${key} { margin-inline-end: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:ml-${key} { margin-inline-start: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
+        desktopHelpers.push(`    .md\\:${prefix}-m-${cleanKey}${escapedExclamation} { margin: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-mr-${cleanKey}${escapedExclamation} { margin-inline-end: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-ml-${cleanKey}${escapedExclamation} { margin-inline-start: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-mb-${cleanKey}${escapedExclamation} { margin-bottom: var(${varName})${important}; }`);
+        desktopHelpers.push(`    .md\\:${prefix}-mt-${cleanKey}${escapedExclamation} { margin-top: var(${varName})${important}; }`);
       });
   
   if (helpers.length === 0) {
