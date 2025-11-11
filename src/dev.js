@@ -18,9 +18,11 @@ setTimeout(() => {
   console.log('💡 Recarga el navegador (Cmd+Shift+R o Ctrl+Shift+R) para ver los cambios\n');
   
   // Iniciar servidor HTTP
+  // Suprimir warnings de deprecación de http-server
   const serverProcess = spawn('npx', ['http-server', '-p', '3000', '-o'], {
     stdio: 'inherit',
-    shell: true
+    shell: true,
+    env: { ...process.env, NODE_NO_WARNINGS: '1' }
   });
   
   // Manejar cierre

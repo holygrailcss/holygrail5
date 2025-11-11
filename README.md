@@ -62,6 +62,65 @@ npm run dev
 npm run serve
 ```
 
+## 🔍 Gestión de Variables CSS
+
+El generador mantiene un historial de todas las variables CSS generadas para que nunca se eliminen automáticamente, incluso si se borran las clases que las usaban. Sin embargo, puedes gestionar estas variables manualmente.
+
+### Comandos disponibles
+
+```bash
+# Listar variables no usadas
+npm run vars:list
+# o
+node src/cli-variables.js list
+
+# Ver reporte completo de variables
+npm run vars:report
+# o
+node src/cli-variables.js report
+
+# Eliminar una variable específica del historial
+npm run vars:remove -- --hg-typo-font-size-18
+# o
+node src/cli-variables.js remove --hg-typo-font-size-18
+
+# Eliminar todas las variables no usadas del historial
+npm run vars:remove-all-unused
+# o
+node src/cli-variables.js remove-all-unused
+
+# Mostrar todas las variables históricas almacenadas
+npm run vars:show-all
+# o
+node src/cli-variables.js show-all
+```
+
+### Ejemplo de uso
+
+```bash
+# 1. Generar CSS
+npm run generate
+
+# 2. Ver qué variables no se están usando
+npm run vars:list
+
+# 3. Eliminar variables no usadas
+npm run vars:remove-all-unused
+
+# 4. Regenerar CSS sin las variables eliminadas
+npm run generate
+```
+
+### Opciones avanzadas
+
+```bash
+# Especificar ruta personalizada del CSS
+node src/cli-variables.js report --css=./dist/output.css
+
+# Especificar ruta personalizada del historial
+node src/cli-variables.js list --history=./.custom-variables.json
+```
+
 ## ⚙️ Configuración
 
 ### Estructura del `config.json`

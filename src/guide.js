@@ -814,6 +814,34 @@ function generateHTML(configData, previousValuesPath = null) {
       <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
         Última actualización: ${new Date().toLocaleString('es-ES')}
       </p>
+      
+      <div class="search-container" style="margin-top: 2rem; position: relative; max-width: 500px;">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Buscar clases, variables, helpers..." 
+          style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s;"
+          autocomplete="off"
+        />
+        <svg 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          stroke-width="2" 
+          style="position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: #999; pointer-events: none;"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <button 
+          id="clear-search" 
+          style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #999; cursor: pointer; padding: 0.25rem; display: none; font-size: 1.25rem; line-height: 1;"
+          title="Limpiar búsqueda"
+        >×</button>
+      </div>
+      <div id="search-results" style="margin-top: 0.5rem; font-size: 0.875rem; color: #666; display: none;"></div>
     </div>
 
     ${fontFamiliesTableHTML ? `
@@ -969,6 +997,122 @@ function generateHTML(configData, previousValuesPath = null) {
           }
         }
       });
+    });
+    
+    // Funcionalidad de búsqueda
+    const searchInput = document.getElementById('search-input');
+    const clearSearchBtn = document.getElementById('clear-search');
+    const searchResults = document.getElementById('search-results');
+    let searchTimeout;
+    
+    // Función para resaltar texto
+    function highlightText(text, searchTerm) {
+      if (!searchTerm) return text;
+      const escapedTerm = searchTerm.replace(/[.*+?^$()|[\]\\]/g, '\\\\$&');
+      const escapedTerm2 = escapedTerm.replace(/{/g, '\\\\{').replace(/}/g, '\\\\}');
+      const regex = new RegExp('(' + escapedTerm2 + ')', 'gi');
+      return text.replace(regex, '<mark style="background: #ffeb3b; padding: 0.125rem 0.25rem; border-radius: 3px;">$1</mark>');
+    }
+    
+    // Función para buscar en tablas
+    function searchInTables(searchTerm) {
+      if (!searchTerm || searchTerm.trim() === '') {
+        // Mostrar todo
+        document.querySelectorAll('.section, .guide-table tbody tr, .spacing-helpers-table tbody tr').forEach(el => {
+          el.style.display = '';
+        });
+        document.querySelectorAll('mark').forEach(mark => {
+          const parent = mark.parentNode;
+          parent.replaceChild(document.createTextNode(mark.textContent), mark);
+          parent.normalize();
+        });
+        searchResults.style.display = 'none';
+        clearSearchBtn.style.display = 'none';
+        return;
+      }
+      
+      const term = searchTerm.toLowerCase().trim();
+      let matchCount = 0;
+      const matchedSections = new Set();
+      
+      // Buscar en todas las tablas
+      document.querySelectorAll('.guide-table tbody tr, .spacing-helpers-table tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const cells = row.querySelectorAll('td');
+        
+        if (text.includes(term)) {
+          row.style.display = '';
+          matchCount++;
+          
+          // Resaltar texto en las celdas
+          cells.forEach(cell => {
+            const originalText = cell.textContent;
+            cell.innerHTML = highlightText(originalText, term);
+          });
+          
+          // Encontrar la sección padre
+          let section = row.closest('.section');
+          if (section) {
+            matchedSections.add(section.id);
+          }
+        } else {
+          row.style.display = 'none';
+        }
+      });
+      
+      // Mostrar/ocultar secciones según si tienen resultados
+      document.querySelectorAll('.section').forEach(section => {
+        const hasVisibleRows = section.querySelector('tbody tr[style=""]') || 
+                              section.querySelector('tbody tr:not([style*="display: none"])');
+        if (matchedSections.has(section.id) || hasVisibleRows) {
+          section.style.display = '';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+      
+      // Mostrar contador de resultados
+      if (matchCount > 0) {
+        searchResults.textContent = 'Se encontraron ' + matchCount + ' resultado' + (matchCount !== 1 ? 's' : '');
+        searchResults.style.display = 'block';
+      } else {
+        searchResults.textContent = 'No se encontraron resultados';
+        searchResults.style.display = 'block';
+      }
+      
+      clearSearchBtn.style.display = 'block';
+    }
+    
+    // Event listeners para búsqueda
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchInTables(e.target.value);
+      }, 200);
+    });
+    
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInTables('');
+      }
+    });
+    
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInTables('');
+      searchInput.focus();
+    });
+    
+    // Estilos para el input cuando está enfocado
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.borderColor = '#0170e9';
+    });
+    
+    searchInput.addEventListener('blur', () => {
+      if (!searchInput.value) {
+        searchInput.style.borderColor = '#e0e0e0';
+      }
     });
     
     // Resaltar sección activa al hacer scroll

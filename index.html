@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
-  <link rel="stylesheet" href="output.css?v=1762855446166">
+  <link rel="stylesheet" href="output.css?v=1762862922134">
   <style>
     * {
       scroll-behavior: smooth;
@@ -309,8 +309,36 @@
       <h1 class="h2">HolyGrail5</h1>
       <p class="text-m">Guía de Tipografía - Framework CSS Generator</p>
       <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
-        Última actualización: 11/11/2025, 11:04:06
+        Última actualización: 11/11/2025, 13:08:42
       </p>
+      
+      <div class="search-container" style="margin-top: 2rem; position: relative; max-width: 500px;">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Buscar clases, variables, helpers..." 
+          style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s;"
+          autocomplete="off"
+        />
+        <svg 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          stroke-width="2" 
+          style="position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: #999; pointer-events: none;"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <button 
+          id="clear-search" 
+          style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #999; cursor: pointer; padding: 0.25rem; display: none; font-size: 1.25rem; line-height: 1;"
+          title="Limpiar búsqueda"
+        >×</button>
+      </div>
+      <div id="search-results" style="margin-top: 0.5rem; font-size: 0.875rem; color: #666; display: none;"></div>
     </div>
 
     
@@ -375,10 +403,10 @@
         <td class="preview-cell">
           <div class="typography-preview h2">Aa</div>
         </td>
-        <td class="table-value changed">primary</td>
-        <td class="table-value changed">900</td>
-        <td class="table-value changed">0rem</td>
-        <td class="table-value changed">none</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">900</td>
+        <td class="table-value ">0rem</td>
+        <td class="table-value ">none</td>
         <td class="mobile-value ">1.125rem</td>
         <td class="mobile-value ">1.976</td>
         <td class="desktop-value ">1.5rem</td>
@@ -701,10 +729,10 @@
             <td class="value-center-orange ">8px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-0</td>
-            <td class="table-value changed">0</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-0</td>
+            <td class="table-value ">0</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
             <td class="table-name ">--hg-spacing-4</td>
@@ -767,130 +795,130 @@
             <td class="value-center-orange ">64px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-72</td>
-            <td class="table-value changed">4.5rem</td>
-            <td class="value-center-blue changed">4.5rem</td>
-            <td class="value-center-orange changed">72px</td>
+            <td class="table-name ">--hg-spacing-72</td>
+            <td class="table-value ">4.5rem</td>
+            <td class="value-center-blue ">4.5rem</td>
+            <td class="value-center-orange ">72px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-80</td>
-            <td class="table-value changed">5rem</td>
-            <td class="value-center-blue changed">5rem</td>
-            <td class="value-center-orange changed">80px</td>
+            <td class="table-name ">--hg-spacing-80</td>
+            <td class="table-value ">5rem</td>
+            <td class="value-center-blue ">5rem</td>
+            <td class="value-center-orange ">80px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-88</td>
-            <td class="table-value changed">5.5rem</td>
-            <td class="value-center-blue changed">5.5rem</td>
-            <td class="value-center-orange changed">88px</td>
+            <td class="table-name ">--hg-spacing-88</td>
+            <td class="table-value ">5.5rem</td>
+            <td class="value-center-blue ">5.5rem</td>
+            <td class="value-center-orange ">88px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-96</td>
-            <td class="table-value changed">6rem</td>
-            <td class="value-center-blue changed">6rem</td>
-            <td class="value-center-orange changed">96px</td>
+            <td class="table-name ">--hg-spacing-96</td>
+            <td class="table-value ">6rem</td>
+            <td class="value-center-blue ">6rem</td>
+            <td class="value-center-orange ">96px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-104</td>
-            <td class="table-value changed">6.5rem</td>
-            <td class="value-center-blue changed">6.5rem</td>
-            <td class="value-center-orange changed">104px</td>
+            <td class="table-name ">--hg-spacing-104</td>
+            <td class="table-value ">6.5rem</td>
+            <td class="value-center-blue ">6.5rem</td>
+            <td class="value-center-orange ">104px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-112</td>
-            <td class="table-value changed">7rem</td>
-            <td class="value-center-blue changed">7rem</td>
-            <td class="value-center-orange changed">112px</td>
+            <td class="table-name ">--hg-spacing-112</td>
+            <td class="table-value ">7rem</td>
+            <td class="value-center-blue ">7rem</td>
+            <td class="value-center-orange ">112px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-120</td>
-            <td class="table-value changed">7.5rem</td>
-            <td class="value-center-blue changed">7.5rem</td>
-            <td class="value-center-orange changed">120px</td>
+            <td class="table-name ">--hg-spacing-120</td>
+            <td class="table-value ">7.5rem</td>
+            <td class="value-center-blue ">7.5rem</td>
+            <td class="value-center-orange ">120px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-128</td>
-            <td class="table-value changed">8rem</td>
-            <td class="value-center-blue changed">8rem</td>
-            <td class="value-center-orange changed">128px</td>
+            <td class="table-name ">--hg-spacing-128</td>
+            <td class="table-value ">8rem</td>
+            <td class="value-center-blue ">8rem</td>
+            <td class="value-center-orange ">128px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-136</td>
-            <td class="table-value changed">8.5rem</td>
-            <td class="value-center-blue changed">8.5rem</td>
-            <td class="value-center-orange changed">136px</td>
+            <td class="table-name ">--hg-spacing-136</td>
+            <td class="table-value ">8.5rem</td>
+            <td class="value-center-blue ">8.5rem</td>
+            <td class="value-center-orange ">136px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-144</td>
-            <td class="table-value changed">9rem</td>
-            <td class="value-center-blue changed">9rem</td>
-            <td class="value-center-orange changed">144px</td>
+            <td class="table-name ">--hg-spacing-144</td>
+            <td class="table-value ">9rem</td>
+            <td class="value-center-blue ">9rem</td>
+            <td class="value-center-orange ">144px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-152</td>
-            <td class="table-value changed">9.5rem</td>
-            <td class="value-center-blue changed">9.5rem</td>
-            <td class="value-center-orange changed">152px</td>
+            <td class="table-name ">--hg-spacing-152</td>
+            <td class="table-value ">9.5rem</td>
+            <td class="value-center-blue ">9.5rem</td>
+            <td class="value-center-orange ">152px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-160</td>
-            <td class="table-value changed">10rem</td>
-            <td class="value-center-blue changed">10rem</td>
-            <td class="value-center-orange changed">160px</td>
+            <td class="table-name ">--hg-spacing-160</td>
+            <td class="table-value ">10rem</td>
+            <td class="value-center-blue ">10rem</td>
+            <td class="value-center-orange ">160px</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-20-percent</td>
-            <td class="table-value changed">20%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-20-percent</td>
+            <td class="table-value ">20%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-25-percent</td>
-            <td class="table-value changed">25%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-25-percent</td>
+            <td class="table-value ">25%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-33-percent</td>
-            <td class="table-value changed">33.333333%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-33-percent</td>
+            <td class="table-value ">33.333333%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-40-percent</td>
-            <td class="table-value changed">40%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-40-percent</td>
+            <td class="table-value ">40%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-50-percent</td>
-            <td class="table-value changed">50%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-50-percent</td>
+            <td class="table-value ">50%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-60-percent</td>
-            <td class="table-value changed">60%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-60-percent</td>
+            <td class="table-value ">60%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-66-percent</td>
-            <td class="table-value changed">66.666667%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-66-percent</td>
+            <td class="table-value ">66.666667%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-75-percent</td>
-            <td class="table-value changed">75%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-75-percent</td>
+            <td class="table-value ">75%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="table-name changed">--hg-spacing-100-percent</td>
-            <td class="table-value changed">100%</td>
-            <td class="value-center-blue changed">-</td>
-            <td class="value-center-orange changed">-</td>
+            <td class="table-name ">--hg-spacing-100-percent</td>
+            <td class="table-value ">100%</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
       </tbody>
     </table>
@@ -913,9 +941,9 @@
         
       <tr>
         <td class="table-name">.p-0, .pr-0 (end), .pl-0 (start), .pb-0, .pt-0<br>.m-0, .mr-0 (end), .ml-0 (start), .mb-0, .mt-0<br><strong>Con !important:</strong><br>.p-0!, .pr-0! (end), .pl-0! (start), .pb-0!, .pt-0!<br>.m-0!, .mr-0! (end), .ml-0! (start), .mb-0!, .mt-0!</td>
-        <td class="table-value changed">--hg-spacing-0</td>
-        <td class="value-center-blue changed">0</td>
-        <td class="value-center-orange changed">0</td>
+        <td class="table-value ">--hg-spacing-0</td>
+        <td class="value-center-blue ">0</td>
+        <td class="value-center-orange ">0</td>
       </tr>
       <tr>
         <td class="table-name">.p-4, .pr-4 (end), .pl-4 (start), .pb-4, .pt-4<br>.m-4, .mr-4 (end), .ml-4 (start), .mb-4, .mt-4</td>
@@ -979,129 +1007,129 @@
       </tr>
       <tr>
         <td class="table-name">.p-72, .pr-72 (end), .pl-72 (start), .pb-72, .pt-72<br>.m-72, .mr-72 (end), .ml-72 (start), .mb-72, .mt-72</td>
-        <td class="table-value changed">--hg-spacing-72</td>
-        <td class="value-center-blue changed">4.5rem</td>
-        <td class="value-center-orange changed">72px</td>
+        <td class="table-value ">--hg-spacing-72</td>
+        <td class="value-center-blue ">4.5rem</td>
+        <td class="value-center-orange ">72px</td>
       </tr>
       <tr>
         <td class="table-name">.p-80, .pr-80 (end), .pl-80 (start), .pb-80, .pt-80<br>.m-80, .mr-80 (end), .ml-80 (start), .mb-80, .mt-80</td>
-        <td class="table-value changed">--hg-spacing-80</td>
-        <td class="value-center-blue changed">5rem</td>
-        <td class="value-center-orange changed">80px</td>
+        <td class="table-value ">--hg-spacing-80</td>
+        <td class="value-center-blue ">5rem</td>
+        <td class="value-center-orange ">80px</td>
       </tr>
       <tr>
         <td class="table-name">.p-88, .pr-88 (end), .pl-88 (start), .pb-88, .pt-88<br>.m-88, .mr-88 (end), .ml-88 (start), .mb-88, .mt-88</td>
-        <td class="table-value changed">--hg-spacing-88</td>
-        <td class="value-center-blue changed">5.5rem</td>
-        <td class="value-center-orange changed">88px</td>
+        <td class="table-value ">--hg-spacing-88</td>
+        <td class="value-center-blue ">5.5rem</td>
+        <td class="value-center-orange ">88px</td>
       </tr>
       <tr>
         <td class="table-name">.p-96, .pr-96 (end), .pl-96 (start), .pb-96, .pt-96<br>.m-96, .mr-96 (end), .ml-96 (start), .mb-96, .mt-96</td>
-        <td class="table-value changed">--hg-spacing-96</td>
-        <td class="value-center-blue changed">6rem</td>
-        <td class="value-center-orange changed">96px</td>
+        <td class="table-value ">--hg-spacing-96</td>
+        <td class="value-center-blue ">6rem</td>
+        <td class="value-center-orange ">96px</td>
       </tr>
       <tr>
         <td class="table-name">.p-104, .pr-104 (end), .pl-104 (start), .pb-104, .pt-104<br>.m-104, .mr-104 (end), .ml-104 (start), .mb-104, .mt-104</td>
-        <td class="table-value changed">--hg-spacing-104</td>
-        <td class="value-center-blue changed">6.5rem</td>
-        <td class="value-center-orange changed">104px</td>
+        <td class="table-value ">--hg-spacing-104</td>
+        <td class="value-center-blue ">6.5rem</td>
+        <td class="value-center-orange ">104px</td>
       </tr>
       <tr>
         <td class="table-name">.p-112, .pr-112 (end), .pl-112 (start), .pb-112, .pt-112<br>.m-112, .mr-112 (end), .ml-112 (start), .mb-112, .mt-112</td>
-        <td class="table-value changed">--hg-spacing-112</td>
-        <td class="value-center-blue changed">7rem</td>
-        <td class="value-center-orange changed">112px</td>
+        <td class="table-value ">--hg-spacing-112</td>
+        <td class="value-center-blue ">7rem</td>
+        <td class="value-center-orange ">112px</td>
       </tr>
       <tr>
         <td class="table-name">.p-120, .pr-120 (end), .pl-120 (start), .pb-120, .pt-120<br>.m-120, .mr-120 (end), .ml-120 (start), .mb-120, .mt-120</td>
-        <td class="table-value changed">--hg-spacing-120</td>
-        <td class="value-center-blue changed">7.5rem</td>
-        <td class="value-center-orange changed">120px</td>
+        <td class="table-value ">--hg-spacing-120</td>
+        <td class="value-center-blue ">7.5rem</td>
+        <td class="value-center-orange ">120px</td>
       </tr>
       <tr>
         <td class="table-name">.p-128, .pr-128 (end), .pl-128 (start), .pb-128, .pt-128<br>.m-128, .mr-128 (end), .ml-128 (start), .mb-128, .mt-128</td>
-        <td class="table-value changed">--hg-spacing-128</td>
-        <td class="value-center-blue changed">8rem</td>
-        <td class="value-center-orange changed">128px</td>
+        <td class="table-value ">--hg-spacing-128</td>
+        <td class="value-center-blue ">8rem</td>
+        <td class="value-center-orange ">128px</td>
       </tr>
       <tr>
         <td class="table-name">.p-136, .pr-136 (end), .pl-136 (start), .pb-136, .pt-136<br>.m-136, .mr-136 (end), .ml-136 (start), .mb-136, .mt-136</td>
-        <td class="table-value changed">--hg-spacing-136</td>
-        <td class="value-center-blue changed">8.5rem</td>
-        <td class="value-center-orange changed">136px</td>
+        <td class="table-value ">--hg-spacing-136</td>
+        <td class="value-center-blue ">8.5rem</td>
+        <td class="value-center-orange ">136px</td>
       </tr>
       <tr>
         <td class="table-name">.p-144, .pr-144 (end), .pl-144 (start), .pb-144, .pt-144<br>.m-144, .mr-144 (end), .ml-144 (start), .mb-144, .mt-144</td>
-        <td class="table-value changed">--hg-spacing-144</td>
-        <td class="value-center-blue changed">9rem</td>
-        <td class="value-center-orange changed">144px</td>
+        <td class="table-value ">--hg-spacing-144</td>
+        <td class="value-center-blue ">9rem</td>
+        <td class="value-center-orange ">144px</td>
       </tr>
       <tr>
         <td class="table-name">.p-152, .pr-152 (end), .pl-152 (start), .pb-152, .pt-152<br>.m-152, .mr-152 (end), .ml-152 (start), .mb-152, .mt-152</td>
-        <td class="table-value changed">--hg-spacing-152</td>
-        <td class="value-center-blue changed">9.5rem</td>
-        <td class="value-center-orange changed">152px</td>
+        <td class="table-value ">--hg-spacing-152</td>
+        <td class="value-center-blue ">9.5rem</td>
+        <td class="value-center-orange ">152px</td>
       </tr>
       <tr>
         <td class="table-name">.p-160, .pr-160 (end), .pl-160 (start), .pb-160, .pt-160<br>.m-160, .mr-160 (end), .ml-160 (start), .mb-160, .mt-160</td>
-        <td class="table-value changed">--hg-spacing-160</td>
-        <td class="value-center-blue changed">10rem</td>
-        <td class="value-center-orange changed">160px</td>
+        <td class="table-value ">--hg-spacing-160</td>
+        <td class="value-center-blue ">10rem</td>
+        <td class="value-center-orange ">160px</td>
       </tr>
       <tr>
         <td class="table-name">.p-20-percent, .pr-20-percent (end), .pl-20-percent (start), .pb-20-percent, .pt-20-percent<br>.m-20-percent, .mr-20-percent (end), .ml-20-percent (start), .mb-20-percent, .mt-20-percent</td>
-        <td class="table-value changed">--hg-spacing-20-percent</td>
-        <td class="value-center-blue changed">20%</td>
-        <td class="value-center-orange changed">20%</td>
+        <td class="table-value ">--hg-spacing-20-percent</td>
+        <td class="value-center-blue ">20%</td>
+        <td class="value-center-orange ">20%</td>
       </tr>
       <tr>
         <td class="table-name">.p-25-percent, .pr-25-percent (end), .pl-25-percent (start), .pb-25-percent, .pt-25-percent<br>.m-25-percent, .mr-25-percent (end), .ml-25-percent (start), .mb-25-percent, .mt-25-percent</td>
-        <td class="table-value changed">--hg-spacing-25-percent</td>
-        <td class="value-center-blue changed">25%</td>
-        <td class="value-center-orange changed">25%</td>
+        <td class="table-value ">--hg-spacing-25-percent</td>
+        <td class="value-center-blue ">25%</td>
+        <td class="value-center-orange ">25%</td>
       </tr>
       <tr>
         <td class="table-name">.p-33-percent, .pr-33-percent (end), .pl-33-percent (start), .pb-33-percent, .pt-33-percent<br>.m-33-percent, .mr-33-percent (end), .ml-33-percent (start), .mb-33-percent, .mt-33-percent</td>
-        <td class="table-value changed">--hg-spacing-33-percent</td>
-        <td class="value-center-blue changed">33.333333%</td>
-        <td class="value-center-orange changed">33.333333%</td>
+        <td class="table-value ">--hg-spacing-33-percent</td>
+        <td class="value-center-blue ">33.333333%</td>
+        <td class="value-center-orange ">33.333333%</td>
       </tr>
       <tr>
         <td class="table-name">.p-40-percent, .pr-40-percent (end), .pl-40-percent (start), .pb-40-percent, .pt-40-percent<br>.m-40-percent, .mr-40-percent (end), .ml-40-percent (start), .mb-40-percent, .mt-40-percent</td>
-        <td class="table-value changed">--hg-spacing-40-percent</td>
-        <td class="value-center-blue changed">40%</td>
-        <td class="value-center-orange changed">40%</td>
+        <td class="table-value ">--hg-spacing-40-percent</td>
+        <td class="value-center-blue ">40%</td>
+        <td class="value-center-orange ">40%</td>
       </tr>
       <tr>
         <td class="table-name">.p-50-percent, .pr-50-percent (end), .pl-50-percent (start), .pb-50-percent, .pt-50-percent<br>.m-50-percent, .mr-50-percent (end), .ml-50-percent (start), .mb-50-percent, .mt-50-percent</td>
-        <td class="table-value changed">--hg-spacing-50-percent</td>
-        <td class="value-center-blue changed">50%</td>
-        <td class="value-center-orange changed">50%</td>
+        <td class="table-value ">--hg-spacing-50-percent</td>
+        <td class="value-center-blue ">50%</td>
+        <td class="value-center-orange ">50%</td>
       </tr>
       <tr>
         <td class="table-name">.p-60-percent, .pr-60-percent (end), .pl-60-percent (start), .pb-60-percent, .pt-60-percent<br>.m-60-percent, .mr-60-percent (end), .ml-60-percent (start), .mb-60-percent, .mt-60-percent</td>
-        <td class="table-value changed">--hg-spacing-60-percent</td>
-        <td class="value-center-blue changed">60%</td>
-        <td class="value-center-orange changed">60%</td>
+        <td class="table-value ">--hg-spacing-60-percent</td>
+        <td class="value-center-blue ">60%</td>
+        <td class="value-center-orange ">60%</td>
       </tr>
       <tr>
         <td class="table-name">.p-66-percent, .pr-66-percent (end), .pl-66-percent (start), .pb-66-percent, .pt-66-percent<br>.m-66-percent, .mr-66-percent (end), .ml-66-percent (start), .mb-66-percent, .mt-66-percent</td>
-        <td class="table-value changed">--hg-spacing-66-percent</td>
-        <td class="value-center-blue changed">66.666667%</td>
-        <td class="value-center-orange changed">66.666667%</td>
+        <td class="table-value ">--hg-spacing-66-percent</td>
+        <td class="value-center-blue ">66.666667%</td>
+        <td class="value-center-orange ">66.666667%</td>
       </tr>
       <tr>
         <td class="table-name">.p-75-percent, .pr-75-percent (end), .pl-75-percent (start), .pb-75-percent, .pt-75-percent<br>.m-75-percent, .mr-75-percent (end), .ml-75-percent (start), .mb-75-percent, .mt-75-percent</td>
-        <td class="table-value changed">--hg-spacing-75-percent</td>
-        <td class="value-center-blue changed">75%</td>
-        <td class="value-center-orange changed">75%</td>
+        <td class="table-value ">--hg-spacing-75-percent</td>
+        <td class="value-center-blue ">75%</td>
+        <td class="value-center-orange ">75%</td>
       </tr>
       <tr>
         <td class="table-name">.p-100-percent, .pr-100-percent (end), .pl-100-percent (start), .pb-100-percent, .pt-100-percent<br>.m-100-percent, .mr-100-percent (end), .ml-100-percent (start), .mb-100-percent, .mt-100-percent</td>
-        <td class="table-value changed">--hg-spacing-100-percent</td>
-        <td class="value-center-blue changed">100%</td>
-        <td class="value-center-orange changed">100%</td>
+        <td class="table-value ">--hg-spacing-100-percent</td>
+        <td class="value-center-blue ">100%</td>
+        <td class="value-center-orange ">100%</td>
       </tr>
       </tbody>
     </table>
@@ -1856,6 +1884,122 @@
           }
         }
       });
+    });
+    
+    // Funcionalidad de búsqueda
+    const searchInput = document.getElementById('search-input');
+    const clearSearchBtn = document.getElementById('clear-search');
+    const searchResults = document.getElementById('search-results');
+    let searchTimeout;
+    
+    // Función para resaltar texto
+    function highlightText(text, searchTerm) {
+      if (!searchTerm) return text;
+      const escapedTerm = searchTerm.replace(/[.*+?^$()|[]\]/g, '\\$&');
+      const escapedTerm2 = escapedTerm.replace(/{/g, '\\{').replace(/}/g, '\\}');
+      const regex = new RegExp('(' + escapedTerm2 + ')', 'gi');
+      return text.replace(regex, '<mark style="background: #ffeb3b; padding: 0.125rem 0.25rem; border-radius: 3px;">$1</mark>');
+    }
+    
+    // Función para buscar en tablas
+    function searchInTables(searchTerm) {
+      if (!searchTerm || searchTerm.trim() === '') {
+        // Mostrar todo
+        document.querySelectorAll('.section, .guide-table tbody tr, .spacing-helpers-table tbody tr').forEach(el => {
+          el.style.display = '';
+        });
+        document.querySelectorAll('mark').forEach(mark => {
+          const parent = mark.parentNode;
+          parent.replaceChild(document.createTextNode(mark.textContent), mark);
+          parent.normalize();
+        });
+        searchResults.style.display = 'none';
+        clearSearchBtn.style.display = 'none';
+        return;
+      }
+      
+      const term = searchTerm.toLowerCase().trim();
+      let matchCount = 0;
+      const matchedSections = new Set();
+      
+      // Buscar en todas las tablas
+      document.querySelectorAll('.guide-table tbody tr, .spacing-helpers-table tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const cells = row.querySelectorAll('td');
+        
+        if (text.includes(term)) {
+          row.style.display = '';
+          matchCount++;
+          
+          // Resaltar texto en las celdas
+          cells.forEach(cell => {
+            const originalText = cell.textContent;
+            cell.innerHTML = highlightText(originalText, term);
+          });
+          
+          // Encontrar la sección padre
+          let section = row.closest('.section');
+          if (section) {
+            matchedSections.add(section.id);
+          }
+        } else {
+          row.style.display = 'none';
+        }
+      });
+      
+      // Mostrar/ocultar secciones según si tienen resultados
+      document.querySelectorAll('.section').forEach(section => {
+        const hasVisibleRows = section.querySelector('tbody tr[style=""]') || 
+                              section.querySelector('tbody tr:not([style*="display: none"])');
+        if (matchedSections.has(section.id) || hasVisibleRows) {
+          section.style.display = '';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+      
+      // Mostrar contador de resultados
+      if (matchCount > 0) {
+        searchResults.textContent = 'Se encontraron ' + matchCount + ' resultado' + (matchCount !== 1 ? 's' : '');
+        searchResults.style.display = 'block';
+      } else {
+        searchResults.textContent = 'No se encontraron resultados';
+        searchResults.style.display = 'block';
+      }
+      
+      clearSearchBtn.style.display = 'block';
+    }
+    
+    // Event listeners para búsqueda
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchInTables(e.target.value);
+      }, 200);
+    });
+    
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInTables('');
+      }
+    });
+    
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInTables('');
+      searchInput.focus();
+    });
+    
+    // Estilos para el input cuando está enfocado
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.borderColor = '#0170e9';
+    });
+    
+    searchInput.addEventListener('blur', () => {
+      if (!searchInput.value) {
+        searchInput.style.borderColor = '#e0e0e0';
+      }
     });
     
     // Resaltar sección activa al hacer scroll
