@@ -109,7 +109,7 @@ function saveHistoricalVariables(variables, historicalVarsPath) {
 // También carga variables históricas para que nunca se eliminen
 function buildValueMap(classes, fontFamilyMap, prefix, category, historicalVarsPath = null) {
   // Cargar variables históricas si existe el archivo
-  const historicalVarsPathDefault = historicalVarsPath || path.join(__dirname, '..', '.historical-variables.json');
+  const historicalVarsPathDefault = historicalVarsPath || path.join(__dirname, '..', '.data', '.historical-variables.json');
   const historicalVars = loadHistoricalVariables(historicalVarsPathDefault);
   
   // Inicializar Maps con variables históricas

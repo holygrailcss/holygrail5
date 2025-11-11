@@ -6,7 +6,7 @@ const path = require('path');
 
 // Carga las variables históricas desde el archivo
 function loadHistoricalVariables(historicalVarsPath = null) {
-  const defaultPath = historicalVarsPath || path.join(__dirname, '..', '.historical-variables.json');
+  const defaultPath = historicalVarsPath || path.join(__dirname, '..', '.data', '.historical-variables.json');
   try {
     if (fs.existsSync(defaultPath)) {
       const content = fs.readFileSync(defaultPath, 'utf8');
@@ -27,7 +27,7 @@ function loadHistoricalVariables(historicalVarsPath = null) {
 
 // Guarda las variables históricas en el archivo
 function saveHistoricalVariables(variables, historicalVarsPath = null) {
-  const defaultPath = historicalVarsPath || path.join(__dirname, '..', '.historical-variables.json');
+  const defaultPath = historicalVarsPath || path.join(__dirname, '..', '.data', '.historical-variables.json');
   try {
     const dir = path.dirname(defaultPath);
     if (!fs.existsSync(dir)) {

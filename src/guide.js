@@ -333,7 +333,7 @@ function generateHTML(configData, previousValuesPath = null) {
   });
   
   // Cargar valores anteriores y detectar cambios
-  const previousValuesPathDefault = previousValuesPath || path.join(__dirname, '..', '.previous-values.json');
+  const previousValuesPathDefault = previousValuesPath || path.join(__dirname, '..', '.data', '.previous-values.json');
   const previousValues = loadPreviousValues(previousValuesPathDefault);
   const changedValues = getChangedValues(currentValues, previousValues);
   

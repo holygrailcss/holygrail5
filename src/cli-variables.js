@@ -31,7 +31,7 @@ Comandos:
 
 Opciones:
   --css=<ruta>            Ruta al archivo CSS (por defecto: dist/output.css)
-  --history=<ruta>         Ruta al archivo de variables históricas (por defecto: .historical-variables.json)
+  --history=<ruta>         Ruta al archivo de variables históricas (por defecto: .data/.historical-variables.json)
 
 Ejemplos:
   node src/cli-variables.js list
