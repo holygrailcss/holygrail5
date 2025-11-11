@@ -133,9 +133,10 @@ function generateSpacingVariables(spacingMap, prefix, baseFontSize = 16) {
   const variables = [];
   
   Object.entries(spacingMap).forEach(([key, value]) => {
-    const remValue = pxToRem(value, baseFontSize);
+    // Si el valor termina en %, no lo convierte a rem
+    const finalValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
     const varName = `--${prefix}-spacing-${key}`;
-    variables.push({ varName, value: remValue, key });
+    variables.push({ varName, value: finalValue, key });
   });
   
   return variables;
@@ -251,35 +252,70 @@ ${cssClasses.join('\n\n')}
 // Establece el tamaño de fuente base del HTML para que los rem funcionen
 function generateResetCSS(baseFontSize = 16) {
   return `/* Reset CSS Mínimo */
-*,
-*::before,
-*::after {
+html {
   box-sizing: border-box;
+  font-size: ${baseFontSize}px;
 }
 
-html {
-  font-size: ${baseFontSize}px;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
   tab-size: 4;
 }
 
+* {
+  margin: 0;
+}
+
+html,
 body {
   margin: 0;
   padding: 0;
-  font-family: inherit;
-  line-height: inherit;
 }
 
+body {
+  line-height: calc(1em + 0.5rem);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+ol,
+ul,
+dl {
+  list-style: none;
+  padding-inline-start: unset;
+}
+
+img, picture, video, canvas, svg {
+  display: inline-block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
 `;
 }
 
-// Genera helpers de spacing (padding y margin) basados en spacingMap
+// Genera helpers de padding y margin basados en el spacingMap del config.json
 // Crea clases como p-4, pr-4, pl-4, pb-4, pt-4 para padding
 // y m-4, mr-4, ml-4, mb-4, mt-4 para margin
 // También genera versiones con prefijo md: para el breakpoint desktop
 // Usa las variables CSS definidas en :root
-function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontSize = 16) {
+function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontSize = 16, spacingImportant = []) {
   if (!spacingMap || typeof spacingMap !== 'object') {
     return '';
   }
@@ -320,6 +356,43 @@ function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontS
         desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
         desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
       });
+      
+      // Generar helpers con !important para los valores especificados en spacingImportant
+      if (spacingImportant && Array.isArray(spacingImportant)) {
+        spacingImportant.forEach(key => {
+          if (spacingMap[key]) {
+            const varName = `--${prefix}-spacing-${key}`;
+            
+            // Padding helpers con !important (mobile)
+            helpers.push(`  .p-${key}\\! { padding: var(${varName}) !important; }`);
+            helpers.push(`  .pr-${key}\\! { padding-inline-end: var(${varName}) !important; }`);
+            helpers.push(`  .pl-${key}\\! { padding-inline-start: var(${varName}) !important; }`);
+            helpers.push(`  .pb-${key}\\! { padding-bottom: var(${varName}) !important; }`);
+            helpers.push(`  .pt-${key}\\! { padding-top: var(${varName}) !important; }`);
+            
+            // Margin helpers con !important (mobile)
+            helpers.push(`  .m-${key}\\! { margin: var(${varName}) !important; }`);
+            helpers.push(`  .mr-${key}\\! { margin-inline-end: var(${varName}) !important; }`);
+            helpers.push(`  .ml-${key}\\! { margin-inline-start: var(${varName}) !important; }`);
+            helpers.push(`  .mb-${key}\\! { margin-bottom: var(${varName}) !important; }`);
+            helpers.push(`  .mt-${key}\\! { margin-top: var(${varName}) !important; }`);
+            
+            // Padding helpers con !important y prefijo md: (desktop)
+            desktopHelpers.push(`    .md\\:p-${key}\\! { padding: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:pr-${key}\\! { padding-inline-end: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:pl-${key}\\! { padding-inline-start: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:pb-${key}\\! { padding-bottom: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:pt-${key}\\! { padding-top: var(${varName}) !important; }`);
+            
+            // Margin helpers con !important y prefijo md: (desktop)
+            desktopHelpers.push(`    .md\\:m-${key}\\! { margin: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:mr-${key}\\! { margin-inline-end: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:ml-${key}\\! { margin-inline-start: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:mb-${key}\\! { margin-bottom: var(${varName}) !important; }`);
+            desktopHelpers.push(`    .md\\:mt-${key}\\! { margin-top: var(${varName}) !important; }`);
+          }
+        });
+      }
   
   if (helpers.length === 0) {
     return '';
@@ -339,6 +412,64 @@ ${desktopHelpers.join('\n')}
   return baseHelpers;
 }
 
+function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, baseFontSize = 16) {
+  if (!helpers || typeof helpers !== 'object') {
+    return '';
+  }
+
+  let css = '\n/* Layout Helpers */\n';
+
+  Object.entries(helpers).forEach(([helperName, config]) => {
+    const { property, class: className, responsive, values, useSpacing } = config;
+
+    if (useSpacing && spacingMap) {
+      Object.entries(spacingMap).forEach(([key, value]) => {
+        const finalValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
+        css += `.${prefix}-${className}-${key} { ${property}: ${finalValue}; }\n`;
+      });
+
+      if (responsive) {
+        css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
+        Object.entries(spacingMap).forEach(([key, value]) => {
+          const finalValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
+          css += `  .md\\:${prefix}-${className}-${key} { ${property}: ${finalValue}; }\n`;
+        });
+        css += '}\n';
+      }
+    } else if (values) {
+      if (Array.isArray(values)) {
+        values.forEach(value => {
+          css += `.${prefix}-${className}-${value} { ${property}: ${value}; }\n`;
+        });
+
+        if (responsive) {
+          css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
+          values.forEach(value => {
+            css += `  .md\\:${prefix}-${className}-${value} { ${property}: ${value}; }\n`;
+          });
+          css += '}\n';
+        }
+      } else if (typeof values === 'object') {
+        Object.entries(values).forEach(([key, value]) => {
+          css += `.${prefix}-${className}-${key} { ${property}: ${value}; }\n`;
+        });
+
+        if (responsive) {
+          css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
+          Object.entries(values).forEach(([key, value]) => {
+            css += `  .md\\:${prefix}-${className}-${key} { ${property}: ${value}; }\n`;
+          });
+          css += '}\n';
+        }
+      }
+    }
+
+    css += '\n';
+  });
+
+  return css;
+}
+
 // Función principal que genera todo el CSS desde la configuración JSON
 // Organiza el CSS en bloques separados: reset, variables, tipografías mobile y desktop
 function generateCSS(configData) {
@@ -356,7 +487,8 @@ function generateCSS(configData) {
   // Genera cada bloque del CSS
   const resetCSS = generateResetCSS(baseFontSize);
   const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars);
-  const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize);
+  const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize, configData.spacingImportant);
+  const layoutHelpers = configData.helpers ? generateLayoutHelpers(configData.helpers, configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize) : '';
   const mobileTypography = generateTypographyBlock('mobile', configData.breakpoints.mobile, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   const desktopTypography = generateTypographyBlock('desktop', configData.breakpoints.desktop, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   
@@ -366,7 +498,7 @@ function generateCSS(configData) {
 ${rootVars}
 }
 
-${spacingHelpers}${mobileTypography}
+${spacingHelpers}${layoutHelpers}${mobileTypography}
 
 ${desktopTypography}`;
 }
