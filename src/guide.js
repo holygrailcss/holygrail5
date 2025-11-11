@@ -822,7 +822,7 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .section {
-      margin-bottom: 4rem;
+
       background: white;
       padding: 0rem;
       border-radius: 8px;
