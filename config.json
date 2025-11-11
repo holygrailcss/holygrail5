@@ -49,12 +49,14 @@
       "property": "display",
       "class": "d",
       "responsive": true,
+      "description": "Tipo de caja de renderizado",
       "values": ["contents", "inline", "inline-block", "block", "flex", "inline-flex", "none"]
     },
     "flex-direction": {
       "property": "flex-direction",
       "class": "flex",
       "responsive": true,
+      "description": "Dirección del eje principal (horizontal o vertical)",
       "values": {
         "row": "row",
         "column": "column"
@@ -64,6 +66,7 @@
       "property": "flex-wrap",
       "class": "flex",
       "responsive": true,
+      "description": "Permite o no el ajuste en múltiples líneas",
       "values": {
         "nowrap": "nowrap",
         "wrap": "wrap"
@@ -73,6 +76,7 @@
       "property": "flex-grow",
       "class": "grow",
       "responsive": true,
+      "description": "Capacidad de crecer para ocupar espacio disponible",
       "values": {
         "0": "0",
         "1": "1",
@@ -85,6 +89,7 @@
       "property": "flex-shrink",
       "class": "shrink",
       "responsive": true,
+      "description": "Capacidad de encogerse cuando el espacio es limitado",
       "values": {
         "0": "0",
         "1": "1",
@@ -97,6 +102,7 @@
       "property": "order",
       "class": "order",
       "responsive": true,
+      "description": "Orden de visualización independiente del HTML",
       "values": {
         "3-neg": "-3",
         "2-neg": "-2",
@@ -113,6 +119,7 @@
       "property": "justify-content",
       "class": "justify",
       "responsive": true,
+      "description": "Alineación en el eje principal",
       "values": {
         "stretch": "stretch",
         "start": "flex-start",
@@ -127,6 +134,7 @@
       "property": "justify-items",
       "class": "justify-items",
       "responsive": true,
+      "description": "Alineación horizontal en grid",
       "values": {
         "stretch": "stretch",
         "start": "flex-start",
@@ -141,6 +149,7 @@
       "property": "align-content",
       "class": "content",
       "responsive": true,
+      "description": "Alineación de líneas en el eje cruzado",
       "values": {
         "stretch": "stretch",
         "start": "flex-start",
@@ -155,6 +164,7 @@
       "property": "align-items",
       "class": "items",
       "responsive": true,
+      "description": "Alineación en el eje cruzado",
       "values": {
         "stretch": "stretch",
         "start": "flex-start",
@@ -167,18 +177,21 @@
       "property": "row-gap",
       "class": "gap-y",
       "responsive": true,
+      "description": "Espacio entre filas",
       "useSpacing": true
     },
     "column-gap": {
       "property": "column-gap",
       "class": "gap-x",
       "responsive": true,
+      "description": "Espacio entre columnas",
       "useSpacing": true
     },
     "gap": {
       "property": "gap",
       "class": "gap",
       "responsive": true,
+      "description": "Espacio entre filas y columnas",
       "useSpacing": true
     }
   },

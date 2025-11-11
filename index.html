@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
-  <link rel="stylesheet" href="output.css?v=1762865999943">
+  <link rel="stylesheet" href="output.css?v=1762872003665">
   <style>
     * {
       scroll-behavior: smooth;
@@ -299,7 +299,7 @@
       <div class="sidebar-header">
         <h2>HolyGrail5</h2>
         <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
-        last update: 11/11/2025, 13:59:59
+        last update: 11/11/2025, 15:40:03
       </p>
       
       <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.25rem;">
@@ -366,7 +366,12 @@
 
     
     <div class="section" id="font-families">
-      <h2 class="section-title">Font Families</h2>
+      <div class="section-title">
+        <h2 >Font Families</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Font families disponibles para la tipografía.
+        </p>
+      </div>
       
     <table class="guide-table">
       <thead>
@@ -397,7 +402,12 @@
     
 
     <div class="section" id="tipografia">
-      <h2 class="section-title">Clases de Tipografía</h2>
+      <div class="section-title">
+        <h2 >Clases de Tipografía</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Clases de tipografía disponibles.
+        </p>
+      </div>
       
     <table class="guide-table">
       <thead>
@@ -594,7 +604,12 @@
     </div>
 
     <div class="section" id="variables">
-      <h2 class="section-title">Variables CSS Compartidas</h2>
+      <div class="section-title">
+        <h2 >Variables CSS Compartidas</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Variables CSS compartidas.
+        </p>
+      </div>
       
     <table class="guide-table">
       <thead>
@@ -949,7 +964,13 @@
 
     
     <div class="section" id="spacing">
-      <h2 class="section-title">Helpers de Spacing</h2>
+      <div class="section-title">
+        <h2 >Helpers de Spacing</h2>
+            <p class="text-m" style="margin-top: 1rem;">
+        Clases helper para padding y margin basadas en el spacingMap.
+        Usa las variables CSS definidas en :root.
+            </p>
+      </div>
       
     <table class="guide-table">
       <thead>
@@ -1156,10 +1177,7 @@
       </tr>
       </tbody>
     </table>
-      <p class="text-m" style="margin-top: 1rem;">
-        Clases helper para padding y margin basadas en el spacingMap. 
-        Usa las variables CSS definidas en :root.
-      </p>
+ 
       
       <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
         <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Helpers con prefijo md: (Desktop)</h3>
@@ -1195,624 +1213,936 @@
 
     
     <div class="section" id="layout">
-      <h2 class="section-title">Helpers de Layout</h2>
+      <div class="section-title">
+        <h2 >Helpers de Layout</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Clases helper para display, flexbox, alignment y gap. 
+        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥992px).
+        </p>
+      </div>
       
     <table class="guide-table">
       <thead>
         <tr>
           <th>Clases Helper</th>
+          <th>Clases Helper (md:)</th>
           <th>Propiedad CSS</th>
+          <th>Explicación</th>
         </tr>
       </thead>
       <tbody>
         
       <tr>
-        <td class="table-name">.hg-d-contents, .md:hg-d-contents</td>
+        <td class="table-name">.hg-d-contents</td>
+        <td class="table-name">.md:hg-d-contents</td>
         <td class="table-value">display: contents</td>
+        <td class="table-value">Tipo de caja de renderizado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-d-inline, .md:hg-d-inline</td>
+        <td class="table-name">.hg-d-inline</td>
+        <td class="table-name">.md:hg-d-inline</td>
         <td class="table-value">display: inline</td>
+        <td class="table-value">Tipo de caja de renderizado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-d-inline-block, .md:hg-d-inline-block</td>
+        <td class="table-name">.hg-d-inline-block</td>
+        <td class="table-name">.md:hg-d-inline-block</td>
         <td class="table-value">display: inline-block</td>
+        <td class="table-value">Tipo de caja de renderizado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-d-block, .md:hg-d-block</td>
+        <td class="table-name">.hg-d-block</td>
+        <td class="table-name">.md:hg-d-block</td>
         <td class="table-value">display: block</td>
+        <td class="table-value">Tipo de caja de renderizado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-d-flex, .md:hg-d-flex</td>
+        <td class="table-name">.hg-d-flex</td>
+        <td class="table-name">.md:hg-d-flex</td>
         <td class="table-value">display: flex</td>
+        <td class="table-value">Tipo de caja de renderizado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-d-inline-flex, .md:hg-d-inline-flex</td>
+        <td class="table-name">.hg-d-inline-flex</td>
+        <td class="table-name">.md:hg-d-inline-flex</td>
         <td class="table-value">display: inline-flex</td>
+        <td class="table-value">Tipo de caja de renderizado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-d-none, .md:hg-d-none</td>
+        <td class="table-name">.hg-d-none</td>
+        <td class="table-name">.md:hg-d-none</td>
         <td class="table-value">display: none</td>
+        <td class="table-value">Tipo de caja de renderizado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-flex-row, .md:hg-flex-row</td>
+        <td class="table-name">.hg-flex-row</td>
+        <td class="table-name">.md:hg-flex-row</td>
         <td class="table-value">flex-direction: row</td>
+        <td class="table-value">Dirección del eje principal (horizontal o vertical)</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-flex-column, .md:hg-flex-column</td>
+        <td class="table-name">.hg-flex-column</td>
+        <td class="table-name">.md:hg-flex-column</td>
         <td class="table-value">flex-direction: column</td>
+        <td class="table-value">Dirección del eje principal (horizontal o vertical)</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-flex-nowrap, .md:hg-flex-nowrap</td>
+        <td class="table-name">.hg-flex-nowrap</td>
+        <td class="table-name">.md:hg-flex-nowrap</td>
         <td class="table-value">flex-wrap: nowrap</td>
+        <td class="table-value">Permite o no el ajuste en múltiples líneas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-flex-wrap, .md:hg-flex-wrap</td>
+        <td class="table-name">.hg-flex-wrap</td>
+        <td class="table-name">.md:hg-flex-wrap</td>
         <td class="table-value">flex-wrap: wrap</td>
+        <td class="table-value">Permite o no el ajuste en múltiples líneas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-grow-0, .md:hg-grow-0</td>
+        <td class="table-name">.hg-grow-0</td>
+        <td class="table-name">.md:hg-grow-0</td>
         <td class="table-value">flex-grow: 0</td>
+        <td class="table-value">Capacidad de crecer para ocupar espacio disponible</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-grow-1, .md:hg-grow-1</td>
+        <td class="table-name">.hg-grow-1</td>
+        <td class="table-name">.md:hg-grow-1</td>
         <td class="table-value">flex-grow: 1</td>
+        <td class="table-value">Capacidad de crecer para ocupar espacio disponible</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-grow-2, .md:hg-grow-2</td>
+        <td class="table-name">.hg-grow-2</td>
+        <td class="table-name">.md:hg-grow-2</td>
         <td class="table-value">flex-grow: 2</td>
+        <td class="table-value">Capacidad de crecer para ocupar espacio disponible</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-grow-3, .md:hg-grow-3</td>
+        <td class="table-name">.hg-grow-3</td>
+        <td class="table-name">.md:hg-grow-3</td>
         <td class="table-value">flex-grow: 3</td>
+        <td class="table-value">Capacidad de crecer para ocupar espacio disponible</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-grow-auto, .md:hg-grow-auto</td>
+        <td class="table-name">.hg-grow-auto</td>
+        <td class="table-name">.md:hg-grow-auto</td>
         <td class="table-value">flex-grow: auto</td>
+        <td class="table-value">Capacidad de crecer para ocupar espacio disponible</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-shrink-0, .md:hg-shrink-0</td>
+        <td class="table-name">.hg-shrink-0</td>
+        <td class="table-name">.md:hg-shrink-0</td>
         <td class="table-value">flex-shrink: 0</td>
+        <td class="table-value">Capacidad de encogerse cuando el espacio es limitado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-shrink-1, .md:hg-shrink-1</td>
+        <td class="table-name">.hg-shrink-1</td>
+        <td class="table-name">.md:hg-shrink-1</td>
         <td class="table-value">flex-shrink: 1</td>
+        <td class="table-value">Capacidad de encogerse cuando el espacio es limitado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-shrink-2, .md:hg-shrink-2</td>
+        <td class="table-name">.hg-shrink-2</td>
+        <td class="table-name">.md:hg-shrink-2</td>
         <td class="table-value">flex-shrink: 2</td>
+        <td class="table-value">Capacidad de encogerse cuando el espacio es limitado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-shrink-3, .md:hg-shrink-3</td>
+        <td class="table-name">.hg-shrink-3</td>
+        <td class="table-name">.md:hg-shrink-3</td>
         <td class="table-value">flex-shrink: 3</td>
+        <td class="table-value">Capacidad de encogerse cuando el espacio es limitado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-shrink-auto, .md:hg-shrink-auto</td>
+        <td class="table-name">.hg-shrink-auto</td>
+        <td class="table-name">.md:hg-shrink-auto</td>
         <td class="table-value">flex-shrink: auto</td>
+        <td class="table-value">Capacidad de encogerse cuando el espacio es limitado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-0, .md:hg-order-0</td>
+        <td class="table-name">.hg-order-0</td>
+        <td class="table-name">.md:hg-order-0</td>
         <td class="table-value">order: 0</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-1, .md:hg-order-1</td>
+        <td class="table-name">.hg-order-1</td>
+        <td class="table-name">.md:hg-order-1</td>
         <td class="table-value">order: 1</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-2, .md:hg-order-2</td>
+        <td class="table-name">.hg-order-2</td>
+        <td class="table-name">.md:hg-order-2</td>
         <td class="table-value">order: 2</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-3, .md:hg-order-3</td>
+        <td class="table-name">.hg-order-3</td>
+        <td class="table-name">.md:hg-order-3</td>
         <td class="table-value">order: 3</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-3-neg, .md:hg-order-3-neg</td>
+        <td class="table-name">.hg-order-3-neg</td>
+        <td class="table-name">.md:hg-order-3-neg</td>
         <td class="table-value">order: -3</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-2-neg, .md:hg-order-2-neg</td>
+        <td class="table-name">.hg-order-2-neg</td>
+        <td class="table-name">.md:hg-order-2-neg</td>
         <td class="table-value">order: -2</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-1-neg, .md:hg-order-1-neg</td>
+        <td class="table-name">.hg-order-1-neg</td>
+        <td class="table-name">.md:hg-order-1-neg</td>
         <td class="table-value">order: -1</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-first, .md:hg-order-first</td>
+        <td class="table-name">.hg-order-first</td>
+        <td class="table-name">.md:hg-order-first</td>
         <td class="table-value">order: -9999</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-order-last, .md:hg-order-last</td>
+        <td class="table-name">.hg-order-last</td>
+        <td class="table-name">.md:hg-order-last</td>
         <td class="table-value">order: 9999</td>
+        <td class="table-value">Orden de visualización independiente del HTML</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-stretch, .md:hg-justify-stretch</td>
+        <td class="table-name">.hg-justify-stretch</td>
+        <td class="table-name">.md:hg-justify-stretch</td>
         <td class="table-value">justify-content: stretch</td>
+        <td class="table-value">Alineación en el eje principal</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-start, .md:hg-justify-start</td>
+        <td class="table-name">.hg-justify-start</td>
+        <td class="table-name">.md:hg-justify-start</td>
         <td class="table-value">justify-content: flex-start</td>
+        <td class="table-value">Alineación en el eje principal</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-end, .md:hg-justify-end</td>
+        <td class="table-name">.hg-justify-end</td>
+        <td class="table-name">.md:hg-justify-end</td>
         <td class="table-value">justify-content: flex-end</td>
+        <td class="table-value">Alineación en el eje principal</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-center, .md:hg-justify-center</td>
+        <td class="table-name">.hg-justify-center</td>
+        <td class="table-name">.md:hg-justify-center</td>
         <td class="table-value">justify-content: center</td>
+        <td class="table-value">Alineación en el eje principal</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-between, .md:hg-justify-between</td>
+        <td class="table-name">.hg-justify-between</td>
+        <td class="table-name">.md:hg-justify-between</td>
         <td class="table-value">justify-content: space-between</td>
+        <td class="table-value">Alineación en el eje principal</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-around, .md:hg-justify-around</td>
+        <td class="table-name">.hg-justify-around</td>
+        <td class="table-name">.md:hg-justify-around</td>
         <td class="table-value">justify-content: space-around</td>
+        <td class="table-value">Alineación en el eje principal</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-evenly, .md:hg-justify-evenly</td>
+        <td class="table-name">.hg-justify-evenly</td>
+        <td class="table-name">.md:hg-justify-evenly</td>
         <td class="table-value">justify-content: space-evenly</td>
+        <td class="table-value">Alineación en el eje principal</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-items-stretch, .md:hg-justify-items-stretch</td>
+        <td class="table-name">.hg-justify-items-stretch</td>
+        <td class="table-name">.md:hg-justify-items-stretch</td>
         <td class="table-value">justify-items: stretch</td>
+        <td class="table-value">Alineación horizontal en grid</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-items-start, .md:hg-justify-items-start</td>
+        <td class="table-name">.hg-justify-items-start</td>
+        <td class="table-name">.md:hg-justify-items-start</td>
         <td class="table-value">justify-items: flex-start</td>
+        <td class="table-value">Alineación horizontal en grid</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-items-end, .md:hg-justify-items-end</td>
+        <td class="table-name">.hg-justify-items-end</td>
+        <td class="table-name">.md:hg-justify-items-end</td>
         <td class="table-value">justify-items: flex-end</td>
+        <td class="table-value">Alineación horizontal en grid</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-items-center, .md:hg-justify-items-center</td>
+        <td class="table-name">.hg-justify-items-center</td>
+        <td class="table-name">.md:hg-justify-items-center</td>
         <td class="table-value">justify-items: center</td>
+        <td class="table-value">Alineación horizontal en grid</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-items-between, .md:hg-justify-items-between</td>
+        <td class="table-name">.hg-justify-items-between</td>
+        <td class="table-name">.md:hg-justify-items-between</td>
         <td class="table-value">justify-items: space-between</td>
+        <td class="table-value">Alineación horizontal en grid</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-items-around, .md:hg-justify-items-around</td>
+        <td class="table-name">.hg-justify-items-around</td>
+        <td class="table-name">.md:hg-justify-items-around</td>
         <td class="table-value">justify-items: space-around</td>
+        <td class="table-value">Alineación horizontal en grid</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-justify-items-evenly, .md:hg-justify-items-evenly</td>
+        <td class="table-name">.hg-justify-items-evenly</td>
+        <td class="table-name">.md:hg-justify-items-evenly</td>
         <td class="table-value">justify-items: space-evenly</td>
+        <td class="table-value">Alineación horizontal en grid</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-content-stretch, .md:hg-content-stretch</td>
+        <td class="table-name">.hg-content-stretch</td>
+        <td class="table-name">.md:hg-content-stretch</td>
         <td class="table-value">align-content: stretch</td>
+        <td class="table-value">Alineación de líneas en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-content-start, .md:hg-content-start</td>
+        <td class="table-name">.hg-content-start</td>
+        <td class="table-name">.md:hg-content-start</td>
         <td class="table-value">align-content: flex-start</td>
+        <td class="table-value">Alineación de líneas en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-content-end, .md:hg-content-end</td>
+        <td class="table-name">.hg-content-end</td>
+        <td class="table-name">.md:hg-content-end</td>
         <td class="table-value">align-content: flex-end</td>
+        <td class="table-value">Alineación de líneas en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-content-center, .md:hg-content-center</td>
+        <td class="table-name">.hg-content-center</td>
+        <td class="table-name">.md:hg-content-center</td>
         <td class="table-value">align-content: center</td>
+        <td class="table-value">Alineación de líneas en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-content-between, .md:hg-content-between</td>
+        <td class="table-name">.hg-content-between</td>
+        <td class="table-name">.md:hg-content-between</td>
         <td class="table-value">align-content: space-between</td>
+        <td class="table-value">Alineación de líneas en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-content-around, .md:hg-content-around</td>
+        <td class="table-name">.hg-content-around</td>
+        <td class="table-name">.md:hg-content-around</td>
         <td class="table-value">align-content: space-around</td>
+        <td class="table-value">Alineación de líneas en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-content-evenly, .md:hg-content-evenly</td>
+        <td class="table-name">.hg-content-evenly</td>
+        <td class="table-name">.md:hg-content-evenly</td>
         <td class="table-value">align-content: space-evenly</td>
+        <td class="table-value">Alineación de líneas en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-items-stretch, .md:hg-items-stretch</td>
+        <td class="table-name">.hg-items-stretch</td>
+        <td class="table-name">.md:hg-items-stretch</td>
         <td class="table-value">align-items: stretch</td>
+        <td class="table-value">Alineación en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-items-start, .md:hg-items-start</td>
+        <td class="table-name">.hg-items-start</td>
+        <td class="table-name">.md:hg-items-start</td>
         <td class="table-value">align-items: flex-start</td>
+        <td class="table-value">Alineación en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-items-end, .md:hg-items-end</td>
+        <td class="table-name">.hg-items-end</td>
+        <td class="table-name">.md:hg-items-end</td>
         <td class="table-value">align-items: flex-end</td>
+        <td class="table-value">Alineación en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-items-center, .md:hg-items-center</td>
+        <td class="table-name">.hg-items-center</td>
+        <td class="table-name">.md:hg-items-center</td>
         <td class="table-value">align-items: center</td>
+        <td class="table-value">Alineación en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-items-baseline, .md:hg-items-baseline</td>
+        <td class="table-name">.hg-items-baseline</td>
+        <td class="table-name">.md:hg-items-baseline</td>
         <td class="table-value">align-items: baseline</td>
+        <td class="table-value">Alineación en el eje cruzado</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-0, .md:hg-gap-y-0</td>
+        <td class="table-name">.hg-gap-y-0</td>
+        <td class="table-name">.md:hg-gap-y-0</td>
         <td class="table-value">row-gap: 0</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-4, .md:hg-gap-y-4</td>
+        <td class="table-name">.hg-gap-y-4</td>
+        <td class="table-name">.md:hg-gap-y-4</td>
         <td class="table-value">row-gap: 0.25rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-8, .md:hg-gap-y-8</td>
+        <td class="table-name">.hg-gap-y-8</td>
+        <td class="table-name">.md:hg-gap-y-8</td>
         <td class="table-value">row-gap: 0.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-12, .md:hg-gap-y-12</td>
+        <td class="table-name">.hg-gap-y-12</td>
+        <td class="table-name">.md:hg-gap-y-12</td>
         <td class="table-value">row-gap: 0.75rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-16, .md:hg-gap-y-16</td>
+        <td class="table-name">.hg-gap-y-16</td>
+        <td class="table-name">.md:hg-gap-y-16</td>
         <td class="table-value">row-gap: 1rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-20, .md:hg-gap-y-20</td>
+        <td class="table-name">.hg-gap-y-20</td>
+        <td class="table-name">.md:hg-gap-y-20</td>
         <td class="table-value">row-gap: 1.25rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-24, .md:hg-gap-y-24</td>
+        <td class="table-name">.hg-gap-y-24</td>
+        <td class="table-name">.md:hg-gap-y-24</td>
         <td class="table-value">row-gap: 1.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-32, .md:hg-gap-y-32</td>
+        <td class="table-name">.hg-gap-y-32</td>
+        <td class="table-name">.md:hg-gap-y-32</td>
         <td class="table-value">row-gap: 2rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-36, .md:hg-gap-y-36</td>
+        <td class="table-name">.hg-gap-y-36</td>
+        <td class="table-name">.md:hg-gap-y-36</td>
         <td class="table-value">row-gap: 2.25rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-40, .md:hg-gap-y-40</td>
+        <td class="table-name">.hg-gap-y-40</td>
+        <td class="table-name">.md:hg-gap-y-40</td>
         <td class="table-value">row-gap: 2.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-64, .md:hg-gap-y-64</td>
+        <td class="table-name">.hg-gap-y-64</td>
+        <td class="table-name">.md:hg-gap-y-64</td>
         <td class="table-value">row-gap: 4rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-72, .md:hg-gap-y-72</td>
+        <td class="table-name">.hg-gap-y-72</td>
+        <td class="table-name">.md:hg-gap-y-72</td>
         <td class="table-value">row-gap: 4.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-80, .md:hg-gap-y-80</td>
+        <td class="table-name">.hg-gap-y-80</td>
+        <td class="table-name">.md:hg-gap-y-80</td>
         <td class="table-value">row-gap: 5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-88, .md:hg-gap-y-88</td>
+        <td class="table-name">.hg-gap-y-88</td>
+        <td class="table-name">.md:hg-gap-y-88</td>
         <td class="table-value">row-gap: 5.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-96, .md:hg-gap-y-96</td>
+        <td class="table-name">.hg-gap-y-96</td>
+        <td class="table-name">.md:hg-gap-y-96</td>
         <td class="table-value">row-gap: 6rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-104, .md:hg-gap-y-104</td>
+        <td class="table-name">.hg-gap-y-104</td>
+        <td class="table-name">.md:hg-gap-y-104</td>
         <td class="table-value">row-gap: 6.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-112, .md:hg-gap-y-112</td>
+        <td class="table-name">.hg-gap-y-112</td>
+        <td class="table-name">.md:hg-gap-y-112</td>
         <td class="table-value">row-gap: 7rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-120, .md:hg-gap-y-120</td>
+        <td class="table-name">.hg-gap-y-120</td>
+        <td class="table-name">.md:hg-gap-y-120</td>
         <td class="table-value">row-gap: 7.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-128, .md:hg-gap-y-128</td>
+        <td class="table-name">.hg-gap-y-128</td>
+        <td class="table-name">.md:hg-gap-y-128</td>
         <td class="table-value">row-gap: 8rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-136, .md:hg-gap-y-136</td>
+        <td class="table-name">.hg-gap-y-136</td>
+        <td class="table-name">.md:hg-gap-y-136</td>
         <td class="table-value">row-gap: 8.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-144, .md:hg-gap-y-144</td>
+        <td class="table-name">.hg-gap-y-144</td>
+        <td class="table-name">.md:hg-gap-y-144</td>
         <td class="table-value">row-gap: 9rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-152, .md:hg-gap-y-152</td>
+        <td class="table-name">.hg-gap-y-152</td>
+        <td class="table-name">.md:hg-gap-y-152</td>
         <td class="table-value">row-gap: 9.5rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-160, .md:hg-gap-y-160</td>
+        <td class="table-name">.hg-gap-y-160</td>
+        <td class="table-name">.md:hg-gap-y-160</td>
         <td class="table-value">row-gap: 10rem</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-20-percent, .md:hg-gap-y-20-percent</td>
+        <td class="table-name">.hg-gap-y-20-percent</td>
+        <td class="table-name">.md:hg-gap-y-20-percent</td>
         <td class="table-value">row-gap: 20%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-25-percent, .md:hg-gap-y-25-percent</td>
+        <td class="table-name">.hg-gap-y-25-percent</td>
+        <td class="table-name">.md:hg-gap-y-25-percent</td>
         <td class="table-value">row-gap: 25%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-33-percent, .md:hg-gap-y-33-percent</td>
+        <td class="table-name">.hg-gap-y-33-percent</td>
+        <td class="table-name">.md:hg-gap-y-33-percent</td>
         <td class="table-value">row-gap: 33.333333%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-40-percent, .md:hg-gap-y-40-percent</td>
+        <td class="table-name">.hg-gap-y-40-percent</td>
+        <td class="table-name">.md:hg-gap-y-40-percent</td>
         <td class="table-value">row-gap: 40%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-50-percent, .md:hg-gap-y-50-percent</td>
+        <td class="table-name">.hg-gap-y-50-percent</td>
+        <td class="table-name">.md:hg-gap-y-50-percent</td>
         <td class="table-value">row-gap: 50%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-60-percent, .md:hg-gap-y-60-percent</td>
+        <td class="table-name">.hg-gap-y-60-percent</td>
+        <td class="table-name">.md:hg-gap-y-60-percent</td>
         <td class="table-value">row-gap: 60%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-66-percent, .md:hg-gap-y-66-percent</td>
+        <td class="table-name">.hg-gap-y-66-percent</td>
+        <td class="table-name">.md:hg-gap-y-66-percent</td>
         <td class="table-value">row-gap: 66.666667%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-75-percent, .md:hg-gap-y-75-percent</td>
+        <td class="table-name">.hg-gap-y-75-percent</td>
+        <td class="table-name">.md:hg-gap-y-75-percent</td>
         <td class="table-value">row-gap: 75%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-y-100-percent, .md:hg-gap-y-100-percent</td>
+        <td class="table-name">.hg-gap-y-100-percent</td>
+        <td class="table-name">.md:hg-gap-y-100-percent</td>
         <td class="table-value">row-gap: 100%</td>
+        <td class="table-value">Espacio entre filas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-0, .md:hg-gap-x-0</td>
+        <td class="table-name">.hg-gap-x-0</td>
+        <td class="table-name">.md:hg-gap-x-0</td>
         <td class="table-value">column-gap: 0</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-4, .md:hg-gap-x-4</td>
+        <td class="table-name">.hg-gap-x-4</td>
+        <td class="table-name">.md:hg-gap-x-4</td>
         <td class="table-value">column-gap: 0.25rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-8, .md:hg-gap-x-8</td>
+        <td class="table-name">.hg-gap-x-8</td>
+        <td class="table-name">.md:hg-gap-x-8</td>
         <td class="table-value">column-gap: 0.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-12, .md:hg-gap-x-12</td>
+        <td class="table-name">.hg-gap-x-12</td>
+        <td class="table-name">.md:hg-gap-x-12</td>
         <td class="table-value">column-gap: 0.75rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-16, .md:hg-gap-x-16</td>
+        <td class="table-name">.hg-gap-x-16</td>
+        <td class="table-name">.md:hg-gap-x-16</td>
         <td class="table-value">column-gap: 1rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-20, .md:hg-gap-x-20</td>
+        <td class="table-name">.hg-gap-x-20</td>
+        <td class="table-name">.md:hg-gap-x-20</td>
         <td class="table-value">column-gap: 1.25rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-24, .md:hg-gap-x-24</td>
+        <td class="table-name">.hg-gap-x-24</td>
+        <td class="table-name">.md:hg-gap-x-24</td>
         <td class="table-value">column-gap: 1.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-32, .md:hg-gap-x-32</td>
+        <td class="table-name">.hg-gap-x-32</td>
+        <td class="table-name">.md:hg-gap-x-32</td>
         <td class="table-value">column-gap: 2rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-36, .md:hg-gap-x-36</td>
+        <td class="table-name">.hg-gap-x-36</td>
+        <td class="table-name">.md:hg-gap-x-36</td>
         <td class="table-value">column-gap: 2.25rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-40, .md:hg-gap-x-40</td>
+        <td class="table-name">.hg-gap-x-40</td>
+        <td class="table-name">.md:hg-gap-x-40</td>
         <td class="table-value">column-gap: 2.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-64, .md:hg-gap-x-64</td>
+        <td class="table-name">.hg-gap-x-64</td>
+        <td class="table-name">.md:hg-gap-x-64</td>
         <td class="table-value">column-gap: 4rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-72, .md:hg-gap-x-72</td>
+        <td class="table-name">.hg-gap-x-72</td>
+        <td class="table-name">.md:hg-gap-x-72</td>
         <td class="table-value">column-gap: 4.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-80, .md:hg-gap-x-80</td>
+        <td class="table-name">.hg-gap-x-80</td>
+        <td class="table-name">.md:hg-gap-x-80</td>
         <td class="table-value">column-gap: 5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-88, .md:hg-gap-x-88</td>
+        <td class="table-name">.hg-gap-x-88</td>
+        <td class="table-name">.md:hg-gap-x-88</td>
         <td class="table-value">column-gap: 5.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-96, .md:hg-gap-x-96</td>
+        <td class="table-name">.hg-gap-x-96</td>
+        <td class="table-name">.md:hg-gap-x-96</td>
         <td class="table-value">column-gap: 6rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-104, .md:hg-gap-x-104</td>
+        <td class="table-name">.hg-gap-x-104</td>
+        <td class="table-name">.md:hg-gap-x-104</td>
         <td class="table-value">column-gap: 6.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-112, .md:hg-gap-x-112</td>
+        <td class="table-name">.hg-gap-x-112</td>
+        <td class="table-name">.md:hg-gap-x-112</td>
         <td class="table-value">column-gap: 7rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-120, .md:hg-gap-x-120</td>
+        <td class="table-name">.hg-gap-x-120</td>
+        <td class="table-name">.md:hg-gap-x-120</td>
         <td class="table-value">column-gap: 7.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-128, .md:hg-gap-x-128</td>
+        <td class="table-name">.hg-gap-x-128</td>
+        <td class="table-name">.md:hg-gap-x-128</td>
         <td class="table-value">column-gap: 8rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-136, .md:hg-gap-x-136</td>
+        <td class="table-name">.hg-gap-x-136</td>
+        <td class="table-name">.md:hg-gap-x-136</td>
         <td class="table-value">column-gap: 8.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-144, .md:hg-gap-x-144</td>
+        <td class="table-name">.hg-gap-x-144</td>
+        <td class="table-name">.md:hg-gap-x-144</td>
         <td class="table-value">column-gap: 9rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-152, .md:hg-gap-x-152</td>
+        <td class="table-name">.hg-gap-x-152</td>
+        <td class="table-name">.md:hg-gap-x-152</td>
         <td class="table-value">column-gap: 9.5rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-160, .md:hg-gap-x-160</td>
+        <td class="table-name">.hg-gap-x-160</td>
+        <td class="table-name">.md:hg-gap-x-160</td>
         <td class="table-value">column-gap: 10rem</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-20-percent, .md:hg-gap-x-20-percent</td>
+        <td class="table-name">.hg-gap-x-20-percent</td>
+        <td class="table-name">.md:hg-gap-x-20-percent</td>
         <td class="table-value">column-gap: 20%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-25-percent, .md:hg-gap-x-25-percent</td>
+        <td class="table-name">.hg-gap-x-25-percent</td>
+        <td class="table-name">.md:hg-gap-x-25-percent</td>
         <td class="table-value">column-gap: 25%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-33-percent, .md:hg-gap-x-33-percent</td>
+        <td class="table-name">.hg-gap-x-33-percent</td>
+        <td class="table-name">.md:hg-gap-x-33-percent</td>
         <td class="table-value">column-gap: 33.333333%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-40-percent, .md:hg-gap-x-40-percent</td>
+        <td class="table-name">.hg-gap-x-40-percent</td>
+        <td class="table-name">.md:hg-gap-x-40-percent</td>
         <td class="table-value">column-gap: 40%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-50-percent, .md:hg-gap-x-50-percent</td>
+        <td class="table-name">.hg-gap-x-50-percent</td>
+        <td class="table-name">.md:hg-gap-x-50-percent</td>
         <td class="table-value">column-gap: 50%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-60-percent, .md:hg-gap-x-60-percent</td>
+        <td class="table-name">.hg-gap-x-60-percent</td>
+        <td class="table-name">.md:hg-gap-x-60-percent</td>
         <td class="table-value">column-gap: 60%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-66-percent, .md:hg-gap-x-66-percent</td>
+        <td class="table-name">.hg-gap-x-66-percent</td>
+        <td class="table-name">.md:hg-gap-x-66-percent</td>
         <td class="table-value">column-gap: 66.666667%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-75-percent, .md:hg-gap-x-75-percent</td>
+        <td class="table-name">.hg-gap-x-75-percent</td>
+        <td class="table-name">.md:hg-gap-x-75-percent</td>
         <td class="table-value">column-gap: 75%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-x-100-percent, .md:hg-gap-x-100-percent</td>
+        <td class="table-name">.hg-gap-x-100-percent</td>
+        <td class="table-name">.md:hg-gap-x-100-percent</td>
         <td class="table-value">column-gap: 100%</td>
+        <td class="table-value">Espacio entre columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-0, .md:hg-gap-0</td>
+        <td class="table-name">.hg-gap-0</td>
+        <td class="table-name">.md:hg-gap-0</td>
         <td class="table-value">gap: 0</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-4, .md:hg-gap-4</td>
+        <td class="table-name">.hg-gap-4</td>
+        <td class="table-name">.md:hg-gap-4</td>
         <td class="table-value">gap: 0.25rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-8, .md:hg-gap-8</td>
+        <td class="table-name">.hg-gap-8</td>
+        <td class="table-name">.md:hg-gap-8</td>
         <td class="table-value">gap: 0.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-12, .md:hg-gap-12</td>
+        <td class="table-name">.hg-gap-12</td>
+        <td class="table-name">.md:hg-gap-12</td>
         <td class="table-value">gap: 0.75rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-16, .md:hg-gap-16</td>
+        <td class="table-name">.hg-gap-16</td>
+        <td class="table-name">.md:hg-gap-16</td>
         <td class="table-value">gap: 1rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-20, .md:hg-gap-20</td>
+        <td class="table-name">.hg-gap-20</td>
+        <td class="table-name">.md:hg-gap-20</td>
         <td class="table-value">gap: 1.25rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-24, .md:hg-gap-24</td>
+        <td class="table-name">.hg-gap-24</td>
+        <td class="table-name">.md:hg-gap-24</td>
         <td class="table-value">gap: 1.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-32, .md:hg-gap-32</td>
+        <td class="table-name">.hg-gap-32</td>
+        <td class="table-name">.md:hg-gap-32</td>
         <td class="table-value">gap: 2rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-36, .md:hg-gap-36</td>
+        <td class="table-name">.hg-gap-36</td>
+        <td class="table-name">.md:hg-gap-36</td>
         <td class="table-value">gap: 2.25rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-40, .md:hg-gap-40</td>
+        <td class="table-name">.hg-gap-40</td>
+        <td class="table-name">.md:hg-gap-40</td>
         <td class="table-value">gap: 2.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-64, .md:hg-gap-64</td>
+        <td class="table-name">.hg-gap-64</td>
+        <td class="table-name">.md:hg-gap-64</td>
         <td class="table-value">gap: 4rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-72, .md:hg-gap-72</td>
+        <td class="table-name">.hg-gap-72</td>
+        <td class="table-name">.md:hg-gap-72</td>
         <td class="table-value">gap: 4.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-80, .md:hg-gap-80</td>
+        <td class="table-name">.hg-gap-80</td>
+        <td class="table-name">.md:hg-gap-80</td>
         <td class="table-value">gap: 5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-88, .md:hg-gap-88</td>
+        <td class="table-name">.hg-gap-88</td>
+        <td class="table-name">.md:hg-gap-88</td>
         <td class="table-value">gap: 5.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-96, .md:hg-gap-96</td>
+        <td class="table-name">.hg-gap-96</td>
+        <td class="table-name">.md:hg-gap-96</td>
         <td class="table-value">gap: 6rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-104, .md:hg-gap-104</td>
+        <td class="table-name">.hg-gap-104</td>
+        <td class="table-name">.md:hg-gap-104</td>
         <td class="table-value">gap: 6.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-112, .md:hg-gap-112</td>
+        <td class="table-name">.hg-gap-112</td>
+        <td class="table-name">.md:hg-gap-112</td>
         <td class="table-value">gap: 7rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-120, .md:hg-gap-120</td>
+        <td class="table-name">.hg-gap-120</td>
+        <td class="table-name">.md:hg-gap-120</td>
         <td class="table-value">gap: 7.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-128, .md:hg-gap-128</td>
+        <td class="table-name">.hg-gap-128</td>
+        <td class="table-name">.md:hg-gap-128</td>
         <td class="table-value">gap: 8rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-136, .md:hg-gap-136</td>
+        <td class="table-name">.hg-gap-136</td>
+        <td class="table-name">.md:hg-gap-136</td>
         <td class="table-value">gap: 8.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-144, .md:hg-gap-144</td>
+        <td class="table-name">.hg-gap-144</td>
+        <td class="table-name">.md:hg-gap-144</td>
         <td class="table-value">gap: 9rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-152, .md:hg-gap-152</td>
+        <td class="table-name">.hg-gap-152</td>
+        <td class="table-name">.md:hg-gap-152</td>
         <td class="table-value">gap: 9.5rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-160, .md:hg-gap-160</td>
+        <td class="table-name">.hg-gap-160</td>
+        <td class="table-name">.md:hg-gap-160</td>
         <td class="table-value">gap: 10rem</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-20-percent, .md:hg-gap-20-percent</td>
+        <td class="table-name">.hg-gap-20-percent</td>
+        <td class="table-name">.md:hg-gap-20-percent</td>
         <td class="table-value">gap: 20%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-25-percent, .md:hg-gap-25-percent</td>
+        <td class="table-name">.hg-gap-25-percent</td>
+        <td class="table-name">.md:hg-gap-25-percent</td>
         <td class="table-value">gap: 25%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-33-percent, .md:hg-gap-33-percent</td>
+        <td class="table-name">.hg-gap-33-percent</td>
+        <td class="table-name">.md:hg-gap-33-percent</td>
         <td class="table-value">gap: 33.333333%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-40-percent, .md:hg-gap-40-percent</td>
+        <td class="table-name">.hg-gap-40-percent</td>
+        <td class="table-name">.md:hg-gap-40-percent</td>
         <td class="table-value">gap: 40%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-50-percent, .md:hg-gap-50-percent</td>
+        <td class="table-name">.hg-gap-50-percent</td>
+        <td class="table-name">.md:hg-gap-50-percent</td>
         <td class="table-value">gap: 50%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-60-percent, .md:hg-gap-60-percent</td>
+        <td class="table-name">.hg-gap-60-percent</td>
+        <td class="table-name">.md:hg-gap-60-percent</td>
         <td class="table-value">gap: 60%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-66-percent, .md:hg-gap-66-percent</td>
+        <td class="table-name">.hg-gap-66-percent</td>
+        <td class="table-name">.md:hg-gap-66-percent</td>
         <td class="table-value">gap: 66.666667%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-75-percent, .md:hg-gap-75-percent</td>
+        <td class="table-name">.hg-gap-75-percent</td>
+        <td class="table-name">.md:hg-gap-75-percent</td>
         <td class="table-value">gap: 75%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       <tr>
-        <td class="table-name">.hg-gap-100-percent, .md:hg-gap-100-percent</td>
+        <td class="table-name">.hg-gap-100-percent</td>
+        <td class="table-name">.md:hg-gap-100-percent</td>
         <td class="table-value">gap: 100%</td>
+        <td class="table-value">Espacio entre filas y columnas</td>
       </tr>
       </tbody>
     </table>
@@ -1848,7 +2178,12 @@
     
 
     <div class="section" id="breakpoints">
-      <h2 class="section-title">Breakpoints</h2>
+      <div class="section-title">
+        <h2 >Breakpoints</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Breakpoints disponibles.
+        </p>
+      </div>
       <table class="guide-table">
         <thead>
           <tr>

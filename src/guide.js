@@ -597,7 +597,8 @@ function generateHTML(configData, previousValuesPath = null) {
 
   // Generar tabla de layout helpers
   const layoutHelpersHTML = configData.helpers ? Object.entries(configData.helpers).flatMap(([helperName, config]) => {
-    const { property, class: className, responsive, values, useSpacing } = config;
+    const { property, class: className, responsive, values, useSpacing, description, explanation } = config;
+    const helperDescription = description || explanation || '';
     const prefix = configData.prefix || 'hg';
     const baseFontSize = configData.baseFontSize || 16;
     
@@ -606,36 +607,42 @@ function generateHTML(configData, previousValuesPath = null) {
     if (useSpacing && configData.spacingMap) {
       Object.entries(configData.spacingMap).forEach(([key, value]) => {
         const baseClass = `.${prefix}-${className}-${key}`;
-        const responsiveClass = responsive ? `, .md:${prefix}-${className}-${key}` : '';
+        const responsiveClass = responsive ? `.md:${prefix}-${className}-${key}` : '';
         const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
         
         rows.push(`
       <tr>
-        <td class="table-name">${baseClass}${responsiveClass}</td>
+        <td class="table-name">${baseClass}</td>
+        <td class="table-name">${responsiveClass || '-'}</td>
         <td class="table-value">${property}: ${remValue}</td>
+        <td class="table-value">${helperDescription || '-'}</td>
       </tr>`);
       });
     } else if (values) {
       if (Array.isArray(values)) {
         values.forEach(value => {
           const baseClass = `.${prefix}-${className}-${value}`;
-          const responsiveClass = responsive ? `, .md:${prefix}-${className}-${value}` : '';
+          const responsiveClass = responsive ? `.md:${prefix}-${className}-${value}` : '';
           
           rows.push(`
       <tr>
-        <td class="table-name">${baseClass}${responsiveClass}</td>
+        <td class="table-name">${baseClass}</td>
+        <td class="table-name">${responsiveClass || '-'}</td>
         <td class="table-value">${property}: ${value}</td>
+        <td class="table-value">${helperDescription || '-'}</td>
       </tr>`);
         });
       } else {
         Object.entries(values).forEach(([key, value]) => {
           const baseClass = `.${prefix}-${className}-${key}`;
-          const responsiveClass = responsive ? `, .md:${prefix}-${className}-${key}` : '';
+          const responsiveClass = responsive ? `.md:${prefix}-${className}-${key}` : '';
           
           rows.push(`
       <tr>
-        <td class="table-name">${baseClass}${responsiveClass}</td>
+        <td class="table-name">${baseClass}</td>
+        <td class="table-name">${responsiveClass || '-'}</td>
         <td class="table-value">${property}: ${value}</td>
+        <td class="table-value">${helperDescription || '-'}</td>
       </tr>`);
         });
       }
@@ -649,7 +656,9 @@ function generateHTML(configData, previousValuesPath = null) {
       <thead>
         <tr>
           <th>Clases Helper</th>
+          <th>Clases Helper (md:)</th>
           <th>Propiedad CSS</th>
+          <th>Descripción</th>
         </tr>
       </thead>
       <tbody>
@@ -904,29 +913,47 @@ function generateHTML(configData, previousValuesPath = null) {
 
     ${fontFamiliesTableHTML ? `
     <div class="section" id="font-families">
-      <h2 class="section-title">Font Families</h2>
+      <div class="section-title">
+        <h2 >Font Families</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Font families disponibles para la tipografía.
+        </p>
+      </div>
       ${fontFamiliesTableHTML}
     </div>
     ` : ''}
 
     <div class="section" id="tipografia">
-      <h2 class="section-title">Clases de Tipografía</h2>
+      <div class="section-title">
+        <h2 >Clases de Tipografía</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Clases de tipografía disponibles.
+        </p>
+      </div>
       ${classesHTML}
     </div>
 
     <div class="section" id="variables">
-      <h2 class="section-title">Variables CSS Compartidas</h2>
+      <div class="section-title">
+        <h2 >Variables CSS Compartidas</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Variables CSS compartidas.
+        </p>
+      </div>
       ${variablesTableHTML}
     </div>
 
     ${spacingHelpersTableHTML ? `
     <div class="section" id="spacing">
-      <h2 class="section-title">Helpers de Spacing</h2>
-      ${spacingHelpersTableHTML}
-      <p class="text-m" style="margin-top: 1rem;">
-        Clases helper para padding y margin basadas en el spacingMap. 
+      <div class="section-title">
+        <h2 >Helpers de Spacing</h2>
+            <p class="text-m" style="margin-top: 1rem;">
+        Clases helper para padding y margin basadas en el spacingMap.
         Usa las variables CSS definidas en :root.
-      </p>
+            </p>
+      </div>
+      ${spacingHelpersTableHTML}
+ 
       
       <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
         <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Helpers con prefijo md: (Desktop)</h3>
@@ -962,7 +989,13 @@ function generateHTML(configData, previousValuesPath = null) {
 
     ${layoutHelpersTableHTML ? `
     <div class="section" id="layout">
-      <h2 class="section-title">Helpers de Layout</h2>
+      <div class="section-title">
+        <h2 >Helpers de Layout</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Clases helper para display, flexbox, alignment y gap. 
+        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
+        </p>
+      </div>
       ${layoutHelpersTableHTML}
       <p class="text-m" style="margin-top: 1rem;">
         Clases helper para display, flexbox, alignment y gap. 
@@ -996,7 +1029,12 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
 
     <div class="section" id="breakpoints">
-      <h2 class="section-title">Breakpoints</h2>
+      <div class="section-title">
+        <h2 >Breakpoints</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Breakpoints disponibles.
+        </p>
+      </div>
       <table class="guide-table">
         <thead>
           <tr>
