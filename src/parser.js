@@ -133,9 +133,10 @@ function generateSpacingVariables(spacingMap, prefix, baseFontSize = 16) {
   const variables = [];
   
   Object.entries(spacingMap).forEach(([key, value]) => {
-    const remValue = pxToRem(value, baseFontSize);
+    // Si el valor termina en %, no lo convierte a rem
+    const finalValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
     const varName = `--${prefix}-spacing-${key}`;
-    variables.push({ varName, value: remValue, key });
+    variables.push({ varName, value: finalValue, key });
   });
   
   return variables;
@@ -411,6 +412,64 @@ ${desktopHelpers.join('\n')}
   return baseHelpers;
 }
 
+function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, baseFontSize = 16) {
+  if (!helpers || typeof helpers !== 'object') {
+    return '';
+  }
+
+  let css = '\n/* Layout Helpers */\n';
+
+  Object.entries(helpers).forEach(([helperName, config]) => {
+    const { property, class: className, responsive, values, useSpacing } = config;
+
+    if (useSpacing && spacingMap) {
+      Object.entries(spacingMap).forEach(([key, value]) => {
+        const finalValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
+        css += `.${prefix}-${className}-${key} { ${property}: ${finalValue}; }\n`;
+      });
+
+      if (responsive) {
+        css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
+        Object.entries(spacingMap).forEach(([key, value]) => {
+          const finalValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
+          css += `  .md\\:${prefix}-${className}-${key} { ${property}: ${finalValue}; }\n`;
+        });
+        css += '}\n';
+      }
+    } else if (values) {
+      if (Array.isArray(values)) {
+        values.forEach(value => {
+          css += `.${prefix}-${className}-${value} { ${property}: ${value}; }\n`;
+        });
+
+        if (responsive) {
+          css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
+          values.forEach(value => {
+            css += `  .md\\:${prefix}-${className}-${value} { ${property}: ${value}; }\n`;
+          });
+          css += '}\n';
+        }
+      } else if (typeof values === 'object') {
+        Object.entries(values).forEach(([key, value]) => {
+          css += `.${prefix}-${className}-${key} { ${property}: ${value}; }\n`;
+        });
+
+        if (responsive) {
+          css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
+          Object.entries(values).forEach(([key, value]) => {
+            css += `  .md\\:${prefix}-${className}-${key} { ${property}: ${value}; }\n`;
+          });
+          css += '}\n';
+        }
+      }
+    }
+
+    css += '\n';
+  });
+
+  return css;
+}
+
 // Función principal que genera todo el CSS desde la configuración JSON
 // Organiza el CSS en bloques separados: reset, variables, tipografías mobile y desktop
 function generateCSS(configData) {
@@ -429,6 +488,7 @@ function generateCSS(configData) {
   const resetCSS = generateResetCSS(baseFontSize);
   const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars);
   const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize, configData.spacingImportant);
+  const layoutHelpers = configData.helpers ? generateLayoutHelpers(configData.helpers, configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize) : '';
   const mobileTypography = generateTypographyBlock('mobile', configData.breakpoints.mobile, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   const desktopTypography = generateTypographyBlock('desktop', configData.breakpoints.desktop, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   
@@ -438,7 +498,7 @@ function generateCSS(configData) {
 ${rootVars}
 }
 
-${spacingHelpers}${mobileTypography}
+${spacingHelpers}${layoutHelpers}${mobileTypography}
 
 ${desktopTypography}`;
 }
