@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
-  <link rel="stylesheet" href="output.css?v=1762853890542">
+  <link rel="stylesheet" href="output.css?v=1762855446166">
   <style>
     * {
       scroll-behavior: smooth;
@@ -148,7 +148,8 @@
       letter-spacing: 0.05em;
     }
     
-    .typography-table, .font-families-table, .variables-table, .breakpoints-table, .spacing-helpers-table {
+    /* Estilos generales para todas las tablas */
+    .guide-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
@@ -156,70 +157,73 @@
       font-size: 0.875rem;
     }
 
-
-
-    .typography-table th, .font-families-table th, .variables-table th, .breakpoints-table th, .spacing-helpers-table th {
+    .guide-table th {
       padding: 0.75rem;
       text-align: left;
       font-weight: 600;
-
       font-size: 0.75rem;
       letter-spacing: 0.05em;
       border-bottom: 1px solid #ddd;
-    }
-
-    .typography-table td, .font-families-table td, .variables-table td, .breakpoints-table td, .spacing-helpers-table td {
-      padding: 0.75rem;
-      border-bottom: 1px solid #e0e0e0;
-      vertical-align: middle;
-    }
-
-    .typography-table tbody tr:hover, .font-families-table tbody tr:hover, 
-    .variables-table tbody tr:hover, .breakpoints-table tbody tr:hover, .spacing-helpers-table tbody tr:hover {
-      background: #f9f9f9;
-    }
-
-    .typography-table th.mobile-header {
-      background: #e6f2ff;
-      color: #000000;
-      text-align: center;
-    }
-
-    .typography-table th.desktop-header {
-      background: #fff4e6;
-      color: #cc6600;
-      text-align: center;
-    }
-
-    .typography-table .sub-header th {
-      border-top: none;
-      border-bottom: 1px solid #ddd;
-      font-weight: 500;
-      font-size: 0.6875rem;
-    }
-
-    .typography-table th {
       position: sticky;
       top: 0;
       background: #f5f5f5;
       z-index: 10;
     }
 
-    .typography-table .class-name, .font-families-table .font-family-name, 
-    .variables-table .variable-name, .breakpoints-table .breakpoint-name {
-      font-weight: 600;
-      color: #000000;
+    .guide-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
     }
 
-    .typography-table .class-name, .font-families-table .font-family-name, 
-    .variables-table .variable-name {
+    .guide-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    /* Estilos para nombres/identificadores */
+    .guide-table .table-name {
+      font-weight: 600;
+      color: #000000;
       font-family: 'Courier New', monospace;
     }
 
-    .typography-table .preview-cell {
+    /* Estilos para valores */
+    .guide-table .table-value {
+      font-family: 'Courier New', monospace;
+      color: #333;
     }
 
-    .typography-table .typography-preview {
+    /* Estilos para celdas cambiadas */
+    .guide-table td.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+      font-weight: 600;
+    }
+
+    /* Estilos específicos de tipografía */
+    .guide-table th.mobile-header {
+      background: #e6f2ff;
+      color: #000000;
+      text-align: center;
+    }
+
+    .guide-table th.desktop-header {
+      background: #fff4e6;
+      color: #cc6600;
+      text-align: center;
+    }
+
+    .guide-table .sub-header th {
+      border-top: none;
+      border-bottom: 1px solid #ddd;
+      font-weight: 500;
+      font-size: 0.6875rem;
+    }
+
+    .guide-table .preview-cell {
+    }
+
+    .guide-table .typography-preview {
       padding: 0.5rem;
       font-size: inherit;
       display: flex;
@@ -229,123 +233,50 @@
       text-align: center;
     }
 
-    .typography-table .mobile-value {
+    .guide-table .mobile-value {
       background: #f0f8ff;
       color: #000000;
       font-weight: 500;
       text-align: center;
+      font-family: 'Courier New', monospace;
     }
 
-    .typography-table .desktop-value {
+    .guide-table .desktop-value {
       background: #fff8f0;
       color: #cc6600;
       font-weight: 500;
       text-align: center;
-    }
-
-    .typography-table td.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
-    }
-
-    .typography-table td.mobile-value.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-    }
-
-    .typography-table td.desktop-value.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-    }
-
-    .typography-table tbody td, .font-families-table .font-family-value, 
-    .font-families-table .font-family-var, .variables-table .variable-value,
-    .variables-table .variable-rem, .variables-table .variable-px,
-    .breakpoints-table .breakpoint-value {
       font-family: 'Courier New', monospace;
     }
 
-    .breakpoints-table .breakpoint-value.changed {
+    .guide-table td.mobile-value.changed,
+    .guide-table td.desktop-value.changed {
       background: #d4edda !important;
       border-left: 3px solid #28a745;
-      font-weight: 600;
     }
 
-    .font-families-table .font-family-preview {
+    /* Estilos para previews de fuente */
+    .guide-table .font-family-preview {
       min-width: 100px;
       padding: 0.75rem;
       min-height: 50px;
       font-size: 1.5rem;
       font-weight: 600;
     }
-
-    .font-families-table .font-family-value {
-      color: #666;
-    }
-
-    .font-families-table .font-family-value.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
-    }
-
-    .variables-table .variable-value {
-      color: #333;
-    }
-
-    .variables-table .variable-rem {
+    
+    /* Estilos para valores centrados con color */
+    .guide-table .value-center-blue {
       color: #000000;
       font-weight: 500;
       text-align: center;
+      font-family: 'Courier New', monospace;
     }
 
-    .variables-table .variable-px {
+    .guide-table .value-center-orange {
       color: #cc6600;
       font-weight: 500;
       text-align: center;
-    }
-
-    .variables-table .variable-name.changed,
-    .variables-table .variable-value.changed,
-    .variables-table .variable-rem.changed,
-    .variables-table .variable-px.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
-    }
-
-    .spacing-helpers-table .spacing-class {
       font-family: 'Courier New', monospace;
-      font-weight: 600;
-      color: #000000;
-    }
-
-    .spacing-helpers-table .spacing-var {
-      font-family: 'Courier New', monospace;
-      color: #333;
-    }
-
-    .spacing-helpers-table .spacing-value {
-      font-family: 'Courier New', monospace;
-      color: #000000;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    .spacing-helpers-table .spacing-px {
-      font-family: 'Courier New', monospace;
-      color: #cc6600;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    .spacing-helpers-table .spacing-var.changed,
-    .spacing-helpers-table .spacing-value.changed,
-    .spacing-helpers-table .spacing-px.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
     }
   </style>
 </head>
@@ -366,6 +297,8 @@
       
         <a href="#spacing" class="menu-item" data-section="spacing">Helpers de Spacing</a>
       
+        <a href="#layout" class="menu-item" data-section="layout">Helpers de Layout</a>
+      
         <a href="#breakpoints" class="menu-item" data-section="breakpoints">Breakpoints</a>
       
     </nav>
@@ -373,10 +306,10 @@
   
   <main class="main-content">
     <div class="header">
-      <h1 class="title-l-b">HolyGrail5</h1>
+      <h1 class="h2">HolyGrail5</h1>
       <p class="text-m">Guía de Tipografía - Framework CSS Generator</p>
       <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
-        Última actualización: 11/11/2025, 10:38:10
+        Última actualización: 11/11/2025, 11:04:06
       </p>
     </div>
 
@@ -384,7 +317,7 @@
     <div class="section" id="font-families">
       <h2 class="section-title">Font Families</h2>
       
-    <table class="font-families-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -396,16 +329,16 @@
       <tbody>
         
       <tr>
-        <td class="font-family-name">primary</td>
+        <td class="table-name">primary</td>
         <td class="font-family-preview" style='font-family: arial, sans-serif;'>Aa</td>
-        <td class="font-family-value ">arial, sans-serif</td>
-        <td class="font-family-var">--hg-typo-font-family-primary</td>
+        <td class="table-value ">arial, sans-serif</td>
+        <td class="table-value">--hg-typo-font-family-primary</td>
       </tr>
       <tr>
-        <td class="font-family-name">secondary</td>
+        <td class="table-name">secondary</td>
         <td class="font-family-preview" style='font-family: "ms-serif", serif;'>Aa</td>
-        <td class="font-family-value ">"ms-serif", serif</td>
-        <td class="font-family-var">--hg-typo-font-family-secondary</td>
+        <td class="table-value ">"ms-serif", serif</td>
+        <td class="table-value">--hg-typo-font-family-secondary</td>
       </tr>
       </tbody>
     </table>
@@ -415,7 +348,7 @@
     <div class="section" id="tipografia">
       <h2 class="section-title">Clases de Tipografía</h2>
       
-    <table class="typography-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Clase</th>
@@ -438,154 +371,168 @@
       <tbody>
         
       <tr>
-        <td class="class-name">.title-l-b</td>
+        <td class="table-name">.h2</td>
+        <td class="preview-cell">
+          <div class="typography-preview h2">Aa</div>
+        </td>
+        <td class="table-value changed">primary</td>
+        <td class="table-value changed">900</td>
+        <td class="table-value changed">0rem</td>
+        <td class="table-value changed">none</td>
+        <td class="mobile-value ">1.125rem</td>
+        <td class="mobile-value ">1.976</td>
+        <td class="desktop-value ">1.5rem</td>
+        <td class="desktop-value ">1.2</td>
+      </tr>
+      <tr>
+        <td class="table-name">.title-l-b</td>
         <td class="preview-cell">
           <div class="typography-preview title-l-b">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">700</td>
-        <td class="">0rem</td>
-        <td class="">uppercase</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">700</td>
+        <td class="table-value ">0rem</td>
+        <td class="table-value ">uppercase</td>
         <td class="mobile-value ">0.875rem</td>
         <td class="mobile-value ">1.2</td>
         <td class="desktop-value ">0.875rem</td>
         <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
-        <td class="class-name">.title-s</td>
+        <td class="table-name">.title-s</td>
         <td class="preview-cell">
           <div class="typography-preview title-s">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">400</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">400</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.75rem</td>
         <td class="mobile-value ">1.4</td>
         <td class="desktop-value ">0.75rem</td>
         <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
-        <td class="class-name">.suisse-1</td>
+        <td class="table-name">.suisse-1</td>
         <td class="preview-cell">
           <div class="typography-preview suisse-1">Aa</div>
         </td>
-        <td class="">secondary</td>
-        <td class="">-</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">secondary</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">1rem</td>
         <td class="mobile-value ">1.5</td>
         <td class="desktop-value ">1.25rem</td>
         <td class="desktop-value ">1.5</td>
       </tr>
       <tr>
-        <td class="class-name">.suisse-2</td>
+        <td class="table-name">.suisse-2</td>
         <td class="preview-cell">
           <div class="typography-preview suisse-2">Aa</div>
         </td>
-        <td class="">secondary</td>
-        <td class="">-</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">secondary</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.8125rem</td>
         <td class="mobile-value ">1.1</td>
         <td class="desktop-value ">0.875rem</td>
         <td class="desktop-value ">1.1</td>
       </tr>
       <tr>
-        <td class="class-name">.suisse-body</td>
+        <td class="table-name">.suisse-body</td>
         <td class="preview-cell">
           <div class="typography-preview suisse-body">Aa</div>
         </td>
-        <td class="">secondary</td>
-        <td class="">-</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">secondary</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.625rem</td>
         <td class="mobile-value ">1.1</td>
         <td class="desktop-value ">0.75rem</td>
         <td class="desktop-value ">1.1</td>
       </tr>
       <tr>
-        <td class="class-name">.p-tag</td>
+        <td class="table-name">.p-tag</td>
         <td class="preview-cell">
           <div class="typography-preview p-tag">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">100</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">100</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.5rem</td>
         <td class="mobile-value ">1</td>
         <td class="desktop-value ">0.5rem</td>
         <td class="desktop-value ">1</td>
       </tr>
       <tr>
-        <td class="class-name">.semantic</td>
+        <td class="table-name">.semantic</td>
         <td class="preview-cell">
           <div class="typography-preview semantic">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">100</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">100</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.8125rem</td>
         <td class="mobile-value ">1</td>
         <td class="desktop-value ">0.8125rem</td>
         <td class="desktop-value ">1</td>
       </tr>
       <tr>
-        <td class="class-name">.title-l</td>
+        <td class="table-name">.title-l</td>
         <td class="preview-cell">
           <div class="typography-preview title-l">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">100</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">100</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.875rem</td>
         <td class="mobile-value ">1.4</td>
         <td class="desktop-value ">0.875rem</td>
         <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
-        <td class="class-name">.title-m</td>
+        <td class="table-name">.title-m</td>
         <td class="preview-cell">
           <div class="typography-preview title-m">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">100</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">100</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.75rem</td>
         <td class="mobile-value ">1.4</td>
         <td class="desktop-value ">0.75rem</td>
         <td class="desktop-value ">1.4</td>
       </tr>
       <tr>
-        <td class="class-name">.text-m</td>
+        <td class="table-name">.text-m</td>
         <td class="preview-cell">
           <div class="typography-preview text-m">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">100</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">100</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.75rem</td>
         <td class="mobile-value ">1.5</td>
         <td class="desktop-value ">0.8125rem</td>
         <td class="desktop-value ">1.5</td>
       </tr>
       <tr>
-        <td class="class-name">.text-l</td>
+        <td class="table-name">.text-l</td>
         <td class="preview-cell">
           <div class="typography-preview text-l">Aa</div>
         </td>
-        <td class="">primary</td>
-        <td class="">100</td>
-        <td class="">-</td>
-        <td class="">-</td>
+        <td class="table-value ">primary</td>
+        <td class="table-value ">100</td>
+        <td class="table-value ">-</td>
+        <td class="table-value ">-</td>
         <td class="mobile-value ">0.75rem</td>
         <td class="mobile-value ">1.5</td>
         <td class="desktop-value ">0.75rem</td>
@@ -598,7 +545,7 @@
     <div class="section" id="variables">
       <h2 class="section-title">Variables CSS Compartidas</h2>
       
-    <table class="variables-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Variable CSS</th>
@@ -610,208 +557,340 @@
       <tbody>
         
           <tr>
-            <td class="variable-name ">--hg-typo-font-family-primary</td>
-            <td class="variable-value ">arial, sans-serif</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-font-family-primary</td>
+            <td class="table-value ">arial, sans-serif</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-family-secondary</td>
-            <td class="variable-value ">"ms-serif", serif</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-font-family-secondary</td>
+            <td class="table-value ">"ms-serif", serif</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-line-height-1</td>
-            <td class="variable-value ">1</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-line-height-1</td>
+            <td class="table-value ">1</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-line-height-1-976</td>
-            <td class="variable-value ">1.976</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-line-height-1-976</td>
+            <td class="table-value ">1.976</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-line-height-1-2</td>
-            <td class="variable-value ">1.2</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-line-height-1-2</td>
+            <td class="table-value ">1.2</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-line-height-1-4</td>
-            <td class="variable-value ">1.4</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-line-height-1-4</td>
+            <td class="table-value ">1.4</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-line-height-1-5</td>
-            <td class="variable-value ">1.5</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-line-height-1-5</td>
+            <td class="table-value ">1.5</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-line-height-1-1</td>
-            <td class="variable-value ">1.1</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-line-height-1-1</td>
+            <td class="table-value ">1.1</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-weight-100</td>
-            <td class="variable-value ">100</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-font-weight-100</td>
+            <td class="table-value ">100</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-weight-400</td>
-            <td class="variable-value ">400</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-font-weight-400</td>
+            <td class="table-value ">400</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-weight-700</td>
-            <td class="variable-value ">700</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-font-weight-700</td>
+            <td class="table-value ">700</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-weight-900</td>
-            <td class="variable-value ">900</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-font-weight-900</td>
+            <td class="table-value ">900</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-letter-spacing-0</td>
-            <td class="variable-value ">0rem</td>
-            <td class="variable-rem ">0rem</td>
-            <td class="variable-px ">0px</td>
+            <td class="table-name ">--hg-typo-letter-spacing-0</td>
+            <td class="table-value ">0rem</td>
+            <td class="value-center-blue ">0rem</td>
+            <td class="value-center-orange ">0px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-text-transform-none</td>
-            <td class="variable-value ">none</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-text-transform-none</td>
+            <td class="table-value ">none</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-text-transform-uppercase</td>
-            <td class="variable-value ">uppercase</td>
-            <td class="variable-rem ">-</td>
-            <td class="variable-px ">-</td>
+            <td class="table-name ">--hg-typo-text-transform-uppercase</td>
+            <td class="table-value ">uppercase</td>
+            <td class="value-center-blue ">-</td>
+            <td class="value-center-orange ">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-18</td>
-            <td class="variable-value ">1.125rem</td>
-            <td class="variable-rem ">1.125rem</td>
-            <td class="variable-px ">18px</td>
+            <td class="table-name ">--hg-typo-font-size-18</td>
+            <td class="table-value ">1.125rem</td>
+            <td class="value-center-blue ">1.125rem</td>
+            <td class="value-center-orange ">18px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-24</td>
-            <td class="variable-value ">1.5rem</td>
-            <td class="variable-rem ">1.5rem</td>
-            <td class="variable-px ">24px</td>
+            <td class="table-name ">--hg-typo-font-size-24</td>
+            <td class="table-value ">1.5rem</td>
+            <td class="value-center-blue ">1.5rem</td>
+            <td class="value-center-orange ">24px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-14</td>
-            <td class="variable-value ">0.875rem</td>
-            <td class="variable-rem ">0.875rem</td>
-            <td class="variable-px ">14px</td>
+            <td class="table-name ">--hg-typo-font-size-14</td>
+            <td class="table-value ">0.875rem</td>
+            <td class="value-center-blue ">0.875rem</td>
+            <td class="value-center-orange ">14px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-12</td>
-            <td class="variable-value ">0.75rem</td>
-            <td class="variable-rem ">0.75rem</td>
-            <td class="variable-px ">12px</td>
+            <td class="table-name ">--hg-typo-font-size-12</td>
+            <td class="table-value ">0.75rem</td>
+            <td class="value-center-blue ">0.75rem</td>
+            <td class="value-center-orange ">12px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-16</td>
-            <td class="variable-value ">1rem</td>
-            <td class="variable-rem ">1rem</td>
-            <td class="variable-px ">16px</td>
+            <td class="table-name ">--hg-typo-font-size-16</td>
+            <td class="table-value ">1rem</td>
+            <td class="value-center-blue ">1rem</td>
+            <td class="value-center-orange ">16px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-20</td>
-            <td class="variable-value ">1.25rem</td>
-            <td class="variable-rem ">1.25rem</td>
-            <td class="variable-px ">20px</td>
+            <td class="table-name ">--hg-typo-font-size-20</td>
+            <td class="table-value ">1.25rem</td>
+            <td class="value-center-blue ">1.25rem</td>
+            <td class="value-center-orange ">20px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-13</td>
-            <td class="variable-value ">0.8125rem</td>
-            <td class="variable-rem ">0.8125rem</td>
-            <td class="variable-px ">13px</td>
+            <td class="table-name ">--hg-typo-font-size-13</td>
+            <td class="table-value ">0.8125rem</td>
+            <td class="value-center-blue ">0.8125rem</td>
+            <td class="value-center-orange ">13px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-10</td>
-            <td class="variable-value ">0.625rem</td>
-            <td class="variable-rem ">0.625rem</td>
-            <td class="variable-px ">10px</td>
+            <td class="table-name ">--hg-typo-font-size-10</td>
+            <td class="table-value ">0.625rem</td>
+            <td class="value-center-blue ">0.625rem</td>
+            <td class="value-center-orange ">10px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-typo-font-size-8</td>
-            <td class="variable-value ">0.5rem</td>
-            <td class="variable-rem ">0.5rem</td>
-            <td class="variable-px ">8px</td>
+            <td class="table-name ">--hg-typo-font-size-8</td>
+            <td class="table-value ">0.5rem</td>
+            <td class="value-center-blue ">0.5rem</td>
+            <td class="value-center-orange ">8px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-4</td>
-            <td class="variable-value ">0.25rem</td>
-            <td class="variable-rem ">0.25rem</td>
-            <td class="variable-px ">4px</td>
+            <td class="table-name changed">--hg-spacing-0</td>
+            <td class="table-value changed">0</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-8</td>
-            <td class="variable-value ">0.5rem</td>
-            <td class="variable-rem ">0.5rem</td>
-            <td class="variable-px ">8px</td>
+            <td class="table-name ">--hg-spacing-4</td>
+            <td class="table-value ">0.25rem</td>
+            <td class="value-center-blue ">0.25rem</td>
+            <td class="value-center-orange ">4px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-12</td>
-            <td class="variable-value ">0.75rem</td>
-            <td class="variable-rem ">0.75rem</td>
-            <td class="variable-px ">12px</td>
+            <td class="table-name ">--hg-spacing-8</td>
+            <td class="table-value ">0.5rem</td>
+            <td class="value-center-blue ">0.5rem</td>
+            <td class="value-center-orange ">8px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-16</td>
-            <td class="variable-value ">1rem</td>
-            <td class="variable-rem ">1rem</td>
-            <td class="variable-px ">16px</td>
+            <td class="table-name ">--hg-spacing-12</td>
+            <td class="table-value ">0.75rem</td>
+            <td class="value-center-blue ">0.75rem</td>
+            <td class="value-center-orange ">12px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-20</td>
-            <td class="variable-value ">1.25rem</td>
-            <td class="variable-rem ">1.25rem</td>
-            <td class="variable-px ">20px</td>
+            <td class="table-name ">--hg-spacing-16</td>
+            <td class="table-value ">1rem</td>
+            <td class="value-center-blue ">1rem</td>
+            <td class="value-center-orange ">16px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-24</td>
-            <td class="variable-value ">1.5rem</td>
-            <td class="variable-rem ">1.5rem</td>
-            <td class="variable-px ">24px</td>
+            <td class="table-name ">--hg-spacing-20</td>
+            <td class="table-value ">1.25rem</td>
+            <td class="value-center-blue ">1.25rem</td>
+            <td class="value-center-orange ">20px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-32</td>
-            <td class="variable-value ">2rem</td>
-            <td class="variable-rem ">2rem</td>
-            <td class="variable-px ">32px</td>
+            <td class="table-name ">--hg-spacing-24</td>
+            <td class="table-value ">1.5rem</td>
+            <td class="value-center-blue ">1.5rem</td>
+            <td class="value-center-orange ">24px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-36</td>
-            <td class="variable-value ">2.25rem</td>
-            <td class="variable-rem ">2.25rem</td>
-            <td class="variable-px ">36px</td>
+            <td class="table-name ">--hg-spacing-32</td>
+            <td class="table-value ">2rem</td>
+            <td class="value-center-blue ">2rem</td>
+            <td class="value-center-orange ">32px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-40</td>
-            <td class="variable-value ">2.5rem</td>
-            <td class="variable-rem ">2.5rem</td>
-            <td class="variable-px ">40px</td>
+            <td class="table-name ">--hg-spacing-36</td>
+            <td class="table-value ">2.25rem</td>
+            <td class="value-center-blue ">2.25rem</td>
+            <td class="value-center-orange ">36px</td>
           </tr>
           <tr>
-            <td class="variable-name ">--hg-spacing-64</td>
-            <td class="variable-value ">4rem</td>
-            <td class="variable-rem ">4rem</td>
-            <td class="variable-px ">64px</td>
+            <td class="table-name ">--hg-spacing-40</td>
+            <td class="table-value ">2.5rem</td>
+            <td class="value-center-blue ">2.5rem</td>
+            <td class="value-center-orange ">40px</td>
+          </tr>
+          <tr>
+            <td class="table-name ">--hg-spacing-64</td>
+            <td class="table-value ">4rem</td>
+            <td class="value-center-blue ">4rem</td>
+            <td class="value-center-orange ">64px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-72</td>
+            <td class="table-value changed">4.5rem</td>
+            <td class="value-center-blue changed">4.5rem</td>
+            <td class="value-center-orange changed">72px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-80</td>
+            <td class="table-value changed">5rem</td>
+            <td class="value-center-blue changed">5rem</td>
+            <td class="value-center-orange changed">80px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-88</td>
+            <td class="table-value changed">5.5rem</td>
+            <td class="value-center-blue changed">5.5rem</td>
+            <td class="value-center-orange changed">88px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-96</td>
+            <td class="table-value changed">6rem</td>
+            <td class="value-center-blue changed">6rem</td>
+            <td class="value-center-orange changed">96px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-104</td>
+            <td class="table-value changed">6.5rem</td>
+            <td class="value-center-blue changed">6.5rem</td>
+            <td class="value-center-orange changed">104px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-112</td>
+            <td class="table-value changed">7rem</td>
+            <td class="value-center-blue changed">7rem</td>
+            <td class="value-center-orange changed">112px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-120</td>
+            <td class="table-value changed">7.5rem</td>
+            <td class="value-center-blue changed">7.5rem</td>
+            <td class="value-center-orange changed">120px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-128</td>
+            <td class="table-value changed">8rem</td>
+            <td class="value-center-blue changed">8rem</td>
+            <td class="value-center-orange changed">128px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-136</td>
+            <td class="table-value changed">8.5rem</td>
+            <td class="value-center-blue changed">8.5rem</td>
+            <td class="value-center-orange changed">136px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-144</td>
+            <td class="table-value changed">9rem</td>
+            <td class="value-center-blue changed">9rem</td>
+            <td class="value-center-orange changed">144px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-152</td>
+            <td class="table-value changed">9.5rem</td>
+            <td class="value-center-blue changed">9.5rem</td>
+            <td class="value-center-orange changed">152px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-160</td>
+            <td class="table-value changed">10rem</td>
+            <td class="value-center-blue changed">10rem</td>
+            <td class="value-center-orange changed">160px</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-20-percent</td>
+            <td class="table-value changed">20%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-25-percent</td>
+            <td class="table-value changed">25%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-33-percent</td>
+            <td class="table-value changed">33.333333%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-40-percent</td>
+            <td class="table-value changed">40%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-50-percent</td>
+            <td class="table-value changed">50%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-60-percent</td>
+            <td class="table-value changed">60%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-66-percent</td>
+            <td class="table-value changed">66.666667%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-75-percent</td>
+            <td class="table-value changed">75%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
+          </tr>
+          <tr>
+            <td class="table-name changed">--hg-spacing-100-percent</td>
+            <td class="table-value changed">100%</td>
+            <td class="value-center-blue changed">-</td>
+            <td class="value-center-orange changed">-</td>
           </tr>
       </tbody>
     </table>
@@ -821,7 +900,7 @@
     <div class="section" id="spacing">
       <h2 class="section-title">Helpers de Spacing</h2>
       
-    <table class="spacing-helpers-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Clases Helper</th>
@@ -833,64 +912,196 @@
       <tbody>
         
       <tr>
-        <td class="spacing-class">.p-4, .pr-4 (end), .pl-4 (start), .pb-4, .pt-4<br>.m-4, .mr-4 (end), .ml-4 (start), .mb-4, .mt-4</td>
-        <td class="spacing-var ">--hg-spacing-4</td>
-        <td class="spacing-value ">0.25rem</td>
-        <td class="spacing-px ">4px</td>
+        <td class="table-name">.p-0, .pr-0 (end), .pl-0 (start), .pb-0, .pt-0<br>.m-0, .mr-0 (end), .ml-0 (start), .mb-0, .mt-0<br><strong>Con !important:</strong><br>.p-0!, .pr-0! (end), .pl-0! (start), .pb-0!, .pt-0!<br>.m-0!, .mr-0! (end), .ml-0! (start), .mb-0!, .mt-0!</td>
+        <td class="table-value changed">--hg-spacing-0</td>
+        <td class="value-center-blue changed">0</td>
+        <td class="value-center-orange changed">0</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-8, .pr-8 (end), .pl-8 (start), .pb-8, .pt-8<br>.m-8, .mr-8 (end), .ml-8 (start), .mb-8, .mt-8</td>
-        <td class="spacing-var ">--hg-spacing-8</td>
-        <td class="spacing-value ">0.5rem</td>
-        <td class="spacing-px ">8px</td>
+        <td class="table-name">.p-4, .pr-4 (end), .pl-4 (start), .pb-4, .pt-4<br>.m-4, .mr-4 (end), .ml-4 (start), .mb-4, .mt-4</td>
+        <td class="table-value ">--hg-spacing-4</td>
+        <td class="value-center-blue ">0.25rem</td>
+        <td class="value-center-orange ">4px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-12, .pr-12 (end), .pl-12 (start), .pb-12, .pt-12<br>.m-12, .mr-12 (end), .ml-12 (start), .mb-12, .mt-12</td>
-        <td class="spacing-var ">--hg-spacing-12</td>
-        <td class="spacing-value ">0.75rem</td>
-        <td class="spacing-px ">12px</td>
+        <td class="table-name">.p-8, .pr-8 (end), .pl-8 (start), .pb-8, .pt-8<br>.m-8, .mr-8 (end), .ml-8 (start), .mb-8, .mt-8</td>
+        <td class="table-value ">--hg-spacing-8</td>
+        <td class="value-center-blue ">0.5rem</td>
+        <td class="value-center-orange ">8px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-16, .pr-16 (end), .pl-16 (start), .pb-16, .pt-16<br>.m-16, .mr-16 (end), .ml-16 (start), .mb-16, .mt-16</td>
-        <td class="spacing-var ">--hg-spacing-16</td>
-        <td class="spacing-value ">1rem</td>
-        <td class="spacing-px ">16px</td>
+        <td class="table-name">.p-12, .pr-12 (end), .pl-12 (start), .pb-12, .pt-12<br>.m-12, .mr-12 (end), .ml-12 (start), .mb-12, .mt-12</td>
+        <td class="table-value ">--hg-spacing-12</td>
+        <td class="value-center-blue ">0.75rem</td>
+        <td class="value-center-orange ">12px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-20, .pr-20 (end), .pl-20 (start), .pb-20, .pt-20<br>.m-20, .mr-20 (end), .ml-20 (start), .mb-20, .mt-20</td>
-        <td class="spacing-var ">--hg-spacing-20</td>
-        <td class="spacing-value ">1.25rem</td>
-        <td class="spacing-px ">20px</td>
+        <td class="table-name">.p-16, .pr-16 (end), .pl-16 (start), .pb-16, .pt-16<br>.m-16, .mr-16 (end), .ml-16 (start), .mb-16, .mt-16</td>
+        <td class="table-value ">--hg-spacing-16</td>
+        <td class="value-center-blue ">1rem</td>
+        <td class="value-center-orange ">16px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-24, .pr-24 (end), .pl-24 (start), .pb-24, .pt-24<br>.m-24, .mr-24 (end), .ml-24 (start), .mb-24, .mt-24</td>
-        <td class="spacing-var ">--hg-spacing-24</td>
-        <td class="spacing-value ">1.5rem</td>
-        <td class="spacing-px ">24px</td>
+        <td class="table-name">.p-20, .pr-20 (end), .pl-20 (start), .pb-20, .pt-20<br>.m-20, .mr-20 (end), .ml-20 (start), .mb-20, .mt-20</td>
+        <td class="table-value ">--hg-spacing-20</td>
+        <td class="value-center-blue ">1.25rem</td>
+        <td class="value-center-orange ">20px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-32, .pr-32 (end), .pl-32 (start), .pb-32, .pt-32<br>.m-32, .mr-32 (end), .ml-32 (start), .mb-32, .mt-32</td>
-        <td class="spacing-var ">--hg-spacing-32</td>
-        <td class="spacing-value ">2rem</td>
-        <td class="spacing-px ">32px</td>
+        <td class="table-name">.p-24, .pr-24 (end), .pl-24 (start), .pb-24, .pt-24<br>.m-24, .mr-24 (end), .ml-24 (start), .mb-24, .mt-24</td>
+        <td class="table-value ">--hg-spacing-24</td>
+        <td class="value-center-blue ">1.5rem</td>
+        <td class="value-center-orange ">24px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-36, .pr-36 (end), .pl-36 (start), .pb-36, .pt-36<br>.m-36, .mr-36 (end), .ml-36 (start), .mb-36, .mt-36</td>
-        <td class="spacing-var ">--hg-spacing-36</td>
-        <td class="spacing-value ">2.25rem</td>
-        <td class="spacing-px ">36px</td>
+        <td class="table-name">.p-32, .pr-32 (end), .pl-32 (start), .pb-32, .pt-32<br>.m-32, .mr-32 (end), .ml-32 (start), .mb-32, .mt-32</td>
+        <td class="table-value ">--hg-spacing-32</td>
+        <td class="value-center-blue ">2rem</td>
+        <td class="value-center-orange ">32px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-40, .pr-40 (end), .pl-40 (start), .pb-40, .pt-40<br>.m-40, .mr-40 (end), .ml-40 (start), .mb-40, .mt-40</td>
-        <td class="spacing-var ">--hg-spacing-40</td>
-        <td class="spacing-value ">2.5rem</td>
-        <td class="spacing-px ">40px</td>
+        <td class="table-name">.p-36, .pr-36 (end), .pl-36 (start), .pb-36, .pt-36<br>.m-36, .mr-36 (end), .ml-36 (start), .mb-36, .mt-36</td>
+        <td class="table-value ">--hg-spacing-36</td>
+        <td class="value-center-blue ">2.25rem</td>
+        <td class="value-center-orange ">36px</td>
       </tr>
       <tr>
-        <td class="spacing-class">.p-64, .pr-64 (end), .pl-64 (start), .pb-64, .pt-64<br>.m-64, .mr-64 (end), .ml-64 (start), .mb-64, .mt-64</td>
-        <td class="spacing-var ">--hg-spacing-64</td>
-        <td class="spacing-value ">4rem</td>
-        <td class="spacing-px ">64px</td>
+        <td class="table-name">.p-40, .pr-40 (end), .pl-40 (start), .pb-40, .pt-40<br>.m-40, .mr-40 (end), .ml-40 (start), .mb-40, .mt-40</td>
+        <td class="table-value ">--hg-spacing-40</td>
+        <td class="value-center-blue ">2.5rem</td>
+        <td class="value-center-orange ">40px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-64, .pr-64 (end), .pl-64 (start), .pb-64, .pt-64<br>.m-64, .mr-64 (end), .ml-64 (start), .mb-64, .mt-64</td>
+        <td class="table-value ">--hg-spacing-64</td>
+        <td class="value-center-blue ">4rem</td>
+        <td class="value-center-orange ">64px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-72, .pr-72 (end), .pl-72 (start), .pb-72, .pt-72<br>.m-72, .mr-72 (end), .ml-72 (start), .mb-72, .mt-72</td>
+        <td class="table-value changed">--hg-spacing-72</td>
+        <td class="value-center-blue changed">4.5rem</td>
+        <td class="value-center-orange changed">72px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-80, .pr-80 (end), .pl-80 (start), .pb-80, .pt-80<br>.m-80, .mr-80 (end), .ml-80 (start), .mb-80, .mt-80</td>
+        <td class="table-value changed">--hg-spacing-80</td>
+        <td class="value-center-blue changed">5rem</td>
+        <td class="value-center-orange changed">80px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-88, .pr-88 (end), .pl-88 (start), .pb-88, .pt-88<br>.m-88, .mr-88 (end), .ml-88 (start), .mb-88, .mt-88</td>
+        <td class="table-value changed">--hg-spacing-88</td>
+        <td class="value-center-blue changed">5.5rem</td>
+        <td class="value-center-orange changed">88px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-96, .pr-96 (end), .pl-96 (start), .pb-96, .pt-96<br>.m-96, .mr-96 (end), .ml-96 (start), .mb-96, .mt-96</td>
+        <td class="table-value changed">--hg-spacing-96</td>
+        <td class="value-center-blue changed">6rem</td>
+        <td class="value-center-orange changed">96px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-104, .pr-104 (end), .pl-104 (start), .pb-104, .pt-104<br>.m-104, .mr-104 (end), .ml-104 (start), .mb-104, .mt-104</td>
+        <td class="table-value changed">--hg-spacing-104</td>
+        <td class="value-center-blue changed">6.5rem</td>
+        <td class="value-center-orange changed">104px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-112, .pr-112 (end), .pl-112 (start), .pb-112, .pt-112<br>.m-112, .mr-112 (end), .ml-112 (start), .mb-112, .mt-112</td>
+        <td class="table-value changed">--hg-spacing-112</td>
+        <td class="value-center-blue changed">7rem</td>
+        <td class="value-center-orange changed">112px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-120, .pr-120 (end), .pl-120 (start), .pb-120, .pt-120<br>.m-120, .mr-120 (end), .ml-120 (start), .mb-120, .mt-120</td>
+        <td class="table-value changed">--hg-spacing-120</td>
+        <td class="value-center-blue changed">7.5rem</td>
+        <td class="value-center-orange changed">120px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-128, .pr-128 (end), .pl-128 (start), .pb-128, .pt-128<br>.m-128, .mr-128 (end), .ml-128 (start), .mb-128, .mt-128</td>
+        <td class="table-value changed">--hg-spacing-128</td>
+        <td class="value-center-blue changed">8rem</td>
+        <td class="value-center-orange changed">128px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-136, .pr-136 (end), .pl-136 (start), .pb-136, .pt-136<br>.m-136, .mr-136 (end), .ml-136 (start), .mb-136, .mt-136</td>
+        <td class="table-value changed">--hg-spacing-136</td>
+        <td class="value-center-blue changed">8.5rem</td>
+        <td class="value-center-orange changed">136px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-144, .pr-144 (end), .pl-144 (start), .pb-144, .pt-144<br>.m-144, .mr-144 (end), .ml-144 (start), .mb-144, .mt-144</td>
+        <td class="table-value changed">--hg-spacing-144</td>
+        <td class="value-center-blue changed">9rem</td>
+        <td class="value-center-orange changed">144px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-152, .pr-152 (end), .pl-152 (start), .pb-152, .pt-152<br>.m-152, .mr-152 (end), .ml-152 (start), .mb-152, .mt-152</td>
+        <td class="table-value changed">--hg-spacing-152</td>
+        <td class="value-center-blue changed">9.5rem</td>
+        <td class="value-center-orange changed">152px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-160, .pr-160 (end), .pl-160 (start), .pb-160, .pt-160<br>.m-160, .mr-160 (end), .ml-160 (start), .mb-160, .mt-160</td>
+        <td class="table-value changed">--hg-spacing-160</td>
+        <td class="value-center-blue changed">10rem</td>
+        <td class="value-center-orange changed">160px</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-20-percent, .pr-20-percent (end), .pl-20-percent (start), .pb-20-percent, .pt-20-percent<br>.m-20-percent, .mr-20-percent (end), .ml-20-percent (start), .mb-20-percent, .mt-20-percent</td>
+        <td class="table-value changed">--hg-spacing-20-percent</td>
+        <td class="value-center-blue changed">20%</td>
+        <td class="value-center-orange changed">20%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-25-percent, .pr-25-percent (end), .pl-25-percent (start), .pb-25-percent, .pt-25-percent<br>.m-25-percent, .mr-25-percent (end), .ml-25-percent (start), .mb-25-percent, .mt-25-percent</td>
+        <td class="table-value changed">--hg-spacing-25-percent</td>
+        <td class="value-center-blue changed">25%</td>
+        <td class="value-center-orange changed">25%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-33-percent, .pr-33-percent (end), .pl-33-percent (start), .pb-33-percent, .pt-33-percent<br>.m-33-percent, .mr-33-percent (end), .ml-33-percent (start), .mb-33-percent, .mt-33-percent</td>
+        <td class="table-value changed">--hg-spacing-33-percent</td>
+        <td class="value-center-blue changed">33.333333%</td>
+        <td class="value-center-orange changed">33.333333%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-40-percent, .pr-40-percent (end), .pl-40-percent (start), .pb-40-percent, .pt-40-percent<br>.m-40-percent, .mr-40-percent (end), .ml-40-percent (start), .mb-40-percent, .mt-40-percent</td>
+        <td class="table-value changed">--hg-spacing-40-percent</td>
+        <td class="value-center-blue changed">40%</td>
+        <td class="value-center-orange changed">40%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-50-percent, .pr-50-percent (end), .pl-50-percent (start), .pb-50-percent, .pt-50-percent<br>.m-50-percent, .mr-50-percent (end), .ml-50-percent (start), .mb-50-percent, .mt-50-percent</td>
+        <td class="table-value changed">--hg-spacing-50-percent</td>
+        <td class="value-center-blue changed">50%</td>
+        <td class="value-center-orange changed">50%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-60-percent, .pr-60-percent (end), .pl-60-percent (start), .pb-60-percent, .pt-60-percent<br>.m-60-percent, .mr-60-percent (end), .ml-60-percent (start), .mb-60-percent, .mt-60-percent</td>
+        <td class="table-value changed">--hg-spacing-60-percent</td>
+        <td class="value-center-blue changed">60%</td>
+        <td class="value-center-orange changed">60%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-66-percent, .pr-66-percent (end), .pl-66-percent (start), .pb-66-percent, .pt-66-percent<br>.m-66-percent, .mr-66-percent (end), .ml-66-percent (start), .mb-66-percent, .mt-66-percent</td>
+        <td class="table-value changed">--hg-spacing-66-percent</td>
+        <td class="value-center-blue changed">66.666667%</td>
+        <td class="value-center-orange changed">66.666667%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-75-percent, .pr-75-percent (end), .pl-75-percent (start), .pb-75-percent, .pt-75-percent<br>.m-75-percent, .mr-75-percent (end), .ml-75-percent (start), .mb-75-percent, .mt-75-percent</td>
+        <td class="table-value changed">--hg-spacing-75-percent</td>
+        <td class="value-center-blue changed">75%</td>
+        <td class="value-center-orange changed">75%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.p-100-percent, .pr-100-percent (end), .pl-100-percent (start), .pb-100-percent, .pt-100-percent<br>.m-100-percent, .mr-100-percent (end), .ml-100-percent (start), .mb-100-percent, .mt-100-percent</td>
+        <td class="table-value changed">--hg-spacing-100-percent</td>
+        <td class="value-center-blue changed">100%</td>
+        <td class="value-center-orange changed">100%</td>
       </tr>
       </tbody>
     </table>
@@ -909,28 +1120,685 @@
         </p>
         <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:p-4</code> - Aplica padding de 4px solo en desktop (≥992px)
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥992px)
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:pr-8</code> - Aplica padding-right de 8px solo en desktop
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
           </li>
         </ul>
         <p class="text-m" style="margin: 0; line-height: 1.6; font-size: 0.875rem; opacity: 0.8;">
-          <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4 md:p-8</code> aplica 4px en mobile y 8px en desktop.
+          <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
         </p>
+      </div>
+    </div>
+    
+
+    
+    <div class="section" id="layout">
+      <h2 class="section-title">Helpers de Layout</h2>
+      
+    <table class="guide-table">
+      <thead>
+        <tr>
+          <th>Clases Helper</th>
+          <th>Propiedad CSS</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr>
+        <td class="table-name">.hg-d-contents, .md:hg-d-contents</td>
+        <td class="table-value">display: contents</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-d-inline, .md:hg-d-inline</td>
+        <td class="table-value">display: inline</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-d-inline-block, .md:hg-d-inline-block</td>
+        <td class="table-value">display: inline-block</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-d-block, .md:hg-d-block</td>
+        <td class="table-value">display: block</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-d-flex, .md:hg-d-flex</td>
+        <td class="table-value">display: flex</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-d-inline-flex, .md:hg-d-inline-flex</td>
+        <td class="table-value">display: inline-flex</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-d-none, .md:hg-d-none</td>
+        <td class="table-value">display: none</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-flex-row, .md:hg-flex-row</td>
+        <td class="table-value">flex-direction: row</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-flex-column, .md:hg-flex-column</td>
+        <td class="table-value">flex-direction: column</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-flex-nowrap, .md:hg-flex-nowrap</td>
+        <td class="table-value">flex-wrap: nowrap</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-flex-wrap, .md:hg-flex-wrap</td>
+        <td class="table-value">flex-wrap: wrap</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-grow-0, .md:hg-grow-0</td>
+        <td class="table-value">flex-grow: 0</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-grow-1, .md:hg-grow-1</td>
+        <td class="table-value">flex-grow: 1</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-grow-2, .md:hg-grow-2</td>
+        <td class="table-value">flex-grow: 2</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-grow-3, .md:hg-grow-3</td>
+        <td class="table-value">flex-grow: 3</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-grow-auto, .md:hg-grow-auto</td>
+        <td class="table-value">flex-grow: auto</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-shrink-0, .md:hg-shrink-0</td>
+        <td class="table-value">flex-shrink: 0</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-shrink-1, .md:hg-shrink-1</td>
+        <td class="table-value">flex-shrink: 1</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-shrink-2, .md:hg-shrink-2</td>
+        <td class="table-value">flex-shrink: 2</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-shrink-3, .md:hg-shrink-3</td>
+        <td class="table-value">flex-shrink: 3</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-shrink-auto, .md:hg-shrink-auto</td>
+        <td class="table-value">flex-shrink: auto</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-0, .md:hg-order-0</td>
+        <td class="table-value">order: 0</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-1, .md:hg-order-1</td>
+        <td class="table-value">order: 1</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-2, .md:hg-order-2</td>
+        <td class="table-value">order: 2</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-3, .md:hg-order-3</td>
+        <td class="table-value">order: 3</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-3-neg, .md:hg-order-3-neg</td>
+        <td class="table-value">order: -3</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-2-neg, .md:hg-order-2-neg</td>
+        <td class="table-value">order: -2</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-1-neg, .md:hg-order-1-neg</td>
+        <td class="table-value">order: -1</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-first, .md:hg-order-first</td>
+        <td class="table-value">order: -9999</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-order-last, .md:hg-order-last</td>
+        <td class="table-value">order: 9999</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-stretch, .md:hg-justify-stretch</td>
+        <td class="table-value">justify-content: stretch</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-start, .md:hg-justify-start</td>
+        <td class="table-value">justify-content: flex-start</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-end, .md:hg-justify-end</td>
+        <td class="table-value">justify-content: flex-end</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-center, .md:hg-justify-center</td>
+        <td class="table-value">justify-content: center</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-between, .md:hg-justify-between</td>
+        <td class="table-value">justify-content: space-between</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-around, .md:hg-justify-around</td>
+        <td class="table-value">justify-content: space-around</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-evenly, .md:hg-justify-evenly</td>
+        <td class="table-value">justify-content: space-evenly</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-items-stretch, .md:hg-justify-items-stretch</td>
+        <td class="table-value">justify-items: stretch</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-items-start, .md:hg-justify-items-start</td>
+        <td class="table-value">justify-items: flex-start</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-items-end, .md:hg-justify-items-end</td>
+        <td class="table-value">justify-items: flex-end</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-items-center, .md:hg-justify-items-center</td>
+        <td class="table-value">justify-items: center</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-items-between, .md:hg-justify-items-between</td>
+        <td class="table-value">justify-items: space-between</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-items-around, .md:hg-justify-items-around</td>
+        <td class="table-value">justify-items: space-around</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-justify-items-evenly, .md:hg-justify-items-evenly</td>
+        <td class="table-value">justify-items: space-evenly</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-content-stretch, .md:hg-content-stretch</td>
+        <td class="table-value">align-content: stretch</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-content-start, .md:hg-content-start</td>
+        <td class="table-value">align-content: flex-start</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-content-end, .md:hg-content-end</td>
+        <td class="table-value">align-content: flex-end</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-content-center, .md:hg-content-center</td>
+        <td class="table-value">align-content: center</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-content-between, .md:hg-content-between</td>
+        <td class="table-value">align-content: space-between</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-content-around, .md:hg-content-around</td>
+        <td class="table-value">align-content: space-around</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-content-evenly, .md:hg-content-evenly</td>
+        <td class="table-value">align-content: space-evenly</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-items-stretch, .md:hg-items-stretch</td>
+        <td class="table-value">align-items: stretch</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-items-start, .md:hg-items-start</td>
+        <td class="table-value">align-items: flex-start</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-items-end, .md:hg-items-end</td>
+        <td class="table-value">align-items: flex-end</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-items-center, .md:hg-items-center</td>
+        <td class="table-value">align-items: center</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-items-baseline, .md:hg-items-baseline</td>
+        <td class="table-value">align-items: baseline</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-0, .md:hg-gap-y-0</td>
+        <td class="table-value">row-gap: 0</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-4, .md:hg-gap-y-4</td>
+        <td class="table-value">row-gap: 0.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-8, .md:hg-gap-y-8</td>
+        <td class="table-value">row-gap: 0.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-12, .md:hg-gap-y-12</td>
+        <td class="table-value">row-gap: 0.75rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-16, .md:hg-gap-y-16</td>
+        <td class="table-value">row-gap: 1rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-20, .md:hg-gap-y-20</td>
+        <td class="table-value">row-gap: 1.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-24, .md:hg-gap-y-24</td>
+        <td class="table-value">row-gap: 1.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-32, .md:hg-gap-y-32</td>
+        <td class="table-value">row-gap: 2rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-36, .md:hg-gap-y-36</td>
+        <td class="table-value">row-gap: 2.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-40, .md:hg-gap-y-40</td>
+        <td class="table-value">row-gap: 2.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-64, .md:hg-gap-y-64</td>
+        <td class="table-value">row-gap: 4rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-72, .md:hg-gap-y-72</td>
+        <td class="table-value">row-gap: 4.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-80, .md:hg-gap-y-80</td>
+        <td class="table-value">row-gap: 5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-88, .md:hg-gap-y-88</td>
+        <td class="table-value">row-gap: 5.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-96, .md:hg-gap-y-96</td>
+        <td class="table-value">row-gap: 6rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-104, .md:hg-gap-y-104</td>
+        <td class="table-value">row-gap: 6.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-112, .md:hg-gap-y-112</td>
+        <td class="table-value">row-gap: 7rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-120, .md:hg-gap-y-120</td>
+        <td class="table-value">row-gap: 7.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-128, .md:hg-gap-y-128</td>
+        <td class="table-value">row-gap: 8rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-136, .md:hg-gap-y-136</td>
+        <td class="table-value">row-gap: 8.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-144, .md:hg-gap-y-144</td>
+        <td class="table-value">row-gap: 9rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-152, .md:hg-gap-y-152</td>
+        <td class="table-value">row-gap: 9.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-160, .md:hg-gap-y-160</td>
+        <td class="table-value">row-gap: 10rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-20-percent, .md:hg-gap-y-20-percent</td>
+        <td class="table-value">row-gap: 20%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-25-percent, .md:hg-gap-y-25-percent</td>
+        <td class="table-value">row-gap: 25%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-33-percent, .md:hg-gap-y-33-percent</td>
+        <td class="table-value">row-gap: 33.333333%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-40-percent, .md:hg-gap-y-40-percent</td>
+        <td class="table-value">row-gap: 40%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-50-percent, .md:hg-gap-y-50-percent</td>
+        <td class="table-value">row-gap: 50%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-60-percent, .md:hg-gap-y-60-percent</td>
+        <td class="table-value">row-gap: 60%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-66-percent, .md:hg-gap-y-66-percent</td>
+        <td class="table-value">row-gap: 66.666667%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-75-percent, .md:hg-gap-y-75-percent</td>
+        <td class="table-value">row-gap: 75%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-y-100-percent, .md:hg-gap-y-100-percent</td>
+        <td class="table-value">row-gap: 100%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-0, .md:hg-gap-x-0</td>
+        <td class="table-value">column-gap: 0</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-4, .md:hg-gap-x-4</td>
+        <td class="table-value">column-gap: 0.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-8, .md:hg-gap-x-8</td>
+        <td class="table-value">column-gap: 0.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-12, .md:hg-gap-x-12</td>
+        <td class="table-value">column-gap: 0.75rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-16, .md:hg-gap-x-16</td>
+        <td class="table-value">column-gap: 1rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-20, .md:hg-gap-x-20</td>
+        <td class="table-value">column-gap: 1.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-24, .md:hg-gap-x-24</td>
+        <td class="table-value">column-gap: 1.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-32, .md:hg-gap-x-32</td>
+        <td class="table-value">column-gap: 2rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-36, .md:hg-gap-x-36</td>
+        <td class="table-value">column-gap: 2.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-40, .md:hg-gap-x-40</td>
+        <td class="table-value">column-gap: 2.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-64, .md:hg-gap-x-64</td>
+        <td class="table-value">column-gap: 4rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-72, .md:hg-gap-x-72</td>
+        <td class="table-value">column-gap: 4.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-80, .md:hg-gap-x-80</td>
+        <td class="table-value">column-gap: 5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-88, .md:hg-gap-x-88</td>
+        <td class="table-value">column-gap: 5.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-96, .md:hg-gap-x-96</td>
+        <td class="table-value">column-gap: 6rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-104, .md:hg-gap-x-104</td>
+        <td class="table-value">column-gap: 6.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-112, .md:hg-gap-x-112</td>
+        <td class="table-value">column-gap: 7rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-120, .md:hg-gap-x-120</td>
+        <td class="table-value">column-gap: 7.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-128, .md:hg-gap-x-128</td>
+        <td class="table-value">column-gap: 8rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-136, .md:hg-gap-x-136</td>
+        <td class="table-value">column-gap: 8.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-144, .md:hg-gap-x-144</td>
+        <td class="table-value">column-gap: 9rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-152, .md:hg-gap-x-152</td>
+        <td class="table-value">column-gap: 9.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-160, .md:hg-gap-x-160</td>
+        <td class="table-value">column-gap: 10rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-20-percent, .md:hg-gap-x-20-percent</td>
+        <td class="table-value">column-gap: 20%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-25-percent, .md:hg-gap-x-25-percent</td>
+        <td class="table-value">column-gap: 25%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-33-percent, .md:hg-gap-x-33-percent</td>
+        <td class="table-value">column-gap: 33.333333%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-40-percent, .md:hg-gap-x-40-percent</td>
+        <td class="table-value">column-gap: 40%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-50-percent, .md:hg-gap-x-50-percent</td>
+        <td class="table-value">column-gap: 50%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-60-percent, .md:hg-gap-x-60-percent</td>
+        <td class="table-value">column-gap: 60%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-66-percent, .md:hg-gap-x-66-percent</td>
+        <td class="table-value">column-gap: 66.666667%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-75-percent, .md:hg-gap-x-75-percent</td>
+        <td class="table-value">column-gap: 75%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-x-100-percent, .md:hg-gap-x-100-percent</td>
+        <td class="table-value">column-gap: 100%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-0, .md:hg-gap-0</td>
+        <td class="table-value">gap: 0</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-4, .md:hg-gap-4</td>
+        <td class="table-value">gap: 0.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-8, .md:hg-gap-8</td>
+        <td class="table-value">gap: 0.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-12, .md:hg-gap-12</td>
+        <td class="table-value">gap: 0.75rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-16, .md:hg-gap-16</td>
+        <td class="table-value">gap: 1rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-20, .md:hg-gap-20</td>
+        <td class="table-value">gap: 1.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-24, .md:hg-gap-24</td>
+        <td class="table-value">gap: 1.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-32, .md:hg-gap-32</td>
+        <td class="table-value">gap: 2rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-36, .md:hg-gap-36</td>
+        <td class="table-value">gap: 2.25rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-40, .md:hg-gap-40</td>
+        <td class="table-value">gap: 2.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-64, .md:hg-gap-64</td>
+        <td class="table-value">gap: 4rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-72, .md:hg-gap-72</td>
+        <td class="table-value">gap: 4.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-80, .md:hg-gap-80</td>
+        <td class="table-value">gap: 5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-88, .md:hg-gap-88</td>
+        <td class="table-value">gap: 5.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-96, .md:hg-gap-96</td>
+        <td class="table-value">gap: 6rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-104, .md:hg-gap-104</td>
+        <td class="table-value">gap: 6.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-112, .md:hg-gap-112</td>
+        <td class="table-value">gap: 7rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-120, .md:hg-gap-120</td>
+        <td class="table-value">gap: 7.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-128, .md:hg-gap-128</td>
+        <td class="table-value">gap: 8rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-136, .md:hg-gap-136</td>
+        <td class="table-value">gap: 8.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-144, .md:hg-gap-144</td>
+        <td class="table-value">gap: 9rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-152, .md:hg-gap-152</td>
+        <td class="table-value">gap: 9.5rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-160, .md:hg-gap-160</td>
+        <td class="table-value">gap: 10rem</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-20-percent, .md:hg-gap-20-percent</td>
+        <td class="table-value">gap: 20%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-25-percent, .md:hg-gap-25-percent</td>
+        <td class="table-value">gap: 25%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-33-percent, .md:hg-gap-33-percent</td>
+        <td class="table-value">gap: 33.333333%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-40-percent, .md:hg-gap-40-percent</td>
+        <td class="table-value">gap: 40%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-50-percent, .md:hg-gap-50-percent</td>
+        <td class="table-value">gap: 50%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-60-percent, .md:hg-gap-60-percent</td>
+        <td class="table-value">gap: 60%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-66-percent, .md:hg-gap-66-percent</td>
+        <td class="table-value">gap: 66.666667%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-75-percent, .md:hg-gap-75-percent</td>
+        <td class="table-value">gap: 75%</td>
+      </tr>
+      <tr>
+        <td class="table-name">.hg-gap-100-percent, .md:hg-gap-100-percent</td>
+        <td class="table-value">gap: 100%</td>
+      </tr>
+      </tbody>
+    </table>
+      <p class="text-m" style="margin-top: 1rem;">
+        Clases helper para display, flexbox, alignment y gap. 
+        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥992px).
+      </p>
+      
+      <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Ejemplos de uso</h3>
+        <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.d-flex</code> - Display flex
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.flex-column</code> - Flex direction column
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.justify-center</code> - Justify content center
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.items-center</code> - Align items center
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.gap-16</code> - Gap de 16px (1rem)
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:flex-row</code> - Flex direction row solo en desktop
+          </li>
+        </ul>
       </div>
     </div>
     
 
     <div class="section" id="breakpoints">
       <h2 class="section-title">Breakpoints</h2>
-      <table class="breakpoints-table">
+      <table class="guide-table">
         <thead>
           <tr>
             <th>Breakpoint</th>
@@ -939,15 +1807,15 @@
         </thead>
         <tbody>
           <tr>
-            <td class="breakpoint-name">Mobile</td>
-            <td class="breakpoint-value ">
+            <td class="table-name">Mobile</td>
+            <td class="table-value ">
               0px 
               (0rem)
             </td>
           </tr>
           <tr>
-            <td class="breakpoint-name">Desktop</td>
-            <td class="breakpoint-value ">
+            <td class="table-name">Desktop</td>
+            <td class="table-value ">
               992px 
               (62rem)
             </td>

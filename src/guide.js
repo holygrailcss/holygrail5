@@ -292,14 +292,14 @@ function generateHTML(configData, previousValuesPath = null) {
     
     return `
       <tr>
-        <td class="class-name">.${className}</td>
+        <td class="table-name">.${className}</td>
         <td class="preview-cell">
           <div class="typography-preview ${className}">Aa</div>
         </td>
-        <td class="${fontFamilyChanged ? 'changed' : ''}">${fontFamilyName || cls.fontFamily || '-'}</td>
-        <td class="${fontWeightChanged ? 'changed' : ''}">${cls.fontWeight || '-'}</td>
-        <td class="${letterSpacingChanged ? 'changed' : ''}">${cls.letterSpacing || '-'}</td>
-        <td class="${textTransformChanged ? 'changed' : ''}">${cls.textTransform || '-'}</td>
+        <td class="table-value ${fontFamilyChanged ? 'changed' : ''}">${fontFamilyName || cls.fontFamily || '-'}</td>
+        <td class="table-value ${fontWeightChanged ? 'changed' : ''}">${cls.fontWeight || '-'}</td>
+        <td class="table-value ${letterSpacingChanged ? 'changed' : ''}">${cls.letterSpacing || '-'}</td>
+        <td class="table-value ${textTransformChanged ? 'changed' : ''}">${cls.textTransform || '-'}</td>
         <td class="mobile-value ${mobileFontSizeChanged ? 'changed' : ''}">${cls.mobile?.fontSize ? pxToRem(cls.mobile.fontSize, baseFontSize) : '-'}</td>
         <td class="mobile-value ${mobileLineHeightChanged ? 'changed' : ''}">${cls.mobile?.lineHeight || '-'}</td>
         <td class="desktop-value ${desktopFontSizeChanged ? 'changed' : ''}">${cls.desktop?.fontSize ? pxToRem(cls.desktop.fontSize, baseFontSize) : '-'}</td>
@@ -308,7 +308,7 @@ function generateHTML(configData, previousValuesPath = null) {
   }).join('');
   
   const classesHTML = `
-    <table class="typography-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Clase</th>
@@ -340,15 +340,15 @@ function generateHTML(configData, previousValuesPath = null) {
     const isChanged = changedValues.has(`fontFamilyMap.${name}`);
     return `
       <tr>
-        <td class="font-family-name">${name}</td>
+        <td class="table-name">${name}</td>
         <td class="font-family-preview" style='font-family: ${styleValue};'>Aa</td>
-        <td class="font-family-value ${isChanged ? 'changed' : ''}">${value}</td>
-        <td class="font-family-var">${varName}</td>
+        <td class="table-value ${isChanged ? 'changed' : ''}">${value}</td>
+        <td class="table-value">${varName}</td>
       </tr>`;
   }).join('') : '';
   
   const fontFamiliesTableHTML = configData.fontFamilyMap ? `
-    <table class="font-families-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -370,15 +370,15 @@ function generateHTML(configData, previousValuesPath = null) {
         
         return `
           <tr>
-            <td class="variable-name ${isVariableChanged ? 'changed' : ''}">${variable.name}</td>
-            <td class="variable-value ${isVariableChanged ? 'changed' : ''}">${variable.value}</td>
-            <td class="variable-rem ${isVariableChanged ? 'changed' : ''}">${remValue}</td>
-            <td class="variable-px ${isVariableChanged ? 'changed' : ''}">${pxValue}</td>
+            <td class="table-name ${isVariableChanged ? 'changed' : ''}">${variable.name}</td>
+            <td class="table-value ${isVariableChanged ? 'changed' : ''}">${variable.value}</td>
+            <td class="value-center-blue ${isVariableChanged ? 'changed' : ''}">${remValue}</td>
+            <td class="value-center-orange ${isVariableChanged ? 'changed' : ''}">${pxValue}</td>
           </tr>`;
       }).join('');
   
   const variablesTableHTML = `
-    <table class="variables-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Variable CSS</th>
@@ -394,22 +394,26 @@ function generateHTML(configData, previousValuesPath = null) {
   
   // Generar tabla de spacing helpers
   const spacingHelpersHTML = configData.spacingMap ? Object.entries(configData.spacingMap).map(([key, value]) => {
+    const hasImportant = configData.spacingImportant && configData.spacingImportant.includes(key);
+    const importantLabel = hasImportant ? '<br><strong>Con !important:</strong><br>.p-' + key + '!, .pr-' + key + '! (end), .pl-' + key + '! (start), .pb-' + key + '!, .pt-' + key + '!<br>.m-' + key + '!, .mr-' + key + '! (end), .ml-' + key + '! (start), .mb-' + key + '!, .mt-' + key + '!' : '';
+    
     const varName = `--${prefix}-spacing-${key}`;
-    const remValue = pxToRem(value, baseFontSize);
+    // Si el valor termina en %, no lo convierte a rem
+    const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
     const pxValue = value;
     const isChanged = changedValues.has(`spacingMap.${key}`);
     
         return `
       <tr>
-        <td class="spacing-class">.p-${key}, .pr-${key} (end), .pl-${key} (start), .pb-${key}, .pt-${key}<br>.m-${key}, .mr-${key} (end), .ml-${key} (start), .mb-${key}, .mt-${key}</td>
-        <td class="spacing-var ${isChanged ? 'changed' : ''}">${varName}</td>
-        <td class="spacing-value ${isChanged ? 'changed' : ''}">${remValue}</td>
-        <td class="spacing-px ${isChanged ? 'changed' : ''}">${pxValue}</td>
+        <td class="table-name">.p-${key}, .pr-${key} (end), .pl-${key} (start), .pb-${key}, .pt-${key}<br>.m-${key}, .mr-${key} (end), .ml-${key} (start), .mb-${key}, .mt-${key}${importantLabel}</td>
+        <td class="table-value ${isChanged ? 'changed' : ''}">${varName}</td>
+        <td class="value-center-blue ${isChanged ? 'changed' : ''}">${remValue}</td>
+        <td class="value-center-orange ${isChanged ? 'changed' : ''}">${pxValue}</td>
       </tr>`;
   }).join('') : '';
   
   const spacingHelpersTableHTML = configData.spacingMap ? `
-    <table class="spacing-helpers-table">
+    <table class="guide-table">
       <thead>
         <tr>
           <th>Clases Helper</th>
@@ -425,7 +429,8 @@ function generateHTML(configData, previousValuesPath = null) {
   
   // Estilos CSS compartidos para tablas
   const tableStyles = `
-    .typography-table, .font-families-table, .variables-table, .breakpoints-table, .spacing-helpers-table {
+    /* Estilos generales para todas las tablas */
+    .guide-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
@@ -433,70 +438,73 @@ function generateHTML(configData, previousValuesPath = null) {
       font-size: 0.875rem;
     }
 
-
-
-    .typography-table th, .font-families-table th, .variables-table th, .breakpoints-table th, .spacing-helpers-table th {
+    .guide-table th {
       padding: 0.75rem;
       text-align: left;
       font-weight: 600;
-
       font-size: 0.75rem;
       letter-spacing: 0.05em;
       border-bottom: 1px solid #ddd;
-    }
-
-    .typography-table td, .font-families-table td, .variables-table td, .breakpoints-table td, .spacing-helpers-table td {
-      padding: 0.75rem;
-      border-bottom: 1px solid #e0e0e0;
-      vertical-align: middle;
-    }
-
-    .typography-table tbody tr:hover, .font-families-table tbody tr:hover, 
-    .variables-table tbody tr:hover, .breakpoints-table tbody tr:hover, .spacing-helpers-table tbody tr:hover {
-      background: #f9f9f9;
-    }
-
-    .typography-table th.mobile-header {
-      background: #e6f2ff;
-      color: #000000;
-      text-align: center;
-    }
-
-    .typography-table th.desktop-header {
-      background: #fff4e6;
-      color: #cc6600;
-      text-align: center;
-    }
-
-    .typography-table .sub-header th {
-      border-top: none;
-      border-bottom: 1px solid #ddd;
-      font-weight: 500;
-      font-size: 0.6875rem;
-    }
-
-    .typography-table th {
       position: sticky;
       top: 0;
       background: #f5f5f5;
       z-index: 10;
     }
 
-    .typography-table .class-name, .font-families-table .font-family-name, 
-    .variables-table .variable-name, .breakpoints-table .breakpoint-name {
-      font-weight: 600;
-      color: #000000;
+    .guide-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
     }
 
-    .typography-table .class-name, .font-families-table .font-family-name, 
-    .variables-table .variable-name {
+    .guide-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    /* Estilos para nombres/identificadores */
+    .guide-table .table-name {
+      font-weight: 600;
+      color: #000000;
       font-family: 'Courier New', monospace;
     }
 
-    .typography-table .preview-cell {
+    /* Estilos para valores */
+    .guide-table .table-value {
+      font-family: 'Courier New', monospace;
+      color: #333;
     }
 
-    .typography-table .typography-preview {
+    /* Estilos para celdas cambiadas */
+    .guide-table td.changed {
+      background: #d4edda !important;
+      border-left: 3px solid #28a745;
+      font-weight: 600;
+    }
+
+    /* Estilos específicos de tipografía */
+    .guide-table th.mobile-header {
+      background: #e6f2ff;
+      color: #000000;
+      text-align: center;
+    }
+
+    .guide-table th.desktop-header {
+      background: #fff4e6;
+      color: #cc6600;
+      text-align: center;
+    }
+
+    .guide-table .sub-header th {
+      border-top: none;
+      border-bottom: 1px solid #ddd;
+      font-weight: 500;
+      font-size: 0.6875rem;
+    }
+
+    .guide-table .preview-cell {
+    }
+
+    .guide-table .typography-preview {
       padding: 0.5rem;
       font-size: inherit;
       display: flex;
@@ -506,124 +514,113 @@ function generateHTML(configData, previousValuesPath = null) {
       text-align: center;
     }
 
-    .typography-table .mobile-value {
+    .guide-table .mobile-value {
       background: #f0f8ff;
       color: #000000;
       font-weight: 500;
       text-align: center;
+      font-family: 'Courier New', monospace;
     }
 
-    .typography-table .desktop-value {
+    .guide-table .desktop-value {
       background: #fff8f0;
       color: #cc6600;
       font-weight: 500;
       text-align: center;
-    }
-
-    .typography-table td.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
-    }
-
-    .typography-table td.mobile-value.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-    }
-
-    .typography-table td.desktop-value.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-    }
-
-    .typography-table tbody td, .font-families-table .font-family-value, 
-    .font-families-table .font-family-var, .variables-table .variable-value,
-    .variables-table .variable-rem, .variables-table .variable-px,
-    .breakpoints-table .breakpoint-value {
       font-family: 'Courier New', monospace;
     }
 
-    .breakpoints-table .breakpoint-value.changed {
+    .guide-table td.mobile-value.changed,
+    .guide-table td.desktop-value.changed {
       background: #d4edda !important;
       border-left: 3px solid #28a745;
-      font-weight: 600;
     }
 
-    .font-families-table .font-family-preview {
+    /* Estilos para previews de fuente */
+    .guide-table .font-family-preview {
       min-width: 100px;
       padding: 0.75rem;
       min-height: 50px;
       font-size: 1.5rem;
       font-weight: 600;
     }
-
-    .font-families-table .font-family-value {
-      color: #666;
-    }
-
-    .font-families-table .font-family-value.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
-    }
-
-    .variables-table .variable-value {
-      color: #333;
-    }
-
-    .variables-table .variable-rem {
+    
+    /* Estilos para valores centrados con color */
+    .guide-table .value-center-blue {
       color: #000000;
       font-weight: 500;
       text-align: center;
+      font-family: 'Courier New', monospace;
     }
 
-    .variables-table .variable-px {
+    .guide-table .value-center-orange {
       color: #cc6600;
       font-weight: 500;
       text-align: center;
-    }
-
-    .variables-table .variable-name.changed,
-    .variables-table .variable-value.changed,
-    .variables-table .variable-rem.changed,
-    .variables-table .variable-px.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
-    }
-
-    .spacing-helpers-table .spacing-class {
       font-family: 'Courier New', monospace;
-      font-weight: 600;
-      color: #000000;
-    }
-
-    .spacing-helpers-table .spacing-var {
-      font-family: 'Courier New', monospace;
-      color: #333;
-    }
-
-    .spacing-helpers-table .spacing-value {
-      font-family: 'Courier New', monospace;
-      color: #000000;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    .spacing-helpers-table .spacing-px {
-      font-family: 'Courier New', monospace;
-      color: #cc6600;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    .spacing-helpers-table .spacing-var.changed,
-    .spacing-helpers-table .spacing-value.changed,
-    .spacing-helpers-table .spacing-px.changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
     }`;
+
+  // Generar tabla de layout helpers
+  const layoutHelpersHTML = configData.helpers ? Object.entries(configData.helpers).flatMap(([helperName, config]) => {
+    const { property, class: className, responsive, values, useSpacing } = config;
+    const prefix = configData.prefix || 'hg';
+    const baseFontSize = configData.baseFontSize || 16;
+    
+    const rows = [];
+    
+    if (useSpacing && configData.spacingMap) {
+      Object.entries(configData.spacingMap).forEach(([key, value]) => {
+        const baseClass = `.${prefix}-${className}-${key}`;
+        const responsiveClass = responsive ? `, .md:${prefix}-${className}-${key}` : '';
+        const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
+        
+        rows.push(`
+      <tr>
+        <td class="table-name">${baseClass}${responsiveClass}</td>
+        <td class="table-value">${property}: ${remValue}</td>
+      </tr>`);
+      });
+    } else if (values) {
+      if (Array.isArray(values)) {
+        values.forEach(value => {
+          const baseClass = `.${prefix}-${className}-${value}`;
+          const responsiveClass = responsive ? `, .md:${prefix}-${className}-${value}` : '';
+          
+          rows.push(`
+      <tr>
+        <td class="table-name">${baseClass}${responsiveClass}</td>
+        <td class="table-value">${property}: ${value}</td>
+      </tr>`);
+        });
+      } else {
+        Object.entries(values).forEach(([key, value]) => {
+          const baseClass = `.${prefix}-${className}-${key}`;
+          const responsiveClass = responsive ? `, .md:${prefix}-${className}-${key}` : '';
+          
+          rows.push(`
+      <tr>
+        <td class="table-name">${baseClass}${responsiveClass}</td>
+        <td class="table-value">${property}: ${value}</td>
+      </tr>`);
+        });
+      }
+    }
+    
+    return rows;
+  }).join('') : '';
+
+  const layoutHelpersTableHTML = configData.helpers ? `
+    <table class="guide-table">
+      <thead>
+        <tr>
+          <th>Clases Helper</th>
+          <th>Propiedad CSS</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${layoutHelpersHTML}
+      </tbody>
+    </table>` : '';
   
       // Construir menú lateral
       const menuItems = [];
@@ -636,6 +633,9 @@ function generateHTML(configData, previousValuesPath = null) {
       );
       if (spacingHelpersTableHTML) {
         menuItems.push({ id: 'spacing', label: 'Helpers de Spacing' });
+      }
+      if (layoutHelpersTableHTML) {
+        menuItems.push({ id: 'layout', label: 'Helpers de Layout' });
       }
       menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
       
@@ -852,28 +852,66 @@ function generateHTML(configData, previousValuesPath = null) {
         </p>
         <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:pr-8</code> - Aplica padding-right de 8px solo en desktop
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
           </li>
         </ul>
         <p class="text-m" style="margin: 0; line-height: 1.6; font-size: 0.875rem; opacity: 0.8;">
-          <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p-4 md:p-8</code> aplica 4px en mobile y 8px en desktop.
+          <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
         </p>
+      </div>
+    </div>
+    ` : ''}
+
+    ${layoutHelpersTableHTML ? `
+    <div class="section" id="layout">
+      <h2 class="section-title">Helpers de Layout</h2>
+      ${layoutHelpersTableHTML}
+      <p class="text-m" style="margin-top: 1rem;">
+        Clases helper para display, flexbox, alignment y gap. 
+        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
+      </p>
+      
+      <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Ejemplos de uso</h3>
+        <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.d-flex</code> - Display flex
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.flex-column</code> - Flex direction column
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.justify-center</code> - Justify content center
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.items-center</code> - Align items center
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.gap-16</code> - Gap de 16px (1rem)
+          </li>
+          <li class="text-m" style="margin-bottom: 0.5rem;">
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:flex-row</code> - Flex direction row solo en desktop
+          </li>
+        </ul>
       </div>
     </div>
     ` : ''}
 
     <div class="section" id="breakpoints">
       <h2 class="section-title">Breakpoints</h2>
-      <table class="breakpoints-table">
+      <table class="guide-table">
         <thead>
           <tr>
             <th>Breakpoint</th>
@@ -882,15 +920,15 @@ function generateHTML(configData, previousValuesPath = null) {
         </thead>
         <tbody>
           <tr>
-            <td class="breakpoint-name">Mobile</td>
-            <td class="breakpoint-value ${changedValues.has('breakpoints.mobile') ? 'changed' : ''}">
+            <td class="table-name">Mobile</td>
+            <td class="table-value ${changedValues.has('breakpoints.mobile') ? 'changed' : ''}">
               ${configData.breakpoints.mobile} 
               ${configData.breakpoints.mobile.endsWith('px') ? `(${pxToRem(configData.breakpoints.mobile, baseFontSize)})` : ''}
             </td>
           </tr>
           <tr>
-            <td class="breakpoint-name">Desktop</td>
-            <td class="breakpoint-value ${changedValues.has('breakpoints.desktop') ? 'changed' : ''}">
+            <td class="table-name">Desktop</td>
+            <td class="table-value ${changedValues.has('breakpoints.desktop') ? 'changed' : ''}">
               ${configData.breakpoints.desktop} 
               ${configData.breakpoints.desktop.endsWith('px') ? `(${pxToRem(configData.breakpoints.desktop, baseFontSize)})` : ''}
             </td>
