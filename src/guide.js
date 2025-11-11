@@ -468,7 +468,7 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
+      margin-top: 0rem;
       background: white;
       font-size: 0.875rem;
     }
@@ -482,7 +482,7 @@ function generateHTML(configData, previousValuesPath = null) {
       border-bottom: 1px solid #ddd;
       position: sticky;
       top: 0;
-      background: #f5f5f5;
+      background: #dcdcdc;
       z-index: 10;
     }
 
@@ -545,7 +545,7 @@ function generateHTML(configData, previousValuesPath = null) {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 50px;
+      min-height: 20px;
       text-align: center;
     }
 
@@ -697,7 +697,7 @@ function generateHTML(configData, previousValuesPath = null) {
       font-family: var(--${prefix}-${category}-font-family-primary);
       margin: 0;
       padding: 0;
-      background: #f5f5f5;
+   
       display: flex;
     }
     
@@ -756,8 +756,8 @@ function generateHTML(configData, previousValuesPath = null) {
     .main-content {
       margin-left: 250px;
       flex: 1;
-      padding: 2rem;
-      padding-top: 0;
+    
+      padding: 0;
       max-width: calc(100% - 250px);
     }
     
@@ -803,10 +803,10 @@ function generateHTML(configData, previousValuesPath = null) {
       top: 0;
       z-index: 50;
       background: #f5f5f5;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
+      padding: 1rem;
+ 
       border-bottom: 2px solid #000;
-      margin-bottom: 2rem;
+
      
     }
 
@@ -824,16 +824,20 @@ function generateHTML(configData, previousValuesPath = null) {
     .section {
       margin-bottom: 4rem;
       background: white;
-      padding: 2rem;
+      padding: 0rem;
       border-radius: 8px;
     }
 
     .section-title {
       font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 2rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      padding-top: 6rem;
+      padding-bottom: 2rem;
+      padding-left: 1rem;
+
+      letter-spacing: -0.02em;
+      background: #f5f5f5;
+
     }
     ${tableStyles}
   </style>
