@@ -720,11 +720,14 @@ function generateHTML(configData, previousValuesPath = null) {
           ${Object.entries(configData.colors).map(([key, value]) => {
             const varName = `--${prefix}-color-${key}`;
             const isChanged = changedValues.has(`colors.${key}`);
-            const isLight = value.toLowerCase() === '#ffffff' || value.toLowerCase() === '#f0f0f0' || value.toLowerCase() === '#f4f2ed' || value.toLowerCase() === '#e3e3e3';
+            const normalizedValue = value.trim().toLowerCase();
+            const isLight = normalizedValue === '#ffffff' || normalizedValue === '#f0f0f0' || normalizedValue === '#f4f2ed' || normalizedValue === '#e3e3e3';
+            // Asegurar que el valor del color sea opaco (sin alfa)
+            const opaqueValue = normalizedValue.length === 7 ? normalizedValue : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
             return `
           <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-            <div style="width: 100%; height: 120px; background: ${value}; border-bottom: 1px solid #e0e0e0; position: relative;">
-              ${isLight ? `<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);"></div>` : ''}
+            <div style="width: 100%; height: 120px; background-color: ${opaqueValue}; border-bottom: 1px solid #e0e0e0; position: relative;">
+              ${isLight ? `<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px); pointer-events: none; mix-blend-mode: overlay;"></div>` : ''}
             </div>
             <div style="padding: 1rem;">
               <div style="font-weight: 600; font-size: 0.875rem; margin-bottom: 0.5rem; color: #000;">${key}</div>
