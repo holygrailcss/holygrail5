@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 const { pxToRem, remToPx, getFontFamilyName } = require('./utils');
 const { buildValueMap } = require('./parser');
 
@@ -202,11 +203,45 @@ function getChangedValues(currentValues, previousValues) {
   return changes;
 }
 
+// Obtiene el autor del último commit de git
+function getLastCommitAuthor() {
+  try {
+    const authorName = execSync('git log -1 --pretty=format:"%an"', { 
+      encoding: 'utf8',
+      cwd: path.join(__dirname, '..'),
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+    return authorName || null;
+  } catch (error) {
+    // Si no es un repo git o hay error, devolver null
+    return null;
+  }
+}
+
+// Obtiene la versión del package.json
+function getPackageVersion() {
+  try {
+    const packagePath = path.join(__dirname, '..', 'package.json');
+    if (fs.existsSync(packagePath)) {
+      const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+      return packageData.version || null;
+    }
+  } catch (error) {
+    // Si hay error, devolver null
+  }
+  return null;
+}
+
 function generateHTML(configData, previousValuesPath = null) {
   const classNames = Object.keys(configData.classes);
   const prefix = configData.prefix || 'hg';
   const category = configData.category || 'typo';
   const baseFontSize = configData.baseFontSize || 16;
+  
+  // Obtener autor del último commit
+  const lastCommitAuthor = getLastCommitAuthor();
+  // Obtener versión del package.json
+  const packageVersion = getPackageVersion();
   
   // Construir variables CSS primero para poder guardarlas
   const { fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars } = 
@@ -722,6 +757,7 @@ function generateHTML(configData, previousValuesPath = null) {
       margin-left: 250px;
       flex: 1;
       padding: 2rem;
+      padding-top: 0;
       max-width: calc(100% - 250px);
     }
     
@@ -754,6 +790,7 @@ function generateHTML(configData, previousValuesPath = null) {
         margin-left: 0;
         max-width: 100%;
         padding: 1rem;
+        padding-top: 0;
       }
       
       .menu-toggle {
@@ -762,9 +799,15 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .header {
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #f5f5f5;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
       border-bottom: 2px solid #000;
+      margin-bottom: 2rem;
+     
     }
 
     .header h1 {
@@ -799,9 +842,23 @@ function generateHTML(configData, previousValuesPath = null) {
   <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
   
   <aside class="sidebar">
-    <div class="sidebar-header">
-      <h2>HolyGrail5</h2>
-    </div>
+      <div class="sidebar-header">
+        <h2>HolyGrail5</h2>
+        <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
+        last update: ${new Date().toLocaleString('es-ES')}
+      </p>
+      ${packageVersion ? `
+      <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.25rem;">
+        Version: ${packageVersion}
+      </p>
+      ` : ''}
+      ${lastCommitAuthor ? `
+      <p class="text-s" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.25rem;">
+        Last user: ${lastCommitAuthor}
+      </p>
+      ` : ''}
+      </div>
+
     <nav class="sidebar-nav">
       ${menuHTML}
     </nav>
@@ -809,13 +866,10 @@ function generateHTML(configData, previousValuesPath = null) {
   
   <main class="main-content">
     <div class="header">
-      <h1 class="${classNames[0] || 'h2'}">HolyGrail5</h1>
-      <p class="text-m">Guía de Tipografía - Framework CSS Generator</p>
-      <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
-        Última actualización: ${new Date().toLocaleString('es-ES')}
-      </p>
+    
+    
       
-      <div class="search-container" style="margin-top: 2rem; position: relative; max-width: 500px;">
+      <div class="search-container" style=" position: relative; max-width: 500px;">
         <input 
           type="text" 
           id="search-input" 
@@ -1117,7 +1171,7 @@ function generateHTML(configData, previousValuesPath = null) {
     
     // Resaltar sección activa al hacer scroll
     function updateActiveSection() {
-      const scrollPosition = window.scrollY + 150;
+      const scrollPosition = window.scrollY + 200;
       
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
