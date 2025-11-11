@@ -2,29 +2,11 @@
 
 // Orquestador principal - Genera CSS y HTML desde JSON
 
-const fs = require('fs');
 const path = require('path');
 const { loadConfig } = require('./src/config');
 const { generateCSS } = require('./src/parser');
 const { generateHTML } = require('./src/guide');
-
-// Función para escribir archivos
-function writeFile(filePath, content, description) {
-  try {
-    const dir = path.dirname(filePath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    // Forzar escritura del archivo para asegurar que se actualice
-    fs.writeFileSync(filePath, content, 'utf8');
-    // Verificar que el archivo se escribió correctamente
-    const stats = fs.statSync(filePath);
-    console.log(`✅ ${description} generado exitosamente en ${filePath} (${stats.size} bytes)`);
-  } catch (error) {
-    console.error(`❌ Error al escribir ${description} en ${filePath}:`, error.message);
-    process.exit(1);
-  }
-}
+const { writeFile } = require('./src/utils');
 
 // Ejecución principal
 if (require.main === module) {

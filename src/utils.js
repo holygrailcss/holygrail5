@@ -1,6 +1,9 @@
 // Utilidades compartidas
 // Funciones auxiliares utilizadas por el parseador y el generador de guía
 
+const fs = require('fs');
+const path = require('path');
+
 // Convierte nombres de propiedades de JavaScript (camelCase) a formato CSS (kebab-case)
 // Por ejemplo, "fontSize" se convierte en "font-size" para usarlo en CSS
 function toKebabCase(str) {
@@ -42,10 +45,30 @@ function getFontFamilyName(fontFamilyValue, fontFamilyMap) {
   return fontFamilyValue.replace(/["']/g, '').replace(/\s+/g, '-').toLowerCase().split(',')[0].trim();
 }
 
+// Escribe un archivo en el sistema de archivos con validación y mensajes de confirmación
+// Crea el directorio si no existe y verifica que el archivo se escribió correctamente
+function writeFile(filePath, content, description) {
+  try {
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    // Forzar escritura del archivo para asegurar que se actualice
+    fs.writeFileSync(filePath, content, 'utf8');
+    // Verificar que el archivo se escribió correctamente
+    const stats = fs.statSync(filePath);
+    console.log(`✅ ${description} generado exitosamente en ${filePath} (${stats.size} bytes)`);
+  } catch (error) {
+    console.error(`❌ Error al escribir ${description} en ${filePath}:`, error.message);
+    process.exit(1);
+  }
+}
+
 module.exports = {
   toKebabCase,
   pxToRem,
   remToPx,
-  getFontFamilyName
+  getFontFamilyName,
+  writeFile
 };
 

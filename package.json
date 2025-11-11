@@ -39,7 +39,8 @@
   "files": [
     "generator.js",
     "config.json",
-    "README.md"
+    "README.md",
+    "src/**/*"
   ],
   "engines": {
     "node": ">=12.0.0"
