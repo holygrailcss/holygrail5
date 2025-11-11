@@ -520,13 +520,13 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-table th.mobile-header {
       background: #e6f2ff;
       color: #000000;
-      text-align: center;
+      
     }
 
     .guide-table th.desktop-header {
       background: #fff4e6;
       color: #cc6600;
-      text-align: center;
+      
     }
 
     .guide-table .sub-header th {
@@ -546,14 +546,14 @@ function generateHTML(configData, previousValuesPath = null) {
       align-items: center;
       justify-content: center;
       min-height: 20px;
-      text-align: center;
+      
     }
 
     .guide-table .mobile-value {
       background: #f0f8ff;
       color: #000000;
       font-weight: 500;
-      text-align: center;
+      
       font-family: 'Courier New', monospace;
     }
 
@@ -561,7 +561,7 @@ function generateHTML(configData, previousValuesPath = null) {
       background: #fff8f0;
       color: #cc6600;
       font-weight: 500;
-      text-align: center;
+      
       font-family: 'Courier New', monospace;
     }
 
@@ -584,14 +584,14 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-table .value-center-blue {
       color: #000000;
       font-weight: 500;
-      text-align: center;
+      
       font-family: 'Courier New', monospace;
     }
 
     .guide-table .value-center-orange {
       color: #cc6600;
       font-weight: 500;
-      text-align: center;
+      
       font-family: 'Courier New', monospace;
     }`;
 
