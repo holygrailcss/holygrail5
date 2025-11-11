@@ -55,6 +55,12 @@ function getChangedValues(currentValues, previousValues) {
         changes.add(`fontFamilyMap.${fontName}`);
       });
     }
+    // Marca todos los colores como nuevos
+    if (currentValues.colors) {
+      Object.keys(currentValues.colors).forEach(colorName => {
+        changes.add(`colors.${colorName}`);
+      });
+    }
     // Marca todas las clases como nuevas
     if (currentValues.classes) {
       Object.keys(currentValues.classes).forEach(className => {
@@ -132,6 +138,29 @@ function getChangedValues(currentValues, previousValues) {
     Object.keys(previousSpacingMap).forEach(spacingKey => {
       if (!currentSpacingMap[spacingKey]) {
         changes.add(`spacingMap.${spacingKey}`);
+      }
+    });
+  }
+  
+  // Compara colors
+  if (currentValues.colors) {
+    const currentColors = currentValues.colors;
+    const previousColors = previousValues.colors || {};
+    
+    // Compara cada color en el mapa
+    Object.keys(currentColors).forEach(colorKey => {
+      const currentVal = currentColors[colorKey];
+      const previousVal = previousColors[colorKey];
+      
+      if (currentVal !== previousVal) {
+        changes.add(`colors.${colorKey}`);
+      }
+    });
+    
+    // Detecta colores eliminados
+    Object.keys(previousColors).forEach(colorKey => {
+      if (!currentColors[colorKey]) {
+        changes.add(`colors.${colorKey}`);
       }
     });
   }
@@ -251,7 +280,11 @@ function generateHTML(configData, previousValuesPath = null) {
   const { generateSpacingVariables } = require('./parser');
   const spacingVars = generateSpacingVariables(configData.spacingMap, prefix, baseFontSize);
   
-  // Construir array de variables (incluyendo spacing)
+  // Generar variables de colores
+  const { generateColorVariables } = require('./parser');
+  const colorVars = generateColorVariables(configData.colors, prefix);
+  
+  // Construir array de variables (incluyendo spacing y colores)
   const allVariables = [
     ...Array.from(fontFamilyVars.values()),
     ...Array.from(lineHeightVars.values()),
@@ -259,7 +292,8 @@ function generateHTML(configData, previousValuesPath = null) {
     ...Array.from(letterSpacingVars.values()),
     ...Array.from(textTransformVars.values()),
     ...Array.from(fontSizeVars.values()),
-    ...spacingVars
+    ...spacingVars,
+    ...colorVars
   ].map(item => ({ name: item.varName, value: item.value }));
   
   // Preparar valores actuales para comparación
@@ -270,6 +304,7 @@ function generateHTML(configData, previousValuesPath = null) {
     },
     fontFamilyMap: configData.fontFamilyMap || {},
     spacingMap: configData.spacingMap || {},
+    colors: configData.colors || {},
     classes: {},
     variables: {}
   };
@@ -666,8 +701,31 @@ function generateHTML(configData, previousValuesPath = null) {
       </tbody>
     </table>` : '';
   
+      const colorsGridHTML = configData.colors ? `
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 2rem; padding-inline: 1.5rem; padding-bottom: 2rem;">
+          ${Object.entries(configData.colors).map(([key, value]) => {
+            const varName = `--${prefix}-color-${key}`;
+            const isChanged = changedValues.has(`colors.${key}`);
+            const isLight = value.toLowerCase() === '#ffffff' || value.toLowerCase() === '#f0f0f0' || value.toLowerCase() === '#f4f2ed' || value.toLowerCase() === '#e3e3e3';
+            return `
+          <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="width: 100%; height: 120px; background: ${value}; border-bottom: 1px solid #e0e0e0; position: relative;">
+              ${isLight ? `<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);"></div>` : ''}
+            </div>
+            <div style="padding: 1rem;">
+              <div style="font-weight: 600; font-size: 0.875rem; margin-bottom: 0.5rem; color: #000;">${key}</div>
+              <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.5rem; font-family: 'Courier New', monospace; word-break: break-all;">${varName}</div>
+              <div style="font-size: 0.75rem; color: #666; font-family: 'Courier New', monospace; ${isChanged ? 'background: #d4edda; padding: 0.25rem 0.5rem; border-radius: 4px;' : ''}">${value}</div>
+            </div>
+          </div>`;
+          }).join('')}
+        </div>` : '';
+      
       // Construir menú lateral
       const menuItems = [];
+      if (colorsGridHTML) {
+        menuItems.push({ id: 'colors', label: 'Colores' });
+      }
       if (fontFamiliesTableHTML) {
         menuItems.push({ id: 'font-families', label: 'Font Families' });
       }
@@ -911,6 +969,18 @@ function generateHTML(configData, previousValuesPath = null) {
       <div id="search-results" style="margin-top: 0.5rem; font-size: 0.875rem; color: #666; display: none;"></div>
     </div>
 
+    ${colorsGridHTML ? `
+    <div class="section" id="colors">
+      <div class="section-title">
+        <h2 >Colores</h2>
+        <p class="text-m" style="margin-top: 1rem;">
+        Paleta de colores disponibles con sus variables CSS.
+        </p>
+      </div>
+      ${colorsGridHTML}
+    </div>
+    ` : ''}
+
     ${fontFamiliesTableHTML ? `
     <div class="section" id="font-families">
       <div class="section-title">
@@ -942,6 +1012,7 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       ${variablesTableHTML}
     </div>
+
 
     ${spacingHelpersTableHTML ? `
     <div class="section" id="spacing">
@@ -1110,11 +1181,11 @@ function generateHTML(configData, previousValuesPath = null) {
       return text.replace(regex, '<mark style="background: #ffeb3b; padding: 0.125rem 0.25rem; border-radius: 3px;">$1</mark>');
     }
     
-    // Función para buscar en tablas
+    // Función para buscar en tablas y grids
     function searchInTables(searchTerm) {
       if (!searchTerm || searchTerm.trim() === '') {
         // Mostrar todo
-        document.querySelectorAll('.section, .guide-table tbody tr, .spacing-helpers-table tbody tr').forEach(el => {
+        document.querySelectorAll('.section, .guide-table tbody tr, .spacing-helpers-table tbody tr, [style*="grid-template-columns"] > div').forEach(el => {
           el.style.display = '';
         });
         document.querySelectorAll('mark').forEach(mark => {
@@ -1156,10 +1227,39 @@ function generateHTML(configData, previousValuesPath = null) {
         }
       });
       
+      // Buscar en grid de colores
+      document.querySelectorAll('[style*="grid-template-columns"] > div').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        
+        if (text.includes(term)) {
+          card.style.display = '';
+          matchCount++;
+          
+          // Resaltar texto en la tarjeta
+          const textElements = card.querySelectorAll('div');
+          textElements.forEach(el => {
+            if (el.textContent && !el.style.background) {
+              const originalText = el.textContent;
+              el.innerHTML = highlightText(originalText, term);
+            }
+          });
+          
+          // Encontrar la sección padre
+          let section = card.closest('.section');
+          if (section) {
+            matchedSections.add(section.id);
+          }
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
       // Mostrar/ocultar secciones según si tienen resultados
       document.querySelectorAll('.section').forEach(section => {
         const hasVisibleRows = section.querySelector('tbody tr[style=""]') || 
-                              section.querySelector('tbody tr:not([style*="display: none"])');
+                              section.querySelector('tbody tr:not([style*="display: none"])') ||
+                              section.querySelector('[style*="grid-template-columns"] > div[style=""]') ||
+                              section.querySelector('[style*="grid-template-columns"] > div:not([style*="display: none"])');
         if (matchedSections.has(section.id) || hasVisibleRows) {
           section.style.display = '';
         } else {

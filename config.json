@@ -44,6 +44,25 @@
     "100-percent": "100%"
   },
   "spacingImportant": ["0"],
+  "colors": {
+    "white": "#ffffff",
+    "black": "#000000",
+    "dark-grey": "#737373",
+    "middle-grey": "#a9a9a9",
+    "light-grey": "#f0f0f0",
+    "primary": "#000000",
+    "error": "#b40016",
+    "info": "#1a32a4",
+    "success": "#76ae4a",
+    "warning": "#ffc700",
+    "feel": "#fb9962",
+    "feel-dark": "#c94c07",
+    "special": "#b99d6b",
+    "bg-light": "#F0F0F0",
+    "c-bg-light": "#000000",
+    "sk-grey": "#e3e3e3",
+    "bg-cream": "#f4f2ed"
+  },
   "helpers": {
     "display": {
       "property": "display",

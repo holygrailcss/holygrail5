@@ -228,9 +228,26 @@ function generateSpacingVariables(spacingMap, prefix, baseFontSize = 16) {
   return variables;
 }
 
+// Genera variables CSS para colores
+// Crea variables como --hg-color-white, --hg-color-black, etc.
+function generateColorVariables(colorsMap, prefix) {
+  if (!colorsMap || typeof colorsMap !== 'object') {
+    return [];
+  }
+  
+  const variables = [];
+  
+  Object.entries(colorsMap).forEach(([key, value]) => {
+    const varName = `--${prefix}-color-${key}`;
+    variables.push({ varName, value, key });
+  });
+  
+  return variables;
+}
+
 // Genera todas las variables CSS en el bloque :root
 // Recorre todos los mapas de variables y las convierte en declaraciones CSS
-function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars = []) {
+function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars = [], colorVars = []) {
   const variables = [];
   const allMaps = [
     { map: fontFamilyVars, name: 'font-family' },
@@ -249,6 +266,11 @@ function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, l
   
   // Agregar variables de spacing
   spacingVars.forEach(item => {
+    variables.push(`  ${item.varName}: ${item.value};`);
+  });
+  
+  // Agregar variables de colores
+  colorVars.forEach(item => {
     variables.push(`  ${item.varName}: ${item.value};`);
   });
   
@@ -570,9 +592,12 @@ function generateCSS(configData) {
   // Genera variables de spacing
   const spacingVars = generateSpacingVariables(configData.spacingMap, prefix, baseFontSize);
   
+  // Genera variables de colores
+  const colorVars = generateColorVariables(configData.colors, prefix);
+  
   // Genera cada bloque del CSS
   const resetCSS = generateResetCSS(baseFontSize);
-  const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars);
+  const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars, colorVars);
   const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize, configData.spacingImportant);
   const layoutHelpers = configData.helpers ? generateLayoutHelpers(configData.helpers, configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize) : '';
   const mobileTypography = generateTypographyBlock('mobile', configData.breakpoints.mobile, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
@@ -593,6 +618,7 @@ module.exports = {
   generateCSS,
   buildValueMap,
   generateResetCSS,
-  generateSpacingVariables
+  generateSpacingVariables,
+  generateColorVariables
 };
 
