@@ -394,20 +394,17 @@ function generateHTML(configData, previousValuesPath = null) {
   
   // Generar tabla de spacing helpers
   const spacingHelpersHTML = configData.spacingMap ? Object.entries(configData.spacingMap).map(([key, value]) => {
-    // Detectar si tiene ! para !important
-    const hasImportant = key.endsWith('!');
-    const cleanKey = hasImportant ? key.slice(0, -1) : key;
-    const exclamation = hasImportant ? '!' : '';
-    const importantLabel = hasImportant ? ' <strong>(con !important)</strong>' : '';
+    const hasImportant = configData.spacingImportant && configData.spacingImportant.includes(key);
+    const importantLabel = hasImportant ? '<br><strong>Con !important:</strong><br>.p-' + key + '!, .pr-' + key + '! (end), .pl-' + key + '! (start), .pb-' + key + '!, .pt-' + key + '!<br>.m-' + key + '!, .mr-' + key + '! (end), .ml-' + key + '! (start), .mb-' + key + '!, .mt-' + key + '!' : '';
     
-    const varName = `--${prefix}-spacing-${cleanKey}`;
+    const varName = `--${prefix}-spacing-${key}`;
     const remValue = pxToRem(value, baseFontSize);
     const pxValue = value;
     const isChanged = changedValues.has(`spacingMap.${key}`);
     
         return `
       <tr>
-        <td class="spacing-class">.${prefix}-p-${cleanKey}${exclamation}, .${prefix}-pr-${cleanKey}${exclamation} (end), .${prefix}-pl-${cleanKey}${exclamation} (start), .${prefix}-pb-${cleanKey}${exclamation}, .${prefix}-pt-${cleanKey}${exclamation}<br>.${prefix}-m-${cleanKey}${exclamation}, .${prefix}-mr-${cleanKey}${exclamation} (end), .${prefix}-ml-${cleanKey}${exclamation} (start), .${prefix}-mb-${cleanKey}${exclamation}, .${prefix}-mt-${cleanKey}${exclamation}${importantLabel}</td>
+        <td class="spacing-class">.p-${key}, .pr-${key} (end), .pl-${key} (start), .pb-${key}, .pt-${key}<br>.m-${key}, .mr-${key} (end), .ml-${key} (start), .mb-${key}, .mt-${key}${importantLabel}</td>
         <td class="spacing-var ${isChanged ? 'changed' : ''}">${varName}</td>
         <td class="spacing-value ${isChanged ? 'changed' : ''}">${remValue}</td>
         <td class="spacing-px ${isChanged ? 'changed' : ''}">${pxValue}</td>
@@ -858,23 +855,23 @@ function generateHTML(configData, previousValuesPath = null) {
         </p>
         <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.${prefix}-p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:${prefix}-p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:${prefix}-pr-8</code> - Aplica padding-right de 8px solo en desktop
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:${prefix}-mt-16</code> - Aplica margin-top de 16px solo en desktop
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
           </li>
           <li class="text-m" style="margin-bottom: 0.5rem;">
-            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.${prefix}-p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
+            <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
           </li>
         </ul>
         <p class="text-m" style="margin: 0; line-height: 1.6; font-size: 0.875rem; opacity: 0.8;">
-          <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.${prefix}-p-4 .md:${prefix}-p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
+          <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
         </p>
       </div>
     </div>
