@@ -471,7 +471,7 @@ function generateHTML(configData, previousValuesPath = null) {
   // Generar tabla de spacing helpers
   const spacingHelpersHTML = configData.spacingMap ? Object.entries(configData.spacingMap).map(([key, value]) => {
     const hasImportant = configData.spacingImportant && configData.spacingImportant.includes(key);
-    const importantLabel = hasImportant ? '<br><strong>Con !important:</strong><br>.p-' + key + '!, .pr-' + key + '! (end), .pl-' + key + '! (start), .pb-' + key + '!, .pt-' + key + '!<br>.m-' + key + '!, .mr-' + key + '! (end), .ml-' + key + '! (start), .mb-' + key + '!, .mt-' + key + '!' : '';
+    const importantLabel = hasImportant ? '<br><strong>Con !important:</strong><br>.*-' + key + '!' : '';
     
     const varName = `--${prefix}-spacing-${key}`;
     // Si el valor termina en %, no lo convierte a rem
@@ -481,7 +481,7 @@ function generateHTML(configData, previousValuesPath = null) {
     
         return `
       <tr>
-        <td class="table-name">.p-${key}, .pr-${key} (end), .pl-${key} (start), .pb-${key}, .pt-${key}<br>.m-${key}, .mr-${key} (end), .ml-${key} (start), .mb-${key}, .mt-${key}${importantLabel}</td>
+        <td class="table-name">.*-${key}${importantLabel}</td>
         <td class="table-value ${isChanged ? 'changed' : ''}">${varName}</td>
         <td class="value-center-blue ${isChanged ? 'changed' : ''}">${remValue}</td>
         <td class="value-center-orange ${isChanged ? 'changed' : ''}">${pxValue}</td>
@@ -1060,6 +1060,26 @@ function generateHTML(configData, previousValuesPath = null) {
             </p>
       </div>
       <div class="section-content">
+        <div class="info-box" style="margin-bottom: 2rem; padding: 1.5rem; background: #fff4e6; border-left: 4px solid #ff9800; border-radius: 4px;">
+          <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #ff9800;">¿Cómo se generan los helpers?</h3>
+          <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
+            La nomenclatura de las clases helper sigue un patrón simple:
+          </p>
+          <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
+            <li class="text-m" style="margin-bottom: 0.5rem;">
+              <strong>Primera letra:</strong> tipo de spacing → <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p</code> (padding) o <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">m</code> (margin)
+            </li>
+            <li class="text-m" style="margin-bottom: 0.5rem;">
+              <strong>Segunda letra:</strong> dirección → <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">t</code> (top), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">r</code> (right/end), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">b</code> (bottom), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">l</code> (left/start)
+            </li>
+            <li class="text-m" style="margin-bottom: 0.5rem;">
+              <strong>Guión + valor:</strong> el valor del spacing → <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">-4</code>, <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">-16</code>, <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">-50-percent</code>
+            </li>
+          </ul>
+          <p class="text-m" style="margin: 0; line-height: 1.6;">
+            <strong>Ejemplos:</strong> <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-16</code> (padding all), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.pt-8</code> (padding-top), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.mr-4</code> (margin-right), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.mb-0</code> (margin-bottom)
+          </p>
+        </div>
         ${spacingHelpersTableHTML}
         <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
           <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Helpers con prefijo md: (Desktop)</h3>
