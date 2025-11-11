@@ -4,6 +4,7 @@ node_modules/
 # Archivos generados
 output.css
 index.html
+dist/
 .previous-values.json
 .historical-variables.json
 

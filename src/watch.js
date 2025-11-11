@@ -23,13 +23,15 @@ function generateFiles(configPath, outputPath, htmlPath) {
     const outputDir = path.dirname(outputPath);
     const htmlDir = path.dirname(htmlPath);
     
+    // Si el HTML y CSS están en carpetas diferentes, ajustar la ruta del CSS
+    // Si están en la misma carpeta (dist/), usar ruta relativa simple
     if (outputDir !== htmlDir) {
       const relativePath = path.relative(htmlDir, outputDir);
       const cssFileName = path.basename(outputPath);
       const cssRelativePath = path.join(relativePath, cssFileName).replace(/\\/g, '/');
       htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="${cssRelativePath}?v=${Date.now()}"`);
     } else {
-      // Agregar timestamp al CSS para forzar recarga
+      // Si están en la misma carpeta, usar solo el nombre del archivo con timestamp
       htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="output.css?v=${Date.now()}"`);
     }
     
@@ -42,7 +44,7 @@ function generateFiles(configPath, outputPath, htmlPath) {
 }
 
 // Función principal de watch
-function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPath = path.join(__dirname, '..', 'output.css'), htmlPath = path.join(__dirname, '..', 'index.html')) {
+function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPath = path.join(__dirname, '..', 'dist', 'output.css'), htmlPath = path.join(__dirname, '..', 'dist', 'index.html')) {
   console.log('👀 Modo watch activado - Monitoreando cambios en config.json...\n');
   console.log('📝 Presiona Ctrl+C para salir\n');
   console.log('💡 Tip: Abre otro terminal y ejecuta "npm run serve" para levantar el servidor\n');
@@ -76,8 +78,8 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
 if (require.main === module) {
   const args = process.argv.slice(2);
   const configPath = args.find(arg => arg.startsWith('--config='))?.split('=')[1] || path.join(__dirname, '..', 'config.json');
-  const outputPath = args.find(arg => arg.startsWith('--output='))?.split('=')[1] || path.join(__dirname, '..', 'output.css');
-  const htmlPath = args.find(arg => arg.startsWith('--html='))?.split('=')[1] || path.join(__dirname, '..', 'index.html');
+  const outputPath = args.find(arg => arg.startsWith('--output='))?.split('=')[1] || path.join(__dirname, '..', 'dist', 'output.css');
+  const htmlPath = args.find(arg => arg.startsWith('--html='))?.split('=')[1] || path.join(__dirname, '..', 'dist', 'index.html');
   
   watch(configPath, outputPath, htmlPath);
 }

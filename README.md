@@ -189,7 +189,7 @@ node src/cli-variables.js list --history=./.custom-variables.json
 
 ## 📄 Salida
 
-### `output.css`
+### `dist/output.css`
 
 CSS generado con:
 - Reset CSS mínimo
@@ -197,9 +197,9 @@ CSS generado con:
 - Helpers de spacing (`.p-4`, `.m-8`, `.md:p-4`, etc.)
 - Media queries para tipografías (mobile/desktop)
 
-### `index.html`
+### `dist/index.html`
 
-Guía HTML interactiva con:
+Guía HTML interactiva generada en la carpeta `dist/` con:
 - Tabla de Font Families
 - Tabla de Clases de Tipografía (con preview)
 - Tabla de Variables CSS Compartidas
@@ -242,8 +242,9 @@ Genera clases estilo Tailwind para padding y margin:
 holygrail5/
 ├── generator.js          # Orquestador principal
 ├── config.json          # Configuración
-├── output.css          # CSS generado
-├── index.html          # Guía HTML generada
+├── dist/
+│   ├── output.css      # CSS generado
+│   └── index.html      # Guía HTML generada
 ├── src/
 │   ├── config.js       # Carga y validación de config
 │   ├── parser.js       # Generación de CSS

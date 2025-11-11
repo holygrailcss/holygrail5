@@ -8,10 +8,10 @@
   },
   "scripts": {
     "generate": "node generator.js",
-    "start": "node generator.js && NODE_NO_WARNINGS=1 npx http-server -p 3000 -o",
+    "start": "node generator.js && NODE_NO_WARNINGS=1 npx http-server dist -p 3000 -o index.html",
     "dev": "node src/dev.js",
     "watch": "node src/watch.js",
-    "serve": "NODE_NO_WARNINGS=1 npx http-server -p 3000 -o",
+    "serve": "NODE_NO_WARNINGS=1 npx http-server dist -p 3000 -o index.html",
     "test": "node tests/run-all.js",
     "prepublishOnly": "npm run generate",
     "vars:list": "node src/cli-variables.js list",

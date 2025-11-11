@@ -19,7 +19,8 @@ setTimeout(() => {
   
   // Iniciar servidor HTTP
   // Suprimir warnings de deprecación de http-server
-  const serverProcess = spawn('npx', ['http-server', '-p', '3000', '-o'], {
+  // Servir desde dist/ como raíz, así la URL será /index.html sin mostrar "dist"
+  const serverProcess = spawn('npx', ['http-server', 'dist', '-p', '3000', '-o', 'index.html'], {
     stdio: 'inherit',
     shell: true,
     env: { ...process.env, NODE_NO_WARNINGS: '1' }

@@ -171,7 +171,7 @@ function removeVariablesFromHistory(varNames, historicalVarsPath = null) {
 
 // Función principal para listar variables no usadas
 function listUnusedVariables(cssPath = null, historicalVarsPath = null) {
-  const defaultPath = cssPath || path.join(__dirname, '..', 'output.css');
+  const defaultPath = cssPath || path.join(__dirname, '..', 'dist', 'output.css');
   const historicalVarsPathDefault = historicalVarsPath || path.join(__dirname, '..', '.historical-variables.json');
   
   if (!fs.existsSync(defaultPath)) {
@@ -188,7 +188,7 @@ function listUnusedVariables(cssPath = null, historicalVarsPath = null) {
 
 // Función principal para mostrar un reporte de variables
 function showVariablesReport(cssPath = null, historicalVarsPath = null) {
-  const cssDefaultPath = cssPath || path.join(__dirname, '..', 'output.css');
+  const cssDefaultPath = cssPath || path.join(__dirname, '..', 'dist', 'output.css');
   const historicalVarsPathDefault = historicalVarsPath || path.join(__dirname, '..', '.historical-variables.json');
   const historicalVars = loadHistoricalVariables(historicalVarsPathDefault);
   

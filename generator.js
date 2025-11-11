@@ -14,8 +14,8 @@ if (require.main === module) {
     // Parsear argumentos de línea de comandos
     const args = process.argv.slice(2);
     const configPath = args.find(arg => arg.startsWith('--config='))?.split('=')[1] || path.join(__dirname, 'config.json');
-    const outputPath = args.find(arg => arg.startsWith('--output='))?.split('=')[1] || path.join(__dirname, 'output.css');
-    const htmlPath = args.find(arg => arg.startsWith('--html='))?.split('=')[1] || path.join(__dirname, 'index.html');
+    const outputPath = args.find(arg => arg.startsWith('--output='))?.split('=')[1] || path.join(__dirname, 'dist', 'output.css');
+    const htmlPath = args.find(arg => arg.startsWith('--html='))?.split('=')[1] || path.join(__dirname, 'dist', 'index.html');
     
     // Cargar configuración
     const configData = loadConfig(configPath);
@@ -31,12 +31,18 @@ if (require.main === module) {
     const outputDir = path.dirname(outputPath);
     const htmlDir = path.dirname(htmlPath);
     
+    // Si el HTML y CSS están en carpetas diferentes, ajustar la ruta del CSS
+    // Si están en la misma carpeta (dist/), usar ruta relativa simple
     if (outputDir !== htmlDir) {
       // Calcular ruta relativa del HTML al CSS
       const relativePath = path.relative(htmlDir, outputDir);
       const cssFileName = path.basename(outputPath);
       const cssRelativePath = path.join(relativePath, cssFileName).replace(/\\/g, '/');
-      htmlContent = htmlContent.replace(/href="output\.css"/, `href="${cssRelativePath}"`);
+      // Reemplazar href con o sin query string
+      htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="${cssRelativePath}"`);
+    } else {
+      // Si están en la misma carpeta, usar solo el nombre del archivo
+      htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="output.css"`);
     }
     
     writeFile(htmlPath, htmlContent, 'HTML');

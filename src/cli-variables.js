@@ -30,7 +30,7 @@ Comandos:
   show-all                Muestra todas las variables históricas almacenadas
 
 Opciones:
-  --css=<ruta>            Ruta al archivo CSS (por defecto: output.css)
+  --css=<ruta>            Ruta al archivo CSS (por defecto: dist/output.css)
   --history=<ruta>         Ruta al archivo de variables históricas (por defecto: .historical-variables.json)
 
 Ejemplos:

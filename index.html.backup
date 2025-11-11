@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
-  <link rel="stylesheet" href="output.css?v=1762876892720">
+  <link rel="stylesheet" href="output.css?v=1762878006350">
   <style>
     * {
       scroll-behavior: smooth;
@@ -314,7 +314,7 @@
       <div class="sidebar-header">
         <h2>HolyGrail5</h2>
         <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
-        last update: 11/11/2025, 16:46:34
+        last update: 11/11/2025, 17:20:06
       </p>
       
       <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.25rem;">
@@ -323,7 +323,7 @@
       
       
       <p class="text-s" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.25rem;">
-        Last user: Manuel Ruiz Redondo
+        Last user: pabloblop
       </p>
       
       </div>
