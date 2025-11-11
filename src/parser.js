@@ -1,6 +1,8 @@
 // Parseador JSON a CSS
 // Convierte la configuración JSON en CSS con variables compartidas y clases responsive
 
+const fs = require('fs');
+const path = require('path');
 const { toKebabCase, pxToRem, getFontFamilyName } = require('./utils');
 const { BREAKPOINTS } = require('./config');
 
@@ -35,16 +37,89 @@ function getSharedVarName(prop, value, prefix, category) {
   return `--${prefix}-${category}-${propName}-${name}`;
 }
 
+// Carga las variables CSS históricas guardadas previamente
+// Esto asegura que las variables nunca se eliminen aunque se borren las clases que las usaban
+function loadHistoricalVariables(historicalVarsPath) {
+  try {
+    if (fs.existsSync(historicalVarsPath)) {
+      const content = fs.readFileSync(historicalVarsPath, 'utf8');
+      return JSON.parse(content);
+    }
+  } catch (error) {
+    // Si no existe o hay error, devuelve objeto vacío
+  }
+  return {
+    fontFamilyVars: {},
+    lineHeightVars: {},
+    fontWeightVars: {},
+    letterSpacingVars: {},
+    textTransformVars: {},
+    fontSizeVars: {}
+  };
+}
+
+// Guarda las variables CSS actuales para mantenerlas en el futuro
+// Esto asegura que las variables nunca se eliminen aunque se borren las clases
+function saveHistoricalVariables(variables, historicalVarsPath) {
+  try {
+    const dir = path.dirname(historicalVarsPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    
+    // Convertir Maps a objetos para guardar en JSON
+    const varsToSave = {
+      fontFamilyVars: {},
+      lineHeightVars: {},
+      fontWeightVars: {},
+      letterSpacingVars: {},
+      textTransformVars: {},
+      fontSizeVars: {}
+    };
+    
+    // Convertir cada Map a objeto
+    variables.fontFamilyVars.forEach((value, key) => {
+      varsToSave.fontFamilyVars[key] = value;
+    });
+    variables.lineHeightVars.forEach((value, key) => {
+      varsToSave.lineHeightVars[key] = value;
+    });
+    variables.fontWeightVars.forEach((value, key) => {
+      varsToSave.fontWeightVars[key] = value;
+    });
+    variables.letterSpacingVars.forEach((value, key) => {
+      varsToSave.letterSpacingVars[key] = value;
+    });
+    variables.textTransformVars.forEach((value, key) => {
+      varsToSave.textTransformVars[key] = value;
+    });
+    variables.fontSizeVars.forEach((value, key) => {
+      varsToSave.fontSizeVars[key] = value;
+    });
+    
+    fs.writeFileSync(historicalVarsPath, JSON.stringify(varsToSave, null, 2), 'utf8');
+  } catch (error) {
+    console.warn('⚠️  No se pudo guardar las variables históricas:', error.message);
+  }
+}
+
 // Construye un mapa de todas las variables CSS compartidas y sus valores
 // Recorre todas las clases y agrupa valores únicos para crear variables compartidas
 // Esto evita duplicar variables cuando varias clases usan el mismo valor
-function buildValueMap(classes, fontFamilyMap, prefix, category) {
-  const fontFamilyVars = new Map();
-  const lineHeightVars = new Map();
-  const fontWeightVars = new Map();
-  const letterSpacingVars = new Map();
-  const textTransformVars = new Map();
-  const fontSizeVars = new Map();
+// También carga variables históricas para que nunca se eliminen
+function buildValueMap(classes, fontFamilyMap, prefix, category, historicalVarsPath = null) {
+  // Cargar variables históricas si existe el archivo
+  const historicalVarsPathDefault = historicalVarsPath || path.join(__dirname, '..', '.historical-variables.json');
+  const historicalVars = loadHistoricalVariables(historicalVarsPathDefault);
+  
+  // Inicializar Maps con variables históricas
+  const fontFamilyVars = new Map(Object.entries(historicalVars.fontFamilyVars || {}));
+  const lineHeightVars = new Map(Object.entries(historicalVars.lineHeightVars || {}));
+  const fontWeightVars = new Map(Object.entries(historicalVars.fontWeightVars || {}));
+  const letterSpacingVars = new Map(Object.entries(historicalVars.letterSpacingVars || {}));
+  const textTransformVars = new Map(Object.entries(historicalVars.textTransformVars || {}));
+  const fontSizeVars = new Map(Object.entries(historicalVars.fontSizeVars || {}));
+  
   const valueMap = {};
   
   Object.entries(classes).forEach(([className, cls]) => {
@@ -119,6 +194,17 @@ function buildValueMap(classes, fontFamilyMap, prefix, category) {
       }
     });
   });
+  
+  // Guardar las variables actuales (incluyendo las históricas) para la próxima vez
+  const allVariables = {
+    fontFamilyVars,
+    lineHeightVars,
+    fontWeightVars,
+    letterSpacingVars,
+    textTransformVars,
+    fontSizeVars
+  };
+  saveHistoricalVariables(allVariables, historicalVarsPathDefault);
   
   return { valueMap, fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars };
 }
