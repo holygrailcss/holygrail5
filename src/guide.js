@@ -554,7 +554,7 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-table .guide-table-value {
       font-family: arial;
       color: #333;
-      font-size: 11px;
+      font-size: 13px;
     }
 
     /* Estilos para celdas cambiadas */
@@ -707,6 +707,7 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-layout-property {
       color: #666;
       font-family: arial;
+      font-size: 13px;
     }
 
     .guide-color-preview {
