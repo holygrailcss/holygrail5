@@ -505,8 +505,8 @@ function generateHTML(configData, previousValuesPath = null) {
       </table>
     </div>` : '';
   
-  // Estilos CSS compartidos para tablas
-  const tableStyles = `
+  // Estilos CSS consolidados
+  const allStyles = `
     /* Estilos generales para todas las tablas */
     .guide-table-wrapper {
       overflow: auto;
@@ -872,6 +872,185 @@ function generateHTML(configData, previousValuesPath = null) {
       font-size: 12px;
     }
 
+    /* Estilos generales */
+    * {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: var(--${prefix}-${category}-font-family-primary);
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background: white;
+      border-right: 1px solid #e0e0e0;
+      padding: 2rem 0;
+      padding-bottom: 120px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+    }
+    
+    .sidebar-header {
+      padding: 0 1.5rem 2rem 1.5rem;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #000;
+    }
+    
+    .sidebar-nav {
+      padding: 0 1rem;
+    }
+
+    .sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.5rem .5rem 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      background: white;
+    }
+
+    .sidebar-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .sidebar-badges img {
+      height: 20px;
+      width: auto;
+    }
+    
+    .menu-item {
+      display: block;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.25rem;
+      color: #666;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .menu-item:hover {
+      background: #f0f0f0;
+      color: #000;
+    }
+    
+    .menu-item.active {
+      color: black;
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      flex: 1;
+      padding: 0;
+      padding-bottom: 10rem;
+      max-width: calc(100% - 250px);
+    }
+    
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 101;
+      background: white;
+      border: 1px solid #e0e0e0;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        max-width: 100%;
+        padding: 1rem 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #f5f5f5;
+      padding: 1rem;
+      border-bottom: 2px solid #000;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 900;
+    }
+
+    .header p {
+      margin: 1rem 0 0 0;
+      opacity: 0.7;
+    }
+
+    .section {
+      background: white;
+      padding: 0rem;
+      border-radius: 8px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding-top: 6rem;
+      padding-bottom: 2rem;
+      padding-left: 1rem;
+      letter-spacing: -0.02em;
+      background: #f5f5f5;
+    }
+
+    .section-content {
+      padding-inline: 1rem;
+    }
+
+    .section-content > .guide-table-wrapper {
+      margin-inline: -1rem;
+    }
+
+    .section.section--highlighted {
+      background: #fff;
+    }
+
     /* Estilos para diagrama de spacing */
     .spacing-diagram {
     width: 50%;
@@ -1138,193 +1317,7 @@ function generateHTML(configData, previousValuesPath = null) {
   <title>HolyGrail5 - Guía de Tipografía</title>
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
   <style>
-    * {
-      scroll-behavior: smooth;
-    }
-    
-    body {
-      font-family: var(--${prefix}-${category}-font-family-primary);
-      margin: 0;
-      padding: 0;
-   
-      display: flex;
-    }
-    
-    .sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 250px;
-      height: 100vh;
-      background: white;
-      border-right: 1px solid #e0e0e0;
-      padding: 2rem 0;
-      padding-bottom: 120px;
-      overflow-y: auto;
-      z-index: 100;
-      box-shadow: 2px 0 8px rgba(0,0,0,0.05);
-    }
-    
-    .sidebar-header {
-      padding: 0 1.5rem 2rem 1.5rem;
-      border-bottom: 1px solid #e0e0e0;
-      margin-bottom: 1rem;
-    }
-    
-    .sidebar-header h2 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #000;
-    }
-    
-    .sidebar-nav {
-      padding: 0 1rem;
-    }
-
-    .sidebar-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1rem 1.5rem .5rem 1.5rem;
-      border-top: 1px solid #e0e0e0;
-      background: white;
-    }
-
-    .sidebar-badges {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      align-items: flex-start;
-    }
-
-    .sidebar-badges img {
-      height: 20px;
-      width: auto;
-    }
-    
-    .menu-item {
-      display: block;
-      padding: 0.75rem 1rem;
-      margin-bottom: 0.25rem;
-      color: #666;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-    
-    .menu-item:hover {
-      background: #f0f0f0;
-      color: #000;
-    }
-    
-    .menu-item.active {
-      color: black;
-    }
-    
-    .main-content {
-      margin-left: 250px;
-      flex: 1;
-      padding: 0;
-      padding-bottom: 10rem;
-    
-
-      max-width: calc(100% - 250px);
-    }
-    
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 101;
-      background: white;
-      border: 1px solid #e0e0e0;
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1.25rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-      
-      .sidebar.open {
-        transform: translateX(0);
-      }
-      
-      .main-content {
-        margin-left: 0;
-        max-width: 100%;
-        padding: 1rem 0;
-      }
-      
-      .menu-toggle {
-        display: block;
-      }
-    }
-
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: #f5f5f5;
-      padding: 1rem;
- 
-      border-bottom: 2px solid #000;
-
-     
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      font-weight: 900;
-    }
-
-    .header p {
-      margin: 1rem 0 0 0;
-      opacity: 0.7;
-    }
-
-    .section {
-
-      background: white;
-      padding: 0rem;
-      border-radius: 8px;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      padding-top: 6rem;
-      padding-bottom: 2rem;
-      padding-left: 1rem;
-
-      letter-spacing: -0.02em;
-      background: #f5f5f5;
-
-    }
-
-    .section-content {
-      padding-inline: 1rem;
-    }
-
-    .section-content > .guide-table-wrapper {
-      margin-inline: -1rem;
-    }
-
-    .section.section--highlighted {
-      background: #fff;
-    }
-    ${tableStyles}
+    ${allStyles}
   </style>
 </head>
 <body>
