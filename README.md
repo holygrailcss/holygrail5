@@ -424,9 +424,6 @@ holygrail5/
 ├── dist/                     # Archivos generados (gitignored)
 │   ├── output.css           # CSS generado
 │   └── index.html           # Guía HTML interactiva
-├── docs/                     # Para GitHub Pages (gitignored)
-│   ├── output.css
-│   └── index.html
 ├── src/
 │   ├── config.js            # Carga y validación de configuración
 │   ├── parser.js            # Generación de CSS desde JSON
@@ -592,13 +589,16 @@ Ejecuta `npm run generate` primero para actualizar el historial de variables.
 
 ## 🌐 GitHub Pages
 
-Despliegue automático con GitHub Actions:
+Para desplegar en GitHub Pages, puedes:
 
-1. Habilita GitHub Pages en Settings → Pages (Source: GitHub Actions)
-2. El workflow (`.github/workflows/deploy.yml`) se ejecuta automáticamente en cada push
-3. Los archivos se generan en `docs/` y se despliegan automáticamente
+1. Configurar GitHub Pages para usar la carpeta `dist/` como fuente
+2. O crear un workflow de GitHub Actions que genere los archivos en `docs/` automáticamente
 
-> **Nota:** El workflow genera archivos en `docs/` para GitHub Pages, mientras que el desarrollo local usa `dist/`.
+**Opción 1 - Usar dist/ directamente:**
+- En Settings → Pages, selecciona la rama y carpeta `dist/`
+
+**Opción 2 - Workflow automático:**
+- Crea `.github/workflows/deploy.yml` que ejecute `npm run generate` y copie archivos a `docs/`
 
 ## 📚 Recursos
 

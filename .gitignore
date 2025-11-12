@@ -5,7 +5,6 @@ node_modules/
 output.css
 index.html
 dist/
-docs/
 
 # Archivos de estado y datos
 .data/

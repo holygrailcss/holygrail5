@@ -640,6 +640,358 @@ function generateHTML(configData, previousValuesPath = null) {
       font-weight: 500;
       
       font-family: 'Courier New', monospace;
+    }
+
+    /* Estilos para grid de colores */
+    .colors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-inline: 0.5rem;
+      padding-bottom: 2rem;
+    }
+
+    .color-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .color-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .color-preview {
+      width: 100%;
+      height: 120px;
+      border-bottom: 1px solid #e0e0e0;
+      position: relative;
+    }
+
+    .color-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    .color-card-content {
+      padding: 1rem;
+    }
+
+    .color-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      color: #000;
+    }
+
+    .color-var-name {
+      font-size: 0.75rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+    }
+
+    .color-value {
+      font-size: 0.75rem;
+      color: #666;
+      font-family: 'Courier New', monospace;
+    }
+
+    .color-value.changed {
+      background: #d4edda;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Estilos para sidebar header */
+    .sidebar-meta {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      margin-top: 0.5rem;
+    }
+
+    .sidebar-meta-small {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      margin-top: 0.25rem;
+    }
+
+    /* Estilos para búsqueda */
+    .search-container {
+      position: relative;
+      max-width: 500px;
+      padding-inline-start: 3rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: #0170e9;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      pointer-events: none;
+    }
+
+    .clear-search-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      padding: 0.25rem;
+      display: none;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    .search-results {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: #666;
+      display: none;
+    }
+
+    /* Estilos para secciones */
+    .section-description {
+      margin-top: 1rem;
+      letter-spacing: 0;
+    }
+
+    /* Estilos para info boxes */
+    .info-box {
+      margin-bottom: 2rem;
+      padding: 1.5rem 0;
+   
+    }
+
+    .info-box-warning {
+
+    }
+
+    .info-box-info {
+
+    }
+
+    .info-box-title {
+      margin: 0 0 1rem 0;
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+
+    .info-box-title-warning {
+      color: #ff9800;
+    }
+
+    .info-box-title-info {
+      color: #0170e9;
+    }
+
+    .info-box-text {
+      margin: 0 0 0.75rem 0;
+      line-height: 1.6;
+    }
+
+    .info-box-list {
+      margin: 0 0 0.75rem 0;
+      padding-top: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .info-box-list-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .info-box-code {
+      background: #fff8f0;
+      padding: 0.125rem 0.375rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+    }
+
+    .info-box-code-info {
+      background: #e6f2ff;
+      padding: 0.125rem 0.375rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+    }
+
+    .info-box-text-small {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+
+    .info-box-margin-top {
+      margin-top: 2rem;
+    }
+
+    .search-highlight {
+      background: #ffeb3b;
+      padding: 0.125rem 0.25rem;
+      border-radius: 3px;
+    }
+
+    /* Estilos para diagrama de spacing */
+    .spacing-diagram {
+    width: 50%;
+
+   
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+      .spacing-text{
+      width: 50%;
+      }
+
+    .spacing-diagram-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      height: 300px;
+    }
+
+    .spacing-margin-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 70%;
+      border: 3px dashed #ff9800;
+      background: rgba(255, 152, 0, 0.05);
+      border-radius: 4px;
+    }
+
+    .spacing-padding-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      height: 50%;
+      border: 3px dashed #0170e9;
+      background: rgba(1, 112, 233, 0.05);
+      border-radius: 4px;
+    }
+
+    .spacing-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40%;
+      height: 30%;
+      background: #333;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .spacing-label {
+      position: absolute;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      color: #333;
+      background: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      white-space: nowrap;
+    }
+
+    .spacing-label-top {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .spacing-label-bottom {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .spacing-label-left {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .spacing-label-right {
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .spacing-label-margin {
+      color: #ff9800;
+    }
+
+    .spacing-label-padding {
+      color: #0170e9;
+    }
+
+    .spacing-label-padding-top {
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .spacing-label-padding-right {
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .spacing-label-padding-bottom {
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .spacing-label-padding-left {
+      left: 10%;
+      top: 50%;
+      transform: translateY(-50%);
     }`;
 
   // Generar tabla de layout helpers
@@ -716,7 +1068,7 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>` : '';
   
       const colorsGridHTML = configData.colors ? `
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 2rem; padding-inline: 0.5rem; padding-bottom: 2rem;">
+        <div class="colors-grid">
           ${Object.entries(configData.colors).map(([key, value]) => {
             const varName = `--${prefix}-color-${key}`;
             const isChanged = changedValues.has(`colors.${key}`);
@@ -725,14 +1077,14 @@ function generateHTML(configData, previousValuesPath = null) {
             // Asegurar que el valor del color sea opaco (sin alfa)
             const opaqueValue = normalizedValue.length === 7 ? normalizedValue : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
             return `
-          <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-            <div style="width: 100%; height: 120px; background-color: ${opaqueValue}; border-bottom: 1px solid #e0e0e0; position: relative;">
-              ${isLight ? `<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px); pointer-events: none; mix-blend-mode: overlay;"></div>` : ''}
+          <div class="color-card">
+            <div class="color-preview" style="background-color: ${opaqueValue};">
+              ${isLight ? `<div class="color-pattern"></div>` : ''}
             </div>
-            <div style="padding: 1rem;">
-              <div style="font-weight: 600; font-size: 0.875rem; margin-bottom: 0.5rem; color: #000;">${key}</div>
-              <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.5rem; font-family: 'Courier New', monospace; word-break: break-all;">${varName}</div>
-              <div style="font-size: 0.75rem; color: #666; font-family: 'Courier New', monospace; ${isChanged ? 'background: #d4edda; padding: 0.25rem 0.5rem; border-radius: 4px;' : ''}">${value}</div>
+            <div class="color-card-content">
+              <div class="color-name">${key}</div>
+              <div class="color-var-name">${varName}</div>
+              <div class="color-value ${isChanged ? 'changed' : ''}">${value}</div>
             </div>
           </div>`;
           }).join('')}
@@ -840,8 +1192,10 @@ function generateHTML(configData, previousValuesPath = null) {
     .main-content {
       margin-left: 250px;
       flex: 1;
-    
       padding: 0;
+      padding-bottom: 10rem;
+    
+
       max-width: calc(100% - 250px);
     }
     
@@ -943,16 +1297,16 @@ function generateHTML(configData, previousValuesPath = null) {
   <aside class="sidebar">
       <div class="sidebar-header">
         <h2>HolyGrail5</h2>
-        <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
+        <p class="text-m sidebar-meta">
         last update: ${new Date().toLocaleString('es-ES')}
       </p>
       ${packageVersion ? `
-      <p class="text-m" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.25rem;">
+      <p class="text-m sidebar-meta-small">
         Version: ${packageVersion}
       </p>
       ` : ''}
       ${lastCommitAuthor ? `
-      <p class="text-s" style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.25rem;">
+      <p class="text-s sidebar-meta-small">
         Last user: ${lastCommitAuthor}
       </p>
       ` : ''}
@@ -968,40 +1322,40 @@ function generateHTML(configData, previousValuesPath = null) {
     
     
       
-      <div class="search-container" style=" position: relative; max-width: 500px; padding-inline-start: 3rem;">
+      <div class="search-container">
         <input 
           type="text" 
           id="search-input" 
+          class="search-input"
           placeholder="Buscar clases, variables, helpers..." 
-          style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s;"
           autocomplete="off"
         />
         <svg 
+          class="search-icon"
           width="20" 
           height="20" 
           viewBox="0 0 24 24" 
           fill="none" 
           stroke="currentColor" 
-          stroke-width="2" 
-          style="position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: #999; pointer-events: none;"
+          stroke-width="2"
         >
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
         <button 
           id="clear-search" 
-          style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #999; cursor: pointer; padding: 0.25rem; display: none; font-size: 1.25rem; line-height: 1;"
+          class="clear-search-btn"
           title="Limpiar búsqueda"
         >×</button>
       </div>
-      <div id="search-results" style="margin-top: 0.5rem; font-size: 0.875rem; color: #666; display: none;"></div>
+      <div id="search-results" class="search-results"></div>
     </div>
 
     ${colorsGridHTML ? `
     <div class="section section--highlighted" id="colors">
       <div class="section-title">
         <h2 >Colores</h2>
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
         Paleta de colores disponibles con sus variables CSS.
         </p>
       </div>
@@ -1015,7 +1369,7 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="section" id="font-families">
       <div class="section-title">
         <h2 >Font Families</h2>
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
         Font families disponibles para la tipografía.
         </p>
       </div>
@@ -1028,7 +1382,7 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="section" id="tipografia">
       <div class="section-title">
         <h2 >Clases de Tipografía</h2>
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
         Clases de tipografía disponibles.
         </p>
       </div>
@@ -1040,7 +1394,7 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="section" id="variables">
       <div class="section-title">
         <h2 >Variables CSS Compartidas</h2>
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
         Variables CSS compartidas.
         </p>
       </div>
@@ -1054,60 +1408,94 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="section" id="spacing">
       <div class="section-title">
         <h2 >Helpers de Spacing</h2>
-            <p class="text-m" style="margin-top: 1rem;">
+            <p class="text-m section-description">
         Clases helper para padding y margin basadas en el spacingMap.
         Usa las variables CSS definidas en :root.
             </p>
       </div>
       <div class="section-content">
-        <div class="info-box" style="margin-bottom: 2rem; padding: 1.5rem; background: #fff4e6; border-left: 4px solid #ff9800; border-radius: 4px;">
-          <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #ff9800;">¿Cómo se generan los helpers?</h3>
-          <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
-            La nomenclatura de las clases helper sigue un patrón simple:
-          </p>
-          <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <strong>Primera letra:</strong> tipo de spacing → <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">p</code> (padding) o <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">m</code> (margin)
-            </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <strong>Segunda letra:</strong> dirección → <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">t</code> (top), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">r</code> (right/end), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">b</code> (bottom), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">l</code> (left/start)
-            </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <strong>Guión + valor:</strong> el valor del spacing → <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">-4</code>, <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">-16</code>, <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">-50-percent</code>
-            </li>
-          </ul>
-          <p class="text-m" style="margin: 0; line-height: 1.6;">
-            <strong>Ejemplos:</strong> <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-16</code> (padding all), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.pt-8</code> (padding-top), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.mr-4</code> (margin-right), <code style="background: #fff8f0; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.mb-0</code> (margin-bottom)
-          </p>
+        <div class="info-box info-box-warning hg-d-flex">
+    
+    
+          
+       
+            <div class="spacing-text">
+                  <h3 class="info-box-title info-box-title-warning">¿Cómo se generan los helpers de espaciado?</h3>
+                  <p class="text-m info-box-text">
+              La nomenclatura de las clases helper sigue un patrón simple:
+                        </p>
+                        <ul class="info-box-list">
+              <li class="text-m info-box-list-item">
+                <strong>Primera letra:</strong> tipo de spacing → <code class="info-box-code">p</code> (padding) o <code class="info-box-code">m</code> (margin)
+              </li>
+              <li class="text-m info-box-list-item">
+                <strong>Segunda letra:</strong> dirección → <code class="info-box-code">t</code> (top), <code class="info-box-code">r</code> (right/end), <code class="info-box-code">b</code> (bottom), <code class="info-box-code">l</code> (left/start)
+              </li>
+              <li class="text-m info-box-list-item">
+                <strong>Guión + valor:</strong> el valor del spacing → <code class="info-box-code">-4</code>, <code class="info-box-code">-16</code>, <code class="info-box-code">-50-percent</code>
+              </li>
+                        </ul>
+                        <p class="text-m info-box-text">
+              <strong>Ejemplos:</strong> <code class="info-box-code">.p-16</code> (padding all), <code class="info-box-code">.pt-8</code> (padding-top), <code class="info-box-code">.mr-4</code> (margin-right), <code class="info-box-code">.mb-0</code> (margin-bottom)
+                        </p>
+            </div>
+
+      
+          <div class="spacing-diagram">
+            <div class="spacing-diagram-container">
+              <!-- Etiquetas de margin (exterior) -->
+              <div class="spacing-label spacing-label-top spacing-label-margin">mt-</div>
+              <div class="spacing-label spacing-label-right spacing-label-margin">mr-</div>
+              <div class="spacing-label spacing-label-bottom spacing-label-margin">mb-</div>
+              <div class="spacing-label spacing-label-left spacing-label-margin">ml-</div>
+              
+              <!-- Caja de margin (exterior) -->
+              <div class="spacing-margin-box"></div>
+              
+              <!-- Etiquetas de padding (interior) -->
+              <div class="spacing-label spacing-label-padding spacing-label-padding-top">pt-</div>
+              <div class="spacing-label spacing-label-padding spacing-label-padding-right">pr-</div>
+              <div class="spacing-label spacing-label-padding spacing-label-padding-bottom">pb-</div>
+              <div class="spacing-label spacing-label-padding spacing-label-padding-left">pl-</div>
+              
+              <!-- Caja de padding (interior) -->
+              <div class="spacing-padding-box"></div>
+              
+              <!-- Contenido -->
+              <div class="spacing-content">Contenido</div>
+            </div>
+          </div>
+
+
         </div>
         ${spacingHelpersTableHTML}
-        <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
-          <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Helpers con prefijo md: (Desktop)</h3>
-          <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
-            Los helpers con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
+        <div class="info-box info-box-info info-box-margin-top">
+          <h3 class="info-box-title info-box-title-info">Helpers con prefijo md: (Desktop)</h3>
+          <p class="text-m info-box-text">
+            Los helpers con prefijo <code class="info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
           </p>
-          <p class="text-m" style="margin: 0 0 0.75rem 0; line-height: 1.6;">
+          <p class="text-m info-box-text">
             <strong>Ejemplos de uso:</strong>
           </p>
-          <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+          <ul class="info-box-list">
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
             </li>
           </ul>
-          <p class="text-m" style="margin: 0; line-height: 1.6; font-size: 0.875rem; opacity: 0.8;">
-            <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">md:</code> para crear diseños responsive. Por ejemplo: <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
+          <p class="text-m info-box-text-small">
+            <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code class="info-box-code-info">md:</code> para crear diseños responsive. Por ejemplo: <code class="info-box-code-info">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code class="info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
           </p>
         </div>
       </div>
@@ -1118,38 +1506,38 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="section" id="layout">
       <div class="section-title">
         <h2 >Helpers de Layout</h2>
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
         Clases helper para display, flexbox, alignment y gap. 
         Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
         </p>
       </div>
       <div class="section-content">
         ${layoutHelpersTableHTML}
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
           Clases helper para display, flexbox, alignment y gap. 
           Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
         </p>
         
-        <div class="info-box" style="margin-top: 2rem; padding: 1.5rem; background: #f0f8ff; border-left: 4px solid #0170e9; border-radius: 4px;">
-          <h3 style="margin: 0 0 1rem 0; font-size: 1.125rem; font-weight: 700; color: #0170e9;">Ejemplos de uso</h3>
-          <ul style="margin: 0 0 0.75rem 0; padding-left: 1.5rem; line-height: 1.8;">
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.d-flex</code> - Display flex
+        <div class="info-box info-box-info info-box-margin-top">
+          <h3 class="info-box-title info-box-title-info">Ejemplos de uso</h3>
+          <ul class="info-box-list">
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.d-flex</code> - Display flex
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.flex-column</code> - Flex direction column
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.flex-column</code> - Flex direction column
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.justify-center</code> - Justify content center
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.justify-center</code> - Justify content center
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.items-center</code> - Align items center
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.items-center</code> - Align items center
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.gap-16</code> - Gap de 16px (1rem)
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.gap-16</code> - Gap de 16px (1rem)
             </li>
-            <li class="text-m" style="margin-bottom: 0.5rem;">
-              <code style="background: #e6f2ff; padding: 0.125rem 0.375rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.875rem;">.md:flex-row</code> - Flex direction row solo en desktop
+            <li class="text-m info-box-list-item">
+              <code class="info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
             </li>
           </ul>
         </div>
@@ -1160,7 +1548,7 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="section" id="breakpoints">
       <div class="section-title">
         <h2 >Breakpoints</h2>
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
         Breakpoints disponibles.
         </p>
       </div>
@@ -1191,7 +1579,7 @@ function generateHTML(configData, previousValuesPath = null) {
             </tbody>
           </table>
         </div>
-        <p class="text-m" style="margin-top: 1rem;">
+        <p class="text-m section-description">
           Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
           Resize la ventana del navegador para ver los cambios.
         </p>
@@ -1240,7 +1628,7 @@ function generateHTML(configData, previousValuesPath = null) {
       const escapedTerm = searchTerm.replace(/[.*+?^$()|[\]\\]/g, '\\\\$&');
       const escapedTerm2 = escapedTerm.replace(/{/g, '\\\\{').replace(/}/g, '\\\\}');
       const regex = new RegExp('(' + escapedTerm2 + ')', 'gi');
-      return text.replace(regex, '<mark style="background: #ffeb3b; padding: 0.125rem 0.25rem; border-radius: 3px;">$1</mark>');
+      return text.replace(regex, '<mark class="search-highlight">$1</mark>');
     }
     
     // Función para buscar en tablas y grids
@@ -1362,16 +1750,7 @@ function generateHTML(configData, previousValuesPath = null) {
       searchInput.focus();
     });
     
-    // Estilos para el input cuando está enfocado
-    searchInput.addEventListener('focus', () => {
-      searchInput.style.borderColor = '#0170e9';
-    });
-    
-    searchInput.addEventListener('blur', () => {
-      if (!searchInput.value) {
-        searchInput.style.borderColor = '#e0e0e0';
-      }
-    });
+    // El estilo de focus ya está en CSS (.search-input:focus)
     
     // Resaltar sección activa al hacer scroll
     function updateActiveSection() {
