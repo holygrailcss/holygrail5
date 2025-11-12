@@ -547,12 +547,12 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-table .guide-table-name {
       font-weight: 600;
       color: #000000;
-      font-family: 'Courier New', monospace;
+      font-family: arial;
     }
 
     /* Estilos para valores */
     .guide-table .guide-table-value {
-      font-family: 'Courier New', monospace;
+      font-family: arial;
       color: #333;
       font-size: 11px;
     }
@@ -602,7 +602,7 @@ function generateHTML(configData, previousValuesPath = null) {
       color: #000000;
       font-weight: 500;
       
-      font-family: 'Courier New', monospace;
+      font-family: arial;
     }
 
     .guide-table .guide-desktop-value {
@@ -610,7 +610,7 @@ function generateHTML(configData, previousValuesPath = null) {
       color: #cc6600;
       font-weight: 500;
       
-      font-family: 'Courier New', monospace;
+      font-family: arial;
     }
 
     .guide-table td.guide-mobile-value.guide-changed,
@@ -633,14 +633,14 @@ function generateHTML(configData, previousValuesPath = null) {
       color: #000000;
       font-weight: 500;
       
-      font-family: 'Courier New', monospace;
+      font-family: arial;
     }
 
     .guide-table .guide-value-center-orange {
       color: #cc6600;
       font-weight: 500;
       
-      font-family: 'Courier New', monospace;
+      font-family: arial;
     }
 
     /* Estilos para grid de colores */
@@ -697,6 +697,18 @@ function generateHTML(configData, previousValuesPath = null) {
       background-color: #e0e0e0;
     }
 
+    /* Estilos para helpers de layout */
+    .guide-layout-class-name {
+      font-weight: 600;
+      color: #000000;
+      font-family: arial;
+    }
+
+    .guide-layout-property {
+      color: #666;
+      font-family: arial;
+    }
+
     .guide-color-preview {
       width: 100%;
       height: 120px;
@@ -731,14 +743,14 @@ function generateHTML(configData, previousValuesPath = null) {
       font-size: 11px;
       color: #666;
       margin-bottom: 0.5rem;
-      font-family: 'Courier New', monospace;
+      font-family: arial;
       word-break: break-all;
     }
 
     .guide-color-value {
       font-size: 0.75rem;
       color: #666;
-      font-family: 'Courier New', monospace;
+      font-family: arial;
     }
 
     .guide-color-value.guide-changed {
@@ -866,7 +878,7 @@ function generateHTML(configData, previousValuesPath = null) {
       background: #fff8f0;
       padding: 0.125rem 0.375rem;
       border-radius: 3px;
-      font-family: 'Courier New', monospace;
+      font-family: arial;
       font-size: 0.875rem;
     }
 
@@ -874,7 +886,7 @@ function generateHTML(configData, previousValuesPath = null) {
       background: #e6f2ff;
       padding: 0.125rem 0.375rem;
       border-radius: 3px;
-      font-family: 'Courier New', monospace;
+      font-family: arial;
       font-size: 0.875rem;
     }
 
@@ -900,7 +912,7 @@ function generateHTML(configData, previousValuesPath = null) {
       padding: 1rem;
       border-radius: 4px;
       overflow-x: auto;
-      font-family: 'Courier New', monospace;
+      font-family: arial;
       font-size: 12px;
     }
 
@@ -1150,7 +1162,7 @@ function generateHTML(configData, previousValuesPath = null) {
       position: absolute;
       font-size: 0.875rem;
       font-weight: 600;
-      font-family: 'Courier New', monospace;
+      font-family: arial;
       color: #333;
       background: white;
       padding: 0.25rem 0.5rem;
@@ -1232,10 +1244,10 @@ function generateHTML(configData, previousValuesPath = null) {
         
         rows.push(`
       <tr>
-        <td class="guide-table-name">${baseClass}</td>
-        <td class="guide-table-name">${responsiveClass || '-'}</td>
-        <td class="guide-table-value">${property}: ${remValue}</td>
-        <td class="guide-table-value">${helperDescription || '-'}</td>
+        <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
+        <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
+        <td class="guide-layout-property">${property}: ${remValue}</td>
+        <td class="guide-layout-property">${helperDescription || '-'}</td>
       </tr>`);
       });
     } else if (values) {
@@ -1246,10 +1258,10 @@ function generateHTML(configData, previousValuesPath = null) {
           
           rows.push(`
       <tr>
-        <td class="table-name">${baseClass}</td>
-        <td class="table-name">${responsiveClass || '-'}</td>
-        <td class="table-value">${property}: ${value}</td>
-        <td class="table-value">${helperDescription || '-'}</td>
+        <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
+        <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
+        <td class="guide-layout-property">${property}: ${value}</td>
+        <td class="guide-layout-property">${helperDescription || '-'}</td>
       </tr>`);
         });
       } else {
@@ -1259,10 +1271,10 @@ function generateHTML(configData, previousValuesPath = null) {
           
           rows.push(`
       <tr>
-        <td class="table-name">${baseClass}</td>
-        <td class="table-name">${responsiveClass || '-'}</td>
-        <td class="table-value">${property}: ${value}</td>
-        <td class="table-value">${helperDescription || '-'}</td>
+        <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
+        <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
+        <td class="guide-layout-property">${property}: ${value}</td>
+        <td class="guide-layout-property">${helperDescription || '-'}</td>
       </tr>`);
         });
       }
