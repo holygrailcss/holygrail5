@@ -362,18 +362,18 @@ function generateHTML(configData, previousValuesPath = null) {
     
     return `
       <tr>
-        <td class="table-name">.${className}</td>
-        <td class="preview-cell">
-          <div class="typography-preview ${className}">Aa</div>
+        <td class="guide-table-name">.${className}</td>
+        <td class="guide-preview-cell">
+          <div class="guide-typography-preview ${className}">Aa</div>
         </td>
-        <td class="table-value ${fontFamilyChanged ? 'changed' : ''}">${fontFamilyName || cls.fontFamily || '-'}</td>
-        <td class="table-value ${fontWeightChanged ? 'changed' : ''}">${cls.fontWeight || '-'}</td>
-        <td class="table-value ${letterSpacingChanged ? 'changed' : ''}">${cls.letterSpacing || '-'}</td>
-        <td class="table-value ${textTransformChanged ? 'changed' : ''}">${cls.textTransform || '-'}</td>
-        <td class="mobile-value ${mobileFontSizeChanged ? 'changed' : ''}">${cls.mobile?.fontSize ? pxToRem(cls.mobile.fontSize, baseFontSize) : '-'}</td>
-        <td class="mobile-value ${mobileLineHeightChanged ? 'changed' : ''}">${cls.mobile?.lineHeight || '-'}</td>
-        <td class="desktop-value ${desktopFontSizeChanged ? 'changed' : ''}">${cls.desktop?.fontSize ? pxToRem(cls.desktop.fontSize, baseFontSize) : '-'}</td>
-        <td class="desktop-value ${desktopLineHeightChanged ? 'changed' : ''}">${cls.desktop?.lineHeight || '-'}</td>
+        <td class="guide-table-value ${fontFamilyChanged ? 'guide-changed' : ''}">${fontFamilyName || cls.fontFamily || '-'}</td>
+        <td class="guide-table-value ${fontWeightChanged ? 'guide-changed' : ''}">${cls.fontWeight || '-'}</td>
+        <td class="guide-table-value ${letterSpacingChanged ? 'guide-changed' : ''}">${cls.letterSpacing || '-'}</td>
+        <td class="guide-table-value ${textTransformChanged ? 'guide-changed' : ''}">${cls.textTransform || '-'}</td>
+        <td class="guide-mobile-value ${mobileFontSizeChanged ? 'guide-changed' : ''}">${cls.mobile?.fontSize ? pxToRem(cls.mobile.fontSize, baseFontSize) : '-'}</td>
+        <td class="guide-mobile-value ${mobileLineHeightChanged ? 'guide-changed' : ''}">${cls.mobile?.lineHeight || '-'}</td>
+        <td class="guide-desktop-value ${desktopFontSizeChanged ? 'guide-changed' : ''}">${cls.desktop?.fontSize ? pxToRem(cls.desktop.fontSize, baseFontSize) : '-'}</td>
+        <td class="guide-desktop-value ${desktopLineHeightChanged ? 'guide-changed' : ''}">${cls.desktop?.lineHeight || '-'}</td>
       </tr>`;
   }).join('');
   
@@ -388,15 +388,15 @@ function generateHTML(configData, previousValuesPath = null) {
             <th>Font Weight</th>
             <th>Letter Spacing</th>
             <th>Text Transform</th>
-            <th colspan="2" class="mobile-header">Mobile</th>
-            <th colspan="2" class="desktop-header">Desktop</th>
+            <th colspan="2" class="guide-mobile-header">Mobile</th>
+            <th colspan="2" class="guide-desktop-header">Desktop</th>
           </tr>
-          <tr class="sub-header">
+          <tr class="guide-sub-header">
             <th colspan="6"></th>
-            <th class="mobile-value">Font Size</th>
-            <th class="mobile-value">Line Height</th>
-            <th class="desktop-value">Font Size</th>
-            <th class="desktop-value">Line Height</th>
+            <th class="guide-mobile-value">Font Size</th>
+            <th class="guide-mobile-value">Line Height</th>
+            <th class="guide-desktop-value">Font Size</th>
+            <th class="guide-desktop-value">Line Height</th>
           </tr>
         </thead>
         <tbody>
@@ -412,10 +412,10 @@ function generateHTML(configData, previousValuesPath = null) {
     const isChanged = changedValues.has(`fontFamilyMap.${name}`);
     return `
       <tr>
-        <td class="table-name">${name}</td>
-        <td class="font-family-preview" style='font-family: ${styleValue};'>Aa</td>
-        <td class="table-value ${isChanged ? 'changed' : ''}">${value}</td>
-        <td class="table-value">${varName}</td>
+        <td class="guide-table-name">${name}</td>
+        <td class="guide-font-family-preview" style='font-family: ${styleValue};'>Aa</td>
+        <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${value}</td>
+        <td class="guide-table-value">${varName}</td>
       </tr>`;
   }).join('') : '';
   
@@ -444,10 +444,10 @@ function generateHTML(configData, previousValuesPath = null) {
         
         return `
           <tr>
-            <td class="table-name ${isVariableChanged ? 'changed' : ''}">${variable.name}</td>
-            <td class="table-value ${isVariableChanged ? 'changed' : ''}">${variable.value}</td>
-            <td class="value-center-blue ${isVariableChanged ? 'changed' : ''}">${remValue}</td>
-            <td class="value-center-orange ${isVariableChanged ? 'changed' : ''}">${pxValue}</td>
+            <td class="guide-table-name guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${variable.name}" title="Click para copiar ${variable.name}">${variable.name}</td>
+            <td class="guide-table-value guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${variable.value}" title="Click para copiar ${variable.value}">${variable.value}</td>
+            <td class="guide-value-center-blue guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${remValue}" title="Click para copiar ${remValue}">${remValue}</td>
+            <td class="guide-value-center-orange guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${pxValue}" title="Click para copiar ${pxValue}">${pxValue}</td>
           </tr>`;
       }).join('');
   
@@ -481,10 +481,10 @@ function generateHTML(configData, previousValuesPath = null) {
     
         return `
       <tr>
-        <td class="table-name">.*-${key}${importantLabel}</td>
-        <td class="table-value ${isChanged ? 'changed' : ''}">${varName}</td>
-        <td class="value-center-blue ${isChanged ? 'changed' : ''}">${remValue}</td>
-        <td class="value-center-orange ${isChanged ? 'changed' : ''}">${pxValue}</td>
+        <td class="guide-table-name">.*-${key}${importantLabel}</td>
+        <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${varName}</td>
+        <td class="guide-value-center-blue ${isChanged ? 'guide-changed' : ''}">${remValue}</td>
+        <td class="guide-value-center-orange ${isChanged ? 'guide-changed' : ''}">${pxValue}</td>
       </tr>`;
   }).join('') : '';
   
@@ -544,49 +544,50 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     /* Estilos para nombres/identificadores */
-    .guide-table .table-name {
+    .guide-table .guide-table-name {
       font-weight: 600;
       color: #000000;
       font-family: 'Courier New', monospace;
     }
 
     /* Estilos para valores */
-    .guide-table .table-value {
+    .guide-table .guide-table-value {
       font-family: 'Courier New', monospace;
       color: #333;
+      font-size: 11px;
     }
 
     /* Estilos para celdas cambiadas */
-    .guide-table td.changed {
+    .guide-table td.guide-changed {
       background: #d4edda !important;
       border-left: 3px solid #28a745;
       font-weight: 600;
     }
 
     /* Estilos específicos de tipografía */
-    .guide-table th.mobile-header {
+    .guide-table th.guide-mobile-header {
       background: #e6f2ff;
       color: #000000;
       
     }
 
-    .guide-table th.desktop-header {
+    .guide-table th.guide-desktop-header {
       background: #fff4e6;
       color: #cc6600;
       
     }
 
-    .guide-table .sub-header th {
+    .guide-table .guide-sub-header th {
       border-top: none;
       border-bottom: 1px solid #ddd;
       font-weight: 500;
       font-size: 0.6875rem;
     }
 
-    .guide-table .preview-cell {
+    .guide-table .guide-preview-cell {
     }
 
-    .guide-table .typography-preview {
+    .guide-table .guide-typography-preview {
       padding: 0.5rem;
       font-size: inherit;
       display: flex;
@@ -596,7 +597,7 @@ function generateHTML(configData, previousValuesPath = null) {
       
     }
 
-    .guide-table .mobile-value {
+    .guide-table .guide-mobile-value {
       background: #f0f8ff;
       color: #000000;
       font-weight: 500;
@@ -604,7 +605,7 @@ function generateHTML(configData, previousValuesPath = null) {
       font-family: 'Courier New', monospace;
     }
 
-    .guide-table .desktop-value {
+    .guide-table .guide-desktop-value {
       background: #fff8f0;
       color: #cc6600;
       font-weight: 500;
@@ -612,14 +613,14 @@ function generateHTML(configData, previousValuesPath = null) {
       font-family: 'Courier New', monospace;
     }
 
-    .guide-table td.mobile-value.changed,
-    .guide-table td.desktop-value.changed {
+    .guide-table td.guide-mobile-value.guide-changed,
+    .guide-table td.guide-desktop-value.guide-changed {
       background: #d4edda !important;
       border-left: 3px solid #28a745;
     }
 
     /* Estilos para previews de fuente */
-    .guide-table .font-family-preview {
+    .guide-table .guide-font-family-preview {
       min-width: 100px;
       padding: 0.75rem;
       min-height: 50px;
@@ -628,14 +629,14 @@ function generateHTML(configData, previousValuesPath = null) {
     }
     
     /* Estilos para valores centrados con color */
-    .guide-table .value-center-blue {
+    .guide-table .guide-value-center-blue {
       color: #000000;
       font-weight: 500;
       
       font-family: 'Courier New', monospace;
     }
 
-    .guide-table .value-center-orange {
+    .guide-table .guide-value-center-orange {
       color: #cc6600;
       font-weight: 500;
       
@@ -643,7 +644,7 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     /* Estilos para grid de colores */
-    .colors-grid {
+    .guide-colors-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 1.5rem;
@@ -652,20 +653,51 @@ function generateHTML(configData, previousValuesPath = null) {
       padding-bottom: 2rem;
     }
 
-    .color-card {
+    .guide-color-card {
       background: white;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
     }
 
-    .color-card:hover {
+    .guide-color-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .color-preview {
+    .guide-color-card:active {
+      transform: translateY(0);
+    }
+
+    .guide-color-var-name,
+    .guide-color-value {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .guide-color-var-name:hover,
+    .guide-color-value:hover {
+      background-color: #f0f0f0;
+      border-radius: 3px;
+    }
+
+    .guide-copyable {
+      cursor: pointer;
+      transition: background-color 0.2s;
+      position: relative;
+    }
+
+    .guide-copyable:hover {
+      background-color: #f0f0f0;
+    }
+
+    .guide-copyable:active {
+      background-color: #e0e0e0;
+    }
+
+    .guide-color-preview {
       width: 100%;
       height: 120px;
       border-bottom: 1px solid #e0e0e0;
@@ -673,7 +705,7 @@ function generateHTML(configData, previousValuesPath = null) {
       background-color: var(--color-value);
     }
 
-    .color-pattern {
+    .guide-color-pattern {
       position: absolute;
       top: 0;
       left: 0;
@@ -684,58 +716,58 @@ function generateHTML(configData, previousValuesPath = null) {
       mix-blend-mode: overlay;
     }
 
-    .color-card-content {
+    .guide-color-card-content {
       padding: 1rem;
     }
 
-    .color-name {
+    .guide-color-name {
       font-weight: 600;
       font-size: 0.875rem;
       margin-bottom: 0.5rem;
       color: #000;
     }
 
-    .color-var-name {
-      font-size: 0.75rem;
+    .guide-color-var-name {
+      font-size: 11px;
       color: #666;
       margin-bottom: 0.5rem;
       font-family: 'Courier New', monospace;
       word-break: break-all;
     }
 
-    .color-value {
+    .guide-color-value {
       font-size: 0.75rem;
       color: #666;
       font-family: 'Courier New', monospace;
     }
 
-    .color-value.changed {
+    .guide-color-value.guide-changed {
       background: #d4edda;
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
     }
 
     /* Estilos para sidebar header */
-    .sidebar-meta {
+    .guide-sidebar-meta {
       font-size: 0.75rem;
       opacity: 0.6;
       margin-top: 0.5rem;
     }
 
-    .sidebar-meta-small {
+    .guide-sidebar-meta-small {
       font-size: 0.75rem;
       opacity: 0.6;
       margin-top: 0.25rem;
     }
 
     /* Estilos para búsqueda */
-    .search-container {
+    .guide-search-container {
       position: relative;
       max-width: 500px;
       padding-inline-start: 3rem;
     }
 
-    .search-input {
+    .guide-search-input {
       width: 100%;
       padding: 0.75rem 1rem 0.75rem 2.75rem;
       border: 2px solid #e0e0e0;
@@ -745,11 +777,11 @@ function generateHTML(configData, previousValuesPath = null) {
       transition: border-color 0.2s;
     }
 
-    .search-input:focus {
+    .guide-search-input:focus {
       border-color: #0170e9;
     }
 
-    .search-icon {
+    .guide-search-icon {
       position: absolute;
       left: 0.875rem;
       top: 50%;
@@ -758,7 +790,7 @@ function generateHTML(configData, previousValuesPath = null) {
       pointer-events: none;
     }
 
-    .clear-search-btn {
+    .guide-clear-search-btn {
       position: absolute;
       right: 0.5rem;
       top: 50%;
@@ -773,7 +805,7 @@ function generateHTML(configData, previousValuesPath = null) {
       line-height: 1;
     }
 
-    .search-results {
+    .guide-search-results {
       margin-top: 0.5rem;
       font-size: 0.875rem;
       color: #666;
@@ -781,56 +813,56 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     /* Estilos para secciones */
-    .section-description {
+    .guide-section-description {
       margin-top: 1rem;
       letter-spacing: 0;
     }
 
     /* Estilos para info boxes */
-    .info-box {
+    .guide-info-box {
       margin-bottom: 2rem;
       padding: 1.5rem 0;
    
     }
 
-    .info-box-warning {
+    .guide-info-box-warning {
 
     }
 
-    .info-box-info {
+    .guide-info-box-info {
 
     }
 
-    .info-box-title {
+    .guide-info-box-title {
       margin: 0 0 1rem 0;
       font-size: 1.125rem;
       font-weight: 700;
     }
 
-    .info-box-title-warning {
+    .guide-info-box-title-warning {
       color: #ff9800;
     }
 
-    .info-box-title-info {
+    .guide-info-box-title-info {
       color: #0170e9;
     }
 
-    .info-box-text {
+    .guide-info-box-text {
       margin: 0 0 0.75rem 0;
       line-height: 1.6;
     }
 
-    .info-box-list {
+    .guide-info-box-list {
       margin: 0 0 0.75rem 0;
       padding-top: 1.5rem;
       line-height: 1.8;
     }
 
-    .info-box-list-item {
+    .guide-info-box-list-item {
       margin-bottom: 0.5rem;
     }
 
-    .info-box-code {
+    .guide-info-box-code {
       background: #fff8f0;
       padding: 0.125rem 0.375rem;
       border-radius: 3px;
@@ -838,7 +870,7 @@ function generateHTML(configData, previousValuesPath = null) {
       font-size: 0.875rem;
     }
 
-    .info-box-code-info {
+    .guide-info-box-code-info {
       background: #e6f2ff;
       padding: 0.125rem 0.375rem;
       border-radius: 3px;
@@ -846,24 +878,24 @@ function generateHTML(configData, previousValuesPath = null) {
       font-size: 0.875rem;
     }
 
-    .info-box-text-small {
+    .guide-info-box-text-small {
       margin: 0;
       line-height: 1.6;
       font-size: 0.875rem;
       opacity: 0.8;
     }
 
-    .info-box-margin-top {
+    .guide-info-box-margin-top {
       margin-top: 2rem;
     }
 
-    .search-highlight {
+    .guide-search-highlight {
       background: #ffeb3b;
       padding: 0.125rem 0.25rem;
       border-radius: 3px;
     }
 
-    .code-example {
+    .guide-code-example {
       background: #f5f5f5;
       padding: 1rem;
       border-radius: 4px;
@@ -884,7 +916,7 @@ function generateHTML(configData, previousValuesPath = null) {
       display: flex;
     }
     
-    .sidebar {
+    .guide-sidebar {
       position: fixed;
       left: 0;
       top: 0;
@@ -899,24 +931,24 @@ function generateHTML(configData, previousValuesPath = null) {
       box-shadow: 2px 0 8px rgba(0,0,0,0.05);
     }
     
-    .sidebar-header {
+    .guide-sidebar-header {
       padding: 0 1.5rem 2rem 1.5rem;
       border-bottom: 1px solid #e0e0e0;
       margin-bottom: 1rem;
     }
     
-    .sidebar-header h2 {
+    .guide-sidebar-header h2 {
       margin: 0;
       font-size: 1.25rem;
       font-weight: 700;
       color: #000;
     }
     
-    .sidebar-nav {
+    .guide-sidebar-nav {
       padding: 0 1rem;
     }
 
-    .sidebar-footer {
+    .guide-sidebar-footer {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -926,19 +958,19 @@ function generateHTML(configData, previousValuesPath = null) {
       background: white;
     }
 
-    .sidebar-badges {
+    .guide-sidebar-badges {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
       align-items: flex-start;
     }
 
-    .sidebar-badges img {
+    .guide-sidebar-badges img {
       height: 20px;
       width: auto;
     }
     
-    .menu-item {
+    .guide-menu-item {
       display: block;
       padding: 0.75rem 1rem;
       margin-bottom: 0.25rem;
@@ -950,16 +982,16 @@ function generateHTML(configData, previousValuesPath = null) {
       font-weight: 500;
     }
     
-    .menu-item:hover {
+    .guide-menu-item:hover {
       background: #f0f0f0;
       color: #000;
     }
     
-    .menu-item.active {
+    .guide-menu-item.active {
       color: black;
     }
     
-    .main-content {
+    .guide-main-content {
       margin-left: 250px;
       flex: 1;
       padding: 0;
@@ -967,7 +999,7 @@ function generateHTML(configData, previousValuesPath = null) {
       max-width: calc(100% - 250px);
     }
     
-    .menu-toggle {
+    .guide-menu-toggle {
       display: none;
       position: fixed;
       top: 1rem;
@@ -983,27 +1015,27 @@ function generateHTML(configData, previousValuesPath = null) {
     }
     
     @media (max-width: 768px) {
-      .sidebar {
+      .guide-sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
       }
       
-      .sidebar.open {
+      .guide-sidebar.open {
         transform: translateX(0);
       }
       
-      .main-content {
+      .guide-main-content {
         margin-left: 0;
         max-width: 100%;
         padding: 1rem 0;
       }
       
-      .menu-toggle {
+      .guide-menu-toggle {
         display: block;
       }
     }
 
-    .header {
+    .guide-header {
       position: sticky;
       top: 0;
       z-index: 50;
@@ -1012,24 +1044,24 @@ function generateHTML(configData, previousValuesPath = null) {
       border-bottom: 2px solid #000;
     }
 
-    .header h1 {
+    .guide-header h1 {
       margin: 0;
       font-size: 2.5rem;
       font-weight: 900;
     }
 
-    .header p {
+    .guide-header p {
       margin: 1rem 0 0 0;
       opacity: 0.7;
     }
 
-    .section {
+    .guide-section {
       background: white;
       padding: 0rem;
       border-radius: 8px;
     }
 
-    .section-title {
+    .guide-section-title {
       font-size: 1.5rem;
       font-weight: 700;
       padding-top: 6rem;
@@ -1039,20 +1071,20 @@ function generateHTML(configData, previousValuesPath = null) {
       background: #f5f5f5;
     }
 
-    .section-content {
+    .guide-section-content {
       padding-inline: 1rem;
     }
 
-    .section-content > .guide-table-wrapper {
+    .guide-section-content > .guide-table-wrapper {
       margin-inline: -1rem;
     }
 
-    .section.section--highlighted {
+    .guide-section.guide-section--highlighted {
       background: #fff;
     }
 
     /* Estilos para diagrama de spacing */
-    .spacing-diagram {
+    .guide-spacing-diagram {
     width: 50%;
 
    
@@ -1062,18 +1094,18 @@ function generateHTML(configData, previousValuesPath = null) {
       align-items: center;
       position: relative;
     }
-      .spacing-text{
+      .guide-spacing-text{
       width: 50%;
       }
 
-    .spacing-diagram-container {
+    .guide-spacing-diagram-container {
       position: relative;
       width: 100%;
       max-width: 400px;
       height: 300px;
     }
 
-    .spacing-margin-box {
+    .guide-spacing-margin-box {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -1085,7 +1117,7 @@ function generateHTML(configData, previousValuesPath = null) {
       border-radius: 4px;
     }
 
-    .spacing-padding-box {
+    .guide-spacing-padding-box {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -1097,7 +1129,7 @@ function generateHTML(configData, previousValuesPath = null) {
       border-radius: 4px;
     }
 
-    .spacing-content {
+    .guide-spacing-content {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -1114,7 +1146,7 @@ function generateHTML(configData, previousValuesPath = null) {
       font-weight: 600;
     }
 
-    .spacing-label {
+    .guide-spacing-label {
       position: absolute;
       font-size: 0.875rem;
       font-weight: 600;
@@ -1127,57 +1159,57 @@ function generateHTML(configData, previousValuesPath = null) {
       white-space: nowrap;
     }
 
-    .spacing-label-top {
+    .guide-spacing-label-top {
       top: 0;
       left: 50%;
       transform: translateX(-50%);
     }
 
-    .spacing-label-bottom {
+    .guide-spacing-label-bottom {
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
     }
 
-    .spacing-label-left {
+    .guide-spacing-label-left {
       left: 0;
       top: 50%;
       transform: translateY(-50%);
     }
 
-    .spacing-label-right {
+    .guide-spacing-label-right {
       right: 0;
       top: 50%;
       transform: translateY(-50%);
     }
 
-    .spacing-label-margin {
+    .guide-spacing-label-margin {
       color: #ff9800;
     }
 
-    .spacing-label-padding {
+    .guide-spacing-label-padding {
       color: #0170e9;
     }
 
-    .spacing-label-padding-top {
+    .guide-spacing-label-padding-top {
       top: 15%;
       left: 50%;
       transform: translateX(-50%);
     }
 
-    .spacing-label-padding-right {
+    .guide-spacing-label-padding-right {
       right: 10%;
       top: 50%;
       transform: translateY(-50%);
     }
 
-    .spacing-label-padding-bottom {
+    .guide-spacing-label-padding-bottom {
       bottom: 15%;
       left: 50%;
       transform: translateX(-50%);
     }
 
-    .spacing-label-padding-left {
+    .guide-spacing-label-padding-left {
       left: 10%;
       top: 50%;
       transform: translateY(-50%);
@@ -1200,10 +1232,10 @@ function generateHTML(configData, previousValuesPath = null) {
         
         rows.push(`
       <tr>
-        <td class="table-name">${baseClass}</td>
-        <td class="table-name">${responsiveClass || '-'}</td>
-        <td class="table-value">${property}: ${remValue}</td>
-        <td class="table-value">${helperDescription || '-'}</td>
+        <td class="guide-table-name">${baseClass}</td>
+        <td class="guide-table-name">${responsiveClass || '-'}</td>
+        <td class="guide-table-value">${property}: ${remValue}</td>
+        <td class="guide-table-value">${helperDescription || '-'}</td>
       </tr>`);
       });
     } else if (values) {
@@ -1257,7 +1289,7 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>` : '';
   
       const colorsGridHTML = configData.colors ? `
-        <div class="colors-grid">
+        <div class="guide-colors-grid">
           ${Object.entries(configData.colors).map(([key, value]) => {
             const varName = `--${prefix}-color-${key}`;
             const isChanged = changedValues.has(`colors.${key}`);
@@ -1266,14 +1298,14 @@ function generateHTML(configData, previousValuesPath = null) {
             // Asegurar que el valor del color sea opaco (sin alfa)
             const opaqueValue = normalizedValue.length === 7 ? normalizedValue : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
             return `
-          <div class="color-card">
-            <div class="color-preview" style="--color-value: ${opaqueValue};">
-              ${isLight ? `<div class="color-pattern"></div>` : ''}
+          <div class="guide-color-card" data-copy-value="${varName}" title="Click para copiar ${varName}">
+            <div class="guide-color-preview" style="--color-value: ${opaqueValue};">
+              ${isLight ? `<div class="guide-color-pattern"></div>` : ''}
             </div>
-            <div class="color-card-content">
-              <div class="color-name">${key}</div>
-              <div class="color-var-name">${varName}</div>
-              <div class="color-value ${isChanged ? 'changed' : ''}">${value}</div>
+            <div class="guide-color-card-content">
+              <div class="guide-color-name">${key}</div>
+              <div class="guide-color-var-name" data-copy-value="${varName}" title="Click para copiar ${varName}">${varName}</div>
+              <div class="guide-color-value ${isChanged ? 'guide-changed' : ''}" data-copy-value="${value}" title="Click para copiar ${value}">${value}</div>
             </div>
           </div>`;
           }).join('')}
@@ -1303,7 +1335,7 @@ function generateHTML(configData, previousValuesPath = null) {
       menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
       
       const menuHTML = menuItems.map(item => `
-        <a href="#${item.id}" class="menu-item" data-section="${item.id}">${item.label}</a>
+        <a href="#${item.id}" class="guide-menu-item" data-section="${item.id}">${item.label}</a>
       `).join('');
       
       return `<!DOCTYPE html>
@@ -1321,32 +1353,32 @@ function generateHTML(configData, previousValuesPath = null) {
   </style>
 </head>
 <body>
-  <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+  <button class="guide-menu-toggle" onclick="document.querySelector('.guide-sidebar').classList.toggle('open')">☰</button>
   
-  <aside class="sidebar">
-      <div class="sidebar-header">
+  <aside class="guide-sidebar">
+      <div class="guide-sidebar-header">
         <h2>HolyGrail5</h2>
-        <p class="text-m sidebar-meta">
+        <p class="text-m guide-sidebar-meta">
         last update: ${new Date().toLocaleString('es-ES')}
       </p>
       ${packageVersion ? `
-      <p class="text-m sidebar-meta-small">
+      <p class="text-m guide-sidebar-meta-small">
         Version: ${packageVersion}
       </p>
       ` : ''}
       ${lastCommitAuthor ? `
-      <p class="text-s sidebar-meta-small">
+      <p class="text-s guide-sidebar-meta-small">
         Last user: ${lastCommitAuthor}
       </p>
       ` : ''}
       </div>
 
-    <nav class="sidebar-nav">
+    <nav class="guide-sidebar-nav">
       ${menuHTML}
     </nav>
     
-    <div class="sidebar-footer">
-      <div class="sidebar-badges">
+    <div class="guide-sidebar-footer">
+      <div class="guide-sidebar-badges">
         <a href="https://www.npmjs.com/package/holygrail5" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/npm/v/holygrail5.svg" alt="npm version" />
         </a>
@@ -1355,21 +1387,21 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
   </aside>
   
-  <main class="main-content">
-    <div class="header">
+  <main class="guide-main-content">
+    <div class="guide-header">
     
     
       
-      <div class="search-container">
+      <div class="guide-search-container">
         <input 
           type="text" 
           id="search-input" 
-          class="search-input"
+          class="guide-search-input"
           placeholder="Buscar clases, variables, helpers..." 
           autocomplete="off"
         />
         <svg 
-          class="search-icon"
+          class="guide-search-icon"
           width="20" 
           height="20" 
           viewBox="0 0 24 24" 
@@ -1382,158 +1414,158 @@ function generateHTML(configData, previousValuesPath = null) {
         </svg>
         <button 
           id="clear-search" 
-          class="clear-search-btn"
+          class="guide-clear-search-btn"
           title="Limpiar búsqueda"
         >×</button>
       </div>
-      <div id="search-results" class="search-results"></div>
+      <div id="search-results" class="guide-search-results"></div>
     </div>
 
     ${colorsGridHTML ? `
-    <div class="section section--highlighted" id="colors">
-      <div class="section-title">
+    <div class="guide-section guide-section--highlighted" id="colors">
+      <div class="guide-section-title">
         <h2 >Colores</h2>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
         Paleta de colores disponibles con sus variables CSS.
         </p>
       </div>
-      <div class="section-content">
+      <div class="guide-section-content">
         ${colorsGridHTML}
       </div>
     </div>
     ` : ''}
 
     ${fontFamiliesTableHTML ? `
-    <div class="section" id="font-families">
-      <div class="section-title">
+    <div class="guide-section" id="font-families">
+      <div class="guide-section-title">
         <h2 >Font Families</h2>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
         Font families disponibles para la tipografía.
         </p>
       </div>
-      <div class="section-content">
+      <div class="guide-section-content">
         ${fontFamiliesTableHTML}
       </div>
     </div>
     ` : ''}
 
-    <div class="section" id="tipografia">
-      <div class="section-title">
+    <div class="guide-section" id="tipografia">
+      <div class="guide-section-title">
         <h2 >Clases de Tipografía</h2>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
         Clases de tipografía disponibles.
         </p>
       </div>
-      <div class="section-content">
+      <div class="guide-section-content">
         ${classesHTML}
       </div>
     </div>
 
-    <div class="section" id="variables">
-      <div class="section-title">
+    <div class="guide-section" id="variables">
+      <div class="guide-section-title">
         <h2 >Variables CSS Compartidas</h2>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
         Variables CSS compartidas.
         </p>
       </div>
-      <div class="section-content">
+      <div class="guide-section-content">
         ${variablesTableHTML}
       </div>
     </div>
 
 
     ${spacingHelpersTableHTML ? `
-    <div class="section" id="spacing">
-      <div class="section-title">
+    <div class="guide-section" id="spacing">
+      <div class="guide-section-title">
         <h2 >Helpers de Spacing</h2>
-            <p class="text-m section-description">
+            <p class="text-m guide-section-description">
         Clases helper para padding y margin basadas en el spacingMap.
         Usa las variables CSS definidas en :root.
             </p>
       </div>
-      <div class="section-content">
-        <div class="info-box info-box-warning hg-d-flex">
+      <div class="guide-section-content">
+        <div class="guide-info-box guide-info-box-warning hg-d-flex">
     
     
           
        
-            <div class="spacing-text">
-                  <h3 class="info-box-title info-box-title-warning">¿Cómo se generan los helpers de espaciado?</h3>
-                  <p class="text-m info-box-text">
+            <div class="guide-spacing-text">
+                  <h3 class="guide-info-box-title guide-info-box-title-warning">¿Cómo se generan los helpers de espaciado?</h3>
+                  <p class="text-m guide-info-box-text">
               La nomenclatura de las clases helper sigue un patrón simple:
                         </p>
-                        <ul class="info-box-list">
-              <li class="text-m info-box-list-item">
-                <strong>Primera letra:</strong> tipo de spacing → <code class="info-box-code">p</code> (padding) o <code class="info-box-code">m</code> (margin)
+                        <ul class="guide-info-box-list">
+              <li class="text-m guide-info-box-list-item">
+                <strong>Primera letra:</strong> tipo de spacing → <code class="guide-info-box-code">p</code> (padding) o <code class="guide-info-box-code">m</code> (margin)
               </li>
-              <li class="text-m info-box-list-item">
-                <strong>Segunda letra:</strong> dirección → <code class="info-box-code">t</code> (top), <code class="info-box-code">r</code> (right/end), <code class="info-box-code">b</code> (bottom), <code class="info-box-code">l</code> (left/start)
+              <li class="text-m guide-info-box-list-item">
+                <strong>Segunda letra:</strong> dirección → <code class="guide-info-box-code">t</code> (top), <code class="guide-info-box-code">r</code> (right/end), <code class="guide-info-box-code">b</code> (bottom), <code class="guide-info-box-code">l</code> (left/start)
               </li>
-              <li class="text-m info-box-list-item">
-                <strong>Guión + valor:</strong> el valor del spacing → <code class="info-box-code">-4</code>, <code class="info-box-code">-16</code>, <code class="info-box-code">-50-percent</code>
+              <li class="text-m guide-info-box-list-item">
+                <strong>Guión + valor:</strong> el valor del spacing → <code class="guide-info-box-code">-4</code>, <code class="guide-info-box-code">-16</code>, <code class="guide-info-box-code">-50-percent</code>
               </li>
                         </ul>
-                        <p class="text-m info-box-text">
-              <strong>Ejemplos:</strong> <code class="info-box-code">.p-16</code> (padding all), <code class="info-box-code">.pt-8</code> (padding-top), <code class="info-box-code">.mr-4</code> (margin-right), <code class="info-box-code">.mb-0</code> (margin-bottom)
+                        <p class="text-m guide-info-box-text">
+              <strong>Ejemplos:</strong> <code class="guide-info-box-code">.p-16</code> (padding all), <code class="guide-info-box-code">.pt-8</code> (padding-top), <code class="guide-info-box-code">.mr-4</code> (margin-right), <code class="guide-info-box-code">.mb-0</code> (margin-bottom)
                         </p>
             </div>
 
       
-          <div class="spacing-diagram">
-            <div class="spacing-diagram-container">
+          <div class="guide-spacing-diagram">
+            <div class="guide-spacing-diagram-container">
               <!-- Etiquetas de margin (exterior) -->
-              <div class="spacing-label spacing-label-top spacing-label-margin">mt-</div>
-              <div class="spacing-label spacing-label-right spacing-label-margin">mr-</div>
-              <div class="spacing-label spacing-label-bottom spacing-label-margin">mb-</div>
-              <div class="spacing-label spacing-label-left spacing-label-margin">ml-</div>
+              <div class="guide-spacing-label guide-spacing-label-top guide-spacing-label-margin">mt-</div>
+              <div class="guide-spacing-label guide-spacing-label-right guide-spacing-label-margin">mr-</div>
+              <div class="guide-spacing-label guide-spacing-label-bottom guide-spacing-label-margin">mb-</div>
+              <div class="guide-spacing-label guide-spacing-label-left guide-spacing-label-margin">ml-</div>
               
               <!-- Caja de margin (exterior) -->
-              <div class="spacing-margin-box"></div>
+              <div class="guide-spacing-margin-box"></div>
               
               <!-- Etiquetas de padding (interior) -->
-              <div class="spacing-label spacing-label-padding spacing-label-padding-top">pt-</div>
-              <div class="spacing-label spacing-label-padding spacing-label-padding-right">pr-</div>
-              <div class="spacing-label spacing-label-padding spacing-label-padding-bottom">pb-</div>
-              <div class="spacing-label spacing-label-padding spacing-label-padding-left">pl-</div>
+              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-top">pt-</div>
+              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-right">pr-</div>
+              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-bottom">pb-</div>
+              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-left">pl-</div>
               
               <!-- Caja de padding (interior) -->
-              <div class="spacing-padding-box"></div>
+              <div class="guide-spacing-padding-box"></div>
               
               <!-- Contenido -->
-              <div class="spacing-content">Contenido</div>
+              <div class="guide-spacing-content">Contenido</div>
             </div>
           </div>
 
 
         </div>
         ${spacingHelpersTableHTML}
-        <div class="info-box info-box-info info-box-margin-top">
-          <h3 class="info-box-title info-box-title-info">Helpers con prefijo md: (Desktop)</h3>
-          <p class="text-m info-box-text">
-            Los helpers con prefijo <code class="info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
+        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
+          <h3 class="guide-info-box-title guide-info-box-title-info">Helpers con prefijo md: (Desktop)</h3>
+          <p class="text-m guide-info-box-text">
+            Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
           </p>
-          <p class="text-m info-box-text">
+          <p class="text-m guide-info-box-text">
             <strong>Ejemplos de uso:</strong>
           </p>
-          <ul class="info-box-list">
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+          <ul class="guide-info-box-list">
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
             </li>
           </ul>
-          <p class="text-m info-box-text-small">
-            <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code class="info-box-code-info">md:</code> para crear diseños responsive. Por ejemplo: <code class="info-box-code-info">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code class="info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
+          <p class="text-m guide-info-box-text-small">
+            <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Por ejemplo: <code class="guide-info-box-code-info">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
           </p>
         </div>
       </div>
@@ -1541,41 +1573,41 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
 
     ${layoutHelpersTableHTML ? `
-    <div class="section" id="layout">
-      <div class="section-title">
+    <div class="guide-section" id="layout">
+      <div class="guide-section-title">
         <h2 >Helpers de Layout</h2>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
         Clases helper para display, flexbox, alignment y gap. 
         Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
         </p>
       </div>
-      <div class="section-content">
+      <div class="guide-section-content">
         ${layoutHelpersTableHTML}
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
           Clases helper para display, flexbox, alignment y gap. 
           Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
         </p>
         
-        <div class="info-box info-box-info info-box-margin-top">
-          <h3 class="info-box-title info-box-title-info">Ejemplos de uso</h3>
-          <ul class="info-box-list">
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.d-flex</code> - Display flex
+        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
+          <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplos de uso</h3>
+          <ul class="guide-info-box-list">
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.d-flex</code> - Display flex
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.flex-column</code> - Flex direction column
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.flex-column</code> - Flex direction column
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.justify-center</code> - Justify content center
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.justify-center</code> - Justify content center
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.items-center</code> - Align items center
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.items-center</code> - Align items center
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.gap-16</code> - Gap de 16px (1rem)
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.gap-16</code> - Gap de 16px (1rem)
             </li>
-            <li class="text-m info-box-list-item">
-              <code class="info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
+            <li class="text-m guide-info-box-list-item">
+              <code class="guide-info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
             </li>
           </ul>
         </div>
@@ -1584,40 +1616,40 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
 
     ${configData.grid && configData.grid.enabled ? `
-    <div class="section" id="grid">
-      <div class="section-title">
+    <div class="guide-section" id="grid">
+      <div class="guide-section-title">
         <h2>Grid System</h2>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
           Sistema de grid responsive estilo Bootstrap con 12 columnas (xs, sm, md, lg) y 24 columnas (xl).
         </p>
       </div>
-      <div class="section-content">
-        <div class="info-box info-box-warning">
-          <h3 class="info-box-title info-box-title-warning">¿Cómo funciona el Grid?</h3>
-          <p class="text-m info-box-text">
+      <div class="guide-section-content">
+        <div class="guide-info-box guide-info-box-warning">
+          <h3 class="guide-info-box-title guide-info-box-title-warning">¿Cómo funciona el Grid?</h3>
+          <p class="text-m guide-info-box-text">
             El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.
           </p>
-          <ul class="info-box-list">
-            <li class="text-m info-box-list-item">
+          <ul class="guide-info-box-list">
+            <li class="text-m guide-info-box-list-item">
               <strong>.row</strong> - Contenedor flex con márgenes negativos para compensar el gutter
             </li>
-            <li class="text-m info-box-list-item">
+            <li class="text-m guide-info-box-list-item">
               <strong>.col-xs-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.xs} (12 columnas)
             </li>
-            <li class="text-m info-box-list-item">
+            <li class="text-m guide-info-box-list-item">
               <strong>.col-sm-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.sm} (12 columnas)
             </li>
-            <li class="text-m info-box-list-item">
+            <li class="text-m guide-info-box-list-item">
               <strong>.col-md-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.md} (12 columnas)
             </li>
-            <li class="text-m info-box-list-item">
+            <li class="text-m guide-info-box-list-item">
               <strong>.col-lg-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.lg} (12 columnas)
             </li>
-            <li class="text-m info-box-list-item">
+            <li class="text-m guide-info-box-list-item">
               <strong>.col-xl-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.xl} (24 columnas)
             </li>
           </ul>
-          <p class="text-m info-box-text">
+          <p class="text-m guide-info-box-text">
             <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
           </p>
         </div>
@@ -1635,50 +1667,50 @@ function generateHTML(configData, previousValuesPath = null) {
             </thead>
             <tbody>
               <tr>
-                <td class="table-name">xs</td>
-                <td class="table-value">${configData.grid.breakpoints.xs}</td>
-                <td class="table-value">${configData.grid.breakpoints.xs.endsWith('px') ? pxToRem(configData.grid.breakpoints.xs, baseFontSize) : '-'}</td>
-                <td class="table-value">${configData.grid.columnsXs}</td>
-                <td class="table-value">.col-xs-1 a .col-xs-${configData.grid.columnsXs}</td>
+                <td class="guide-table-name">xs</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.xs}</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.xs.endsWith('px') ? pxToRem(configData.grid.breakpoints.xs, baseFontSize) : '-'}</td>
+                <td class="guide-table-value">${configData.grid.columnsXs}</td>
+                <td class="guide-table-value">.col-xs-1 a .col-xs-${configData.grid.columnsXs}</td>
               </tr>
               <tr>
-                <td class="table-name">sm</td>
-                <td class="table-value">${configData.grid.breakpoints.sm}</td>
-                <td class="table-value">${configData.grid.breakpoints.sm.endsWith('px') ? pxToRem(configData.grid.breakpoints.sm, baseFontSize) : '-'}</td>
-                <td class="table-value">${configData.grid.columnsXs}</td>
-                <td class="table-value">.col-sm-1 a .col-sm-${configData.grid.columnsXs}</td>
+                <td class="guide-table-name">sm</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.sm}</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.sm.endsWith('px') ? pxToRem(configData.grid.breakpoints.sm, baseFontSize) : '-'}</td>
+                <td class="guide-table-value">${configData.grid.columnsXs}</td>
+                <td class="guide-table-value">.col-sm-1 a .col-sm-${configData.grid.columnsXs}</td>
               </tr>
               <tr>
-                <td class="table-name">md</td>
-                <td class="table-value">${configData.grid.breakpoints.md}</td>
-                <td class="table-value">${configData.grid.breakpoints.md.endsWith('px') ? pxToRem(configData.grid.breakpoints.md, baseFontSize) : '-'}</td>
-                <td class="table-value">${configData.grid.columnsXs}</td>
-                <td class="table-value">.col-md-1 a .col-md-${configData.grid.columnsXs}</td>
+                <td class="guide-table-name">md</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.md}</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.md.endsWith('px') ? pxToRem(configData.grid.breakpoints.md, baseFontSize) : '-'}</td>
+                <td class="guide-table-value">${configData.grid.columnsXs}</td>
+                <td class="guide-table-value">.col-md-1 a .col-md-${configData.grid.columnsXs}</td>
               </tr>
               <tr>
-                <td class="table-name">lg</td>
-                <td class="table-value">${configData.grid.breakpoints.lg}</td>
-                <td class="table-value">${configData.grid.breakpoints.lg.endsWith('px') ? pxToRem(configData.grid.breakpoints.lg, baseFontSize) : '-'}</td>
-                <td class="table-value">${configData.grid.columnsXs}</td>
-                <td class="table-value">.col-lg-1 a .col-lg-${configData.grid.columnsXs}</td>
+                <td class="guide-table-name">lg</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.lg}</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.lg.endsWith('px') ? pxToRem(configData.grid.breakpoints.lg, baseFontSize) : '-'}</td>
+                <td class="guide-table-value">${configData.grid.columnsXs}</td>
+                <td class="guide-table-value">.col-lg-1 a .col-lg-${configData.grid.columnsXs}</td>
               </tr>
               <tr>
-                <td class="table-name">xl</td>
-                <td class="table-value">${configData.grid.breakpoints.xl}</td>
-                <td class="table-value">${configData.grid.breakpoints.xl.endsWith('px') ? pxToRem(configData.grid.breakpoints.xl, baseFontSize) : '-'}</td>
-                <td class="table-value">${configData.grid.columnsXl}</td>
-                <td class="table-value">.col-xl-1 a .col-xl-${configData.grid.columnsXl}</td>
+                <td class="guide-table-name">xl</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.xl}</td>
+                <td class="guide-table-value">${configData.grid.breakpoints.xl.endsWith('px') ? pxToRem(configData.grid.breakpoints.xl, baseFontSize) : '-'}</td>
+                <td class="guide-table-value">${configData.grid.columnsXl}</td>
+                <td class="guide-table-value">.col-xl-1 a .col-xl-${configData.grid.columnsXl}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="info-box info-box-info info-box-margin-top">
-          <h3 class="info-box-title info-box-title-info">Ejemplo de uso</h3>
-          <p class="text-m info-box-text">
+        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
+          <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplo de uso</h3>
+          <p class="text-m guide-info-box-text">
             <strong>HTML:</strong>
           </p>
-          <pre class="code-example"><code>&lt;div class="row"&gt;
+          <pre class="guide-code-example"><code>&lt;div class="row"&gt;
   &lt;div class="col-xs-12 col-md-6 col-lg-4"&gt;
     Columna 1
   &lt;/div&gt;
@@ -1689,17 +1721,17 @@ function generateHTML(configData, previousValuesPath = null) {
     Columna 3
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-          <p class="text-m info-box-text">
+          <p class="text-m guide-info-box-text">
             Este ejemplo muestra 3 columnas que:
           </p>
-          <ul class="info-box-list">
-            <li class="text-m info-box-list-item">
+          <ul class="guide-info-box-list">
+            <li class="text-m guide-info-box-list-item">
               En <strong>xs</strong>: Ocupan 12 columnas cada una (100% de ancho, apiladas)
             </li>
-            <li class="text-m info-box-list-item">
+            <li class="text-m guide-info-box-list-item">
               En <strong>md</strong> (≥${configData.grid.breakpoints.md}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
             </li>
-            <li class="text-m info-box-list-item">
+            <li class="text-m guide-info-box-list-item">
               En <strong>lg</strong> (≥${configData.grid.breakpoints.lg}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
             </li>
           </ul>
@@ -1708,14 +1740,14 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
     ` : ''}
 
-    <div class="section" id="breakpoints">
-      <div class="section-title">
+    <div class="guide-section" id="breakpoints">
+      <div class="guide-section-title">
         <h2 >Breakpoints</h2>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
         Breakpoints disponibles.
         </p>
       </div>
-      <div class="section-content">
+      <div class="guide-section-content">
         <div class="guide-table-wrapper">
           <table class="guide-table">
             <thead>
@@ -1726,15 +1758,15 @@ function generateHTML(configData, previousValuesPath = null) {
             </thead>
             <tbody>
               <tr>
-                <td class="table-name">Mobile</td>
-                <td class="table-value ${changedValues.has('breakpoints.mobile') ? 'changed' : ''}">
+                <td class="guide-table-name">Mobile</td>
+                <td class="guide-table-value ${changedValues.has('breakpoints.mobile') ? 'guide-changed' : ''}">
                   ${configData.breakpoints.mobile} 
                   ${configData.breakpoints.mobile.endsWith('px') ? `(${pxToRem(configData.breakpoints.mobile, baseFontSize)})` : ''}
                 </td>
               </tr>
               <tr>
-                <td class="table-name">Desktop</td>
-                <td class="table-value ${changedValues.has('breakpoints.desktop') ? 'changed' : ''}">
+                <td class="guide-table-name">Desktop</td>
+                <td class="guide-table-value ${changedValues.has('breakpoints.desktop') ? 'guide-changed' : ''}">
                   ${configData.breakpoints.desktop} 
                   ${configData.breakpoints.desktop.endsWith('px') ? `(${pxToRem(configData.breakpoints.desktop, baseFontSize)})` : ''}
                 </td>
@@ -1742,7 +1774,7 @@ function generateHTML(configData, previousValuesPath = null) {
             </tbody>
           </table>
         </div>
-        <p class="text-m section-description">
+        <p class="text-m guide-section-description">
           Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
           Resize la ventana del navegador para ver los cambios.
         </p>
@@ -1752,8 +1784,8 @@ function generateHTML(configData, previousValuesPath = null) {
   
   <script>
     // Scroll suave y resaltado de sección activa
-    const menuItems = document.querySelectorAll('.menu-item');
-    const sections = document.querySelectorAll('.section');
+    const menuItems = document.querySelectorAll('.guide-menu-item');
+    const sections = document.querySelectorAll('.guide-section');
     
     // Manejar clic en menú
     menuItems.forEach(item => {
@@ -1773,7 +1805,7 @@ function generateHTML(configData, previousValuesPath = null) {
           
           // Cerrar menú en mobile
           if (window.innerWidth <= 768) {
-            document.querySelector('.sidebar').classList.remove('open');
+            document.querySelector('.guide-sidebar').classList.remove('open');
           }
         }
       });
@@ -1791,14 +1823,14 @@ function generateHTML(configData, previousValuesPath = null) {
       const escapedTerm = searchTerm.replace(/[.*+?^$()|[\]\\]/g, '\\\\$&');
       const escapedTerm2 = escapedTerm.replace(/{/g, '\\\\{').replace(/}/g, '\\\\}');
       const regex = new RegExp('(' + escapedTerm2 + ')', 'gi');
-      return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+      return text.replace(regex, '<mark class="guide-search-highlight">$1</mark>');
     }
     
     // Función para buscar en tablas y grids
     function searchInTables(searchTerm) {
       if (!searchTerm || searchTerm.trim() === '') {
         // Mostrar todo
-        document.querySelectorAll('.section, .guide-table tbody tr, .spacing-helpers-table tbody tr, [style*="grid-template-columns"] > div').forEach(el => {
+        document.querySelectorAll('.guide-section, .guide-table tbody tr, .spacing-helpers-table tbody tr, [style*="grid-template-columns"] > div').forEach(el => {
           el.style.display = '';
         });
         document.querySelectorAll('mark').forEach(mark => {
@@ -1831,7 +1863,7 @@ function generateHTML(configData, previousValuesPath = null) {
           });
           
           // Encontrar la sección padre
-          let section = row.closest('.section');
+          let section = row.closest('.guide-section');
           if (section) {
             matchedSections.add(section.id);
           }
@@ -1858,7 +1890,7 @@ function generateHTML(configData, previousValuesPath = null) {
           });
           
           // Encontrar la sección padre
-          let section = card.closest('.section');
+          let section = card.closest('.guide-section');
           if (section) {
             matchedSections.add(section.id);
           }
@@ -1868,7 +1900,7 @@ function generateHTML(configData, previousValuesPath = null) {
       });
       
       // Mostrar/ocultar secciones según si tienen resultados
-      document.querySelectorAll('.section').forEach(section => {
+      document.querySelectorAll('.guide-section').forEach(section => {
         const hasVisibleRows = section.querySelector('tbody tr[style=""]') || 
                               section.querySelector('tbody tr:not([style*="display: none"])') ||
                               section.querySelector('[style*="grid-template-columns"] > div[style=""]') ||
@@ -1940,8 +1972,8 @@ function generateHTML(configData, previousValuesPath = null) {
     
     // Cerrar menú al hacer clic fuera en mobile
     document.addEventListener('click', (e) => {
-      const sidebar = document.querySelector('.sidebar');
-      const menuToggle = document.querySelector('.menu-toggle');
+      const sidebar = document.querySelector('.guide-sidebar');
+      const menuToggle = document.querySelector('.guide-menu-toggle');
       
       if (window.innerWidth <= 768 && 
           sidebar.classList.contains('open') && 
@@ -1950,6 +1982,87 @@ function generateHTML(configData, previousValuesPath = null) {
         sidebar.classList.remove('open');
       }
     });
+    
+    // Funcionalidad para copiar al portapapeles
+    function copyToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).then(() => true);
+      } else {
+        // Fallback para navegadores antiguos
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          return Promise.resolve(true);
+        } catch (err) {
+          document.body.removeChild(textArea);
+          return Promise.resolve(false);
+        }
+      }
+    }
+    
+    function showCopyFeedback(element) {
+      const originalBg = element.style.backgroundColor;
+      element.style.backgroundColor = '#d4edda';
+      element.style.transition = 'background-color 0.3s';
+      
+      setTimeout(() => {
+        element.style.backgroundColor = originalBg || '';
+        setTimeout(() => {
+          element.style.transition = '';
+        }, 300);
+      }, 500);
+    }
+    
+    // Funcionalidad para copiar al portapapeles - se ejecuta cuando el DOM está listo
+    function setupCopyToClipboard() {
+      // Manejar clics en colores
+      document.querySelectorAll('.guide-color-card, .guide-color-var-name, .guide-color-value').forEach(element => {
+        element.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const copyValue = element.getAttribute('data-copy-value');
+          if (copyValue) {
+            copyToClipboard(copyValue).then(success => {
+              if (success) {
+                showCopyFeedback(element);
+                // Si es la tarjeta completa, buscar el elemento más visible para el feedback
+                if (element.classList.contains('guide-color-card')) {
+                  const varNameEl = element.querySelector('.guide-color-var-name');
+                  if (varNameEl) showCopyFeedback(varNameEl);
+                }
+              }
+            });
+          }
+        });
+      });
+      
+      // Manejar clics en variables
+      document.querySelectorAll('.guide-copyable').forEach(element => {
+        element.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const copyValue = element.getAttribute('data-copy-value');
+          if (copyValue && copyValue !== '-') {
+            copyToClipboard(copyValue).then(success => {
+              if (success) {
+                showCopyFeedback(element);
+              }
+            });
+          }
+        });
+      });
+    }
+    
+    // Ejecutar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupCopyToClipboard);
+    } else {
+      setupCopyToClipboard();
+    }
   </script>
 </body>
 </html>`;
