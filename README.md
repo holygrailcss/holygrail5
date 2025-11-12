@@ -1,5 +1,8 @@
 # HolyGrail5
 
+[![npm version](https://img.shields.io/npm/v/holygrail5.svg)](https://www.npmjs.com/package/holygrail5)
+[![npm downloads](https://img.shields.io/npm/dm/holygrail5.svg)](https://www.npmjs.com/package/holygrail5)
+
 Framework CSS generator con Node.js que genera CSS optimizado con variables CSS compartidas desde un archivo JSON de configuración.
 
 ## ⚖️ En resumen

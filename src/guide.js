@@ -1146,6 +1146,7 @@ function generateHTML(configData, previousValuesPath = null) {
       background: white;
       border-right: 1px solid #e0e0e0;
       padding: 2rem 0;
+      padding-bottom: 120px;
       overflow-y: auto;
       z-index: 100;
       box-shadow: 2px 0 8px rgba(0,0,0,0.05);
@@ -1166,6 +1167,28 @@ function generateHTML(configData, previousValuesPath = null) {
     
     .sidebar-nav {
       padding: 0 1rem;
+    }
+
+    .sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.5rem .5rem 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      background: white;
+    }
+
+    .sidebar-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .sidebar-badges img {
+      height: 20px;
+      width: auto;
     }
     
     .menu-item {
@@ -1315,6 +1338,15 @@ function generateHTML(configData, previousValuesPath = null) {
     <nav class="sidebar-nav">
       ${menuHTML}
     </nav>
+    
+    <div class="sidebar-footer">
+      <div class="sidebar-badges">
+        <a href="https://www.npmjs.com/package/holygrail5" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/npm/v/holygrail5.svg" alt="npm version" />
+        </a>
+
+      </div>
+    </div>
   </aside>
   
   <main class="main-content">
