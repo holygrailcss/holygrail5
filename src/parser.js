@@ -578,6 +578,128 @@ function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, b
   return css;
 }
 
+// Genera el sistema de grid (row y columnas)
+function generateGridSystem(gridConfig, baseFontSize = 16) {
+  if (!gridConfig || !gridConfig.enabled) {
+    return '';
+  }
+
+  const gutter = gridConfig.gutter || '8px';
+  const gutterValue = gutter; // Mantener el valor original (8px)
+  const breakpoints = gridConfig.breakpoints || {
+    xs: '1px',
+    sm: '768px',
+    md: '992px',
+    lg: '1280px',
+    xl: '1440px'
+  };
+  const columnsXs = gridConfig.columnsXs || 12;
+  const columnsXl = gridConfig.columnsXl || 24;
+
+  let css = '\n/* Grid System */\n';
+
+  // Genera .row
+  css += `.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -${gutterValue};
+  margin-right: -${gutterValue};
+}\n\n`;
+
+  // Genera .row para cada breakpoint
+  Object.entries(breakpoints).forEach(([name, value]) => {
+    if (name !== 'xs') {
+      css += `@media (min-width: ${value}) {
+  .row {
+    margin-left: -${gutterValue};
+    margin-right: -${gutterValue};
+  }
+}\n\n`;
+    }
+  });
+
+  // Función helper para formatear porcentajes
+  const formatPercentage = (value) => {
+    const percentage = (value * 100).toFixed(10);
+    // Elimina ceros finales pero mantiene al menos un decimal si es necesario
+    return percentage.replace(/\.?0+$/, '') || '0';
+  };
+
+  // Genera columnas para xs (12 columnas) - usar 1px directamente
+  css += `@media (min-width: ${breakpoints.xs}) {\n`;
+  for (let i = 1; i <= columnsXs; i++) {
+    const percentage = formatPercentage(i / columnsXs);
+    css += `  .col-xs-${i} {
+    flex: 0 0 ${percentage}%;
+    max-width: ${percentage}%;
+  }\n`;
+  }
+  css += '}\n\n';
+
+  // Genera columnas para sm (12 columnas)
+  if (breakpoints.sm) {
+    css += `@media (min-width: ${breakpoints.sm}) {\n`;
+    for (let i = 1; i <= columnsXs; i++) {
+      const percentage = formatPercentage(i / columnsXs);
+      css += `  .col-sm-${i} {
+    flex: 0 0 ${percentage}%;
+    max-width: ${percentage}%;
+  }\n`;
+    }
+    css += '}\n\n';
+  }
+
+  // Genera columnas para md (12 columnas)
+  if (breakpoints.md) {
+    css += `@media (min-width: ${breakpoints.md}) {\n`;
+    for (let i = 1; i <= columnsXs; i++) {
+      const percentage = formatPercentage(i / columnsXs);
+      css += `  .col-md-${i} {
+    flex: 0 0 ${percentage}%;
+    max-width: ${percentage}%;
+  }\n`;
+    }
+    css += '}\n\n';
+  }
+
+  // Genera columnas para lg (12 columnas)
+  if (breakpoints.lg) {
+    css += `@media (min-width: ${breakpoints.lg}) {\n`;
+    for (let i = 1; i <= columnsXs; i++) {
+      const percentage = formatPercentage(i / columnsXs);
+      css += `  .col-lg-${i} {
+    flex: 0 0 ${percentage}%;
+    max-width: ${percentage}%;
+  }\n`;
+    }
+    css += '}\n\n';
+  }
+
+  // Genera columnas para xl (24 columnas)
+  if (breakpoints.xl) {
+    css += `@media (min-width: ${breakpoints.xl}) {\n`;
+    for (let i = 1; i <= columnsXl; i++) {
+      const percentage = formatPercentage(i / columnsXl);
+      css += `  .col-xl-${i} {
+    flex: 0 0 ${percentage}%;
+    max-width: ${percentage}%;
+  }\n`;
+    }
+    css += '}\n\n';
+  }
+
+  // Genera estilos para todas las columnas
+  css += `[class*=col-] {
+  box-sizing: border-box;
+  min-height: 1px;
+  padding-left: ${gutterValue};
+  padding-right: ${gutterValue};
+  position: relative;
+}\n`;
+
+  return css;
+}
+
 // Función principal que genera todo el CSS desde la configuración JSON
 // Organiza el CSS en bloques separados: reset, variables, tipografías mobile y desktop
 function generateCSS(configData) {
@@ -600,6 +722,7 @@ function generateCSS(configData) {
   const rootVars = generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars, colorVars);
   const spacingHelpers = generateSpacingHelpers(configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize, configData.spacingImportant);
   const layoutHelpers = configData.helpers ? generateLayoutHelpers(configData.helpers, configData.spacingMap, prefix, configData.breakpoints.desktop, baseFontSize) : '';
+  const gridSystem = configData.grid ? generateGridSystem(configData.grid, baseFontSize) : '';
   const mobileTypography = generateTypographyBlock('mobile', configData.breakpoints.mobile, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   const desktopTypography = generateTypographyBlock('desktop', configData.breakpoints.desktop, configData.classes, valueMap, prefix, category, baseFontSize, configData.fontFamilyMap);
   
@@ -609,7 +732,7 @@ function generateCSS(configData) {
 ${rootVars}
 }
 
-${spacingHelpers}${layoutHelpers}${mobileTypography}
+${spacingHelpers}${layoutHelpers}${gridSystem}${mobileTypography}
 
 ${desktopTypography}`;
 }

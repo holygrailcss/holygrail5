@@ -670,6 +670,7 @@ function generateHTML(configData, previousValuesPath = null) {
       height: 120px;
       border-bottom: 1px solid #e0e0e0;
       position: relative;
+      background-color: var(--color-value);
     }
 
     .color-pattern {
@@ -860,6 +861,15 @@ function generateHTML(configData, previousValuesPath = null) {
       background: #ffeb3b;
       padding: 0.125rem 0.25rem;
       border-radius: 3px;
+    }
+
+    .code-example {
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
     }
 
     /* Estilos para diagrama de spacing */
@@ -1078,7 +1088,7 @@ function generateHTML(configData, previousValuesPath = null) {
             const opaqueValue = normalizedValue.length === 7 ? normalizedValue : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
             return `
           <div class="color-card">
-            <div class="color-preview" style="background-color: ${opaqueValue};">
+            <div class="color-preview" style="--color-value: ${opaqueValue};">
               ${isLight ? `<div class="color-pattern"></div>` : ''}
             </div>
             <div class="color-card-content">
@@ -1107,6 +1117,9 @@ function generateHTML(configData, previousValuesPath = null) {
       }
       if (layoutHelpersTableHTML) {
         menuItems.push({ id: 'layout', label: 'Helpers de Layout' });
+      }
+      if (configData.grid && configData.grid.enabled) {
+        menuItems.push({ id: 'grid', label: 'Grid System' });
       }
       menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
       
@@ -1570,6 +1583,131 @@ function generateHTML(configData, previousValuesPath = null) {
             </li>
             <li class="text-m info-box-list-item">
               <code class="info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+
+    ${configData.grid && configData.grid.enabled ? `
+    <div class="section" id="grid">
+      <div class="section-title">
+        <h2>Grid System</h2>
+        <p class="text-m section-description">
+          Sistema de grid responsive estilo Bootstrap con 12 columnas (xs, sm, md, lg) y 24 columnas (xl).
+        </p>
+      </div>
+      <div class="section-content">
+        <div class="info-box info-box-warning">
+          <h3 class="info-box-title info-box-title-warning">¿Cómo funciona el Grid?</h3>
+          <p class="text-m info-box-text">
+            El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.
+          </p>
+          <ul class="info-box-list">
+            <li class="text-m info-box-list-item">
+              <strong>.row</strong> - Contenedor flex con márgenes negativos para compensar el gutter
+            </li>
+            <li class="text-m info-box-list-item">
+              <strong>.col-xs-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.xs} (12 columnas)
+            </li>
+            <li class="text-m info-box-list-item">
+              <strong>.col-sm-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.sm} (12 columnas)
+            </li>
+            <li class="text-m info-box-list-item">
+              <strong>.col-md-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.md} (12 columnas)
+            </li>
+            <li class="text-m info-box-list-item">
+              <strong>.col-lg-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.lg} (12 columnas)
+            </li>
+            <li class="text-m info-box-list-item">
+              <strong>.col-xl-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.xl} (24 columnas)
+            </li>
+          </ul>
+          <p class="text-m info-box-text">
+            <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
+          </p>
+        </div>
+        
+        <div class="guide-table-wrapper">
+          <table class="guide-table">
+            <thead>
+              <tr>
+                <th>Breakpoint</th>
+                <th>Min-width</th>
+                <th>Min-width (rem)</th>
+                <th>Columnas</th>
+                <th>Clases</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="table-name">xs</td>
+                <td class="table-value">${configData.grid.breakpoints.xs}</td>
+                <td class="table-value">${configData.grid.breakpoints.xs.endsWith('px') ? pxToRem(configData.grid.breakpoints.xs, baseFontSize) : '-'}</td>
+                <td class="table-value">${configData.grid.columnsXs}</td>
+                <td class="table-value">.col-xs-1 a .col-xs-${configData.grid.columnsXs}</td>
+              </tr>
+              <tr>
+                <td class="table-name">sm</td>
+                <td class="table-value">${configData.grid.breakpoints.sm}</td>
+                <td class="table-value">${configData.grid.breakpoints.sm.endsWith('px') ? pxToRem(configData.grid.breakpoints.sm, baseFontSize) : '-'}</td>
+                <td class="table-value">${configData.grid.columnsXs}</td>
+                <td class="table-value">.col-sm-1 a .col-sm-${configData.grid.columnsXs}</td>
+              </tr>
+              <tr>
+                <td class="table-name">md</td>
+                <td class="table-value">${configData.grid.breakpoints.md}</td>
+                <td class="table-value">${configData.grid.breakpoints.md.endsWith('px') ? pxToRem(configData.grid.breakpoints.md, baseFontSize) : '-'}</td>
+                <td class="table-value">${configData.grid.columnsXs}</td>
+                <td class="table-value">.col-md-1 a .col-md-${configData.grid.columnsXs}</td>
+              </tr>
+              <tr>
+                <td class="table-name">lg</td>
+                <td class="table-value">${configData.grid.breakpoints.lg}</td>
+                <td class="table-value">${configData.grid.breakpoints.lg.endsWith('px') ? pxToRem(configData.grid.breakpoints.lg, baseFontSize) : '-'}</td>
+                <td class="table-value">${configData.grid.columnsXs}</td>
+                <td class="table-value">.col-lg-1 a .col-lg-${configData.grid.columnsXs}</td>
+              </tr>
+              <tr>
+                <td class="table-name">xl</td>
+                <td class="table-value">${configData.grid.breakpoints.xl}</td>
+                <td class="table-value">${configData.grid.breakpoints.xl.endsWith('px') ? pxToRem(configData.grid.breakpoints.xl, baseFontSize) : '-'}</td>
+                <td class="table-value">${configData.grid.columnsXl}</td>
+                <td class="table-value">.col-xl-1 a .col-xl-${configData.grid.columnsXl}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box info-box-info info-box-margin-top">
+          <h3 class="info-box-title info-box-title-info">Ejemplo de uso</h3>
+          <p class="text-m info-box-text">
+            <strong>HTML:</strong>
+          </p>
+          <pre class="code-example"><code>&lt;div class="row"&gt;
+  &lt;div class="col-xs-12 col-md-6 col-lg-4"&gt;
+    Columna 1
+  &lt;/div&gt;
+  &lt;div class="col-xs-12 col-md-6 col-lg-4"&gt;
+    Columna 2
+  &lt;/div&gt;
+  &lt;div class="col-xs-12 col-md-12 col-lg-4"&gt;
+    Columna 3
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <p class="text-m info-box-text">
+            Este ejemplo muestra 3 columnas que:
+          </p>
+          <ul class="info-box-list">
+            <li class="text-m info-box-list-item">
+              En <strong>xs</strong>: Ocupan 12 columnas cada una (100% de ancho, apiladas)
+            </li>
+            <li class="text-m info-box-list-item">
+              En <strong>md</strong> (≥${configData.grid.breakpoints.md}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
+            </li>
+            <li class="text-m info-box-list-item">
+              En <strong>lg</strong> (≥${configData.grid.breakpoints.lg}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
             </li>
           </ul>
         </div>

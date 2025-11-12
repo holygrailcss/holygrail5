@@ -43,7 +43,22 @@
     "75-percent": "75%",
     "100-percent": "100%"
   },
-  "spacingImportant": ["0"],
+  "spacingImportant": [
+    "0"
+  ],
+  "grid": {
+    "enabled": true,
+    "gutter": "8px",
+    "breakpoints": {
+      "xs": "1px",
+      "sm": "768px",
+      "md": "992px",
+      "lg": "1280px",
+      "xl": "1440px"
+    },
+    "columnsXs": 12,
+    "columnsXl": 24
+  },
   "colors": {
     "white": "#ffffff",
     "black": "#000000",
@@ -69,7 +84,15 @@
       "class": "d",
       "responsive": true,
       "description": "Tipo de caja de renderizado",
-      "values": ["contents", "inline", "inline-block", "block", "flex", "inline-flex", "none"]
+      "values": [
+        "contents",
+        "inline",
+        "inline-block",
+        "block",
+        "flex",
+        "inline-flex",
+        "none"
+      ]
     },
     "flex-direction": {
       "property": "flex-direction",
@@ -123,13 +146,13 @@
       "responsive": true,
       "description": "Orden de visualización independiente del HTML",
       "values": {
-        "3-neg": "-3",
-        "2-neg": "-2",
-        "1-neg": "-1",
         "0": "0",
         "1": "1",
         "2": "2",
         "3": "3",
+        "3-neg": "-3",
+        "2-neg": "-2",
+        "1-neg": "-1",
         "first": "-9999",
         "last": "9999"
       }
@@ -214,7 +237,6 @@
       "useSpacing": true
     }
   },
-
   "classes": {
     "h2": {
       "fontFamily": "arial, sans-serif",
