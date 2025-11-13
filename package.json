@@ -8,6 +8,7 @@
   },
   "scripts": {
     "generate": "node generator.js",
+    "build": "node generator.js",
     "start": "node generator.js && NODE_NO_WARNINGS=1 npx http-server dist -p 3000 -o index.html",
     "dev": "node src/dev.js",
     "watch": "node src/watch.js",
