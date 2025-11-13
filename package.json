@@ -20,6 +20,7 @@
     "vars:remove": "node src/cli-variables.js remove",
     "vars:remove-all-unused": "node src/cli-variables.js remove-all-unused",
     "vars:show-all": "node src/cli-variables.js show-all"
+    
   },
   "keywords": [
     "css",
