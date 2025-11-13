@@ -1756,6 +1756,8 @@ function generateHTML(configData, previousValuesPath = null) {
           </ul>
         </div>
 
+        
+
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
           <h3 class="guide-info-box-title guide-info-box-title-info">Columnas a sangre (Bleed)</h3>
           <p class="text-m guide-info-box-text">
