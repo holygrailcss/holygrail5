@@ -36,48 +36,9 @@ function saveCurrentValues(currentValues, previousValuesPath) {
 function getChangedValues(currentValues, previousValues) {
   const changes = new Set();
   
-  // Si no hay valores previos, marca todo como nuevo (primera ejecución)
+  // Si no hay valores previos, no marca nada como cambiado (primera ejecución o build limpio)
+  // Solo se marcarán cambios cuando haya valores previos para comparar
   if (!previousValues) {
-    // Marca todas las variables como nuevas
-    if (currentValues.variables) {
-      Object.keys(currentValues.variables).forEach(varName => {
-        changes.add(`variable.${varName}`);
-      });
-    }
-    // Marca todos los breakpoints como nuevos
-    if (currentValues.breakpoints) {
-      changes.add('breakpoints.mobile');
-      changes.add('breakpoints.desktop');
-    }
-    // Marca todas las fuentes como nuevas
-    if (currentValues.fontFamilyMap) {
-      Object.keys(currentValues.fontFamilyMap).forEach(fontName => {
-        changes.add(`fontFamilyMap.${fontName}`);
-      });
-    }
-    // Marca todos los colores como nuevos
-    if (currentValues.colors) {
-      Object.keys(currentValues.colors).forEach(colorName => {
-        changes.add(`colors.${colorName}`);
-      });
-    }
-    // Marca todas las clases como nuevas
-    if (currentValues.classes) {
-      Object.keys(currentValues.classes).forEach(className => {
-        const cls = currentValues.classes[className];
-        ['fontFamily', 'fontWeight', 'letterSpacing', 'textTransform'].forEach(prop => {
-          if (cls[prop] !== undefined) {
-            changes.add(`${className}.${prop}`);
-          }
-        });
-        ['mobile', 'desktop'].forEach(bp => {
-          if (cls[bp]) {
-            if (cls[bp].fontSize) changes.add(`${className}.${bp}.fontSize`);
-            if (cls[bp].lineHeight) changes.add(`${className}.${bp}.lineHeight`);
-          }
-        });
-      });
-    }
     return changes;
   }
   
