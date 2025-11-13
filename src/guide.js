@@ -1661,6 +1661,12 @@ function generateHTML(configData, previousValuesPath = null) {
             <li class="text-m guide-info-box-list-item">
               <strong>.col-xl-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.xl} (24 columnas)
             </li>
+            <li class="text-m guide-info-box-list-item">
+              <strong>.bleed</strong> - Permite que las columnas vayan a sangre (full bleed), eliminando los márgenes laterales del gutter
+            </li>
+            <li class="text-m guide-info-box-list-item">
+              <strong>.bleed-0</strong> - Elimina completamente el padding y márgenes, útil para contenido que debe ocupar todo el ancho sin espacios
+            </li>
           </ul>
           <p class="text-m guide-info-box-text">
             <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
@@ -1719,7 +1725,7 @@ function generateHTML(configData, previousValuesPath = null) {
         </div>
 
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
-          <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplo de uso</h3>
+          <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplo de uso básico</h3>
           <p class="text-m guide-info-box-text">
             <strong>HTML:</strong>
           </p>
@@ -1748,6 +1754,31 @@ function generateHTML(configData, previousValuesPath = null) {
               En <strong>lg</strong> (≥${configData.grid.breakpoints.lg}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
             </li>
           </ul>
+        </div>
+
+        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
+          <h3 class="guide-info-box-title guide-info-box-title-info">Columnas a sangre (Bleed)</h3>
+          <p class="text-m guide-info-box-text">
+            Cuando necesitas que las columnas vayan a sangre (full bleed), eliminando los márgenes laterales del gutter, usa la clase <code class="guide-info-box-code-info">.bleed</code>:
+          </p>
+          <pre class="guide-code-example"><code>&lt;div class="row"&gt;
+  &lt;div class="col-xs-12 bleed"&gt;
+    Contenido que va a sangre (sin márgenes laterales)
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <p class="text-m guide-info-box-text">
+            Para eliminar completamente el padding y márgenes, usa <code class="guide-info-box-code-info">.bleed-0</code>:
+          </p>
+          <pre class="guide-code-example"><code>&lt;div class="bleed-0"&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-xs-12"&gt;
+      Contenido sin padding ni márgenes
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <p class="text-m guide-info-box-text-small">
+            <strong>Nota:</strong> <code class="guide-info-box-code-info">.bleed</code> aplica márgenes negativos iguales al gutter (${configData.grid.gutter}) para que el contenido llegue hasta los bordes. <code class="guide-info-box-code-info">.bleed-0</code> elimina todo el padding y márgenes, útil para imágenes o contenido que debe ocupar todo el ancho disponible.
+          </p>
         </div>
       </div>
     </div>

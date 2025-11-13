@@ -695,7 +695,48 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
   padding-left: ${gutterValue};
   padding-right: ${gutterValue};
   position: relative;
-}\n`;
+}\n\n`;
+
+  // Estilos para bleed
+  css += `.bleed {
+  margin-left: -${gutterValue};
+  margin-right: -${gutterValue};
+  width: auto;
+}\n\n`;
+
+  css += `.bleed.row {
+  margin-left: -${gutterValue};
+  margin-right: -${gutterValue};
+}\n\n`;
+
+  css += `.bleed-0 {
+  padding: 0 0px 0 0px;
+  overflow: hidden;
+}\n\n`;
+
+  css += `.bleed-0 .container-fluid {
+  margin-left: -0px;
+  margin-right: -0px;
+  padding: 0 0px 0 0px;
+}\n\n`;
+
+  css += `.bleed-0 > .row {
+  margin-left: 0;
+  margin-right: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-flow: row wrap;
+  flex-wrap: wrap;
+}\n\n`;
+
+  css += `.bleed-0 > [class*=col-],
+.bleed-0 > .col {
+  padding: 0px;
+  box-sizing: border-box;
+}\n\n`;
 
   return css;
 }
