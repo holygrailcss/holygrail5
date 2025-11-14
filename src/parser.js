@@ -329,7 +329,10 @@ function generateClassCSS(className, cls, breakpointName, valueMap, prefix, cate
 // Genera una media query con todas las clases para un breakpoint
 // Convierte el breakpoint a rem y genera el CSS de todas las clases
 function generateMediaQuery(breakpointName, minWidth, classes, valueMap, prefix, category, baseFontSize, fontFamilyMap) {
-  const minWidthRem = pxToRem(minWidth, baseFontSize);
+  // Convertir breakpoint a rem de forma consistente
+  const minWidthRem = typeof minWidth === 'string' && minWidth.includes('px')
+    ? pxToRem(minWidth, baseFontSize)
+    : minWidth;
   
   const cssClasses = Object.entries(classes)
     .map(([className, cls]) => generateClassCSS(className, cls, breakpointName, valueMap, prefix, category, baseFontSize, fontFamilyMap))
@@ -341,7 +344,10 @@ function generateMediaQuery(breakpointName, minWidth, classes, valueMap, prefix,
 // Genera un bloque de tipografías para un breakpoint específico con comentario descriptivo
 // Incluye un comentario que indica qué breakpoint es y el min-width
 function generateTypographyBlock(breakpointName, minWidth, classes, valueMap, prefix, category, baseFontSize, fontFamilyMap) {
-  const minWidthRem = pxToRem(minWidth, baseFontSize);
+  // Convertir breakpoint a rem de forma consistente
+  const minWidthRem = typeof minWidth === 'string' && minWidth.includes('px')
+    ? pxToRem(minWidth, baseFontSize)
+    : minWidth;
   const breakpointLabel = breakpointName === 'mobile' ? 'Mobile' : 'Desktop';
   
   const cssClasses = Object.entries(classes)
@@ -430,77 +436,80 @@ function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontS
   
   const helpers = [];
   const desktopHelpers = [];
-  const desktopBreakpointRem = pxToRem(desktopBreakpoint, baseFontSize);
+  // Convertir breakpoint a rem de forma consistente
+  const desktopBreakpointRem = typeof desktopBreakpoint === 'string' && desktopBreakpoint.includes('px')
+    ? pxToRem(desktopBreakpoint, baseFontSize)
+    : desktopBreakpoint;
   
-      // Generar helpers para cada valor en spacingMap
-      Object.entries(spacingMap).forEach(([key, value]) => {
+  // Generar helpers para cada valor en spacingMap
+  Object.entries(spacingMap).forEach(([key, value]) => {
+    const varName = `--${prefix}-spacing-${key}`;
+    
+    // Padding helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
+    helpers.push(`  .p-${key} { padding: var(${varName}); }`);
+    helpers.push(`  .pr-${key} { padding-inline-end: var(${varName}); }`);
+    helpers.push(`  .pl-${key} { padding-inline-start: var(${varName}); }`);
+    helpers.push(`  .pb-${key} { padding-bottom: var(${varName}); }`);
+    helpers.push(`  .pt-${key} { padding-top: var(${varName}); }`);
+    
+    // Margin helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
+    helpers.push(`  .m-${key} { margin: var(${varName}); }`);
+    helpers.push(`  .mr-${key} { margin-inline-end: var(${varName}); }`);
+    helpers.push(`  .ml-${key} { margin-inline-start: var(${varName}); }`);
+    helpers.push(`  .mb-${key} { margin-bottom: var(${varName}); }`);
+    helpers.push(`  .mt-${key} { margin-top: var(${varName}); }`);
+    
+    // Padding helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
+    desktopHelpers.push(`    .md\\:p-${key} { padding: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pr-${key} { padding-inline-end: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pl-${key} { padding-inline-start: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pb-${key} { padding-bottom: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:pt-${key} { padding-top: var(${varName}); }`);
+    
+    // Margin helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
+    desktopHelpers.push(`    .md\\:m-${key} { margin: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:mr-${key} { margin-inline-end: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:ml-${key} { margin-inline-start: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
+  });
+  
+  // Generar helpers con !important para los valores especificados en spacingImportant
+  if (spacingImportant && Array.isArray(spacingImportant)) {
+    spacingImportant.forEach(key => {
+      if (spacingMap[key]) {
         const varName = `--${prefix}-spacing-${key}`;
         
-        // Padding helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
-        helpers.push(`  .p-${key} { padding: var(${varName}); }`);
-        helpers.push(`  .pr-${key} { padding-inline-end: var(${varName}); }`);
-        helpers.push(`  .pl-${key} { padding-inline-start: var(${varName}); }`);
-        helpers.push(`  .pb-${key} { padding-bottom: var(${varName}); }`);
-        helpers.push(`  .pt-${key} { padding-top: var(${varName}); }`);
+        // Padding helpers con !important (mobile)
+        helpers.push(`  .p-${key}\\! { padding: var(${varName}) !important; }`);
+        helpers.push(`  .pr-${key}\\! { padding-inline-end: var(${varName}) !important; }`);
+        helpers.push(`  .pl-${key}\\! { padding-inline-start: var(${varName}) !important; }`);
+        helpers.push(`  .pb-${key}\\! { padding-bottom: var(${varName}) !important; }`);
+        helpers.push(`  .pt-${key}\\! { padding-top: var(${varName}) !important; }`);
         
-        // Margin helpers base (mobile) usando variables CSS con propiedades lógicas para RTL
-        helpers.push(`  .m-${key} { margin: var(${varName}); }`);
-        helpers.push(`  .mr-${key} { margin-inline-end: var(${varName}); }`);
-        helpers.push(`  .ml-${key} { margin-inline-start: var(${varName}); }`);
-        helpers.push(`  .mb-${key} { margin-bottom: var(${varName}); }`);
-        helpers.push(`  .mt-${key} { margin-top: var(${varName}); }`);
+        // Margin helpers con !important (mobile)
+        helpers.push(`  .m-${key}\\! { margin: var(${varName}) !important; }`);
+        helpers.push(`  .mr-${key}\\! { margin-inline-end: var(${varName}) !important; }`);
+        helpers.push(`  .ml-${key}\\! { margin-inline-start: var(${varName}) !important; }`);
+        helpers.push(`  .mb-${key}\\! { margin-bottom: var(${varName}) !important; }`);
+        helpers.push(`  .mt-${key}\\! { margin-top: var(${varName}) !important; }`);
         
-        // Padding helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
-        desktopHelpers.push(`    .md\\:p-${key} { padding: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pr-${key} { padding-inline-end: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pl-${key} { padding-inline-start: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pb-${key} { padding-bottom: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:pt-${key} { padding-top: var(${varName}); }`);
+        // Padding helpers con !important y prefijo md: (desktop)
+        desktopHelpers.push(`    .md\\:p-${key}\\! { padding: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:pr-${key}\\! { padding-inline-end: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:pl-${key}\\! { padding-inline-start: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:pb-${key}\\! { padding-bottom: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:pt-${key}\\! { padding-top: var(${varName}) !important; }`);
         
-        // Margin helpers con prefijo md: (desktop) usando variables CSS con propiedades lógicas para RTL
-        desktopHelpers.push(`    .md\\:m-${key} { margin: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:mr-${key} { margin-inline-end: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:ml-${key} { margin-inline-start: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
-        desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
-      });
-      
-      // Generar helpers con !important para los valores especificados en spacingImportant
-      if (spacingImportant && Array.isArray(spacingImportant)) {
-        spacingImportant.forEach(key => {
-          if (spacingMap[key]) {
-            const varName = `--${prefix}-spacing-${key}`;
-            
-            // Padding helpers con !important (mobile)
-            helpers.push(`  .p-${key}\\! { padding: var(${varName}) !important; }`);
-            helpers.push(`  .pr-${key}\\! { padding-inline-end: var(${varName}) !important; }`);
-            helpers.push(`  .pl-${key}\\! { padding-inline-start: var(${varName}) !important; }`);
-            helpers.push(`  .pb-${key}\\! { padding-bottom: var(${varName}) !important; }`);
-            helpers.push(`  .pt-${key}\\! { padding-top: var(${varName}) !important; }`);
-            
-            // Margin helpers con !important (mobile)
-            helpers.push(`  .m-${key}\\! { margin: var(${varName}) !important; }`);
-            helpers.push(`  .mr-${key}\\! { margin-inline-end: var(${varName}) !important; }`);
-            helpers.push(`  .ml-${key}\\! { margin-inline-start: var(${varName}) !important; }`);
-            helpers.push(`  .mb-${key}\\! { margin-bottom: var(${varName}) !important; }`);
-            helpers.push(`  .mt-${key}\\! { margin-top: var(${varName}) !important; }`);
-            
-            // Padding helpers con !important y prefijo md: (desktop)
-            desktopHelpers.push(`    .md\\:p-${key}\\! { padding: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:pr-${key}\\! { padding-inline-end: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:pl-${key}\\! { padding-inline-start: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:pb-${key}\\! { padding-bottom: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:pt-${key}\\! { padding-top: var(${varName}) !important; }`);
-            
-            // Margin helpers con !important y prefijo md: (desktop)
-            desktopHelpers.push(`    .md\\:m-${key}\\! { margin: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:mr-${key}\\! { margin-inline-end: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:ml-${key}\\! { margin-inline-start: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:mb-${key}\\! { margin-bottom: var(${varName}) !important; }`);
-            desktopHelpers.push(`    .md\\:mt-${key}\\! { margin-top: var(${varName}) !important; }`);
-          }
-        });
+        // Margin helpers con !important y prefijo md: (desktop)
+        desktopHelpers.push(`    .md\\:m-${key}\\! { margin: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:mr-${key}\\! { margin-inline-end: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:ml-${key}\\! { margin-inline-start: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:mb-${key}\\! { margin-bottom: var(${varName}) !important; }`);
+        desktopHelpers.push(`    .md\\:mt-${key}\\! { margin-top: var(${varName}) !important; }`);
       }
+    });
+  }
   
   if (helpers.length === 0) {
     return '';
@@ -520,13 +529,23 @@ ${desktopHelpers.join('\n')}
   return baseHelpers;
 }
 
+// Genera helpers de layout (display, flexbox, alignment, etc.)
+// Crea clases como hg-d-flex, hg-justify-center, etc.
+// Agrupa todos los helpers responsive en un solo media query
 function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, baseFontSize = 16) {
   if (!helpers || typeof helpers !== 'object') {
     return '';
   }
 
-  let css = '\n/* Layout Helpers */\n';
+  // Convertir breakpoint a rem de forma consistente
+  const breakpointInRem = typeof desktopBreakpoint === 'string' && desktopBreakpoint.includes('px')
+    ? pxToRem(desktopBreakpoint, baseFontSize)
+    : desktopBreakpoint;
 
+  let css = '\n/* Layout Helpers */\n';
+  let responsiveCSS = '';
+
+  // Primero generar todas las clases base
   Object.entries(helpers).forEach(([helperName, config]) => {
     const { property, class: className, responsive, values, useSpacing } = config;
 
@@ -537,12 +556,10 @@ function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, b
       });
 
       if (responsive) {
-        css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
         Object.entries(spacingMap).forEach(([key, value]) => {
           const finalValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
-          css += `  .md\\:${prefix}-${className}-${key} { ${property}: ${finalValue}; }\n`;
+          responsiveCSS += `  .md\\:${prefix}-${className}-${key} { ${property}: ${finalValue}; }\n`;
         });
-        css += '}\n';
       }
     } else if (values) {
       if (Array.isArray(values)) {
@@ -551,11 +568,9 @@ function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, b
         });
 
         if (responsive) {
-          css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
           values.forEach(value => {
-            css += `  .md\\:${prefix}-${className}-${value} { ${property}: ${value}; }\n`;
+            responsiveCSS += `  .md\\:${prefix}-${className}-${value} { ${property}: ${value}; }\n`;
           });
-          css += '}\n';
         }
       } else if (typeof values === 'object') {
         Object.entries(values).forEach(([key, value]) => {
@@ -563,17 +578,18 @@ function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, b
         });
 
         if (responsive) {
-          css += `\n@media (min-width: ${desktopBreakpoint}) {\n`;
           Object.entries(values).forEach(([key, value]) => {
-            css += `  .md\\:${prefix}-${className}-${key} { ${property}: ${value}; }\n`;
+            responsiveCSS += `  .md\\:${prefix}-${className}-${key} { ${property}: ${value}; }\n`;
           });
-          css += '}\n';
         }
       }
     }
-
-    css += '\n';
   });
+
+  // Agrupar todos los helpers responsive en un solo media query
+  if (responsiveCSS) {
+    css += `\n@media (min-width: ${breakpointInRem}) {\n${responsiveCSS}}\n`;
+  }
 
   return css;
 }
@@ -596,6 +612,14 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
   const columnsXs = gridConfig.columnsXs || 12;
   const columnsXl = gridConfig.columnsXl || 24;
 
+  // Función helper para convertir breakpoints a rem de forma consistente
+  const breakpointToRem = (value) => {
+    if (typeof value === 'string' && value.includes('px')) {
+      return pxToRem(value, baseFontSize);
+    }
+    return value;
+  };
+
   let css = '\n/* Grid System */\n';
 
   // Genera .row
@@ -609,7 +633,8 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
   // Genera .row para cada breakpoint
   Object.entries(breakpoints).forEach(([name, value]) => {
     if (name !== 'xs') {
-      css += `@media (min-width: ${value}) {
+      const remValue = breakpointToRem(value);
+      css += `@media (min-width: ${remValue}) {
   .row {
     margin-left: -${gutterValue};
     margin-right: -${gutterValue};
@@ -625,8 +650,9 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
     return percentage.replace(/\.?0+$/, '') || '0';
   };
 
-  // Genera columnas para xs (12 columnas) - usar 1px directamente
-  css += `@media (min-width: ${breakpoints.xs}) {\n`;
+  // Genera columnas para xs (12 columnas) - convertir a rem
+  const xsBreakpoint = breakpointToRem(breakpoints.xs);
+  css += `@media (min-width: ${xsBreakpoint}) {\n`;
   for (let i = 1; i <= columnsXs; i++) {
     const percentage = formatPercentage(i / columnsXs);
     css += `  .col-xs-${i} {
@@ -638,7 +664,8 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
 
   // Genera columnas para sm (12 columnas)
   if (breakpoints.sm) {
-    css += `@media (min-width: ${breakpoints.sm}) {\n`;
+    const smBreakpoint = breakpointToRem(breakpoints.sm);
+    css += `@media (min-width: ${smBreakpoint}) {\n`;
     for (let i = 1; i <= columnsXs; i++) {
       const percentage = formatPercentage(i / columnsXs);
       css += `  .col-sm-${i} {
@@ -651,7 +678,8 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
 
   // Genera columnas para md (12 columnas)
   if (breakpoints.md) {
-    css += `@media (min-width: ${breakpoints.md}) {\n`;
+    const mdBreakpoint = breakpointToRem(breakpoints.md);
+    css += `@media (min-width: ${mdBreakpoint}) {\n`;
     for (let i = 1; i <= columnsXs; i++) {
       const percentage = formatPercentage(i / columnsXs);
       css += `  .col-md-${i} {
@@ -664,7 +692,8 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
 
   // Genera columnas para lg (12 columnas)
   if (breakpoints.lg) {
-    css += `@media (min-width: ${breakpoints.lg}) {\n`;
+    const lgBreakpoint = breakpointToRem(breakpoints.lg);
+    css += `@media (min-width: ${lgBreakpoint}) {\n`;
     for (let i = 1; i <= columnsXs; i++) {
       const percentage = formatPercentage(i / columnsXs);
       css += `  .col-lg-${i} {
@@ -677,7 +706,8 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
 
   // Genera columnas para xl (24 columnas)
   if (breakpoints.xl) {
-    css += `@media (min-width: ${breakpoints.xl}) {\n`;
+    const xlBreakpoint = breakpointToRem(breakpoints.xl);
+    css += `@media (min-width: ${xlBreakpoint}) {\n`;
     for (let i = 1; i <= columnsXl; i++) {
       const percentage = formatPercentage(i / columnsXl);
       css += `  .col-xl-${i} {

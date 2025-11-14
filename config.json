@@ -365,7 +365,44 @@
         "none": "none",
         "scale-down": "scale-down"
       }
+    },
+    "height": {
+      "property": "height",
+      "class": "h",
+      "responsive": true,
+      "description": "Altura del elemento",
+      "values": {
+        "auto": "auto",
+        "100-percent": "100%",
+        "100vh": "100vh",
+        "100svh": "100svh",
+        "100lvh": "100lvh",
+        "100dvh": "100dvh",
+        "50-percent": "50%",
+        "75-percent": "75%",
+        "fit-content": "fit-content",
+        "min-content": "min-content",
+        "max-content": "max-content"
+      }
+    },
+
+
+    "min-height": {
+      "property": "min-height",
+      "class": "min-h",
+      "responsive": true,
+      "description": "Altura mínima del elemento",
+      "values": {
+        "0": "0",
+        "100-percent": "100%",
+        "100vh": "100vh",
+        "100svh": "100svh",
+        "100lvh": "100lvh",
+        "100dvh": "100dvh",
+        "fit-content": "fit-content"
+      }
     }
+
   },
   "classes": {
     "h2": {
