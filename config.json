@@ -247,6 +247,124 @@
         "right": "right",
         "justify": "justify"
       }
+    },
+    "position": {
+      "property": "position",
+      "class": "position",
+      "responsive": true,
+      "description": "Tipo de posicionamiento",
+      "values": {
+        "static": "static",
+        "relative": "relative",
+        "absolute": "absolute",
+        "fixed": "fixed",
+        "sticky": "sticky"
+      }
+    },
+    "overflow": {
+      "property": "overflow",
+      "class": "overflow",
+      "responsive": true,
+      "description": "Control de desbordamiento",
+      "values": {
+        "auto": "auto",
+        "hidden": "hidden",
+        "visible": "visible",
+        "scroll": "scroll"
+      }
+    },
+    "overflow-x": {
+      "property": "overflow-x",
+      "class": "overflow-x",
+      "responsive": true,
+      "description": "Control de desbordamiento horizontal",
+      "values": {
+        "auto": "auto",
+        "hidden": "hidden",
+        "visible": "visible",
+        "scroll": "scroll"
+      }
+    },
+    "overflow-y": {
+      "property": "overflow-y",
+      "class": "overflow-y",
+      "responsive": true,
+      "description": "Control de desbordamiento vertical",
+      "values": {
+        "auto": "auto",
+        "hidden": "hidden",
+        "visible": "visible",
+        "scroll": "scroll"
+      }
+    },
+    "visibility": {
+      "property": "visibility",
+      "class": "visibility",
+      "responsive": true,
+      "description": "Visibilidad del elemento",
+      "values": {
+        "visible": "visible",
+        "hidden": "hidden",
+        "collapse": "collapse"
+      }
+    },
+    "opacity": {
+      "property": "opacity",
+      "class": "opacity",
+      "responsive": true,
+      "description": "Transparencia del elemento",
+      "values": {
+        "0": "0",
+        "25": "0.25",
+        "50": "0.5",
+        "75": "0.75",
+        "100": "1"
+      }
+    },
+    "z-index": {
+      "property": "z-index",
+      "class": "z",
+      "responsive": true,
+      "description": "Nivel de apilamiento",
+      "values": {
+        "0": "0",
+        "10": "10",
+        "20": "20",
+        "30": "30",
+        "40": "40",
+        "50": "50",
+        "auto": "auto"
+      }
+    },
+    "cursor": {
+      "property": "cursor",
+      "class": "cursor",
+      "responsive": false,
+      "description": "Tipo de cursor",
+      "values": {
+        "auto": "auto",
+        "default": "default",
+        "pointer": "pointer",
+        "not-allowed": "not-allowed",
+        "wait": "wait",
+        "text": "text",
+        "move": "move",
+        "grab": "grab",
+        "grabbing": "grabbing"
+      }
+    },
+    "object-fit": {
+      "property": "object-fit",
+      "class": "object",
+      "responsive": true,
+      "description": "Ajuste de objeto (imágenes)",
+      "values": {
+        "contain": "contain",
+        "cover": "cover",
+        "fill": "fill",
+        "none": "none",
+        "scale-down": "scale-down"
+      }
     }
   },
   "classes": {
