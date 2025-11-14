@@ -1,0 +1,113 @@
+/**
+ * Botones
+ * Variantes: primary, secondary, outline, ghost, feel
+ * Tamaños: sm, md, lg
+ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hg-spacing-8);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height);
+  text-decoration: none;
+  border: var(--border-width) var(--border-style) transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:focus {
+  outline: 2px solid var(--hg-color-info);
+  outline-offset: 2px;
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Tamaños de botones */
+.btn-sm {
+  padding: var(--btn-padding-y-sm) var(--btn-padding-x-sm);
+  font-size: var(--font-size-sm);
+}
+
+.btn-md {
+  padding: var(--btn-padding-y-md) var(--btn-padding-x-md);
+  font-size: var(--font-size-base);
+}
+
+.btn-lg {
+  padding: var(--btn-padding-y-lg) var(--btn-padding-x-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* Variantes de botones */
+.btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+  border-color: var(--btn-primary-bg);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--btn-primary-hover-bg);
+  border-color: var(--btn-primary-hover-bg);
+}
+
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-color);
+  border-color: var(--btn-secondary-bg);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--btn-secondary-hover-bg);
+  border-color: var(--btn-secondary-hover-bg);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--btn-outline-color);
+  border-color: var(--btn-outline-border);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--btn-outline-hover-bg);
+  color: var(--btn-outline-hover-color);
+  border-color: var(--btn-outline-hover-bg);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--btn-ghost-color);
+  border-color: transparent;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--btn-ghost-hover-bg);
+}
+
+.btn-feel {
+  background-color: var(--btn-feel-bg);
+  color: var(--btn-feel-color);
+  border-color: var(--btn-feel-bg);
+}
+
+.btn-feel:hover:not(:disabled) {
+  background-color: var(--btn-feel-hover-bg);
+  border-color: var(--btn-feel-hover-bg);
+}
+
+.btn-full {
+  width: 100%;
+}
+

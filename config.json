@@ -235,6 +235,18 @@
       "responsive": true,
       "description": "Espacio entre filas y columnas",
       "useSpacing": true
+    },
+    "text-align": {
+      "property": "text-align",
+      "class": "text",
+      "responsive": true,
+      "description": "Alineación del texto",
+      "values": {
+        "left": "left",
+        "center": "center",
+        "right": "right",
+        "justify": "justify"
+      }
     }
   },
   "classes": {

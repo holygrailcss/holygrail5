@@ -1,0 +1,30 @@
+/**
+ * Sistema de Theming Dutti
+ * Basado en HolyGrail5 CSS Variables
+ * 
+ * Este archivo importa todos los módulos del sistema de theming.
+ * 
+ * Componentes disponibles:
+ * - Botones (primary, secondary, outline, ghost, disabled)
+ * - Inputs (text, email, password, number, etc.)
+ * - Selects
+ * - Textareas
+ * - Checkboxes
+ * - Radios
+ * - Switches/Toggles
+ * - Labels
+ * - Form Groups
+ * - Estados (error, success, warning, disabled)
+ */
+
+/* Variables del tema */
+@import url('_variables.css');
+
+/* Componentes */
+@import url('_buttons.css');
+@import url('_inputs.css');
+@import url('_labels.css');
+@import url('_checkboxes.css');
+@import url('_radios.css');
+@import url('_switches.css');
+@import url('_forms.css');
