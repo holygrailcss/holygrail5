@@ -578,4 +578,471 @@ Para desplegar en GitHub Pages, puedes:
 
 ---
 
+## 🚀 ¿Por qué HolyGrail5? Evolución desde HolyGrail CSS (SASS)
+
+### El Problema con SASS
+
+HolyGrail CSS original se basaba en **SASS/SCSS**, lo que presentaba varios desafíos:
+
+#### Limitaciones de SASS
+
+1. **Dependencia de compilación**: Requiere herramientas de build (Gulp, Webpack, etc.) y procesos de compilación
+2. **Curva de aprendizaje**: Necesitas conocer SASS/SCSS para personalizar
+3. **Configuración compleja**: Variables SASS dispersas en múltiples archivos
+4. **Sin documentación automática**: No genera guías visuales de las clases disponibles
+5. **Mantenimiento manual**: Cambios en variables requieren editar código SASS directamente
+6. **Sin historial**: No hay gestión automática de variables no usadas
+7. **Menos portable**: Depende del ecosistema SASS y sus herramientas
+
+### La Solución: HolyGrail5
+
+HolyGrail5 nace de la necesidad de **simplificar, modernizar y potenciar** el framework original.
+
+#### Ventajas Clave de HolyGrail5
+
+##### 1. **Configuración Declarativa con JSON**
+
+**Antes (SASS):**
+```scss
+// Variables dispersas en múltiples archivos
+$font-size-mobile: 18px;
+$font-size-desktop: 24px;
+$spacing-16: 16px;
+// ... más variables en diferentes archivos
+```
+
+**Ahora (JSON):**
+```json
+{
+  "classes": {
+    "h2": {
+      "mobile": { "fontSize": "18px" },
+      "desktop": { "fontSize": "24px" }
+    }
+  },
+  "spacingMap": { "16": "16px" }
+}
+```
+
+✅ **Ventaja**: Todo en un solo archivo, fácil de entender y modificar
+
+##### 2. **Sin Dependencias de Build Complejas**
+
+**Antes (SASS):**
+- Requiere Gulp/Webpack/Grunt
+- Configuración de compilación
+- Dependencias de Node.js específicas
+- Procesos de build complejos
+
+**Ahora (HolyGrail5):**
+```bash
+npm run generate
+# ¡Listo! CSS generado
+```
+
+✅ **Ventaja**: Un solo comando, sin configuración de build
+
+##### 3. **Guía Interactiva Automática**
+
+**Antes (SASS):**
+- Documentación manual
+- Sin preview visual
+- Difícil saber qué clases están disponibles
+
+**Ahora (HolyGrail5):**
+- Guía HTML generada automáticamente
+- Preview visual de todas las clases
+- Búsqueda en tiempo real
+- Detección de cambios
+
+✅ **Ventaja**: Documentación siempre actualizada y visual
+
+##### 4. **Gestión Inteligente de Variables**
+
+**Antes (SASS):**
+- Variables se eliminan si no se usan
+- Puede romper CSS personalizado
+- Sin historial
+
+**Ahora (HolyGrail5):**
+- Historial persistente de variables
+- Nunca se eliminan automáticamente
+- Comandos para gestionar variables no usadas
+- Protege tu CSS personalizado
+
+✅ **Ventaja**: Seguridad y control total sobre las variables
+
+##### 5. **Variables CSS Nativas (No SASS)**
+
+**Antes (SASS):**
+```scss
+// Variables SASS (solo en compilación)
+$primary-color: #000000;
+.my-class {
+  color: $primary-color; // Compilado a CSS estático
+}
+```
+
+**Ahora (HolyGrail5):**
+```css
+/* Variables CSS nativas (runtime) */
+:root {
+  --hg-color-primary: #000000;
+}
+.my-class {
+  color: var(--hg-color-primary); // Cambiable en runtime
+}
+```
+
+✅ **Ventaja**: Variables CSS nativas, modificables en runtime, mejor rendimiento
+
+##### 6. **Optimización Automática**
+
+**Antes (SASS):**
+- Duplicación de valores en múltiples lugares
+- CSS más pesado
+- Sin deduplicación automática
+
+**Ahora (HolyGrail5):**
+- Variables compartidas automáticamente
+- Un valor único → una variable CSS
+- CSS más pequeño y eficiente
+
+✅ **Ventaja**: CSS optimizado automáticamente, menos código
+
+##### 7. **Modo Watch Integrado**
+
+**Antes (SASS):**
+- Requiere configurar watch en Gulp/Webpack
+- Configuración adicional necesaria
+
+**Ahora (HolyGrail5):**
+```bash
+npm run watch
+# Regenera automáticamente al cambiar config.json
+```
+
+✅ **Ventaja**: Watch listo para usar, sin configuración
+
+##### 8. **Portabilidad y Simplicidad**
+
+**Antes (SASS):**
+- Múltiples archivos SASS
+- Estructura compleja
+- Dependencias de herramientas de build
+
+**Ahora (HolyGrail5):**
+- Un solo archivo JSON de configuración
+- Estructura simple y clara
+- Solo Node.js (sin SASS, Gulp, etc.)
+
+✅ **Ventaja**: Más fácil de entender, mantener y compartir
+
+##### 9. **Mejor para Equipos**
+
+**Antes (SASS):**
+- Solo desarrolladores que conocen SASS pueden modificar
+- Cambios requieren conocimiento técnico
+
+**Ahora (HolyGrail5):**
+- Cualquiera puede editar JSON
+- Cambios visibles inmediatamente
+- Menos barrera de entrada
+
+✅ **Ventaja**: Colaboración más fácil, menos dependencia de desarrolladores
+
+##### 10. **Ecosistema Moderno**
+
+**Antes (SASS):**
+- Tecnología más antigua
+- Menos integración con herramientas modernas
+- Ecosistema SASS en declive
+
+**Ahora (HolyGrail5):**
+- Tecnología moderna (Node.js, JSON, CSS Variables)
+- Mejor integración con herramientas actuales
+- Alineado con estándares web modernos
+
+✅ **Ventaja**: Framework preparado para el futuro
+
+##### 11. **Separación de Componentes y Flexibilidad**
+
+**Antes (HolyGrail CSS con Angular):**
+- Framework acoplado a Angular
+- Componentes incluidos (botones, cards, etc.) que aumentaban el peso
+- CSS pesado con estilos de componentes que no siempre se usaban
+- Difícil integrar otras librerías de componentes
+- Dependencia de Angular y sus componentes
+
+**Ahora (HolyGrail5):**
+- **Solo CSS puro**: Sin dependencias de frameworks
+- **Sin componentes incluidos**: Solo clases de utilidad y layout
+- **CSS ligero**: Solo lo esencial (tipografía, spacing, layout, grid)
+- **Integración flexible**: Puedes usar cualquier librería de componentes
+- **Compatible con MDS de Inditex**: Diseñado para trabajar junto con sistemas de componentes externos
+
+✅ **Ventaja**: Framework ligero, flexible y compatible con cualquier librería de componentes
+
+##### 12. **Maquetación con IA**
+
+**Antes (SASS + Angular):**
+- Estructura compleja difícil de entender para IA
+- Código SASS disperso
+- Componentes acoplados
+- Difícil generar código automáticamente
+
+**Ahora (HolyGrail5):**
+- **Configuración JSON clara**: Fácil de entender y generar por IA
+- **Clases semánticas**: Nomenclatura clara y predecible
+- **Superprompt disponible**: Guía completa para que IA genere código correcto
+- **Estructura simple**: Patrones claros y repetibles
+
+✅ **Ventaja**: Perfecto para maquetación asistida por IA, generación automática de código
+
+### Separación de Responsabilidades
+
+HolyGrail5 adopta una **filosofía de separación de responsabilidades**:
+
+#### Lo que INCLUYE HolyGrail5:
+- ✅ Sistema de tipografía
+- ✅ Helpers de spacing (padding, margin)
+- ✅ Helpers de layout (flexbox, grid)
+- ✅ Sistema de grid responsive
+- ✅ Variables CSS para colores
+- ✅ Reset CSS mínimo
+
+#### Lo que NO incluye (y por qué es mejor):
+- ❌ Componentes UI (botones, cards, modales, etc.)
+- ❌ Estilos de formularios
+- ❌ Estilos de navegación
+- ❌ Estilos específicos de Angular/React/Vue
+
+**Razón**: Esto permite:
+1. **Usar MDS de Inditex** u otras librerías de componentes sin conflictos
+2. **CSS más ligero**: Solo lo esencial
+3. **Flexibilidad total**: Eliges tus propios componentes
+4. **Mejor mantenimiento**: Cada cosa en su lugar
+
+### Integración con MDS de Inditex
+
+HolyGrail5 está diseñado para trabajar **perfectamente** junto con MDS (Massimo Dutti System) de Inditex:
+
+```html
+<!-- Usa HolyGrail5 para layout y spacing -->
+<div class="row">
+  <div class="col-xs-12 col-md-6">
+    <!-- Usa componentes MDS para UI -->
+    <mds-button variant="primary">Botón MDS</mds-button>
+  </div>
+</div>
+```
+
+**Ventajas de esta combinación:**
+- ✅ HolyGrail5 maneja el layout y estructura
+- ✅ MDS proporciona los componentes UI
+- ✅ Sin conflictos de estilos
+- ✅ Mejor de ambos mundos
+
+### Maquetación con IA
+
+HolyGrail5 es **ideal para maquetación asistida por IA** gracias a:
+
+1. **Superprompt disponible**: Guía completa (`SUPERPROMPT.md`) que permite a la IA entender el sistema
+2. **Nomenclatura clara**: Clases predecibles y semánticas
+3. **Patrones simples**: Estructura fácil de seguir
+4. **Configuración JSON**: Fácil de generar y modificar automáticamente
+
+**Ejemplo de uso con IA:**
+```
+Prompt: "Crea una página de restaurante con header, hero, menú de platos y footer usando HolyGrail5"
+
+La IA puede:
+- Consultar SUPERPROMPT.md para entender las clases
+- Generar HTML con las clases correctas
+- Usar el grid system apropiado
+- Aplicar spacing y layout helpers correctamente
+```
+
+✅ **Ventaja**: Acelera el desarrollo con generación automática de código
+
+### Comparación Directa
+
+| Característica | HolyGrail CSS (SASS) | HolyGrail5 | ¿Por qué HolyGrail5 es mejor? |
+|----------------|----------------------|------------|------------------------------|
+| **Configuración** | Múltiples archivos SASS dispersos | Un solo archivo JSON (`config.json`) | ✅ **Simplicidad**: Todo en un lugar, fácil de entender y modificar |
+| **Compilación** | Requiere Gulp/Webpack y configuración compleja | `npm run generate` (comando simple) | ✅ **Sin complejidad**: No necesitas configurar build tools |
+| **Variables** | Variables SASS (compiladas, estáticas) | Variables CSS nativas (runtime, dinámicas) | ✅ **Flexibilidad**: Puedes cambiar valores en runtime con JavaScript |
+| **Documentación** | Manual, requiere mantenimiento | Automática (HTML interactivo generado) | ✅ **Siempre actualizada**: Se genera automáticamente desde la configuración |
+| **Gestión de variables** | Manual, propenso a errores | Automática con historial y herramientas CLI | ✅ **Seguridad**: Herramientas para detectar y eliminar variables no usadas |
+| **Curva de aprendizaje** | Media-Alta (requiere conocer SASS) | Baja (solo JSON, fácil de entender) | ✅ **Accesibilidad**: Cualquiera puede editar sin conocimientos técnicos avanzados |
+| **Portabilidad** | Media (depende de SASS y build tools) | Alta (solo Node.js, sin dependencias complejas) | ✅ **Fácil de mover**: Menos dependencias, más portable |
+| **Optimización** | Manual (debes optimizar tú mismo) | Automática (elimina código no usado) | ✅ **Rendimiento**: CSS más pequeño automáticamente |
+| **Watch mode** | Requiere configuración en Gulp/Webpack | Integrado (`npm run watch`) | ✅ **Desarrollo rápido**: Watch mode listo para usar |
+| **Accesibilidad** | Solo desarrolladores con conocimientos SASS | Cualquiera puede editar (diseñadores, PMs, etc.) | ✅ **Colaboración**: Más personas pueden contribuir |
+| **Componentes** | Incluidos (botones, cards, modales, etc.) | Separados (solo utilidades) | ✅ **Ligereza**: No incluye código que no uses |
+| **Peso CSS** | Pesado (cientos de clases de componentes) | Ligero (solo utilidades esenciales) | ✅ **Rendimiento**: CSS más pequeño = páginas más rápidas |
+| **Integración** | Acoplado a Angular | Compatible con cualquier librería | ✅ **Flexibilidad**: Puedes usar MDS, Material, Bootstrap, etc. |
+| **Maquetación IA** | Difícil (estructura compleja) | Optimizado (JSON claro, superprompt) | ✅ **Futuro**: Perfecto para generación automática de código |
+
+### Casos de Uso Ideales para HolyGrail5
+
+✅ **Perfecto para:**
+- Proyectos que buscan simplicidad
+- Equipos con diferentes niveles técnicos
+- Proyectos que necesitan documentación automática
+- Aplicaciones que requieren variables CSS en runtime
+- Proyectos que quieren evitar dependencias de build complejas
+- Design systems que necesitan mantenimiento fácil
+- **Proyectos que usan MDS de Inditex u otras librerías de componentes**
+- **Maquetación asistida por IA**
+- **Proyectos que necesitan CSS ligero sin componentes incluidos**
+
+### Migración desde HolyGrail CSS (SASS)
+
+Si vienes de HolyGrail CSS (SASS), la migración es sencilla:
+
+1. **Extrae tus variables SASS** → Conviértelas a `config.json`
+2. **Mantén tus clases HTML** → Son compatibles
+3. **Regenera el CSS** → `npm run generate`
+4. **Disfruta de las nuevas características** → Guía interactiva, watch mode, etc.
+
+### Arquitectura Ligera y Flexible
+
+#### El Problema del Framework Anterior
+
+El framework original (HolyGrail CSS) incluía:
+- **Componentes de Angular**: Botones, cards, modales, etc.
+- **CSS pesado**: Estilos de componentes que no siempre se necesitaban
+- **Acoplamiento**: Dependencia de Angular y sus componentes
+- **Poco flexible**: Difícil usar otras librerías de componentes
+
+**Ejemplos de clases incluidas en el framework antiguo (que aumentaban el peso):**
+```css
+/* Formularios acoplados a Angular */
+.form-input-label-2
+.form-input-label-2.has-ico-pre
+.form-input-label-2.has-ico-post
+.validation-error-messages
+
+/* Botones y links específicos */
+.btn
+.link-line
+.link-svg-pre
+.link-svg-post
+
+/* Componentes de navegación */
+.header-account-back
+.mn-mainmenu
+.mn-mainbar
+.tabs-mini
+
+/* Componentes UI */
+.tooltip-sm
+.toast
+.md-accordion
+.md-toggle
+.bottom-sheet
+.tag-product
+.list-state
+
+/* Soporte RTL específico */
+.is-rtl .form-input-label-2
+.is-rtl .btn
+.is-rtl .tooltip-sm
+/* ... y cientos más */
+```
+
+**Problema**: Estas clases ocupaban espacio en el CSS final aunque no se usaran, y creaban conflictos al intentar usar otras librerías de componentes como MDS.
+
+#### La Solución: Separación de Responsabilidades
+
+HolyGrail5 adopta el principio de **"hacer una cosa y hacerla bien"**:
+
+**HolyGrail5 se enfoca en:**
+- Layout y estructura (grid, flexbox)
+- Spacing y tipografía
+- Variables CSS compartidas
+- Helpers de utilidad
+
+**NO incluye:**
+- Componentes UI (botones, cards, etc.)
+- Estilos de formularios
+- Estilos específicos de frameworks
+
+**Resultado:**
+- ✅ CSS más ligero (solo lo esencial)
+- ✅ Compatible con MDS de Inditex
+- ✅ Compatible con cualquier librería de componentes
+- ✅ Flexibilidad total para elegir tus componentes
+
+### Integración con MDS de Inditex
+
+HolyGrail5 está diseñado específicamente para trabajar junto con **MDS (Massimo Dutti System)** de Inditex:
+
+```html
+<!-- Layout con HolyGrail5 -->
+<div class="row">
+  <div class="col-xs-12 col-md-6 p-16">
+    <!-- Componentes de MDS -->
+    <mds-button variant="primary">Reservar Mesa</mds-button>
+    <mds-card>
+      <mds-card-header>Título</mds-card-header>
+      <mds-card-content>Contenido</mds-card-content>
+    </mds-card>
+  </div>
+</div>
+```
+
+**Ventajas:**
+- ✅ Sin conflictos de estilos
+- ✅ HolyGrail5 maneja layout, MDS maneja componentes
+- ✅ Mejor de ambos mundos
+- ✅ CSS optimizado y ligero
+
+### Maquetación con IA
+
+HolyGrail5 es **perfecto para maquetación asistida por IA**:
+
+#### ¿Por qué funciona tan bien con IA?
+
+1. **Superprompt disponible**: `SUPERPROMPT.md` contiene toda la información necesaria
+2. **Nomenclatura clara**: Clases predecibles y semánticas
+3. **Patrones simples**: Estructura fácil de seguir
+4. **Configuración JSON**: Fácil de generar automáticamente
+5. **Sin complejidad**: No hay componentes acoplados que confundan a la IA
+
+#### Ejemplo de Uso con IA
+
+```
+Prompt para IA:
+"Crea una página de restaurante con header sticky, hero section, 
+grid de 6 platos destacados, sección sobre nosotros y footer, 
+usando HolyGrail5 según SUPERPROMPT.md"
+
+La IA puede:
+✅ Generar HTML con las clases correctas
+✅ Usar el grid system apropiado
+✅ Aplicar spacing helpers correctamente
+✅ Crear layouts responsive
+✅ Integrar con componentes MDS si es necesario
+```
+
+**Resultado**: Desarrollo más rápido y código consistente generado automáticamente.
+
+### Conclusión
+
+HolyGrail5 representa la **evolución natural** del framework original, eliminando las complejidades de SASS, separando los componentes pesados de Angular, y aprovechando las capacidades modernas de CSS y JavaScript. 
+
+**Es más simple, más ligero, más potente y más accesible**, manteniendo la filosofía de diseño que hizo grande a HolyGrail CSS, pero adaptado a las necesidades actuales:
+
+- ✅ **Sin dependencias pesadas**: No incluye componentes Angular
+- ✅ **CSS ligero**: Solo utilidades esenciales
+- ✅ **Flexible**: Compatible con MDS de Inditex y cualquier librería
+- ✅ **IA-friendly**: Optimizado para maquetación asistida por IA
+- ✅ **Moderno**: Variables CSS nativas, JSON, Node.js
+
+**En resumen**: HolyGrail5 es HolyGrail CSS **mejorado, simplificado, modernizado y optimizado** para el desarrollo web actual, con especial atención a la flexibilidad, ligereza y compatibilidad con sistemas de componentes externos.
+
+---
+
 **Hecho con ❤️ por HolyGrail CSS**
