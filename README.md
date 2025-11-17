@@ -57,7 +57,7 @@ npm run serve
 # Uso básico (genera en dist/)
 npx holygrail5
 # o
-npm run generate
+npm run build
 
 # Con argumentos personalizados
 npx holygrail5 --config=./config.json --output=./dist/output.css --html=./dist/index.html
@@ -341,7 +341,7 @@ npm run vars:show-all
 
 ```bash
 # 1. Generar CSS
-npm run generate
+npm run build
 
 # 2. Ver qué variables no se están usando
 npm run vars:list
@@ -350,7 +350,7 @@ npm run vars:list
 npm run vars:remove-all-unused
 
 # 4. Regenerar CSS sin las variables eliminadas
-npm run generate
+npm run build
 ```
 
 ### Opciones Avanzadas
@@ -365,19 +365,13 @@ node src/cli-variables.js list --history=./.data/.custom-variables.json
 
 ## 🔧 Scripts NPM
 
-| Script | Descripción |
+| Comando | Descripción |
 |--------|-------------|
-| `npm run generate` | Genera CSS y HTML en `dist/` |
-| `npm run watch` | Modo watch (regenera al cambiar config.json) |
-| `npm run dev` | Watch + servidor HTTP en localhost:3000 |
-| `npm run serve` | Solo servidor HTTP (sirve desde dist/) |
-| `npm run start` | Genera y abre servidor HTTP |
-| `npm run test` | Ejecuta la suite de tests |
-| `npm run vars:list` | Lista variables CSS no usadas |
+| `npm run build` | Genera CSS y HTML en `dist/` |
+| `npm run dev` | Watch + servidor HTTP en localhost:8080 |
+| `npm test` | Ejecuta la suite de tests |
 | `npm run vars:report` | Reporte completo de variables |
-| `npm run vars:remove` | Elimina una variable del historial |
-| `npm run vars:remove-all-unused` | Elimina todas las variables no usadas |
-| `npm run vars:show-all` | Muestra todas las variables históricas |
+| `npm run vars:remove-unused` | Elimina todas las variables no usadas |
 
 ## 🔑 Características Técnicas
 
@@ -481,7 +475,7 @@ html {
 
 ```
 holygrail5/
-├── generator.js              # Orquestador principal
+├── generate-css.js           # Orquestador principal
 ├── config.json               # Configuración del proyecto
 ├── package.json              # Dependencias y scripts
 ├── README.md                 # Este archivo
@@ -490,22 +484,37 @@ holygrail5/
 │   └── .historical-variables.json # Historial de variables CSS
 ├── dist/                     # Archivos generados (gitignored)
 │   ├── output.css           # CSS generado
-│   └── index.html           # Guía HTML interactiva
+│   ├── index.html           # Guía HTML interactiva
+│   └── themes/              # Temas compilados
+│       └── dutti.css        # Tema Dutti compilado
 ├── src/
-│   ├── config.js            # Carga y validación de configuración
-│   ├── parser.js            # Generación de CSS desde JSON
-│   ├── guide.js             # Generación de guía HTML interactiva
-│   ├── utils.js             # Utilidades compartidas (px→rem, etc.)
-│   ├── variables-manager.js # Gestión de variables CSS históricas
-│   ├── cli-variables.js     # CLI para gestión de variables
-│   ├── watch.js             # Modo watch para desarrollo
-│   └── dev.js               # Script de desarrollo (watch + servidor)
+│   ├── config-loader.js     # Carga y validación de configuración
+│   ├── css-generator.js     # Orquestador de generadores CSS
+│   ├── html-generator.js    # Generación de guía HTML interactiva
+│   ├── helpers.js           # Utilidades compartidas (px→rem, etc.)
+│   ├── variables-tracker.js # Gestión de variables CSS históricas
+│   ├── variables-cli.js     # CLI para gestión de variables
+│   ├── watch-config.js      # Modo watch para desarrollo
+│   ├── dev-server.js        # Script de desarrollo (watch + servidor)
+│   └── generators/          # Generadores especializados
+│       ├── reset-generator.js      # Genera Reset CSS
+│       ├── variables-generator.js  # Genera variables CSS
+│       ├── typography-generator.js # Genera clases de tipografía
+│       ├── spacing-generator.js    # Genera helpers de spacing
+│       ├── layout-generator.js     # Genera helpers de layout
+│       └── grid-generator.js       # Genera sistema de grid
+├── themes/                   # Temas personalizables
+│   └── dutti/               # Tema Dutti
+│       ├── _variables.css   # Variables del tema
+│       ├── _buttons.css     # Estilos de botones
+│       ├── _inputs.css      # Estilos de inputs
+│       └── ...              # Otros componentes
 └── tests/
-    ├── run-all.js           # Ejecutor de todos los tests
-    ├── config.test.js       # Tests de configuración
-    ├── parser.test.js       # Tests del parseador
-    ├── guide.test.js        # Tests de la guía HTML
-    └── utils.test.js        # Tests de utilidades
+    ├── run-all.js              # Ejecutor de todos los tests
+    ├── config-loader.test.js   # Tests de carga de configuración
+    ├── css-generator.test.js   # Tests del generador CSS
+    ├── html-generator.test.js  # Tests de la guía HTML
+    └── helpers.test.js         # Tests de utilidades
 ```
 
 ## 🐛 Solución de Problemas
@@ -531,7 +540,7 @@ Cada clase debe tener al menos `mobile` o `desktop`.
 
 **Variables no se detectan como no usadas**
 
-Ejecuta `npm run generate` primero para actualizar el historial de variables.
+Ejecuta `npm run build` primero para actualizar el historial de variables.
 
 ## 🌐 GitHub Pages
 
@@ -546,7 +555,7 @@ Para desplegar en GitHub Pages, puedes:
 
 **Opción 2 - Workflow automático:**
 
-- Crea `.github/workflows/deploy.yml` que ejecute `npm run generate` y copie archivos a `docs/`
+- Crea `.github/workflows/deploy.yml` que ejecute `npm run build` y copie archivos a `docs/`
 
 ## 📚 Recursos
 
@@ -636,7 +645,7 @@ $spacing-16: 16px;
 
 **Ahora (HolyGrail5):**
 ```bash
-npm run generate
+npm run build
 # ¡Listo! CSS generado
 ```
 
@@ -718,7 +727,7 @@ $primary-color: #000000;
 
 **Ahora (HolyGrail5):**
 ```bash
-npm run watch
+npm run dev
 # Regenera automáticamente al cambiar config.json
 ```
 
@@ -870,7 +879,7 @@ La IA puede:
 | Característica | HolyGrail CSS (SASS) | HolyGrail5 | ¿Por qué HolyGrail5 es mejor? |
 |----------------|----------------------|------------|------------------------------|
 | **Configuración** | Múltiples archivos SASS dispersos | Un solo archivo JSON (`config.json`) | ✅ **Simplicidad**: Todo en un lugar, fácil de entender y modificar |
-| **Compilación** | Requiere Gulp/Webpack y configuración compleja | `npm run generate` (comando simple) | ✅ **Sin complejidad**: No necesitas configurar build tools |
+| **Compilación** | Requiere Gulp/Webpack y configuración compleja | `npm run build` (comando simple) | ✅ **Sin complejidad**: No necesitas configurar build tools |
 | **Variables** | Variables SASS (compiladas, estáticas) | Variables CSS nativas (runtime, dinámicas) | ✅ **Flexibilidad**: Puedes cambiar valores en runtime con JavaScript |
 | **Documentación** | Manual, requiere mantenimiento | Automática (HTML interactivo generado) | ✅ **Siempre actualizada**: Se genera automáticamente desde la configuración |
 | **Gestión de variables** | Manual, propenso a errores | Automática con historial y herramientas CLI | ✅ **Seguridad**: Herramientas para detectar y eliminar variables no usadas |
@@ -903,7 +912,7 @@ Si vienes de HolyGrail CSS (SASS), la migración es sencilla:
 
 1. **Extrae tus variables SASS** → Conviértelas a `config.json`
 2. **Mantén tus clases HTML** → Son compatibles
-3. **Regenera el CSS** → `npm run generate`
+3. **Regenera el CSS** → `npm run build`
 4. **Disfruta de las nuevas características** → Guía interactiva, watch mode, etc.
 
 ### Arquitectura Ligera y Flexible
