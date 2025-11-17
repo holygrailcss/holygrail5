@@ -11,15 +11,15 @@ Sistema de componentes UI basado en las variables CSS de **HolyGrail5**. Todos l
 
 2. Incluye el CSS del tema Dutti:
 ```html
-<link rel="stylesheet" href="temas/dutti/theme.css">
+<link rel="stylesheet" href="themes/dutti/theme.css">
 ```
 
 **Nota**: El archivo `theme.css` importa automáticamente todos los módulos. Si solo necesitas ciertos componentes, puedes importar los archivos individuales:
 
 ```html
 <!-- Solo variables y botones -->
-<link rel="stylesheet" href="temas/dutti/_variables.css">
-<link rel="stylesheet" href="temas/dutti/_buttons.css">
+<link rel="stylesheet" href="themes/dutti/_variables.css">
+<link rel="stylesheet" href="themes/dutti/_buttons.css">
 ```
 
 ## 📁 Estructura de Archivos
@@ -310,7 +310,7 @@ Todos los componentes son responsive por defecto. Puedes usar las clases respons
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario con Dutti</title>
   <link rel="stylesheet" href="dist/output.css">
-  <link rel="stylesheet" href="temas/dutti/theme.css">
+  <link rel="stylesheet" href="themes/dutti/theme.css">
 </head>
 <body>
   <form>
@@ -353,11 +353,11 @@ Abre `demo.html` en tu navegador para ver todos los componentes en acción:
 
 ```bash
 # Si estás en la raíz del proyecto
-open temas/dutti/demo.html
+open themes/dutti/demo.html
 
 # O con el servidor de desarrollo
 npm run serve
-# Luego navega a: http://localhost:5000/temas/dutti/demo.html
+# Luego navega a: http://localhost:5000/themes/dutti/demo.html
 ```
 
 ## 🔧 Compatibilidad

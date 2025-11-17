@@ -13,7 +13,7 @@ const watchProcess = spawn('node', [path.join(__dirname, 'watch.js')], {
 
 // Esperar un momento para que watch genere los archivos inicialmente
 setTimeout(() => {
-  const port = process.env.PORT || '5000';
+  const port = process.env.PORT || '8080';
   console.log(`\n🌐 Iniciando servidor HTTP en http://localhost:${port}\n`);
   console.log('💡 Los archivos se regenerarán automáticamente cuando cambies config.json\n');
   console.log('💡 Recarga el navegador (Cmd+Shift+R o Ctrl+Shift+R) para ver los cambios\n');

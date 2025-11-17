@@ -64,11 +64,91 @@ function writeFile(filePath, content, description) {
   }
 }
 
+// Copia un directorio recursivamente
+// Copia todos los archivos y subdirectorios desde sourceDir a targetDir
+function copyDirectory(sourceDir, targetDir) {
+  try {
+    // Crear directorio destino si no existe
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
+    }
+
+    // Leer contenido del directorio fuente
+    const entries = fs.readdirSync(sourceDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const sourcePath = path.join(sourceDir, entry.name);
+      const targetPath = path.join(targetDir, entry.name);
+
+      if (entry.isDirectory()) {
+        // Si es un directorio, copiar recursivamente
+        copyDirectory(sourcePath, targetPath);
+      } else {
+        // Si es un archivo, copiarlo
+        fs.copyFileSync(sourcePath, targetPath);
+      }
+    }
+  } catch (error) {
+    console.error(`❌ Error al copiar directorio de ${sourceDir} a ${targetDir}:`, error.message);
+    throw error;
+  }
+}
+
+// Combina todos los archivos CSS de un tema en un solo archivo
+// Lee el theme.css principal y resuelve todos los @import
+function combineThemeCSS(themeDir) {
+  try {
+    const themeCSSPath = path.join(themeDir, 'theme.css');
+    
+    if (!fs.existsSync(themeCSSPath)) {
+      throw new Error(`No se encontró theme.css en ${themeDir}`);
+    }
+
+    let combinedCSS = '';
+    const themeContent = fs.readFileSync(themeCSSPath, 'utf8');
+    
+    // Procesar cada línea del theme.css
+    const lines = themeContent.split('\n');
+    
+    for (const line of lines) {
+      // Buscar @import
+      const importMatch = line.match(/@import\s+url\(['"]?([^'"]+)['"]?\)/);
+      
+      if (importMatch) {
+        // Resolver la ruta del archivo importado
+        const importPath = importMatch[1];
+        const importedFilePath = path.join(themeDir, importPath);
+        
+        if (fs.existsSync(importedFilePath)) {
+          // Leer el contenido del archivo importado
+          const importedContent = fs.readFileSync(importedFilePath, 'utf8');
+          // Añadir comentario con el nombre del archivo
+          combinedCSS += `\n/* === ${path.basename(importPath)} === */\n`;
+          combinedCSS += importedContent;
+          combinedCSS += '\n';
+        } else {
+          console.warn(`⚠️  Archivo importado no encontrado: ${importedFilePath}`);
+        }
+      } else if (line.trim() && !line.trim().startsWith('/*') && !line.trim().startsWith('*')) {
+        // Si no es un @import ni un comentario, añadirlo tal cual (por si hay otros estilos)
+        combinedCSS += line + '\n';
+      }
+    }
+    
+    return combinedCSS.trim();
+  } catch (error) {
+    console.error(`❌ Error al combinar CSS del tema:`, error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   toKebabCase,
   pxToRem,
   remToPx,
   getFontFamilyName,
-  writeFile
+  writeFile,
+  copyDirectory,
+  combineThemeCSS
 };
 

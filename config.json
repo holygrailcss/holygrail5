@@ -46,6 +46,10 @@
   "spacingImportant": [
     "0"
   ],
+  "theme": {
+    "name": "dutti",
+    "enabled": true
+  },
   "grid": {
     "enabled": true,
     "gutter": "8px",

@@ -3,10 +3,11 @@
 // Orquestador principal - Genera CSS y HTML desde JSON
 
 const path = require('path');
+const fs = require('fs');
 const { loadConfig } = require('./src/config');
 const { generateCSS } = require('./src/parser');
 const { generateHTML } = require('./src/guide');
-const { writeFile } = require('./src/utils');
+const { writeFile, combineThemeCSS } = require('./src/utils');
 
 // Ejecución principal
 if (require.main === module) {
@@ -46,6 +47,25 @@ if (require.main === module) {
     }
     
     writeFile(htmlPath, htmlContent, 'HTML');
+    
+    // Generar tema combinado en dist si está habilitado
+    if (configData.theme && configData.theme.enabled && configData.theme.name) {
+      const themeName = configData.theme.name;
+      const themeSourceDir = path.join(__dirname, 'themes', themeName);
+      const outputDir = path.dirname(outputPath);
+      const themeOutputPath = path.join(outputDir, 'themes', `${themeName}.css`);
+      
+      if (fs.existsSync(themeSourceDir)) {
+        try {
+          const combinedCSS = combineThemeCSS(themeSourceDir);
+          writeFile(themeOutputPath, combinedCSS, `Tema '${themeName}' combinado`);
+        } catch (error) {
+          console.warn(`⚠️  No se pudo generar el tema '${themeName}':`, error.message);
+        }
+      } else {
+        console.warn(`⚠️  El tema '${themeName}' no existe en ${themeSourceDir}`);
+      }
+    }
     
     console.log('\n🎉 Generación completada exitosamente!');
   } catch (error) {
