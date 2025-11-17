@@ -321,6 +321,7 @@
         "0": "0",
         "25": "0.25",
         "50": "0.5",
+        "70": "0.7",
         "75": "0.75",
         "100": "1"
       }
@@ -404,6 +405,92 @@
         "100lvh": "100lvh",
         "100dvh": "100dvh",
         "fit-content": "fit-content"
+      }
+    },
+    "width": {
+      "property": "width",
+      "class": "w",
+      "responsive": true,
+      "description": "Ancho del elemento",
+      "values": {
+        "auto": "auto",
+        "100-percent": "100%",
+        "100vw": "100vw",
+        "50-percent": "50%",
+        "75-percent": "75%",
+        "fit-content": "fit-content",
+        "min-content": "min-content",
+        "max-content": "max-content"
+      }
+    },
+    "margin-x-auto": {
+      "property": "margin",
+      "class": "mx",
+      "responsive": true,
+      "description": "Margin horizontal automático (centrado)",
+      "values": {
+        "auto": "0 auto"
+      }
+    },
+    "margin-left-auto": {
+      "property": "margin-left",
+      "class": "ml",
+      "responsive": true,
+      "description": "Margin izquierdo automático (alinear derecha)",
+      "values": {
+        "auto": "auto"
+      }
+    },
+    "margin-right-auto": {
+      "property": "margin-right",
+      "class": "mr",
+      "responsive": true,
+      "description": "Margin derecho automático (alinear izquierda)",
+      "values": {
+        "auto": "auto"
+      }
+    },
+    "flex-shorthand": {
+      "property": "flex",
+      "class": "flex",
+      "responsive": true,
+      "description": "Shortcuts comunes de flex",
+      "values": {
+        "1": "1 1 0%",
+        "auto": "1 1 auto",
+        "initial": "0 1 auto",
+        "none": "none"
+      }
+    },
+    "flex-basis": {
+      "property": "flex-basis",
+      "class": "basis",
+      "responsive": true,
+      "description": "Tamaño base del elemento flexible",
+      "values": {
+        "auto": "auto",
+        "full": "100%",
+        "0": "0"
+      }
+    },
+    "pointer-events": {
+      "property": "pointer-events",
+      "class": "pointer-events",
+      "responsive": false,
+      "description": "Control de eventos del puntero",
+      "values": {
+        "none": "none",
+        "auto": "auto",
+        "all": "all"
+      }
+    },
+    "flex-wrap-reverse": {
+      "property": "flex-wrap",
+      "class": "flex",
+      "responsive": true,
+      "description": "Envolver en orden inverso",
+      "values": {
+        "wrap-reverse": "wrap-reverse"
       }
     }
 
