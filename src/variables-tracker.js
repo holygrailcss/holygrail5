@@ -176,7 +176,7 @@ function listUnusedVariables(cssPath = null, historicalVarsPath = null) {
   
   if (!fs.existsSync(defaultPath)) {
     console.error(`❌ No se encontró el archivo CSS en: ${defaultPath}`);
-    console.log('💡 Ejecuta primero: node generator.js');
+    console.log('💡 Ejecuta primero: npm run build');
     return [];
   }
   
@@ -216,7 +216,7 @@ function showVariablesReport(cssPath = null, historicalVarsPath = null) {
       console.log(`\n✅ Todas las variables están en uso`);
     }
   } else {
-    console.log(`\n⚠️  No se encontró el archivo CSS. Ejecuta primero: node generator.js`);
+    console.log(`\n⚠️  No se encontró el archivo CSS. Ejecuta primero: npm run build`);
   }
   
   // Mostrar variables históricas

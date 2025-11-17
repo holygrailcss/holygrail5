@@ -20,7 +20,7 @@ function showHelp() {
 📦 Gestor de Variables CSS
 
 Uso:
-  node src/cli-variables.js <comando> [opciones]
+  node src/variables-cli.js <comando> [opciones]
 
 Comandos:
   list                    Lista todas las variables no usadas
@@ -34,11 +34,11 @@ Opciones:
   --history=<ruta>         Ruta al archivo de variables históricas (por defecto: .data/.historical-variables.json)
 
 Ejemplos:
-  node src/cli-variables.js list
-  node src/cli-variables.js report
-  node src/cli-variables.js remove --hg-typo-font-size-18
-  node src/cli-variables.js remove-all-unused
-  node src/cli-variables.js show-all
+  node src/variables-cli.js list
+  node src/variables-cli.js report
+  node src/variables-cli.js remove --hg-typo-font-size-18
+  node src/variables-cli.js remove-all-unused
+  node src/variables-cli.js show-all
 `);
 }
 
@@ -81,7 +81,7 @@ function main() {
           const varName = args[1];
           if (!varName) {
             console.error('❌ Error: Debes especificar el nombre de la variable a eliminar');
-            console.log('   Ejemplo: node src/cli-variables.js remove --hg-typo-font-size-18');
+            console.log('   Ejemplo: node src/variables-cli.js remove --hg-typo-font-size-18');
             process.exit(1);
           }
           
@@ -103,7 +103,7 @@ function main() {
             console.log(`\n⚠️  Eliminando ${unused.length} variables no usadas del historial...\n`);
             const removedCount = removeVariablesFromHistory(unused, historyPath);
             console.log(`✅ ${removedCount} variables eliminadas del historial\n`);
-            console.log('💡 Ejecuta "node generator.js" para regenerar el CSS sin estas variables\n');
+            console.log('💡 Ejecuta "npm run build" para regenerar el CSS sin estas variables\n');
           }
         }
         break;
