@@ -2,17 +2,17 @@
   "name": "holygrail5",
   "version": "1.0.8",
   "description": "Framework CSS generator con Node.js - Genera CSS optimizado con variables CSS desde un archivo JSON de configuración",
-  "main": "generator.js",
+  "main": "generate-css.js",
   "bin": {
-    "holygrail5": "./generator.js"
+    "holygrail5": "./generate-css.js"
   },
   "scripts": {
-    "build": "node generator.js",
-    "dev": "node src/dev.js",
+    "build": "node generate-css.js",
+    "dev": "node src/dev-server.js",
     "test": "node tests/run-all.js",
     "prepublishOnly": "npm run build",
-    "vars:report": "node src/cli-variables.js report",
-    "vars:remove-unused": "node src/cli-variables.js remove-all-unused"
+    "vars:report": "node src/variables-cli.js report",
+    "vars:remove-unused": "node src/variables-cli.js remove-all-unused"
   },
   "keywords": [
     "css",
@@ -31,7 +31,7 @@
     "url": "https://github.com/holygrailcss/holygrail5.git"
   },
   "files": [
-    "generator.js",
+    "generate-css.js",
     "config.json",
     "README.md",
     "src/**/*",

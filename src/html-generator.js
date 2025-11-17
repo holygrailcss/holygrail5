@@ -3,8 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { pxToRem, remToPx, getFontFamilyName } = require('./utils');
-const { buildValueMap } = require('./parser');
+const { pxToRem, remToPx, getFontFamilyName } = require('./helpers');
+const { buildValueMap } = require('./css-generator');
 
 // Lee los valores anteriores guardados en un archivo JSON
 function loadPreviousValues(previousValuesPath) {
@@ -238,11 +238,11 @@ function generateHTML(configData, previousValuesPath = null) {
     buildValueMap(configData.classes, configData.fontFamilyMap, prefix, category);
   
   // Generar variables de spacing
-  const { generateSpacingVariables } = require('./parser');
+  const { generateSpacingVariables } = require('./css-generator');
   const spacingVars = generateSpacingVariables(configData.spacingMap, prefix, baseFontSize);
   
   // Generar variables de colores
-  const { generateColorVariables } = require('./parser');
+  const { generateColorVariables } = require('./css-generator');
   const colorVars = generateColorVariables(configData.colors, prefix);
   
   // Construir array de variables (incluyendo spacing y colores)

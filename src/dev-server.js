@@ -6,7 +6,7 @@ const path = require('path');
 console.log('🚀 Iniciando modo desarrollo...\n');
 
 // Iniciar watch en background
-const watchProcess = spawn('node', [path.join(__dirname, 'watch.js')], {
+const watchProcess = spawn('node', [path.join(__dirname, 'watch-config.js')], {
   stdio: 'inherit',
   shell: true
 });

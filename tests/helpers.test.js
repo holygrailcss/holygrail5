@@ -1,6 +1,6 @@
 // Tests para utilidades
 
-const { toKebabCase, pxToRem, remToPx, getFontFamilyName } = require('../src/utils');
+const { toKebabCase, pxToRem, remToPx, getFontFamilyName } = require('../src/helpers');
 
 // Tests básicos
 console.log('🧪 Ejecutando tests de utilidades...\n');

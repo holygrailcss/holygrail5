@@ -10,7 +10,7 @@ const {
   removeVariableFromHistory,
   removeVariablesFromHistory,
   loadHistoricalVariables
-} = require('./variables-manager');
+} = require('./variables-tracker');
 
 const path = require('path');
 

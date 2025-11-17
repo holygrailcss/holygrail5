@@ -4,10 +4,10 @@
 
 const path = require('path');
 const fs = require('fs');
-const { loadConfig } = require('./src/config');
-const { generateCSS } = require('./src/parser');
-const { generateHTML } = require('./src/guide');
-const { writeFile, combineThemeCSS } = require('./src/utils');
+const { loadConfig } = require('./src/config-loader');
+const { generateCSS } = require('./src/css-generator');
+const { generateHTML } = require('./src/html-generator');
+const { writeFile, combineThemeCSS } = require('./src/helpers');
 
 // Ejecución principal
 if (require.main === module) {

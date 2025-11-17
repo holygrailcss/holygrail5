@@ -2,8 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { generateCSS, buildValueMap } = require('../src/parser');
-const { loadConfig } = require('../src/config');
+const { generateCSS, buildValueMap } = require('../src/css-generator');
+const { loadConfig } = require('../src/config-loader');
 
 console.log('🧪 Ejecutando tests de parseador...\n');
 

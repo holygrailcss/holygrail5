@@ -3,8 +3,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { toKebabCase, pxToRem, getFontFamilyName } = require('./utils');
-const { BREAKPOINTS } = require('./config');
+const { toKebabCase, pxToRem, getFontFamilyName } = require('./helpers');
+const { BREAKPOINTS } = require('./config-loader');
 
 // Lista de propiedades de tipografía que se procesan
 const PROPERTIES = ['fontFamily', 'fontWeight', 'fontSize', 'lineHeight', 'letterSpacing', 'textTransform'];

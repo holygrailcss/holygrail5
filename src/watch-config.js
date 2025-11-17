@@ -2,10 +2,10 @@
 
 const fs = require('fs');
 const path = require('path');
-const { loadConfig } = require('./config');
-const { generateCSS } = require('./parser');
-const { generateHTML } = require('./guide');
-const { writeFile } = require('./utils');
+const { loadConfig } = require('./config-loader');
+const { generateCSS } = require('./css-generator');
+const { generateHTML } = require('./html-generator');
+const { writeFile } = require('./helpers');
 
 // Función para generar CSS y HTML
 function generateFiles(configPath, outputPath, htmlPath) {

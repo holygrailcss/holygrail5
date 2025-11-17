@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { loadConfig } = require('../src/config');
+const { loadConfig } = require('../src/config-loader');
 
 console.log('🧪 Ejecutando tests de configuración...\n');
 
