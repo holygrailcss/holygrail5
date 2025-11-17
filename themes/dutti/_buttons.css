@@ -9,10 +9,10 @@
   align-items: center;
   justify-content: center;
   gap: var(--hg-spacing-8);
-  font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height);
+  font-family: var(--hg-typo-font-family-primary);
+  font-size: var(--hg-typo-font-size-13);
+  font-weight: var(--hg-typo-font-weight-400);
+  line-height: var(--hg-typo-line-height-1-5);
   text-decoration: none;
   border: var(--border-width) var(--border-style) transparent;
   border-radius: var(--border-radius);
@@ -38,17 +38,17 @@
 /* Tamaños de botones */
 .btn-sm {
   padding: var(--btn-padding-y-sm) var(--btn-padding-x-sm);
-  font-size: var(--font-size-sm);
+  font-size: var(--hg-typo-font-size-12);
 }
 
 .btn-md {
   padding: var(--btn-padding-y-md) var(--btn-padding-x-md);
-  font-size: var(--font-size-base);
+  font-size: var(--hg-typo-font-size-13);
 }
 
 .btn-lg {
   padding: var(--btn-padding-y-lg) var(--btn-padding-x-lg);
-  font-size: var(--font-size-lg);
+  font-size: var(--hg-typo-font-size-14);
 }
 
 /* Variantes de botones */

@@ -55,10 +55,10 @@
 }
 
 .radio-label {
-  font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height);
+  font-family: var(--hg-typo-font-family-primary);
+  font-size: var(--hg-typo-font-size-13);
+  font-weight: var(--hg-typo-font-weight-400);
+  line-height: var(--hg-typo-line-height-1-5);
   color: var(--label-color);
 }
 

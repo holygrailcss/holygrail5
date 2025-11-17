@@ -66,14 +66,7 @@
   
   --form-group-gap: var(--hg-spacing-16);
   
-  /* Tipografía - usando variables de HolyGrail5 */
-  --font-family: var(--hg-typo-font-family-primary);
-  --font-size-base: var(--hg-typo-font-size-13);
-  --font-size-sm: var(--hg-typo-font-size-12);
-  --font-size-lg: var(--hg-typo-font-size-14);
-  --font-weight-normal: var(--hg-typo-font-weight-400);
-  --font-weight-bold: var(--hg-typo-font-weight-700);
-  --line-height: var(--hg-typo-line-height-1-5);
+  /* Tipografía - se usan directamente las variables de HolyGrail5 */
   
   /* Bordes y radios */
   --border-radius: 0;
