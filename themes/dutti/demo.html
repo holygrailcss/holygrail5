@@ -9,12 +9,11 @@
   <style>
     body {
       padding: var(--hg-spacing-32);
-      background-color: var(--hg-color-bg-light);
+
       font-family: var(--hg-typo-font-family-primary);
     }
     
     .demo-container {
-      max-width: 1200px;
       margin: 0 auto;
       background-color: var(--hg-color-white);zz
       padding: var(--hg-spacing-32);
@@ -34,6 +33,7 @@
       margin-block-end: var(--hg-spacing-24);
       padding-block-end: var(--hg-spacing-16);
       border-bottom: 2px solid var(--hg-color-primary);
+      padding-top: var(--hg-spacing-32);
     }
     
     .demo-subtitle {
@@ -57,8 +57,9 @@
     }
     
     .demo-code {
-      background-color: var(--hg-color-black);
-      color: var(--hg-color-white);
+      border-radius: 4px;
+      background-color: #24292e;
+      color: #00ff31;
       padding: var(--hg-spacing-16);
       font-family: monospace;
       font-size: var(--hg-typo-font-size-12);
@@ -73,33 +74,30 @@
     <p class="text-m">Componentes de UI basados en variables CSS de HolyGrail5</p>
     
     <!-- BOTONES -->
-    <section class="demo-section">
+    <section class="demo-section" id="buttons">
       <h2 class="demo-title">Botones</h2>
       
       <h3 class="demo-subtitle">Variantes</h3>
       <div class="demo-grid">
         <div class="demo-item">
-          <button class="btn btn-primary btn-md">Primary</button>
+          <button class="btn btn-primary">Primary</button>
           <div class="demo-code">.btn .btn-primary</div>
         </div>
         <div class="demo-item">
-          <button class="btn btn-secondary btn-md">Secondary</button>
+          <button class="btn btn-secondary">Secondary</button>
           <div class="demo-code">.btn .btn-secondary</div>
         </div>
         <div class="demo-item">
-          <button class="btn btn-outline btn-md">Outline</button>
-          <div class="demo-code">.btn .btn-outline</div>
+          <button class="btn btn-tertiary">Tertiary</button>
+          <div class="demo-code">.btn .btn-tertiary</div>
         </div>
         <div class="demo-item">
-          <button class="btn btn-ghost btn-md">Ghost</button>
-          <div class="demo-code">.btn .btn-ghost</div>
+          <button class="btn btn-link">Link</button>
+          <div class="demo-code">.btn .btn-link</div>
         </div>
+
         <div class="demo-item">
-          <button class="btn btn-feel btn-md">Feel</button>
-          <div class="demo-code">.btn .btn-feel</div>
-        </div>
-        <div class="demo-item">
-          <button class="btn btn-primary btn-md" disabled>Disabled</button>
+          <button class="btn btn-primary" disabled>Disabled</button>
           <div class="demo-code">.btn[disabled]</div>
         </div>
       </div>
@@ -128,7 +126,7 @@
     </section>
     
     <!-- INPUTS -->
-    <section class="demo-section">
+    <section class="demo-section" id="inputs">
       <h2 class="demo-title">Inputs</h2>
       
       <h3 class="demo-subtitle">Tipos básicos</h3>
@@ -238,7 +236,7 @@
     </section>
     
     <!-- CHECKBOXES -->
-    <section class="demo-section">
+    <section class="demo-section" id="checkboxes">
       <h2 class="demo-title">Checkboxes</h2>
       
       <div class="demo-grid">
@@ -270,7 +268,7 @@
     </section>
     
     <!-- RADIOS -->
-    <section class="demo-section">
+    <section class="demo-section" id="radios">
       <h2 class="demo-title">Radios</h2>
       
       <div class="demo-grid">
@@ -309,7 +307,7 @@
     </section>
     
     <!-- SWITCHES -->
-    <section class="demo-section">
+    <section class="demo-section" id="switches">
       <h2 class="demo-title">Switches / Toggles</h2>
       
       <div class="demo-grid">
@@ -341,7 +339,7 @@
     </section>
     
     <!-- FORM GROUPS -->
-    <section class="demo-section">
+    <section class="demo-section" id="forms">
       <h2 class="demo-title">Form Groups</h2>
       
       <div class="demo-item">

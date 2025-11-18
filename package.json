@@ -9,9 +9,9 @@
   "scripts": {
     "build": "node generate-css.js && node copy-theme-html.js",
     "copy-theme-html": "node copy-theme-html.js",
-    "start": "npm run build && open http://localhost:3000 && npx serve dist -l 3000",
-    "serve": "npx serve dist -l 3000",
-
+    "serve": "open http://localhost:3000 && npx serve dist -l 3000",
+    "start": "npm run build && npm run serve",
+    "dev": "npm run serve",
     "test": "node tests/run-all.js",
     "prepublishOnly": "npm run build",
     "vars:report": "node src/variables-cli.js report",

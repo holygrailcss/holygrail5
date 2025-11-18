@@ -1807,8 +1807,14 @@ function generateHTML(configData, previousValuesPath = null) {
     // Manejar clic en menú
     menuItems.forEach(item => {
       item.addEventListener('click', (e) => {
-        e.preventDefault();
         const targetId = item.getAttribute('data-section');
+        
+        // Si no tiene data-section, es un enlace externo, permitir navegación normal
+        if (!targetId) {
+          return;
+        }
+        
+        e.preventDefault();
         const targetSection = document.getElementById(targetId);
         
         if (targetSection) {
