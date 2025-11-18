@@ -53,12 +53,28 @@ if (require.main === module) {
       const themeName = configData.theme.name;
       const themeSourceDir = path.join(__dirname, 'themes', themeName);
       const outputDir = path.dirname(outputPath);
-      const themeOutputPath = path.join(outputDir, 'themes', `${themeName}.css`);
+      const themeOutputDir = path.join(outputDir, 'themes');
+      const themeOutputPath = path.join(themeOutputDir, `${themeName}.css`);
       
       if (fs.existsSync(themeSourceDir)) {
         try {
+          // Asegurar que el directorio de temas existe
+          if (!fs.existsSync(themeOutputDir)) {
+            fs.mkdirSync(themeOutputDir, { recursive: true });
+          }
+          
+          // Generar CSS combinado del tema
           const combinedCSS = combineThemeCSS(themeSourceDir);
           writeFile(themeOutputPath, combinedCSS, `Tema '${themeName}' combinado`);
+          
+          // Copiar demo.html si existe
+          const demoHtmlPath = path.join(themeSourceDir, 'demo.html');
+          
+          if (fs.existsSync(demoHtmlPath)) {
+            const demoOutputPath = path.join(themeOutputDir, `${themeName}-demo.html`);
+            fs.copyFileSync(demoHtmlPath, demoOutputPath);
+            console.log(`✅ Demo HTML copiado: ${themeName}-demo.html`);
+          }
         } catch (error) {
           console.warn(`⚠️  No se pudo generar el tema '${themeName}':`, error.message);
         }

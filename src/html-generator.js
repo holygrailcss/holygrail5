@@ -1312,6 +1312,15 @@ function generateHTML(configData, previousValuesPath = null) {
         <a href="#${item.id}" class="guide-menu-item" data-section="${item.id}">${item.label}</a>
       `).join('');
       
+      // Añadir enlace al demo del tema si está habilitado
+      const themeDemoLink = (configData.theme && configData.theme.enabled && configData.theme.name) 
+        ? `
+      <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
+      
+        <a href="themes/${configData.theme.name}-demo.html" class="guide-menu-item" style="color: #0066cc; font-weight: 600;">🎨 Demo Tema ${configData.theme.name.charAt(0).toUpperCase() + configData.theme.name.slice(1)}</a>
+      `
+        : '';
+      
       return `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1349,6 +1358,7 @@ function generateHTML(configData, previousValuesPath = null) {
 
     <nav class="guide-sidebar-nav">
       ${menuHTML}
+      ${themeDemoLink}
     </nav>
     
     <div class="guide-sidebar-footer">
