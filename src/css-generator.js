@@ -10,9 +10,9 @@ const {
 const { 
   buildValueMap, 
   generateTypographyBlock 
-} = require('./generators/typography-generator');
+} = require('./generators/typo-generator');
 const { generateSpacingHelpers } = require('./generators/spacing-generator');
-const { generateLayoutHelpers } = require('./generators/layout-generator');
+const { generateLayoutHelpers } = require('./generators/helpers-generator');
 const { generateGridSystem } = require('./generators/grid-generator');
 
 /**

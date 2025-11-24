@@ -1,6 +1,6 @@
 // Tests para generador de guía HTML
 
-const { generateHTML } = require('../src/html-generator');
+const { generateHTML } = require('../src/docs-generator/html-generator');
 const { loadConfig } = require('../src/config-loader');
 
 console.log('🧪 Ejecutando tests de generador de guía...\n');

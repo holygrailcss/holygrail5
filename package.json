@@ -14,8 +14,8 @@
     "dev": "npm run serve",
     "test": "node tests/run-all.js",
     "prepublishOnly": "npm run build",
-    "vars:report": "node src/variables-cli.js report",
-    "vars:remove-unused": "node src/variables-cli.js remove-all-unused"
+    "vars:report": "node src/docs-generator/variables-cli.js report",
+    "vars:remove-unused": "node src/docs-generator/variables-cli.js remove-all-unused"
   },
   "keywords": [
     "css",

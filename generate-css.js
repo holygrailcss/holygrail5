@@ -6,8 +6,8 @@ const path = require('path');
 const fs = require('fs');
 const { loadConfig } = require('./src/config-loader');
 const { generateCSS } = require('./src/css-generator');
-const { generateHTML } = require('./src/html-generator');
-const { writeFile, combineThemeCSS } = require('./src/helpers');
+const { generateHTML } = require('./src/docs-generator/html-generator');
+const { writeFile, combineThemeCSS } = require('./src/generators/utils');
 
 // Ejecución principal
 if (require.main === module) {

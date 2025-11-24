@@ -3,7 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { pxToRem } = require('../helpers');
+const { pxToRem } = require('./utils');
 
 /**
  * Carga las variables CSS históricas guardadas previamente

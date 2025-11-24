@@ -2,7 +2,7 @@
 // Maneja la creación de clases de tipografía y sus variables
 
 const path = require('path');
-const { toKebabCase, pxToRem, getFontFamilyName } = require('../helpers');
+const { toKebabCase, pxToRem, getFontFamilyName } = require('./utils');
 const { BREAKPOINTS } = require('../config-loader');
 const { loadHistoricalVariables, saveHistoricalVariables } = require('./variables-generator');
 

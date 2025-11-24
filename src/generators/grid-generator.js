@@ -1,7 +1,7 @@
 // Generador de Grid System
 // Genera el sistema de grid (row y columnas)
 
-const { pxToRem } = require('../helpers');
+const { pxToRem } = require('./utils');
 
 /**
  * Genera el sistema de grid (row y columnas)
@@ -13,15 +13,13 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
   }
 
   // Validar que existan los valores necesarios
-  if (!gridConfig.gutter || !gridConfig.breakpoints || !gridConfig.columnsXs || !gridConfig.columnsXl) {
-    throw new Error('La configuración del grid debe incluir: gutter, breakpoints, columnsXs y columnsXl');
+  if (!gridConfig.gutter || !gridConfig.breakpoints) {
+    throw new Error('La configuración del grid debe incluir: gutter y breakpoints');
   }
 
   const gutter = gridConfig.gutter;
   const gutterValue = gutter;
   const breakpoints = gridConfig.breakpoints;
-  const columnsXs = gridConfig.columnsXs;
-  const columnsXl = gridConfig.columnsXl;
 
   // Función helper para convertir breakpoints a rem de forma consistente
   const breakpointToRem = (value) => {
@@ -42,9 +40,10 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
 }\n\n`;
 
   // Genera .row para cada breakpoint
-  Object.entries(breakpoints).forEach(([name, value]) => {
+  Object.entries(breakpoints).forEach(([name, config]) => {
     if (name !== 'xs') {
-      const remValue = breakpointToRem(value);
+      const minWidth = config.minWidth || config;
+      const remValue = breakpointToRem(minWidth);
       css += `@media (min-width: ${remValue}) {
   .row {
     margin-left: -${gutterValue};
@@ -61,73 +60,22 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
     return percentage.replace(/\.?0+$/, '') || '0';
   };
 
-  // Genera columnas para xs (12 columnas) - convertir a rem
-  const xsBreakpoint = breakpointToRem(breakpoints.xs);
-  css += `@media (min-width: ${xsBreakpoint}) {\n`;
-  for (let i = 1; i <= columnsXs; i++) {
-    const percentage = formatPercentage(i / columnsXs);
-    css += `  .col-xs-${i} {
-    flex: 0 0 ${percentage}%;
-    max-width: ${percentage}%;
-  }\n`;
-  }
-  css += '}\n\n';
-
-  // Genera columnas para sm (12 columnas)
-  if (breakpoints.sm) {
-    const smBreakpoint = breakpointToRem(breakpoints.sm);
-    css += `@media (min-width: ${smBreakpoint}) {\n`;
-    for (let i = 1; i <= columnsXs; i++) {
-      const percentage = formatPercentage(i / columnsXs);
-      css += `  .col-sm-${i} {
+  // Genera columnas para cada breakpoint
+  Object.entries(breakpoints).forEach(([name, config]) => {
+    const minWidth = config.minWidth || config;
+    const columns = config.columns || 12; // Default a 12 columnas si no se especifica
+    const breakpointValue = breakpointToRem(minWidth);
+    
+    css += `@media (min-width: ${breakpointValue}) {\n`;
+    for (let i = 1; i <= columns; i++) {
+      const percentage = formatPercentage(i / columns);
+      css += `  .col-${name}-${i} {
     flex: 0 0 ${percentage}%;
     max-width: ${percentage}%;
   }\n`;
     }
     css += '}\n\n';
-  }
-
-  // Genera columnas para md (12 columnas)
-  if (breakpoints.md) {
-    const mdBreakpoint = breakpointToRem(breakpoints.md);
-    css += `@media (min-width: ${mdBreakpoint}) {\n`;
-    for (let i = 1; i <= columnsXs; i++) {
-      const percentage = formatPercentage(i / columnsXs);
-      css += `  .col-md-${i} {
-    flex: 0 0 ${percentage}%;
-    max-width: ${percentage}%;
-  }\n`;
-    }
-    css += '}\n\n';
-  }
-
-  // Genera columnas para lg (12 columnas)
-  if (breakpoints.lg) {
-    const lgBreakpoint = breakpointToRem(breakpoints.lg);
-    css += `@media (min-width: ${lgBreakpoint}) {\n`;
-    for (let i = 1; i <= columnsXs; i++) {
-      const percentage = formatPercentage(i / columnsXs);
-      css += `  .col-lg-${i} {
-    flex: 0 0 ${percentage}%;
-    max-width: ${percentage}%;
-  }\n`;
-    }
-    css += '}\n\n';
-  }
-
-  // Genera columnas para xl (24 columnas)
-  if (breakpoints.xl) {
-    const xlBreakpoint = breakpointToRem(breakpoints.xl);
-    css += `@media (min-width: ${xlBreakpoint}) {\n`;
-    for (let i = 1; i <= columnsXl; i++) {
-      const percentage = formatPercentage(i / columnsXl);
-      css += `  .col-xl-${i} {
-    flex: 0 0 ${percentage}%;
-    max-width: ${percentage}%;
-  }\n`;
-    }
-    css += '}\n\n';
-  }
+  });
 
   // Genera estilos para todas las columnas
   css += `[class*=col-] {

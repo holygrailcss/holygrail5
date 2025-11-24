@@ -3,8 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { pxToRem, remToPx, getFontFamilyName } = require('./helpers');
-const { buildValueMap } = require('./css-generator');
+const { pxToRem, remToPx, getFontFamilyName } = require('../generators/utils');
+const { buildValueMap } = require('../css-generator');
 
 // Lee los valores anteriores guardados en un archivo JSON
 function loadPreviousValues(previousValuesPath) {
@@ -238,11 +238,11 @@ function generateHTML(configData, previousValuesPath = null) {
     buildValueMap(configData.typo, configData.fontFamilyMap, prefix, category);
   
   // Generar variables de spacing
-  const { generateSpacingVariables } = require('./css-generator');
+  const { generateSpacingVariables } = require('../css-generator');
   const spacingVars = generateSpacingVariables(configData.spacingMap, prefix, baseFontSize);
   
   // Generar variables de colores
-  const { generateColorVariables } = require('./css-generator');
+  const { generateColorVariables } = require('../css-generator');
   const colorVars = generateColorVariables(configData.colors, prefix);
   
   // Construir array de variables (incluyendo spacing y colores)
@@ -1656,41 +1656,18 @@ function generateHTML(configData, previousValuesPath = null) {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="guide-table-name">xs</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.xs}</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.xs.endsWith('px') ? pxToRem(configData.grid.breakpoints.xs, baseFontSize) : '-'}</td>
-                <td class="guide-table-value">${configData.grid.columnsXs}</td>
-                <td class="guide-table-value">.col-xs-1 a .col-xs-${configData.grid.columnsXs}</td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">sm</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.sm}</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.sm.endsWith('px') ? pxToRem(configData.grid.breakpoints.sm, baseFontSize) : '-'}</td>
-                <td class="guide-table-value">${configData.grid.columnsXs}</td>
-                <td class="guide-table-value">.col-sm-1 a .col-sm-${configData.grid.columnsXs}</td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">md</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.md}</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.md.endsWith('px') ? pxToRem(configData.grid.breakpoints.md, baseFontSize) : '-'}</td>
-                <td class="guide-table-value">${configData.grid.columnsXs}</td>
-                <td class="guide-table-value">.col-md-1 a .col-md-${configData.grid.columnsXs}</td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">lg</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.lg}</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.lg.endsWith('px') ? pxToRem(configData.grid.breakpoints.lg, baseFontSize) : '-'}</td>
-                <td class="guide-table-value">${configData.grid.columnsXs}</td>
-                <td class="guide-table-value">.col-lg-1 a .col-lg-${configData.grid.columnsXs}</td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">xl</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.xl}</td>
-                <td class="guide-table-value">${configData.grid.breakpoints.xl.endsWith('px') ? pxToRem(configData.grid.breakpoints.xl, baseFontSize) : '-'}</td>
-                <td class="guide-table-value">${configData.grid.columnsXl}</td>
-                <td class="guide-table-value">.col-xl-1 a .col-xl-${configData.grid.columnsXl}</td>
-              </tr>
+              ${Object.entries(configData.grid.breakpoints).map(([name, config]) => {
+                const minWidth = config.minWidth || config;
+                const columns = config.columns || 12;
+                const remValue = minWidth.endsWith('px') ? pxToRem(minWidth, baseFontSize) : '-';
+                return `<tr>
+                <td class="guide-table-name">${name}</td>
+                <td class="guide-table-value">${minWidth}</td>
+                <td class="guide-table-value">${remValue}</td>
+                <td class="guide-table-value">${columns}</td>
+                <td class="guide-table-value">.col-${name}-1 a .col-${name}-${columns}</td>
+              </tr>`;
+              }).join('\n              ')}
             </tbody>
           </table>
         </div>

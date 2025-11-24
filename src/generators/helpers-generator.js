@@ -1,7 +1,7 @@
 // Generador de Layout Helpers
 // Genera helpers de layout (display, flexbox, alignment, etc.)
 
-const { pxToRem } = require('../helpers');
+const { pxToRem } = require('./utils');
 
 /**
  * Genera helpers de layout (display, flexbox, alignment, etc.)

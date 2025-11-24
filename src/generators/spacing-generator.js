@@ -1,7 +1,7 @@
 // Generador de Spacing Helpers
 // Genera helpers de padding y margin basados en el spacingMap
 
-const { pxToRem } = require('../helpers');
+const { pxToRem } = require('./utils');
 
 /**
  * Genera helpers de padding y margin basados en el spacingMap del config.json
