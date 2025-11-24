@@ -1,6 +1,5 @@
 {
   "prefix": "hg",
-  "category": "typo",
   "fontFamilyMap": {
     "primary": "arial, sans-serif",
     "secondary": "\"ms-serif\", serif"
@@ -183,12 +182,9 @@
       "description": "Alineación horizontal en grid",
       "values": {
         "stretch": "stretch",
-        "start": "flex-start",
-        "end": "flex-end",
-        "center": "center",
-        "between": "space-between",
-        "around": "space-around",
-        "evenly": "space-evenly"
+        "start": "start",
+        "end": "end",
+        "center": "center"
       }
     },
     "align-content": {
@@ -390,8 +386,6 @@
         "max-content": "max-content"
       }
     },
-
-
     "min-height": {
       "property": "min-height",
       "class": "min-h",
@@ -495,7 +489,7 @@
     }
 
   },
-  "classes": {
+  "typo": {
     "h2": {
       "fontFamily": "arial, sans-serif",
       "fontWeight": "900",

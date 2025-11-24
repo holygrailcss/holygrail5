@@ -36,7 +36,7 @@ function generateCSS(configData) {
     letterSpacingVars, 
     textTransformVars, 
     fontSizeVars 
-  } = buildValueMap(configData.classes, configData.fontFamilyMap, prefix, category);
+  } = buildValueMap(configData.typo, configData.fontFamilyMap, prefix, category);
   
   // 2. Genera variables de spacing y colores
   const spacingVars = generateSpacingVariables(configData.spacingMap, prefix, baseFontSize);
@@ -84,7 +84,7 @@ function generateCSS(configData) {
   const mobileTypography = generateTypographyBlock(
     'mobile', 
     configData.breakpoints.mobile, 
-    configData.classes, 
+    configData.typo, 
     valueMap, 
     prefix, 
     category, 
@@ -95,7 +95,7 @@ function generateCSS(configData) {
   const desktopTypography = generateTypographyBlock(
     'desktop', 
     configData.breakpoints.desktop, 
-    configData.classes, 
+    configData.typo, 
     valueMap, 
     prefix, 
     category, 

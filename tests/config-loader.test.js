@@ -13,7 +13,7 @@ try {
   console.log('  - Prefix:', config.prefix || 'hg');
   console.log('  - Category:', config.category || 'typo');
   console.log('  - Base Font Size:', config.baseFontSize || 16);
-  console.log('  - Clases:', Object.keys(config.classes).length);
+  console.log('  - Clases:', Object.keys(config.typo).length);
   console.log('  - Breakpoints:', Object.keys(config.breakpoints).length);
 } catch (error) {
   console.log('❌ Error al cargar configuración:', error.message);
@@ -21,7 +21,7 @@ try {
 
 // Test validación de estructura
 try {
-  const invalidConfig = { classes: {} };
+  const invalidConfig = { typo: {} };
   // Esto debería fallar, pero no podemos testearlo fácilmente sin mockear fs
   console.log('✅ Validación de estructura implementada');
 } catch (error) {

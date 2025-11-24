@@ -13,7 +13,7 @@ try {
   // Test buildValueMap
   console.log('Test buildValueMap:');
   const { fontFamilyVars, fontSizeVars, lineHeightVars } = buildValueMap(
-    config.classes,
+    config.typo,
     config.fontFamilyMap,
     config.prefix || 'hg',
     config.category || 'typo'

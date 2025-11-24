@@ -15,8 +15,8 @@ function loadConfig(configPath = path.join(__dirname, '..', 'config.json')) {
     const config = JSON.parse(configContent);
     
     // Validar estructura básica
-    if (!config.classes || typeof config.classes !== 'object') {
-      throw new Error('La configuración debe tener un objeto "classes"');
+    if (!config.typo || typeof config.typo !== 'object') {
+      throw new Error('La configuración debe tener un objeto "typo"');
     }
     
     if (!config.breakpoints || typeof config.breakpoints !== 'object') {
@@ -28,7 +28,7 @@ function loadConfig(configPath = path.join(__dirname, '..', 'config.json')) {
     }
     
     // Validar clases
-    Object.entries(config.classes).forEach(([className, cls]) => {
+    Object.entries(config.typo).forEach(([className, cls]) => {
       if (!cls || typeof cls !== 'object') {
         throw new Error(`La clase "${className}" debe ser un objeto`);
       }

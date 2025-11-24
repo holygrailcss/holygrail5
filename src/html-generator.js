@@ -127,8 +127,8 @@ function getChangedValues(currentValues, previousValues) {
   }
   
   // Compara cada clase
-  const currentClasses = currentValues.classes || currentValues;
-  const previousClasses = previousValues.classes || previousValues;
+  const currentClasses = currentValues.typo || currentValues;
+  const previousClasses = previousValues.typo || previousValues;
   
   Object.keys(currentClasses).forEach(className => {
     const current = currentClasses[className];
@@ -223,7 +223,7 @@ function getPackageVersion() {
 }
 
 function generateHTML(configData, previousValuesPath = null) {
-  const classNames = Object.keys(configData.classes);
+  const classNames = Object.keys(configData.typo);
   const prefix = configData.prefix || 'hg';
   const category = configData.category || 'typo';
   const baseFontSize = configData.baseFontSize || 16;
@@ -235,7 +235,7 @@ function generateHTML(configData, previousValuesPath = null) {
   
   // Construir variables CSS primero para poder guardarlas
   const { fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars } = 
-    buildValueMap(configData.classes, configData.fontFamilyMap, prefix, category);
+    buildValueMap(configData.typo, configData.fontFamilyMap, prefix, category);
   
   // Generar variables de spacing
   const { generateSpacingVariables } = require('./css-generator');
@@ -266,7 +266,7 @@ function generateHTML(configData, previousValuesPath = null) {
     fontFamilyMap: configData.fontFamilyMap || {},
     spacingMap: configData.spacingMap || {},
     colors: configData.colors || {},
-    classes: {},
+    typo: {},
     variables: {}
   };
   
@@ -276,8 +276,8 @@ function generateHTML(configData, previousValuesPath = null) {
   });
   
   classNames.forEach(className => {
-    const cls = configData.classes[className];
-    currentValues.classes[className] = {
+    const cls = configData.typo[className];
+    currentValues.typo[className] = {
       fontFamily: cls.fontFamily,
       fontWeight: cls.fontWeight,
       letterSpacing: cls.letterSpacing,
@@ -309,7 +309,7 @@ function generateHTML(configData, previousValuesPath = null) {
   
   // Generar tabla de clases
   const tableRows = classNames.map(className => {
-    const cls = configData.classes[className];
+    const cls = configData.typo[className];
     const fontFamilyName = getFontFamilyName(cls.fontFamily, configData.fontFamilyMap);
     
     const fontFamilyChanged = isChanged(className, 'fontFamily');
