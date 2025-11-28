@@ -8,7 +8,7 @@
     ".": {
       "default": "./generate-css.js"
     },
-    "./dist/output.css": "./dist/output.css",
+    "./dist/output": "./dist/output.css",
     "./themes/dutti/variables": "./themes/dutti/_variables.css",
     "./themes/dutti/buttons": "./themes/dutti/_buttons.css",
     "./themes/dutti/checkboxes": "./themes/dutti/_checkboxes.css",
