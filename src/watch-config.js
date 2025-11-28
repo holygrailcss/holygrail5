@@ -1,14 +1,30 @@
 // Modo watch - Detecta cambios en config.json y regenera automáticamente
+// Optimizado con fs.watch, debouncing y verificación de hash
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { loadConfig } = require('./config-loader');
 const { generateCSS } = require('./css-generator');
 const { generateHTML } = require('./docs-generator/html-generator');
 const { writeFile } = require('./generators/utils');
 
+// Constantes
+const DEBOUNCE_DELAY = 300; // ms - tiempo de espera antes de regenerar
+const WATCH_POLL_INTERVAL = 1000; // ms - intervalo de polling como fallback
+
+// Función para calcular hash del archivo (más confiable que timestamp)
+function getFileHash(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    return crypto.createHash('md5').update(content).digest('hex');
+  } catch (error) {
+    return null;
+  }
+}
+
 // Función para generar CSS y HTML
-function generateFiles(configPath, outputPath, htmlPath) {
+function generateFiles(configPath, outputPath, htmlPath, silent = false) {
   try {
     const configData = loadConfig(configPath);
     
@@ -37,42 +53,129 @@ function generateFiles(configPath, outputPath, htmlPath) {
     
     writeFile(htmlPath, htmlContent, 'HTML');
     
-    console.log(`\n🎉 Generación completada exitosamente! (${new Date().toLocaleTimeString('es-ES')})\n`);
+    if (!silent) {
+      console.log(`\n🎉 Generación completada exitosamente! (${new Date().toLocaleTimeString('es-ES')})\n`);
+    }
   } catch (error) {
     console.error('❌ Error:', error.message);
   }
 }
 
-// Función principal de watch
-function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPath = path.join(__dirname, '..', 'dist', 'output.css'), htmlPath = path.join(__dirname, '..', 'dist', 'index.html')) {
-  console.log('👀 Modo watch activado - Monitoreando cambios en config.json...\n');
-  console.log('📝 Presiona Ctrl+C para salir\n');
-  console.log('💡 Tip: Abre otro terminal y ejecuta "npm run serve" para levantar el servidor\n');
+// Función principal de watch optimizada
+function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPath = path.join(__dirname, '..', 'dist', 'output.css'), htmlPath = path.join(__dirname, '..', 'dist', 'index.html'), silent = false) {
+  if (!silent) {
+    console.log('👀 Modo watch activado - Monitoreando cambios en config.json...\n');
+    console.log('📝 Presiona Ctrl+C para salir\n');
+    console.log('💡 Tip: Abre otro terminal y ejecuta "npm run serve" para levantar el servidor\n');
+  }
+  
+  // Verificar que el archivo existe
+  if (!fs.existsSync(configPath)) {
+    console.error(`❌ Error: No se encontró el archivo ${configPath}`);
+    process.exit(1);
+  }
   
   // Generar archivos inicialmente
-  generateFiles(configPath, outputPath, htmlPath);
+  generateFiles(configPath, outputPath, htmlPath, silent);
   
-  // Monitorear cambios en config.json
-  let lastModified = fs.statSync(configPath).mtime.getTime();
+  // Estado del watch
+  let lastHash = getFileHash(configPath);
+  let debounceTimer = null;
+  let watcher = null;
+  let isRegenerating = false;
   
-  fs.watchFile(configPath, { interval: 500 }, (curr, prev) => {
-    const currentModified = curr.mtime.getTime();
-    
-    // Solo regenerar si el archivo realmente cambió
-    if (currentModified !== lastModified) {
-      lastModified = currentModified;
-      console.log('🔄 Detectado cambio en config.json, regenerando...\n');
-      generateFiles(configPath, outputPath, htmlPath);
-      console.log('✨ Archivos actualizados - Recarga el navegador para ver los cambios\n');
+  // Función para regenerar archivos con debouncing
+  function handleFileChange() {
+    // Limpiar timer anterior si existe
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
     }
-  });
+    
+    // Esperar un momento antes de regenerar (debouncing)
+    debounceTimer = setTimeout(() => {
+      const currentHash = getFileHash(configPath);
+      
+      // Solo regenerar si el hash realmente cambió
+      if (currentHash && currentHash !== lastHash && !isRegenerating) {
+        isRegenerating = true;
+        lastHash = currentHash;
+        if (!silent) {
+          console.log('🔄 Detectado cambio en config.json, regenerando...\n');
+        }
+        generateFiles(configPath, outputPath, htmlPath, silent);
+        if (!silent) {
+          console.log('✨ Archivos actualizados - Recarga el navegador para ver los cambios\n');
+        }
+        isRegenerating = false;
+      }
+    }, DEBOUNCE_DELAY);
+  }
   
-  // Manejar cierre del proceso
-  process.on('SIGINT', () => {
-    console.log('\n\n👋 Modo watch detenido');
-    fs.unwatchFile(configPath);
-    process.exit(0);
-  });
+  // Intentar usar fs.watch (más eficiente, event-driven)
+  try {
+    watcher = fs.watch(configPath, { persistent: true }, (eventType, filename) => {
+      // fs.watch puede emitir múltiples eventos, ignorar si no hay filename
+      if (filename && (eventType === 'change' || eventType === 'rename')) {
+        handleFileChange();
+      }
+    });
+    
+    // Manejar errores del watcher
+    watcher.on('error', (error) => {
+      console.warn('⚠️  Error en fs.watch, usando fallback a fs.watchFile:', error.message);
+      // Fallback a watchFile
+      startWatchFileFallback();
+    });
+    
+  } catch (error) {
+    // Si fs.watch falla, usar watchFile como fallback
+    console.warn('⚠️  fs.watch no disponible, usando fs.watchFile como fallback');
+    startWatchFileFallback();
+  }
+  
+  // Función fallback usando fs.watchFile (menos eficiente pero más compatible)
+  function startWatchFileFallback() {
+    // Limpiar watcher anterior si existe
+    if (watcher) {
+      watcher.close();
+    }
+    
+    fs.watchFile(configPath, { interval: WATCH_POLL_INTERVAL }, (curr, prev) => {
+      // Solo procesar si el archivo realmente cambió
+      if (curr.mtime.getTime() !== prev.mtime.getTime()) {
+        handleFileChange();
+      }
+    });
+  }
+  
+  // Manejar cierre del proceso (solo si no es modo silencioso)
+  if (!silent) {
+    function cleanup() {
+      console.log('\n\n👋 Modo watch detenido');
+      
+      // Limpiar timers
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+      }
+      
+      // Cerrar watchers
+      if (watcher) {
+        watcher.close();
+      }
+      
+      // Limpiar watchFile si está activo
+      try {
+        fs.unwatchFile(configPath);
+      } catch (error) {
+        // Ignorar errores al limpiar
+      }
+      
+      process.exit(0);
+    }
+    
+    process.on('SIGINT', cleanup);
+    process.on('SIGTERM', cleanup);
+  }
 }
 
 if (require.main === module) {

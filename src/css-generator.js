@@ -118,7 +118,6 @@ ${desktopTypography}`;
 module.exports = {
   generateCSS,
   buildValueMap,
-  generateResetCSS,
   generateSpacingVariables,
   generateColorVariables
 };

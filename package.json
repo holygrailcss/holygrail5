@@ -24,7 +24,9 @@
   "scripts": {
     "build": "node generate-css.js && npm run copy-theme-html",
     "copy-theme-html": "node copy-theme-html.js",
-    "serve": "open http://localhost:3000 && npx serve dist -l 3000",
+    "watch": "node src/watch-config.js",
+    "serve": "node src/dev-server.js",
+    "dev": "node src/dev-server.js",
     "start": "npm run build && npm run serve",
     "test": "node tests/run-all.js",
     "vars:report": "node src/docs-generator/variables-cli.js report",

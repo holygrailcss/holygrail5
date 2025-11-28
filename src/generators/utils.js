@@ -64,36 +64,6 @@ function writeFile(filePath, content, description) {
   }
 }
 
-// Copia un directorio recursivamente
-// Copia todos los archivos y subdirectorios desde sourceDir a targetDir
-function copyDirectory(sourceDir, targetDir) {
-  try {
-    // Crear directorio destino si no existe
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
-    }
-
-    // Leer contenido del directorio fuente
-    const entries = fs.readdirSync(sourceDir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      const sourcePath = path.join(sourceDir, entry.name);
-      const targetPath = path.join(targetDir, entry.name);
-
-      if (entry.isDirectory()) {
-        // Si es un directorio, copiar recursivamente
-        copyDirectory(sourcePath, targetPath);
-      } else {
-        // Si es un archivo, copiarlo
-        fs.copyFileSync(sourcePath, targetPath);
-      }
-    }
-  } catch (error) {
-    console.error(`❌ Error al copiar directorio de ${sourceDir} a ${targetDir}:`, error.message);
-    throw error;
-  }
-}
-
 // Combina todos los archivos CSS de un tema en un solo archivo
 // Lee el theme.css principal y resuelve todos los @import
 function combineThemeCSS(themeDir) {
@@ -148,7 +118,6 @@ module.exports = {
   remToPx,
   getFontFamilyName,
   writeFile,
-  copyDirectory,
   combineThemeCSS
 };
 
