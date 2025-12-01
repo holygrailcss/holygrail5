@@ -9,14 +9,7 @@
       "default": "./generate-css.js"
     },
     "./dist/output": "./dist/output.css",
-    "./themes/dutti/variables": "./themes/dutti/_variables.css",
-    "./themes/dutti/buttons": "./themes/dutti/_buttons.css",
-    "./themes/dutti/checkboxes": "./themes/dutti/_checkboxes.css",
-    "./themes/dutti/forms": "./themes/dutti/_forms.css",
-    "./themes/dutti/inputs": "./themes/dutti/_inputs.css",
-    "./themes/dutti/labels": "./themes/dutti/_labels.css",
-    "./themes/dutti/radios": "./themes/dutti/_radios.css",
-    "./themes/dutti/switches": "./themes/dutti/_switches.css"
+    "./dist/dutti": "./dist/themes/dutti.css"
   },
   "bin": {
     "holygrail5": "./generate-css.js"

@@ -4,7 +4,6 @@ node_modules/
 # Archivos generados
 output.css
 index.html
-dist/
 
 # Archivos de estado y datos
 .data/
@@ -29,7 +28,6 @@ yarn-error.log*
 # Directorios temporales
 .npm
 .cache
-dist/
 build/
 
 # IDE
