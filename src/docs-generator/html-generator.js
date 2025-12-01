@@ -483,6 +483,7 @@ function generateHTML(configData, previousValuesPath = null) {
 
     .guide-table th {
       padding: 0.75rem;
+      padding-left: 0;
       text-align: left;
       font-weight: 600;
       font-size: 0.75rem;
@@ -490,12 +491,14 @@ function generateHTML(configData, previousValuesPath = null) {
       border-bottom: 1px solid #ddd;
       position: sticky;
       top: 0;
-      background: #dcdcdc;
+      color: #919191;
+   
       z-index: 10;
     }
 
     .guide-table td {
       padding: 0.75rem;
+       padding-left: 0;
       border-bottom: 1px solid #efefef;
       vertical-align: middle;
     }
@@ -1027,9 +1030,10 @@ function generateHTML(configData, previousValuesPath = null) {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: #f5f5f5;
+      background: white;
+  
       padding: 1rem;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #efefef;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1063,14 +1067,14 @@ function generateHTML(configData, previousValuesPath = null) {
       font-weight: 700;
       padding-top: 6rem;
       padding-bottom: 2rem;
-      padding-left: 1rem;
+
       letter-spacing: -0.02em;
     }
 
 
 
     .guide-section-content > .guide-table-wrapper {
-      margin-inline: -1rem;
+   
     }
 
     .guide-section.guide-section--highlighted {

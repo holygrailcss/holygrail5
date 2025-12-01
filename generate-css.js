@@ -84,4 +84,5 @@ if (require.main === module) {
 }
 
 // Exportar funciones
-module.exports = { generateCSS, generateHTML };
+// Nota: generateHTML se exporta desde src/docs-generator/html-generator.js
+module.exports = { generateCSS };
