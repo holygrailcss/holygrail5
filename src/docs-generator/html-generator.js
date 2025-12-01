@@ -496,7 +496,7 @@ function generateHTML(configData, previousValuesPath = null) {
 
     .guide-table td {
       padding: 0.75rem;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid #efefef;
       vertical-align: middle;
     }
 
@@ -616,7 +616,7 @@ function generateHTML(configData, previousValuesPath = null) {
 
     .guide-color-card {
       background: white;
-      border: 1px solid #e0e0e0;
+      border: 1px solid #efefef;
       border-radius: 8px;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -655,7 +655,7 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-copyable:active {
-      background-color: #e0e0e0;
+      background-color: #efefef;
     }
 
     /* Estilos para helpers de layout */
@@ -674,7 +674,7 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-color-preview {
       width: 100%;
       height: 120px;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid #efefef;
       position: relative;
       background-color: var(--color-value);
     }
@@ -744,7 +744,7 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-search-input {
       width: 100%;
       padding: 0.75rem 1rem 0.75rem 2.75rem;
-      border: 2px solid #e0e0e0;
+      border: 2px solid #efefef;
       border-radius: 8px;
       font-size: 1rem;
       outline: none;
@@ -763,6 +763,17 @@ function generateHTML(configData, previousValuesPath = null) {
       color: #999;
       pointer-events: none;
     }
+      .guide-logo{
+      width: 234px;
+    
+      font-size: 24px;
+      font-weight: 700;
+      color: #000;
+      text-transform: uppercase;
+
+      line-height: 1;
+
+      }
 
     .guide-clear-search-btn {
       position: absolute;
@@ -789,7 +800,8 @@ function generateHTML(configData, previousValuesPath = null) {
     /* Estilos para secciones */
     .guide-section-description {
       margin-top: 1rem;
-      letter-spacing: 0;
+ 	font-size: 18px;
+	line-height: 26px;
     }
 
     /* Estilos para info boxes */
@@ -887,27 +899,28 @@ function generateHTML(configData, previousValuesPath = null) {
       font-family: var(--${prefix}-${category}-font-family-primary);
       margin: 0;
       padding: 0;
-      display: flex;
+     
     }
     
     .guide-sidebar {
       position: fixed;
       left: 0;
-      top: 0;
+      top: 80px;
       width: 250px;
-      height: 100vh;
+      height: calc(100vh - 80px);
       background: white;
-      border-right: 1px solid #e0e0e0;
+      border-right: 1px solid #efefef;
       padding: 2rem 0;
       padding-bottom: 120px;
       overflow-y: auto;
       z-index: 100;
-      box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+      padding-left  200px
+
     }
     
     .guide-sidebar-header {
       padding: 0 1.5rem 2rem 1.5rem;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid #efefef;
       margin-bottom: 1rem;
     }
     
@@ -919,7 +932,7 @@ function generateHTML(configData, previousValuesPath = null) {
     }
     
     .guide-sidebar-nav {
-      padding: 0 1rem;
+      padding: 0 ;
     }
 
     .guide-sidebar-footer {
@@ -928,7 +941,7 @@ function generateHTML(configData, previousValuesPath = null) {
       left: 0;
       right: 0;
       padding: 1rem 1.5rem .5rem 1.5rem;
-      border-top: 1px solid #e0e0e0;
+      border-top: 1px solid #efefef;
       background: white;
     }
 
@@ -950,7 +963,7 @@ function generateHTML(configData, previousValuesPath = null) {
       margin-bottom: 0.25rem;
       color: #666;
       text-decoration: none;
-      border-radius: 6px;
+
       transition: all 0.2s ease;
       font-size: 0.875rem;
       font-weight: 500;
@@ -980,7 +993,7 @@ function generateHTML(configData, previousValuesPath = null) {
       left: 1rem;
       z-index: 101;
       background: white;
-      border: 1px solid #e0e0e0;
+      border: 1px solid #efefef;
       padding: 0.5rem 0.75rem;
       border-radius: 4px;
       cursor: pointer;
@@ -1010,12 +1023,16 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-header {
+    height: 80px;
       position: sticky;
       top: 0;
       z-index: 50;
       background: #f5f5f5;
       padding: 1rem;
-      border-bottom: 2px solid #000;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .guide-header h1 {
@@ -1028,6 +1045,12 @@ function generateHTML(configData, previousValuesPath = null) {
       margin: 1rem 0 0 0;
       opacity: 0.7;
     }
+      .guide-container{
+      
+	padding-right: 40px;
+	width: 1236px;
+	margin: 0 auto;
+      }
 
     .guide-section {
       background: white;
@@ -1042,12 +1065,9 @@ function generateHTML(configData, previousValuesPath = null) {
       padding-bottom: 2rem;
       padding-left: 1rem;
       letter-spacing: -0.02em;
-      background: #f5f5f5;
     }
 
-    .guide-section-content {
-      padding-inline: 1rem;
-    }
+
 
     .guide-section-content > .guide-table-wrapper {
       margin-inline: -1rem;
@@ -1339,22 +1359,7 @@ function generateHTML(configData, previousValuesPath = null) {
   <button class="guide-menu-toggle" onclick="document.querySelector('.guide-sidebar').classList.toggle('open')">☰</button>
   
   <aside class="guide-sidebar">
-      <div class="guide-sidebar-header">
-        <h2>HolyGrail5</h2>
-        <p class="text-m guide-sidebar-meta">
-        last update: ${new Date().toLocaleString('es-ES')}
-      </p>
-      ${packageVersion ? `
-      <p class="text-m guide-sidebar-meta-small">
-        Version: ${packageVersion}
-      </p>
-      ` : ''}
-      ${lastCommitAuthor ? `
-      <p class="text-s guide-sidebar-meta-small">
-        Last user: ${lastCommitAuthor}
-      </p>
-      ` : ''}
-      </div>
+
 
     <nav class="guide-sidebar-nav">
       ${menuHTML}
@@ -1368,13 +1373,28 @@ function generateHTML(configData, previousValuesPath = null) {
         </a>
 
       </div>
+
+               <p class="text-m guide-sidebar-meta">
+          last update: ${new Date().toLocaleString('es-ES')}
+        </p>
+      ${packageVersion ? `
+        <p class="text-m guide-sidebar-meta-small">
+          Version: ${packageVersion}
+        </p>
+      ` : ''}
+      ${lastCommitAuthor ? `
+        <p class="text-s guide-sidebar-meta-small">
+          Last user: ${lastCommitAuthor}
+        </p>
+      ` : ''}
     </div>
   </aside>
-  
-  <main class="guide-main-content">
-    <div class="guide-header">
+
+      <div class="guide-header">
     
-    
+    <div class="guide-logo">
+    HOLYGRAIL 5 
+    </div>
       
       <div class="guide-search-container">
         <input 
@@ -1404,7 +1424,13 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       <div id="search-results" class="guide-search-results"></div>
     </div>
+    </div>
+  
+  <main class="guide-main-content">
 
+
+
+<div class="guide-container">
     ${colorsGridHTML ? `
     <div class="guide-section guide-section--highlighted" id="colors">
       <div class="guide-section-title">
@@ -1732,6 +1758,7 @@ function generateHTML(configData, previousValuesPath = null) {
         </div>
       </div>
     </div>
+
     ` : ''}
 
     <div class="guide-section" id="breakpoints">
@@ -1774,6 +1801,7 @@ function generateHTML(configData, previousValuesPath = null) {
         </p>
       </div>
     </div>
+        </div>
   </main>
   
   <script>

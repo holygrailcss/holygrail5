@@ -67,14 +67,7 @@ if (require.main === module) {
           const combinedCSS = combineThemeCSS(themeSourceDir);
           writeFile(themeOutputPath, combinedCSS, `Tema '${themeName}' combinado`);
           
-          // Copiar demo.html si existe
-          const demoHtmlPath = path.join(themeSourceDir, 'demo.html');
-          
-          if (fs.existsSync(demoHtmlPath)) {
-            const demoOutputPath = path.join(themeOutputDir, `${themeName}-demo.html`);
-            fs.copyFileSync(demoHtmlPath, demoOutputPath);
-            console.log(`✅ Demo HTML copiado: ${themeName}-demo.html`);
-          }
+          // Nota: La copia de demo.html con sidebar se hace en copy-theme-html.js
         } catch (error) {
           console.warn(`⚠️  No se pudo generar el tema '${themeName}':`, error.message);
         }
