@@ -46,7 +46,8 @@
     "config.json",
     "README.md",
     "src/**/*",
-    "themes/**/*"
+    "themes/**/*",
+    "dist/**/*"
   ],
   "engines": {
     "node": ">=12.0.0"
