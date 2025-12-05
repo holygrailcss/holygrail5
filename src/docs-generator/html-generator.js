@@ -530,14 +530,12 @@ function generateHTML(configData, previousValuesPath = null) {
 
     /* Estilos específicos de tipografía */
     .guide-table th.guide-mobile-header {
-      background: #e6f2ff;
-      color: #000000;
+
       
     }
 
     .guide-table th.guide-desktop-header {
-      background: #fff4e6;
-      color: #cc6600;
+
       
     }
 
@@ -562,7 +560,7 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-table .guide-mobile-value {
-      background: #f0f8ff;
+ 
       color: #000000;
       font-weight: 500;
       
@@ -570,8 +568,7 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-table .guide-desktop-value {
-      background: #fff8f0;
-      color: #cc6600;
+
       font-weight: 500;
       
       font-family: arial;
@@ -740,8 +737,8 @@ function generateHTML(configData, previousValuesPath = null) {
     /* Estilos para búsqueda */
     .guide-search-container {
       position: relative;
-      max-width: 500px;
-      padding-inline-start: 3rem;
+      width: 500px;
+
     }
 
     .guide-search-input {
@@ -805,6 +802,7 @@ function generateHTML(configData, previousValuesPath = null) {
       margin-top: 1rem;
  	font-size: 18px;
 	line-height: 26px;
+  color: #616161;
     }
 
     /* Estilos para info boxes */
@@ -828,8 +826,13 @@ function generateHTML(configData, previousValuesPath = null) {
       font-weight: 700;
     }
 
-    .guide-info-box-title-warning {
-      color: #ff9800;
+   .guide-main-content h3{
+    font-family: helvetica;
+	color: #000;
+	font-size: 20px;
+	line-height: 28px;
+	margin: 80px 0 12px;
+
     }
 
     .guide-info-box-title-info {
@@ -852,7 +855,6 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-info-box-code {
-      background: #fff8f0;
       padding: 0.125rem 0.375rem;
       border-radius: 3px;
       font-family: arial;
@@ -860,7 +862,7 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-info-box-code-info {
-      background: #e6f2ff;
+
       padding: 0.125rem 0.375rem;
       border-radius: 3px;
       font-family: arial;
@@ -962,7 +964,7 @@ function generateHTML(configData, previousValuesPath = null) {
     
     .guide-menu-item {
       display: block;
-      padding: 0.75rem 1rem;
+      padding: 0.2rem 1rem;
       margin-bottom: 0.25rem;
       color: #666;
       text-decoration: none;
@@ -988,6 +990,14 @@ function generateHTML(configData, previousValuesPath = null) {
       padding-bottom: 10rem;
       max-width: calc(100% - 250px);
     }
+      .guide-main-content h2{
+      	font-size: 48px;
+	line-height: 54px;
+	color: #000;
+  	font-family: helvetica;
+    font-weight: 900;
+    letter-spacing: -2px;
+      }
     
     .guide-menu-toggle {
       display: none;
@@ -1397,7 +1407,7 @@ function generateHTML(configData, previousValuesPath = null) {
       <div class="guide-header">
     
     <div class="guide-logo">
-    HOLYGRAIL 5 
+    Holygrail 5
     </div>
       
       <div class="guide-search-container">
