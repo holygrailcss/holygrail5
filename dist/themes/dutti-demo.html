@@ -97,22 +97,27 @@
     }
     
     .guide-sidebar-nav {
-      padding: 0 1rem;
+      padding: 0;
     }
     
     .guide-menu-item {
       display: block;
-      padding: 0.75rem 1rem;
+      padding: 0.2rem 1rem;
       margin-bottom: 0.25rem;
       color: #666;
       text-decoration: none;
-      border-radius: 4px;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+      font-weight: 500;
     }
     
     .guide-menu-item:hover {
       background: #f0f0f0;
       color: #000;
+    }
+    
+    .guide-menu-item.active {
+      color: black;
     }
     
     .guide-menu-toggle {
@@ -310,59 +315,6 @@
 </div>
 </section>
 
-<!-- SELECTS -->
-<section class="demo-section">
-<h2 class="demo-title">Selects</h2>
-
-<div class="demo-grid">
-  <div class="demo-item">
-    <label class="label" for="select-basic">Select básico</label>
-    <select id="select-basic" class="select">
-      <option value="">Selecciona una opción</option>
-      <option value="1">Opción 1</option>
-      <option value="2">Opción 2</option>
-      <option value="3">Opción 3</option>
-    </select>
-    <div class="demo-code">.select</div>
-  </div>
-  <div class="demo-item">
-    <label class="label" for="select-error">Select con error</label>
-    <select id="select-error" class="select select-error">
-      <option value="">Selecciona una opción</option>
-      <option value="1">Opción 1</option>
-      <option value="2">Opción 2</option>
-    </select>
-    <span class="helper-text helper-text-error">Selecciona una opción válida</span>
-    <div class="demo-code">.select-error</div>
-  </div>
-  <div class="demo-item">
-    <label class="label" for="select-disabled">Select disabled</label>
-    <select id="select-disabled" class="select" disabled>
-      <option value="">No disponible</option>
-    </select>
-    <div class="demo-code">select[disabled]</div>
-  </div>
-</div>
-</section>
-
-<!-- TEXTAREAS -->
-<section class="demo-section">
-<h2 class="demo-title">Textareas</h2>
-
-<div class="demo-grid">
-  <div class="demo-item">
-    <label class="label" for="textarea-basic">Textarea básico</label>
-    <textarea id="textarea-basic" class="textarea" placeholder="Escribe tu mensaje aquí..."></textarea>
-    <div class="demo-code">.textarea</div>
-  </div>
-  <div class="demo-item">
-    <label class="label" for="textarea-error">Textarea con error</label>
-    <textarea id="textarea-error" class="textarea textarea-error">Texto con error</textarea>
-    <span class="helper-text helper-text-error">El texto es demasiado corto</span>
-    <div class="demo-code">.textarea-error</div>
-  </div>
-</div>
-</section>
 
 <!-- CHECKBOXES -->
 <section class="demo-section" id="checkboxes">
@@ -437,90 +389,51 @@
   <section class="demo-section" id="switches">
     <h2 class="demo-title">Switches / Toggles</h2>
 
+
+    <h3 class="demo-subtitle">Checkbox-item-2 (Switch estilo checkbox)</h3>
     <div class="demo-grid">
       <div class="demo-item">
-        <label class="switch">
-          <input type="checkbox">
-          <span class="switch-indicator"></span>
-          <span class="switch-label">Switch desactivado</span>
-        </label>
-        <div class="demo-code">.switch</div>
+        <div class="checkbox-item-2">
+          <input id="checkbox18" name="checkbox18" type="checkbox" />
+          <label for="checkbox18">
+            <div class="checkbox-circle"></div>
+            <span class="theta">checkbox-item-2</span>
+          </label>
+        </div>
+        <div class="demo-code">.checkbox-item-2</div>
       </div>
       <div class="demo-item">
-        <label class="switch">
-          <input type="checkbox" checked>
-          <span class="switch-indicator"></span>
-          <span class="switch-label">Switch activado</span>
-        </label>
+        <div class="checkbox-item-2">
+          <input id="checkbox19" name="checkbox19" type="checkbox" checked />
+          <label for="checkbox19">
+            <div class="checkbox-circle"></div>
+            <span class="theta">checkbox-item-2 activado</span>
+          </label>
+        </div>
         <div class="demo-code">input[checked]</div>
       </div>
       <div class="demo-item">
-        <label class="switch">
-          <input type="checkbox" disabled>
-          <span class="switch-indicator"></span>
-          <span class="switch-label">Switch disabled</span>
-        </label>
+        <div class="checkbox-item-2">
+          <input id="checkbox20" name="checkbox20" type="checkbox" disabled />
+          <label for="checkbox20">
+            <div class="checkbox-circle"></div>
+            <span class="theta">checkbox-item-2 disabled</span>
+          </label>
+        </div>
         <div class="demo-code">input[disabled]</div>
+      </div>
+      <div class="demo-item">
+        <div class="checkbox-item-2 is-error">
+          <input id="checkbox21" name="checkbox21" type="checkbox" />
+          <label for="checkbox21">
+            <div class="checkbox-circle"></div>
+            <span class="theta">checkbox-item-2 error</span>
+          </label>
+        </div>
+        <div class="demo-code">.is-error</div>
       </div>
     </div>
   </section>
-
-  <!-- FORM GROUPS -->
-  <section class="demo-section" id="forms">
-    <h2 class="demo-title">Form Groups</h2>
-
-    <div class="demo-item">
-      <div class="form-group">
-        <label class="label label-required" for="form-name">Nombre completo</label>
-        <input type="text" id="form-name" class="input" placeholder="Tu nombre">
-        <span class="helper-text">Este campo es obligatorio</span>
-      </div>
-
-      <div class="form-group">
-        <label class="label" for="form-email">Email</label>
-        <input type="email" id="form-email" class="input" placeholder="tu@email.com">
-      </div>
-
-      <div class="form-group">
-        <label class="label" for="form-message">Mensaje</label>
-        <textarea id="form-message" class="textarea" placeholder="Escribe tu mensaje..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label class="checkbox">
-          <input type="checkbox" required>
-        </svg>
-      </span>
-      <span class="checkbox-label">Acepto los términos y condiciones</span>
-    </label>
-  </div>
-
-  <div class="form-group">
-    <button type="submit" class="btn btn-primary btn-md">Enviar formulario</button>
-  </div>
-
-  <div class="demo-code">.form-group</div>
-</div>
-</section>
-
-<!-- FORM ROW -->
-<section class="demo-section">
-<h2 class="demo-title">Form Row (campos en línea)</h2>
-
-<div class="demo-item">
-  <div class="form-row">
-    <div class="form-group">
-      <label class="label" for="form-firstname">Nombre</label>
-      <input type="text" id="form-firstname" class="input" placeholder="Nombre">
-    </div>
-    <div class="form-group">
-      <label class="label" for="form-lastname">Apellidos</label>
-      <input type="text" id="form-lastname" class="input" placeholder="Apellidos">
-    </div>
-  </div>
-  <div class="demo-code">.form-row</div>
-</div>
-</section>
 
 
 

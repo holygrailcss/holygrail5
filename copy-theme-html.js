@@ -39,22 +39,27 @@ const sidebarStyles = `
     }
     
     .guide-sidebar-nav {
-      padding: 0 1rem;
+      padding: 0;
     }
     
     .guide-menu-item {
       display: block;
-      padding: 0.75rem 1rem;
+      padding: 0.2rem 1rem;
       margin-bottom: 0.25rem;
       color: #666;
       text-decoration: none;
-      border-radius: 4px;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+      font-weight: 500;
     }
     
     .guide-menu-item:hover {
       background: #f0f0f0;
       color: #000;
+    }
+    
+    .guide-menu-item.active {
+      color: black;
     }
     
     .guide-menu-toggle {
