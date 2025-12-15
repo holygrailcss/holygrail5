@@ -1009,11 +1009,11 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-spacing-label-margin {
-      color: #ff9800;
+      color: #ccc;
     }
 
     .guide-spacing-label-padding {
-      color: #0170e9;
+      color: #000;
     }
 
     .guide-spacing-label-padding-top {
