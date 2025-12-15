@@ -1,0 +1,270 @@
+/**
+ * Estilos del Header, Sidebar y Títulos para la Guía
+ * Usado en index.html y dutti-demo.html
+ */
+
+/* Header */
+.guide-header {
+  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: white;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #efefef;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.guide-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+.guide-header p {
+  margin: 1rem 0 0 0;
+  opacity: 0.7;
+}
+
+.guide-logo {
+  width: 234px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Responsive para header sin height fijo (dutti-demo) */
+.guide-header:not([style*="height"]) {
+  height: auto;
+  min-height: 60px;
+}
+
+/* Header Button */
+.guide-header-button {
+  background: var(--hg-color-primary, #000);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  margin-left: 1rem;
+}
+
+.guide-header-button:hover {
+  background: var(--hg-color-dark-grey, #333);
+}
+
+/* Títulos principales */
+.guide-main-content h2 {
+  font-size: 88px;
+  padding-bottom: 60px;
+  margin-bottom: 60px;
+  font-weight: 500;
+  color: #000;
+  font-family: 'Instrument Sans', sans-serif;
+  letter-spacing: 0;
+  border-bottom: 1px solid var(--hg-color-primary);
+}
+
+/* Títulos de sección */
+.guide-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-top: 6rem;
+  padding-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+/* Descripciones de sección */
+.guide-section-description {
+	margin-top: 1rem;
+	font-size: 48px;
+	color: #000000;
+	font-family: 'Instrument Sans', sans-serif;
+	width: 50%;
+	margin-left: 50%;
+
+	line-height: 1.2;
+	margin-bottom: 10rem;
+}
+
+/* Sidebar Overlay */
+.guide-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.guide-sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sidebar */
+.guide-sidebar {
+  position: fixed;
+  right: -250px;
+  top: 16px;
+  width: 250px;
+  border-radius: 20px;
+  background: white;
+  border-right: 1px solid #efefef;
+  padding: 2rem 0;
+  padding-bottom: 120px;
+  overflow-y: auto;
+  z-index: 999;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  transition: right 0.3s ease;
+}
+
+.guide-sidebar.open {
+  right: 64px;
+}
+
+.guide-sidebar-header {
+  padding: 0 1.5rem 2rem 1.5rem;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 1rem;
+}
+
+.guide-sidebar-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.guide-sidebar-nav {
+  padding: 0;
+}
+
+.guide-sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 1.5rem .5rem 1.5rem;
+  border-top: 1px solid #efefef;
+  background: white;
+}
+
+.guide-sidebar-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.guide-sidebar-badges img {
+  height: 20px;
+  width: auto;
+}
+
+/* Menu Items */
+.guide-menu-item {
+  display: block;
+  padding: 0.2rem 1rem;
+  margin-bottom: 0.25rem;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.guide-menu-item:hover {
+  background: #f0f0f0;
+  color: #000;
+}
+
+.guide-menu-item.active {
+  color: black;
+}
+
+/* Main Content */
+.guide-main-content {
+  margin-left: 0;
+  flex: 1;
+  padding: 0;
+  padding-bottom: 10rem;
+  max-width: 100%;
+}
+
+/* Container */
+.guide-container {
+  margin: 0 2rem;
+}
+
+/* Demo Container (solo para dutti-demo) */
+.demo-container {
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+/* Menu Toggle (legacy, no usado en versión flotante) */
+.guide-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 101;
+  background: white;
+  border: 1px solid #efefef;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.25rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Demo Styles */
+.demo-title {
+  font-size: var(--hg-typo-font-size-24);
+  margin-block-end: var(--hg-spacing-24);
+  padding-block-end: var(--hg-spacing-16);
+  border-bottom: 2px solid var(--hg-color-primary);
+  padding-top: var(--hg-spacing-32);
+}
+
+.demo-subtitle {
+  font-size: var(--hg-typo-font-size-14);
+  font-weight: var(--hg-typo-font-weight-700);
+  margin-block-end: var(--hg-spacing-16);
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .guide-header {
+    padding: 1rem 2rem;
+  }
+  
+  .guide-header-button {
+    display: block;
+  }
+  
+  .guide-sidebar {
+    top: 80px;
+  }
+  
+  .guide-container {
+    width: 100%;
+    padding-right: 1rem;
+    margin: 0 1rem;
+  }
+}
+

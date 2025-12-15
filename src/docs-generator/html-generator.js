@@ -763,17 +763,6 @@ function generateHTML(configData, previousValuesPath = null) {
       color: #999;
       pointer-events: none;
     }
-      .guide-logo{
-      width: 234px;
-    
-      font-size: 24px;
-      font-weight: 700;
-      color: #000;
-      text-transform: uppercase;
-
-      line-height: 1;
-
-      }
 
     .guide-clear-search-btn {
       position: absolute;
@@ -797,13 +786,6 @@ function generateHTML(configData, previousValuesPath = null) {
       display: none;
     }
 
-    /* Estilos para secciones */
-    .guide-section-description {
-      margin-top: 1rem;
- 	font-size: 18px;
-	line-height: 26px;
-  color: #616161;
-    }
 
     /* Estilos para info boxes */
     .guide-info-box {
@@ -907,163 +889,12 @@ function generateHTML(configData, previousValuesPath = null) {
      
     }
     
-    .guide-sidebar {
-      position: fixed;
-      left: 0;
-      top: 80px;
-      width: 250px;
-      height: calc(100vh - 80px);
-      background: white;
-      border-right: 1px solid #efefef;
-      padding: 2rem 0;
-      padding-bottom: 120px;
-      overflow-y: auto;
-      z-index: 100;
-      padding-left  200px
 
-    }
-    
-    .guide-sidebar-header {
-      padding: 0 1.5rem 2rem 1.5rem;
-      border-bottom: 1px solid #efefef;
-      margin-bottom: 1rem;
-    }
-    
-    .guide-sidebar-header h2 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #000;
-    }
-    
-    .guide-sidebar-nav {
-      padding: 0 ;
-    }
-
-    .guide-sidebar-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1rem 1.5rem .5rem 1.5rem;
-      border-top: 1px solid #efefef;
-      background: white;
-    }
-
-    .guide-sidebar-badges {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      align-items: flex-start;
-    }
-
-    .guide-sidebar-badges img {
-      height: 20px;
-      width: auto;
-    }
-    
-    .guide-menu-item {
-      display: block;
-      padding: 0.2rem 1rem;
-      margin-bottom: 0.25rem;
-      color: #666;
-      text-decoration: none;
-
-      transition: all 0.2s ease;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-    
-    .guide-menu-item:hover {
-      background: #f0f0f0;
-      color: #000;
-    }
-    
-    .guide-menu-item.active {
-      color: black;
-    }
-    
-    .guide-main-content {
-      margin-left: 250px;
-      flex: 1;
-      padding: 0;
-      padding-bottom: 10rem;
-      max-width: calc(100% - 250px);
-    }
-      .guide-main-content h2{
-      	font-size: 48px;
-	line-height: 54px;
-	color: #000;
-  	font-family: helvetica;
-    font-weight: 900;
-    letter-spacing: -2px;
-      }
-    
-    .guide-menu-toggle {
-      display: none;
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 101;
-      background: white;
-      border: 1px solid #efefef;
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1.25rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    @media (max-width: 768px) {
-      .guide-sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-      
-      .guide-sidebar.open {
-        transform: translateX(0);
-      }
-      
-      .guide-main-content {
-        margin-left: 0;
-        max-width: 100%;
-        padding: 1rem 0;
-      }
-      
-      .guide-menu-toggle {
-        display: block;
-      }
-    }
-
-    .guide-header {
-    height: 80px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: white;
-  
-      padding: 1rem;
-      border-bottom: 1px solid #efefef;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .guide-header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      font-weight: 900;
-    }
-
-    .guide-header p {
-      margin: 1rem 0 0 0;
-      opacity: 0.7;
-    }
       .guide-container{
       
-	padding-right: 40px;
-	width: 1236px;
-	margin: 0 auto;
+
+
+	margin: 0 2rem;
       }
 
     .guide-section {
@@ -1072,14 +903,6 @@ function generateHTML(configData, previousValuesPath = null) {
       border-radius: 8px;
     }
 
-    .guide-section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      padding-top: 6rem;
-      padding-bottom: 2rem;
-
-      letter-spacing: -0.02em;
-    }
 
 
 
@@ -1332,7 +1155,7 @@ function generateHTML(configData, previousValuesPath = null) {
         { id: 'variables', label: 'Variables CSS' }
       );
       if (spacingHelpersTableHTML) {
-        menuItems.push({ id: 'spacing', label: 'Helpers de Spacing' });
+        menuItems.push({ id: 'spacing', label: 'Spacing' });
       }
       if (layoutHelpersTableHTML) {
         menuItems.push({ id: 'layout', label: 'Helpers de Layout' });
@@ -1364,13 +1187,45 @@ function generateHTML(configData, previousValuesPath = null) {
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
+  
+  <!-- Google Fonts - Solo para la guía -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,500,600,700" media="all">
+  
+  <!-- Lenis Smooth Scroll - Solo para la guía -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
+  <link rel="stylesheet" href="guide-header.css?v=${Date.now()}">
   <style>
     ${allStyles}
+    
+    /* Lenis Smooth Scroll Styles - Solo para la guía */
+    html.lenis {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto;
+    }
+
+    .lenis.lenis-smooth[data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    
+    /* Google Fonts - Solo para la guía */
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+    }
   </style>
 </head>
 <body>
-  <button class="guide-menu-toggle" onclick="document.querySelector('.guide-sidebar').classList.toggle('open')">☰</button>
+  <div class="guide-sidebar-overlay" onclick="toggleSidebar()"></div>
   
   <aside class="guide-sidebar">
 
@@ -1409,7 +1264,8 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="guide-logo">
     Holygrail 5
     </div>
-      
+    
+    <div style="display: flex; align-items: center; gap: 1rem;">
       <div class="guide-search-container">
         <input 
           type="text" 
@@ -1437,6 +1293,7 @@ function generateHTML(configData, previousValuesPath = null) {
         >×</button>
       </div>
       <div id="search-results" class="guide-search-results"></div>
+      <button class="guide-header-button" onclick="toggleSidebar()">☰ Menú</button>
     </div>
     </div>
   
@@ -1462,7 +1319,7 @@ function generateHTML(configData, previousValuesPath = null) {
     ${fontFamiliesTableHTML ? `
     <div class="guide-section" id="font-families">
       <div class="guide-section-title">
-        <h2 >Font Families</h2>
+        <h2 >Typography</h2>
         <p class="text-m guide-section-description">
         Font families disponibles para la tipografía.
         </p>
@@ -1475,7 +1332,7 @@ function generateHTML(configData, previousValuesPath = null) {
 
     <div class="guide-section" id="tipografia">
       <div class="guide-section-title">
-        <h2 >Clases de Tipografía</h2>
+        <h2 >Hierarchy</h2>
         <p class="text-m guide-section-description">
         Clases de tipografía disponibles.
         </p>
@@ -1487,7 +1344,7 @@ function generateHTML(configData, previousValuesPath = null) {
 
     <div class="guide-section" id="variables">
       <div class="guide-section-title">
-        <h2 >Variables CSS Compartidas</h2>
+        <h2 >Variables</h2>
         <p class="text-m guide-section-description">
         Variables CSS compartidas.
         </p>
@@ -1501,7 +1358,7 @@ function generateHTML(configData, previousValuesPath = null) {
     ${spacingHelpersTableHTML ? `
     <div class="guide-section" id="spacing">
       <div class="guide-section-title">
-        <h2 >Helpers de Spacing</h2>
+        <h2 >Spacing</h2>
             <p class="text-m guide-section-description">
         Clases helper para padding y margin basadas en el spacingMap.
         Usa las variables CSS definidas en :root.
@@ -1563,6 +1420,8 @@ function generateHTML(configData, previousValuesPath = null) {
 
         </div>
         ${spacingHelpersTableHTML}
+
+
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
           <h3 class="guide-info-box-title guide-info-box-title-info">Helpers con prefijo md: (Desktop)</h3>
           <p class="text-m guide-info-box-text">
@@ -1599,7 +1458,7 @@ function generateHTML(configData, previousValuesPath = null) {
     ${layoutHelpersTableHTML ? `
     <div class="guide-section" id="layout">
       <div class="guide-section-title">
-        <h2 >Helpers de Layout</h2>
+        <h2 >Layout</h2>
         <p class="text-m guide-section-description">
         Clases helper para display, flexbox, alignment y gap. 
         Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
@@ -1607,10 +1466,7 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       <div class="guide-section-content">
         ${layoutHelpersTableHTML}
-        <p class="text-m guide-section-description">
-          Clases helper para display, flexbox, alignment y gap. 
-          Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
-        </p>
+
         
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
           <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplos de uso</h3>
@@ -1642,7 +1498,7 @@ function generateHTML(configData, previousValuesPath = null) {
     ${configData.grid && configData.grid.enabled ? `
     <div class="guide-section" id="grid">
       <div class="guide-section-title">
-        <h2>Grid System</h2>
+        <h2>Grid </h2>
         <p class="text-m guide-section-description">
           Sistema de grid responsive estilo Bootstrap con 12 columnas (xs, sm, md, lg) y 24 columnas (xl).
         </p>
@@ -1823,6 +1679,25 @@ function generateHTML(configData, previousValuesPath = null) {
     const menuItems = document.querySelectorAll('.guide-menu-item');
     const sections = document.querySelectorAll('.guide-section');
     
+    // Funciones para abrir/cerrar sidebar
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.guide-sidebar');
+      const overlay = document.querySelector('.guide-sidebar-overlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+    
+    function closeSidebar() {
+      const sidebar = document.querySelector('.guide-sidebar');
+      const overlay = document.querySelector('.guide-sidebar-overlay');
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    }
+    
+    // Hacer funciones globales
+    window.toggleSidebar = toggleSidebar;
+    window.closeSidebar = closeSidebar;
+    
     // Manejar clic en menú
     menuItems.forEach(item => {
       item.addEventListener('click', (e) => {
@@ -1840,15 +1715,18 @@ function generateHTML(configData, previousValuesPath = null) {
           const offset = 80; // Offset para compensar header
           const targetPosition = targetSection.offsetTop - offset;
           
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-          
-          // Cerrar menú en mobile
-          if (window.innerWidth <= 768) {
-            document.querySelector('.guide-sidebar').classList.remove('open');
+          // Usar Lenis si está disponible, sino usar scroll nativo
+          if (window.lenis) {
+            window.lenis.scrollTo(targetSection, { offset: -offset });
+          } else {
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
           }
+          
+          // Cerrar sidebar después de hacer clic
+          closeSidebar();
         }
       });
     });
@@ -2105,6 +1983,36 @@ function generateHTML(configData, previousValuesPath = null) {
     } else {
       setupCopyToClipboard();
     }
+  </script>
+  
+  <script>
+    // Inicializar Lenis Smooth Scroll - Solo para la guía
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Integrar con el scroll del navegador
+    lenis.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
+      // Puedes agregar callbacks aquí si es necesario
+    });
+
+    // Hacer lenis disponible globalmente para el scroll del menú
+    window.lenis = lenis;
   </script>
 </body>
 </html>`;

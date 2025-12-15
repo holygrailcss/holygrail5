@@ -7,104 +7,36 @@ const path = require('path');
 const sourceFile = path.join(__dirname, 'themes', 'dutti', 'demo.html');
 const targetFile = path.join(__dirname, 'dist', 'themes', 'dutti-demo.html');
 
-// Estilos del sidebar
+// Estilos del sidebar + Lenis (solo para dutti-demo.html en dist)
 const sidebarStyles = `
-    /* Sidebar Styles */
-    .guide-sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 250px;
-      height: 100vh;
-      background: white;
-      border-right: 1px solid #e0e0e0;
-      padding: 2rem 0;
-      padding-bottom: 120px;
-      overflow-y: auto;
-      z-index: 100;
-      box-shadow: 2px 0 8px rgba(0,0,0,0.05);
-    }
     
-    .guide-sidebar-header {
-      padding: 0 1.5rem 2rem 1.5rem;
-      border-bottom: 1px solid #e0e0e0;
-      margin-bottom: 1rem;
+
+    /* Lenis Smooth Scroll - Solo para demo Dutti */
+    html.lenis {
+      height: auto;
     }
-    
-    .guide-sidebar-header h2 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #000;
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto;
     }
-    
-    .guide-sidebar-nav {
-      padding: 0;
+
+    .lenis.lenis-smooth[data-lenis-prevent] {
+      overscroll-behavior: contain;
     }
-    
-    .guide-menu-item {
-      display: block;
-      padding: 0.2rem 1rem;
-      margin-bottom: 0.25rem;
-      color: #666;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-    
-    .guide-menu-item:hover {
-      background: #f0f0f0;
-      color: #000;
-    }
-    
-    .guide-menu-item.active {
-      color: black;
-    }
-    
-    .guide-menu-toggle {
-      display: none;
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 101;
-      background: white;
-      border: 1px solid #e0e0e0;
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1.25rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .demo-container {
-      margin-left: 250px;
-      transition: margin-left 0.3s ease;
-    }
-    
-    @media (max-width: 768px) {
-      .guide-sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-      
-      .guide-sidebar.open {
-        transform: translateX(0);
-      }
-      
-      .demo-container {
-        margin-left: 0;
-      }
-      
-      .guide-menu-toggle {
-        display: block;
-      }
+
+    .lenis.lenis-stopped {
+      overflow: hidden;
     }
 `;
 
-// HTML del sidebar
-const sidebarHTML = `
-  <button class="guide-menu-toggle" onclick="document.querySelector('.guide-sidebar').classList.toggle('open')">☰</button>
+// HTML del header y sidebar
+const headerAndSidebarHTML = `
+  <div class="guide-header">
+    <h1 style="margin: 0; font-size: 1.5rem; font-weight: 700;">Sistema de Theming Dutti</h1>
+    <button class="guide-header-button" onclick="toggleSidebar()">☰ Menú</button>
+  </div>
+  
+  <div class="guide-sidebar-overlay" onclick="toggleSidebar()"></div>
   
   <aside class="guide-sidebar">
     <div class="guide-sidebar-header">
@@ -119,14 +51,30 @@ const sidebarHTML = `
       
       <p style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #999; text-transform: uppercase; font-weight: 600;">Componentes</p>
       
-      <a href="#buttons" class="guide-menu-item">Botones</a>
-      <a href="#inputs" class="guide-menu-item">Inputs</a>
-      <a href="#checkboxes" class="guide-menu-item">Checkboxes</a>
-      <a href="#radios" class="guide-menu-item">Radios</a>
-      <a href="#switches" class="guide-menu-item">Switches</a>
-      <a href="#forms" class="guide-menu-item">Formularios</a>
+      <a href="#buttons" class="guide-menu-item" onclick="closeSidebar()">Botones</a>
+      <a href="#inputs" class="guide-menu-item" onclick="closeSidebar()">Inputs</a>
+      <a href="#checkboxes" class="guide-menu-item" onclick="closeSidebar()">Checkboxes</a>
+      <a href="#radios" class="guide-menu-item" onclick="closeSidebar()">Radios</a>
+      <a href="#switches" class="guide-menu-item" onclick="closeSidebar()">Switches</a>
+      <a href="#forms" class="guide-menu-item" onclick="closeSidebar()">Formularios</a>
     </nav>
   </aside>
+  
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.guide-sidebar');
+      const overlay = document.querySelector('.guide-sidebar-overlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+    
+    function closeSidebar() {
+      const sidebar = document.querySelector('.guide-sidebar');
+      const overlay = document.querySelector('.guide-sidebar-overlay');
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    }
+  </script>
 `;
 
 if (fs.existsSync(sourceFile)) {
@@ -140,11 +88,55 @@ if (fs.existsSync(sourceFile)) {
     content = content.replace(/href="theme\.css"/g, 'href="dutti.css"');
     content = content.replace(/href="dutti\.css"/g, 'href="dutti.css"');
     
+    // Agregar link a guide-header.css
+    const guideHeaderCSS = '<link rel="stylesheet" href="../guide-header.css">';
+    content = content.replace(/<link rel="stylesheet" href="dutti\.css">/g, `<link rel="stylesheet" href="dutti.css">\n    ${guideHeaderCSS}`);
+    
     // Añadir estilos del sidebar antes del </style>
     content = content.replace('</style>', sidebarStyles + '\n  </style>');
+
+    // Añadir script de Lenis en el <head> (solo para demo Dutti)
+    const lenisHeadScript = `
+  <!-- Lenis Smooth Scroll - Solo para demo Tema Dutti -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>`;
+    content = content.replace('</head>', `${lenisHeadScript}\n</head>`);
+
+    // Añadir inicialización de Lenis antes de </body> (solo para demo Dutti)
+    const lenisInitScript = `
+  <script>
+    // Inicializar Lenis Smooth Scroll - Solo para demo Tema Dutti
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>`;
+    content = content.replace('</body>', `${lenisInitScript}\n</body>`);
     
-    // Añadir sidebar después del <body> usando regex para coincidir con cualquier espacio
-    content = content.replace(/(<body[^>]*>)/i, '$1\n' + sidebarHTML);
+    // Añadir header y sidebar después del <body> usando regex para coincidir con cualquier espacio
+    content = content.replace(/(<body[^>]*>)/i, '$1\n' + headerAndSidebarHTML);
+    
+    // Eliminar el título h1 del contenido si existe (ya está en el header)
+    content = content.replace(/<h1 class="demo-title">Sistema de Theming Dutti<\/h1>\s*/g, '');
+    
+    // Envolver el contenido de demo-container con guide-container
+    content = content.replace(
+      /<div class="demo-container">([\s\S]*?)<\/div>\s*(?=<\/body>)/,
+      '<div class="demo-container"><div class="guide-container">$1</div></div>'
+    );
     
     // Escribir con rutas corregidas y sidebar
     fs.writeFileSync(targetFile, content, 'utf8');
