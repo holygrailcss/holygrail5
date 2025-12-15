@@ -17,4 +17,3 @@
   - "fix: corregir desplazamiento en inputs (afecta a: themes/dutti/_inputs.css)"
   - "refactor: simplificar generador de variables (afecta a: src/generators/variables-generator.js)"
   - "docs: actualizar README del tema dutti (afecta a: themes/dutti/README.md)"
-

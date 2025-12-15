@@ -744,12 +744,14 @@ function generateHTML(configData, previousValuesPath = null) {
     .guide-search-input {
       width: 100%;
       padding: 0.75rem 1rem 0.75rem 2.75rem;
-      border: 2px solid #efefef;
+      border: 1px solid #000000;
       border-radius: 8px;
       font-size: 1rem;
       outline: none;
       transition: border-color 0.2s;
-    }
+      text-align: right;
+      background: transparent;
+      }
 
     .guide-search-input:focus {
       border-color: #0170e9;
@@ -888,14 +890,6 @@ function generateHTML(configData, previousValuesPath = null) {
       padding: 0;
      
     }
-    
-
-      .guide-container{
-      
-
-
-	margin: 0 2rem;
-      }
 
     .guide-section {
       background: white;
@@ -916,7 +910,7 @@ function generateHTML(configData, previousValuesPath = null) {
 
     /* Estilos para diagrama de spacing */
     .guide-spacing-diagram {
-    width: 50%;
+    width: 100%;
 
    
       border-radius: 8px;
@@ -943,7 +937,7 @@ function generateHTML(configData, previousValuesPath = null) {
       transform: translate(-50%, -50%);
       width: 80%;
       height: 70%;
-      border: 3px dashed #ff9800;
+      border: 1px dashed #cccccc;
       background: rgba(255, 152, 0, 0.05);
       border-radius: 4px;
     }
@@ -955,7 +949,7 @@ function generateHTML(configData, previousValuesPath = null) {
       transform: translate(-50%, -50%);
       width: 60%;
       height: 50%;
-      border: 3px dashed #0170e9;
+      border: 1px dashedrgb(74, 95, 117);
       background: rgba(1, 112, 233, 0.05);
       border-radius: 4px;
     }
@@ -1044,6 +1038,8 @@ function generateHTML(configData, previousValuesPath = null) {
       left: 10%;
       top: 50%;
       transform: translateY(-50%);
+    }
+
     }`;
 
   // Generar tabla de layout helpers
@@ -1174,7 +1170,7 @@ function generateHTML(configData, previousValuesPath = null) {
         ? `
       <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
       
-        <a href="themes/${configData.theme.name}-demo.html" class="guide-menu-item" style="color: #0066cc; font-weight: 600;">🎨 Demo Tema ${configData.theme.name.charAt(0).toUpperCase() + configData.theme.name.slice(1)}</a>
+        <a href="themes/${configData.theme.name}-demo.html" class="guide-menu-item" style="color: #000000; font-weight: 600;"> Tema ${configData.theme.name.charAt(0).toUpperCase() + configData.theme.name.slice(1)}</a>
       `
         : '';
       
@@ -1293,7 +1289,7 @@ function generateHTML(configData, previousValuesPath = null) {
         >×</button>
       </div>
       <div id="search-results" class="guide-search-results"></div>
-      <button class="guide-header-button" onclick="toggleSidebar()">☰ Menú</button>
+      <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
     </div>
     </div>
   
@@ -1370,12 +1366,11 @@ function generateHTML(configData, previousValuesPath = null) {
     
           
        
-            <div class="guide-spacing-text">
-                  <h3 class="guide-info-box-title guide-info-box-title-warning">¿Cómo se generan los helpers de espaciado?</h3>
-                  <p class="text-m guide-info-box-text">
-              La nomenclatura de las clases helper sigue un patrón simple:
-                        </p>
-                        <ul class="guide-info-box-list">
+            <div class="demo-section-2">
+            <div>
+                  <div class=""> <strong>¿Cómo se generan los helpers de espaciado?</strong></div>
+        
+            <ul class="guide-info-box-list">
               <li class="text-m guide-info-box-list-item">
                 <strong>Primera letra:</strong> tipo de spacing → <code class="guide-info-box-code">p</code> (padding) o <code class="guide-info-box-code">m</code> (margin)
               </li>
@@ -1385,14 +1380,14 @@ function generateHTML(configData, previousValuesPath = null) {
               <li class="text-m guide-info-box-list-item">
                 <strong>Guión + valor:</strong> el valor del spacing → <code class="guide-info-box-code">-4</code>, <code class="guide-info-box-code">-16</code>, <code class="guide-info-box-code">-50-percent</code>
               </li>
-                        </ul>
+             </ul>
+             </div>
+<div>
+
                         <p class="text-m guide-info-box-text">
               <strong>Ejemplos:</strong> <code class="guide-info-box-code">.p-16</code> (padding all), <code class="guide-info-box-code">.pt-8</code> (padding-top), <code class="guide-info-box-code">.mr-4</code> (margin-right), <code class="guide-info-box-code">.mb-0</code> (margin-bottom)
                         </p>
-            </div>
-
-      
-          <div class="guide-spacing-diagram">
+                               <div class="guide-spacing-diagram">
             <div class="guide-spacing-diagram-container">
               <!-- Etiquetas de margin (exterior) -->
               <div class="guide-spacing-label guide-spacing-label-top guide-spacing-label-margin">mt-</div>
@@ -1416,6 +1411,13 @@ function generateHTML(configData, previousValuesPath = null) {
               <div class="guide-spacing-content">Contenido</div>
             </div>
           </div>
+          </div>
+
+                        
+            </div>
+
+      
+   
 
 
         </div>
@@ -1502,14 +1504,13 @@ function generateHTML(configData, previousValuesPath = null) {
         <p class="text-m guide-section-description">
           Sistema de grid responsive estilo Bootstrap con 12 columnas (xs, sm, md, lg) y 24 columnas (xl).
         </p>
-      </div>
-      <div class="guide-section-content">
-        <div class="guide-info-box guide-info-box-warning">
-          <h3 class="guide-info-box-title guide-info-box-title-warning">¿Cómo funciona el Grid?</h3>
-          <p class="text-m guide-info-box-text">
-            El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.
-          </p>
-          <ul class="guide-info-box-list">
+
+
+        <div class="demo-section-2">
+          <div> <strong>¿Cómo funciona el Grid?</strong> 
+          
+          <br>
+                <ul class="guide-info-box-list">
             <li class="text-m guide-info-box-list-item">
               <strong>.row</strong> - Contenedor flex con márgenes negativos para compensar el gutter
             </li>
@@ -1535,10 +1536,22 @@ function generateHTML(configData, previousValuesPath = null) {
               <strong>.bleed-0</strong> - Elimina completamente el padding y márgenes, útil para contenido que debe ocupar todo el ancho sin espacios
             </li>
           </ul>
-          <p class="text-m guide-info-box-text">
+          
+          </div>
+          <p>El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.</p>
+     
+              <p class="text-m guide-info-box-text">
             <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
           </p>
         </div>
+
+
+
+      </div>
+      <div >
+   
+
+   
         
         <div class="guide-table-wrapper">
           <table class="guide-table">
@@ -1634,8 +1647,10 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="guide-section" id="breakpoints">
       <div class="guide-section-title">
         <h2 >Breakpoints</h2>
-        <p class="text-m guide-section-description">
-        Breakpoints disponibles.
+
+            <p class="text-m guide-section-description">
+          Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
+          Resize la ventana del navegador para ver los cambios.
         </p>
       </div>
       <div class="guide-section-content">
@@ -1665,10 +1680,7 @@ function generateHTML(configData, previousValuesPath = null) {
             </tbody>
           </table>
         </div>
-        <p class="text-m guide-section-description">
-          Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
-          Resize la ventana del navegador para ver los cambios.
-        </p>
+    
       </div>
     </div>
         </div>

@@ -32,8 +32,8 @@ const sidebarStyles = `
 // HTML del header y sidebar
 const headerAndSidebarHTML = `
   <div class="guide-header">
-    <h1 style="margin: 0; font-size: 1.5rem; font-weight: 700;">Sistema de Theming Dutti</h1>
-    <button class="guide-header-button" onclick="toggleSidebar()">☰ Menú</button>
+    <h1 class="guide-logo" style="">Designed by UX-IT</h1>
+    <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
   </div>
   
   <div class="guide-sidebar-overlay" onclick="toggleSidebar()"></div>
@@ -41,22 +41,22 @@ const headerAndSidebarHTML = `
   <aside class="guide-sidebar">
     <div class="guide-sidebar-header">
       <h2>HolyGrail5</h2>
-      <p style="font-size: 0.875rem; color: #666; margin-top: 0.5rem;">Demo Tema Dutti</p>
+      <p class="guide-sidebar-subtitle">Demo Tema Dutti</p>
     </div>
 
     <nav class="guide-sidebar-nav">
-      <a href="../index.html" class="guide-menu-item">← Volver al Index</a>
+      <a href="../index.html" class="guide-menu-item">← </a>
       
       <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
       
-      <p style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #999; text-transform: uppercase; font-weight: 600;">Componentes</p>
+      <p class="guide-sidebar-title">Componentes</p>
       
-      <a href="#buttons" class="guide-menu-item" onclick="closeSidebar()">Botones</a>
-      <a href="#inputs" class="guide-menu-item" onclick="closeSidebar()">Inputs</a>
-      <a href="#checkboxes" class="guide-menu-item" onclick="closeSidebar()">Checkboxes</a>
-      <a href="#radios" class="guide-menu-item" onclick="closeSidebar()">Radios</a>
-      <a href="#switches" class="guide-menu-item" onclick="closeSidebar()">Switches</a>
-      <a href="#forms" class="guide-menu-item" onclick="closeSidebar()">Formularios</a>
+      <a href="#buttons" class="guide-menu-item">Botones</a>
+      <a href="#inputs" class="guide-menu-item">Inputs</a>
+      <a href="#checkboxes" class="guide-menu-item">Checkboxes</a>
+      <a href="#radios" class="guide-menu-item">Radios</a>
+      <a href="#switches" class="guide-menu-item">Switches</a>
+      <a href="#forms" class="guide-menu-item">Formularios</a>
     </nav>
   </aside>
   
@@ -74,6 +74,10 @@ const headerAndSidebarHTML = `
       sidebar.classList.remove('open');
       overlay.classList.remove('active');
     }
+    
+    // Hacer funciones globales
+    window.toggleSidebar = toggleSidebar;
+    window.closeSidebar = closeSidebar;
   </script>
 `;
 
@@ -117,12 +121,46 @@ if (fs.existsSync(sourceFile)) {
       infinite: false,
     });
 
+    // Hacer Lenis global para que esté disponible en otros scripts
+    window.lenis = lenis;
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
 
     requestAnimationFrame(raf);
+    
+    // Manejar clic en menú para scroll suave (después de que Lenis esté inicializado)
+    // Usar setTimeout para asegurar que el DOM esté completamente cargado
+    setTimeout(function() {
+      const menuItems = document.querySelectorAll('.guide-menu-item[href^="#"]');
+      
+      menuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          const href = item.getAttribute('href');
+          
+          // Solo procesar enlaces internos (que empiezan con #)
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.substring(1); // Remover el #
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+              const offset = 80; // Offset para compensar header
+              
+              // Usar Lenis para scroll suave
+              lenis.scrollTo(targetSection, { offset: -offset });
+              
+              // Cerrar sidebar después de hacer clic
+              if (typeof closeSidebar === 'function') {
+                closeSidebar();
+              }
+            }
+          }
+        });
+      });
+    }, 100);
   </script>`;
     content = content.replace('</body>', `${lenisInitScript}\n</body>`);
     
