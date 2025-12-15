@@ -17,7 +17,7 @@
   border: var(--border-width) var(--border-style) var(--input-border);
   border-radius: var(--border-radius);
   padding: var(--input-padding-y) var(--input-padding-x);
-  transition: var(--transition);
+	min-height: 40px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -90,6 +90,8 @@
 .error-zone {
   font-family: var(--hg-typo-font-family-primary);
   position: relative;
+
+  display: block;
 }
 
 .form-input-label-2 label,
@@ -140,7 +142,6 @@
 .error-zone > label,
 .error-zone > textarea {
   font-family: var(--hg-typo-font-family-primary);
-  padding: var(--hg-spacing-16) 0 0;
   font-weight: normal;
 }
 
@@ -152,26 +153,33 @@
   border-bottom: var(--border-width) var(--border-style) var(--hg-color-primary);
   border-radius: 0;
   background-color: transparent;
+  padding: var(--hg-spacing-16) 0 var(--hg-spacing-8) 0;
   padding-left: 0;
   padding-right: 0;
+  height: 40px;
+  box-sizing: border-box;
+  transition: border-bottom-color 0.1s ease-in-out, border-bottom-width 0.1s ease-in-out;
+  margin: 0;
+  vertical-align: top;
 }
 
 .form-input-label-2 > label,
 .error-zone > label {
   box-sizing: border-box;
   position: absolute;
-  top: 0;
+  top: var(--hg-spacing-16);
   left: 0;
   display: block;
   width: 100%;
   font-weight: normal;
-  margin-top: var(--border-width);
-  margin-bottom: 0;
+  margin: 0;
+  padding: 0;
   line-height: 1.1;
   color: #000000;
   border-radius: 0;
-  transition: all 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out, font-size 0.1s ease-in-out, color 0.1s ease-in-out, top 0.1s ease-in-out;
   pointer-events: none;
+  transform-origin: left top;
 }
 
 .form-input-label-2 input::placeholder,
@@ -179,40 +187,31 @@
   color: transparent;
 }
 
-.form-input-label-2 input:not(:placeholder-shown),
-.form-input-label-2 textarea:not(:placeholder-shown),
-.error-zone input:not(:placeholder-shown),
-.error-zone textarea:not(:placeholder-shown) {
-  padding-top: var(--hg-spacing-8);
-  padding-bottom: 0;
-}
-
 .form-input-label-2 input:not(:placeholder-shown) ~ label,
 .form-input-label-2 textarea:not(:placeholder-shown) ~ label,
 .error-zone input:not(:placeholder-shown) ~ label,
 .error-zone textarea:not(:placeholder-shown) ~ label {
-  padding-top: 1px;
-  padding-bottom: calc(14px / 3);
+  top: 0;
   font-size: 12px;
   color: var(--hg-color-dark-grey);
+  transform: translateY(0);
 }
 
 .form-input-label-2 input:focus,
 .form-input-label-2 textarea:focus,
 .error-zone input:focus,
 .error-zone textarea:focus {
-  padding-top: var(--hg-spacing-8);
-  padding-bottom: 0;
+  outline: none;
 }
 
 .form-input-label-2 input:focus ~ label,
 .form-input-label-2 textarea:focus ~ label,
 .error-zone input:focus ~ label,
 .error-zone textarea:focus ~ label {
-  padding-top: 1px;
-  padding-bottom: calc(14px / 3);
+  top: 0;
   font-size: 12px;
   color: var(--hg-color-dark-grey);
+  transform: translateY(0);
 }
 
 .form-input-label-2 input::-webkit-list-button,

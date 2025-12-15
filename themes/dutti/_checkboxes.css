@@ -5,7 +5,7 @@
  */
 
 /* ============================================
-   CHECKBOX BÁSICO
+   CHECKBOX BÁSICO (SVG INLINE)
    ============================================ */
 
 .checkbox {
@@ -50,18 +50,26 @@
   border-color: var(--checkbox-checked-border);
 }
 
-.checkbox input[type="checkbox"]:checked + .checkbox-indicator::after {
-  content: "";
-  width: 5px;
+.checkbox-indicator .cbox__icon {
+  display: block;
+  width: 10px;
   height: 8px;
-  border: 1.5px solid var(--hg-color-white);
-  border-top: 0;
-  border-left: 0;
-  transform: rotate(45deg);
-  margin-top: -1px;
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity .12s ease, transform .12s ease;
+  color: var(--checkbox-check-color, var(--hg-color-white));
 }
 
-.checkbox input[type="checkbox"]:focus + .checkbox-indicator {
+.checkbox input[type="checkbox"]:checked + .checkbox-indicator .cbox__icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.checkbox input[type="checkbox"]:checked + .checkbox-indicator::after {
+  content: none;
+}
+
+.checkbox input[type="checkbox"]:focus-visible + .checkbox-indicator {
   outline: 2px solid var(--hg-color-info);
   outline-offset: 2px;
 }
@@ -72,6 +80,11 @@
 
 .checkbox input[type="checkbox"]:disabled + .checkbox-indicator {
   opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkbox input[type="checkbox"]:disabled ~ .checkbox-label {
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -258,7 +271,6 @@
   font-weight: var(--hg-typo-font-weight-400);
   font-size: var(--hg-typo-font-size-12);
   text-align: initial;
-  display: flex;
   min-height: 26px;
 }
 
@@ -487,11 +499,7 @@
   line-height: normal;
 }
 
-.checkbox-item-img [type=checkbox]:checked + label .icon {
-  opacity: 1;
-  transform: scale(1) translate(-50%, calc(-50% - 30px));
-}
-
+.checkbox-item-img [type=checkbox]:checked + label .icon,
 .checkbox-item-img .checkbox-item [type=checkbox]:checked + label .icon {
   opacity: 1;
   transform: scale(1) translate(-50%, calc(-50% - 30px));
@@ -650,10 +658,6 @@
 }
 
 /* Variantes de checkbox-radio */
-.check-center.checkbox-radio [type=radio]:checked + label .border-1-grey {
-  border: var(--border-width) var(--border-style) var(--hg-color-primary);
-}
-
 .check-center.checkbox-radio [type=radio]:checked + label::before,
 .check-center.checkbox-radio [type=radio]:not(:checked) + label::before {
   position: absolute;
@@ -673,11 +677,8 @@
   padding-left: 30px;
 }
 
+.check-center.checkbox-radio [type=radio]:checked + label .border-1,
 .check-center.checkbox-radio [type=radio]:checked + label .border-1-grey {
-  border: var(--border-width) var(--border-style) var(--hg-color-primary);
-}
-
-.check-center.checkbox-radio [type=radio]:checked + label .border-1 {
   border: var(--border-width) var(--border-style) var(--hg-color-primary);
 }
 
