@@ -692,6 +692,7 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
     
     <div style="display: flex; align-items: center; gap: 1rem;">
+       <div id="search-results" class="guide-search-results"></div>
       <div class="guide-search-container">
         <input 
           type="text" 
@@ -718,7 +719,7 @@ function generateHTML(configData, previousValuesPath = null) {
           title="Limpiar búsqueda"
         >×</button>
       </div>
-      <div id="search-results" class="guide-search-results"></div>
+   
       <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
     </div>
     </div>
@@ -798,7 +799,7 @@ function generateHTML(configData, previousValuesPath = null) {
        
             <div class="demo-section-2">
             <div>
-                  <div class=""> <strong>¿Cómo se generan los helpers de espaciado?</strong></div>
+             <div class=""> <strong>¿Cómo se generan los helpers de espaciado?</strong></div>
         
             <ul class="guide-info-box-list">
               <li class="text-m guide-info-box-list-item">
@@ -812,11 +813,12 @@ function generateHTML(configData, previousValuesPath = null) {
               </li>
              </ul>
              </div>
-<div>
-
-                        <p class="text-m guide-info-box-text">
+                      <p class="text-m guide-info-box-text">
               <strong>Ejemplos:</strong> <code class="guide-info-box-code">.p-16</code> (padding all), <code class="guide-info-box-code">.pt-8</code> (padding-top), <code class="guide-info-box-code">.mr-4</code> (margin-right), <code class="guide-info-box-code">.mb-0</code> (margin-bottom)
                         </p>
+<div>
+
+               
                                <div class="guide-spacing-diagram">
             <div class="guide-spacing-diagram-container">
               <!-- Etiquetas de margin (exterior) -->
