@@ -1,3 +1,4 @@
+
 /* ============================================
    CLASES BASE DE TEXTO
    ============================================ */
@@ -574,9 +575,13 @@ body {
   left: 10%;
 }
 
-/* ============================================
-   ESTILOS DEL HEADER Y SIDEBAR
-   ============================================ */
+
+/**
+ * Estilos del Header, Sidebar y Títulos para la Guía
+ * Usado en index.html y dutti-demo.html
+ */
+
+/* Header */
 .guide-header {
   height: 80px;
   position: sticky;

@@ -9,8 +9,6 @@ const targetFile = path.join(__dirname, 'dist', 'themes', 'dutti-demo.html');
 
 // Estilos del sidebar + Lenis (solo para dutti-demo.html en dist)
 const sidebarStyles = `
-    
-
     /* Lenis Smooth Scroll - Solo para demo Dutti */
     html.lenis {
       height: auto;
@@ -92,9 +90,9 @@ if (fs.existsSync(sourceFile)) {
     content = content.replace(/href="theme\.css"/g, 'href="dutti.css"');
     content = content.replace(/href="dutti\.css"/g, 'href="dutti.css"');
     
-    // Agregar link a guide-header.css
-    const guideHeaderCSS = '<link rel="stylesheet" href="../guide-header.css">';
-    content = content.replace(/<link rel="stylesheet" href="dutti\.css">/g, `<link rel="stylesheet" href="dutti.css">\n    ${guideHeaderCSS}`);
+    // Agregar link a guide-styles.css
+    const guideStylesCSS = '<link rel="stylesheet" href="../guide-styles.css">';
+    content = content.replace(/<link rel="stylesheet" href="dutti\.css">/g, `<link rel="stylesheet" href="dutti.css">\n    ${guideStylesCSS}`);
     
     // Añadir estilos del sidebar antes del </style>
     content = content.replace('</style>', sidebarStyles + '\n  </style>');

@@ -228,12 +228,6 @@ function generateHTML(configData, previousValuesPath = null) {
   const category = configData.category || 'typo';
   const baseFontSize = configData.baseFontSize || 16;
   
-  // Cargar estilos consolidados
-  const consolidatedStylesPath = path.join(__dirname, 'guide-styles.css');
-  const consolidatedStyles = fs.existsSync(consolidatedStylesPath) 
-    ? fs.readFileSync(consolidatedStylesPath, 'utf8') 
-    : '';
-  
   // Obtener autor del último commit
   const lastCommitAuthor = getLastCommitAuthor();
   // Obtener versión del package.json
@@ -472,10 +466,8 @@ function generateHTML(configData, previousValuesPath = null) {
       </table>
     </div>` : '';
   
-  // Estilos CSS - Todos movidos a guide-styles.css
-  // Solo mantenemos estilos dinámicos que dependen de variables del config
+  // Estilos dinámicos basados en config
   const allStyles = `
-    /* Estilos dinámicos basados en config */
     body {
       font-family: var(--${prefix}-${category}-font-family-primary);
     }`;
@@ -631,9 +623,8 @@ function generateHTML(configData, previousValuesPath = null) {
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
-  <link rel="stylesheet" href="guide-header.css?v=${Date.now()}">
+  <link rel="stylesheet" href="guide-styles.css?v=${Date.now()}">
   <style>
-    ${consolidatedStyles}
     ${allStyles}
     
     /* Lenis Smooth Scroll Styles - Solo para la guía */

@@ -48,12 +48,12 @@ if (require.main === module) {
     
     writeFile(htmlPath, htmlContent, 'HTML');
     
-    // Copiar guide-header.css a dist
-    const guideHeaderSource = path.join(__dirname, 'src', 'guide-header.css');
-    const guideHeaderDest = path.join(__dirname, 'dist', 'guide-header.css');
-    if (fs.existsSync(guideHeaderSource)) {
-      fs.copyFileSync(guideHeaderSource, guideHeaderDest);
-      console.log('✅ guide-header.css copiado a dist/');
+    // Copiar guide-styles.css a dist
+    const guideStylesSource = path.join(__dirname, 'src', 'docs-generator', 'guide-styles.css');
+    const guideStylesDest = path.join(__dirname, 'dist', 'guide-styles.css');
+    if (fs.existsSync(guideStylesSource)) {
+      fs.copyFileSync(guideStylesSource, guideStylesDest);
+      console.log('✅ guide-styles.css copiado a dist/');
     }
     
     // Generar tema combinado en dist si está habilitado
