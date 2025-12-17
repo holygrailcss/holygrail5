@@ -475,10 +475,9 @@ function generateHTML(configData, previousValuesPath = null) {
   // Estilos CSS - Todos movidos a guide-styles.css
   // Solo mantenemos estilos dinámicos que dependen de variables del config
   const allStyles = `
+    /* Estilos dinámicos basados en config */
     body {
       font-family: var(--${prefix}-${category}-font-family-primary);
-      margin: 0;
-      padding: 0;
     }`;
 
   // Generar tabla de layout helpers
@@ -654,9 +653,9 @@ function generateHTML(configData, previousValuesPath = null) {
       overflow: hidden;
     }
     
-    /* Google Fonts - Solo para la guía */
+    /* Google Fonts - Solo para la guía (sobrescribe la fuente del body) */
     body {
-      font-family: 'Instrument Sans', sans-serif;
+      font-family: 'Instrument Sans', sans-serif !important;
     }
   </style>
 </head>
