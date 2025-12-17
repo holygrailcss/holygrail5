@@ -32,7 +32,7 @@ const sidebarStyles = `
 // HTML del header y sidebar
 const headerAndSidebarHTML = `
   <div class="guide-header">
-    <h1 class="guide-logo" style="">Designed by UX-IT</h1>
+    <a class="btn-link" href="../index.html" class="guide-menu-item"><h1 class="guide-logo" style="">HolyGrail 5</h1> </a>
     <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
   </div>
   

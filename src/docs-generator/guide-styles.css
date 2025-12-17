@@ -1,0 +1,224 @@
+/**
+ * Estilos consolidados para la guía de HolyGrail5
+ * Clases unificadas para reducir duplicación
+ */
+
+/* ============================================
+   CLASES BASE DE TEXTO
+   ============================================ */
+
+/* Texto en negrita (para nombres, clases, títulos) */
+.guide-text-bold,
+.guide-table .guide-table-name,
+.guide-layout-class-name {
+  font-weight: 600;
+  color: #000000;
+  font-family: arial;
+}
+
+/* Texto regular (para valores, propiedades) */
+.guide-text-regular,
+.guide-table .guide-table-value {
+  font-family: arial;
+  color: #333;
+  font-size: 13px;
+}
+
+/* Texto medio (para valores intermedios) */
+.guide-text-medium,
+.guide-table .guide-mobile-value,
+.guide-table .guide-desktop-value,
+.guide-table .guide-value-center-blue {
+  font-weight: 500;
+  font-family: arial;
+  color: #000000;
+}
+
+/* Texto gris (para valores secundarios) */
+.guide-text-gray,
+.guide-layout-property,
+.guide-color-var-name,
+.guide-color-value {
+  font-family: arial;
+  color: #666;
+  font-size: 13px;
+}
+
+/* Texto pequeño (para metadatos) */
+.guide-text-small {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* Texto naranja */
+.guide-table .guide-value-center-orange {
+  font-weight: 500;
+  font-family: arial;
+  color: #cc6600;
+}
+
+/* ============================================
+   CLASES DE COLORES
+   ============================================ */
+
+.guide-text-black {
+  color: #000000;
+}
+
+.guide-text-orange {
+  color: #cc6600;
+}
+
+.guide-text-blue {
+  color: #0170e9;
+}
+
+/* ============================================
+   CLASES DE ESTADO
+   ============================================ */
+
+.guide-changed,
+.guide-table td.guide-changed,
+.guide-table td.guide-mobile-value.guide-changed,
+.guide-table td.guide-desktop-value.guide-changed {
+  background: #d4edda !important;
+  border-left: 3px solid #28a745;
+  font-weight: 600;
+}
+
+.guide-changed-text,
+.guide-color-value.guide-changed {
+  background: #d4edda;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* ============================================
+   CLASES DE INTERACCIÓN
+   ============================================ */
+
+.guide-interactive,
+.guide-color-var-name,
+.guide-color-value,
+.guide-copyable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.guide-interactive:hover,
+.guide-color-var-name:hover,
+.guide-color-value:hover,
+.guide-copyable:hover {
+  background-color: #f0f0f0;
+  border-radius: 3px;
+}
+
+.guide-interactive:active,
+.guide-copyable:active {
+  background-color: #efefef;
+}
+
+/* ============================================
+   CLASES DE POSICIONAMIENTO
+   ============================================ */
+
+.guide-absolute-center,
+.guide-spacing-margin-box,
+.guide-spacing-padding-box,
+.guide-spacing-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.guide-absolute-center-x,
+.guide-spacing-label-top,
+.guide-spacing-label-bottom,
+.guide-spacing-label-padding-top,
+.guide-spacing-label-padding-bottom {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.guide-absolute-center-y,
+.guide-spacing-label-left,
+.guide-spacing-label-right,
+.guide-spacing-label-padding-left,
+.guide-spacing-label-padding-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ============================================
+   CLASES DE CÓDIGO
+   ============================================ */
+
+.guide-code,
+.guide-info-box-code,
+.guide-info-box-code-info {
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+  font-family: arial;
+  font-size: 0.875rem;
+}
+
+.guide-code-block,
+.guide-code-example {
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: arial;
+  font-size: 12px;
+}
+
+/* ============================================
+   CLASES DE ESPACIADO
+   ============================================ */
+
+.guide-meta {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.guide-meta-small,
+.guide-sidebar-meta-small {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  margin-top: 0.25rem;
+}
+
+.guide-meta-normal,
+.guide-sidebar-meta {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+}
+
+
+/* Estilos para thead sticky */
+.guide-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+}
+
+.guide-table thead th {
+  background: white;
+  position: sticky;
+  top: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #919191;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #ddd;
+  padding: 0.75rem;
+  padding-left: 0;
+  text-align: left;
+  z-index: 10;
+}

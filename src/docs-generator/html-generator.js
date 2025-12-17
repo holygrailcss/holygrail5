@@ -228,6 +228,12 @@ function generateHTML(configData, previousValuesPath = null) {
   const category = configData.category || 'typo';
   const baseFontSize = configData.baseFontSize || 16;
   
+  // Cargar estilos consolidados
+  const consolidatedStylesPath = path.join(__dirname, 'guide-styles.css');
+  const consolidatedStyles = fs.existsSync(consolidatedStylesPath) 
+    ? fs.readFileSync(consolidatedStylesPath, 'utf8') 
+    : '';
+  
   // Obtener autor del último commit
   const lastCommitAuthor = getLastCommitAuthor();
   // Obtener versión del package.json
@@ -485,15 +491,7 @@ function generateHTML(configData, previousValuesPath = null) {
       padding: 0.75rem;
       padding-left: 0;
       text-align: left;
-      font-weight: 600;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid #ddd;
-      position: sticky;
-      top: 0;
-      color: #919191;
-   
-      z-index: 10;
+      /* position: sticky y otros estilos movidos a guide-styles.css */
     }
 
     .guide-table td {
@@ -507,38 +505,7 @@ function generateHTML(configData, previousValuesPath = null) {
       background: #f9f9f9;
     }
 
-    /* Estilos para nombres/identificadores */
-    .guide-table .guide-table-name {
-      font-weight: 600;
-      color: #000000;
-      font-family: arial;
-    }
-
-    /* Estilos para valores */
-    .guide-table .guide-table-value {
-      font-family: arial;
-      color: #333;
-      font-size: 13px;
-    }
-
-    /* Estilos para celdas cambiadas */
-    .guide-table td.guide-changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-      font-weight: 600;
-    }
-
-    /* Estilos específicos de tipografía */
-    .guide-table th.guide-mobile-header {
-
-      
-    }
-
-    .guide-table th.guide-desktop-header {
-
-      
-    }
-
+    /* Estilos de tabla - clases base movidas a guide-styles.css */
     .guide-table .guide-sub-header th {
       border-top: none;
       border-bottom: 1px solid #ddd;
@@ -546,8 +513,7 @@ function generateHTML(configData, previousValuesPath = null) {
       font-size: 0.6875rem;
     }
 
-    .guide-table .guide-preview-cell {
-    }
+    /* Clase vacía eliminada */
 
     .guide-table .guide-typography-preview {
       padding: 0.5rem;
@@ -559,26 +525,7 @@ function generateHTML(configData, previousValuesPath = null) {
       
     }
 
-    .guide-table .guide-mobile-value {
- 
-      color: #000000;
-      font-weight: 500;
-      
-      font-family: arial;
-    }
-
-    .guide-table .guide-desktop-value {
-
-      font-weight: 500;
-      
-      font-family: arial;
-    }
-
-    .guide-table td.guide-mobile-value.guide-changed,
-    .guide-table td.guide-desktop-value.guide-changed {
-      background: #d4edda !important;
-      border-left: 3px solid #28a745;
-    }
+    /* Valores mobile/desktop y celdas cambiadas - manejados por guide-styles.css */
 
     /* Estilos para previews de fuente */
     .guide-table .guide-font-family-preview {
@@ -589,20 +536,7 @@ function generateHTML(configData, previousValuesPath = null) {
       font-weight: 600;
     }
     
-    /* Estilos para valores centrados con color */
-    .guide-table .guide-value-center-blue {
-      color: #000000;
-      font-weight: 500;
-      
-      font-family: arial;
-    }
-
-    .guide-table .guide-value-center-orange {
-      color: #cc6600;
-      font-weight: 500;
-      
-      font-family: arial;
-    }
+    /* Valores centrados con color - manejados por guide-styles.css */
 
     /* Estilos para grid de colores */
     .guide-colors-grid {
@@ -632,44 +566,7 @@ function generateHTML(configData, previousValuesPath = null) {
       transform: translateY(0);
     }
 
-    .guide-color-var-name,
-    .guide-color-value {
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .guide-color-var-name:hover,
-    .guide-color-value:hover {
-      background-color: #f0f0f0;
-      border-radius: 3px;
-    }
-
-    .guide-copyable {
-      cursor: pointer;
-      transition: background-color 0.2s;
-      position: relative;
-    }
-
-    .guide-copyable:hover {
-      background-color: #f0f0f0;
-    }
-
-    .guide-copyable:active {
-      background-color: #efefef;
-    }
-
-    /* Estilos para helpers de layout */
-    .guide-layout-class-name {
-      font-weight: 600;
-      color: #000000;
-      font-family: arial;
-    }
-
-    .guide-layout-property {
-      color: #666;
-      font-family: arial;
-      font-size: 13px;
-    }
+    /* Elementos interactivos y helpers de layout - manejados por guide-styles.css */
 
     .guide-color-preview {
       width: 100%;
@@ -703,36 +600,11 @@ function generateHTML(configData, previousValuesPath = null) {
 
     .guide-color-var-name {
       font-size: 11px;
-      color: #666;
       margin-bottom: 0.5rem;
-      font-family: arial;
       word-break: break-all;
     }
 
-    .guide-color-value {
-      font-size: 0.75rem;
-      color: #666;
-      font-family: arial;
-    }
-
-    .guide-color-value.guide-changed {
-      background: #d4edda;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    /* Estilos para sidebar header */
-    .guide-sidebar-meta {
-      font-size: 0.75rem;
-      opacity: 0.6;
-      margin-top: 0.5rem;
-    }
-
-    .guide-sidebar-meta-small {
-      font-size: 0.75rem;
-      opacity: 0.6;
-      margin-top: 0.25rem;
-    }
+    /* Sidebar meta, color values y changed - manejados por guide-styles.css */
 
     /* Estilos para búsqueda */
     .guide-search-container {
@@ -796,13 +668,7 @@ function generateHTML(configData, previousValuesPath = null) {
    
     }
 
-    .guide-info-box-warning {
-
-    }
-
-    .guide-info-box-info {
-
-    }
+    /* Clases vacías eliminadas */
 
     .guide-info-box-title {
       margin: 0 0 1rem 0;
@@ -838,20 +704,7 @@ function generateHTML(configData, previousValuesPath = null) {
       margin-bottom: 0.5rem;
     }
 
-    .guide-info-box-code {
-      padding: 0.125rem 0.375rem;
-      border-radius: 3px;
-      font-family: arial;
-      font-size: 0.875rem;
-    }
-
-    .guide-info-box-code-info {
-
-      padding: 0.125rem 0.375rem;
-      border-radius: 3px;
-      font-family: arial;
-      font-size: 0.875rem;
-    }
+    /* Código en info boxes - manejado por guide-styles.css */
 
     .guide-info-box-text-small {
       margin: 0;
@@ -870,14 +723,7 @@ function generateHTML(configData, previousValuesPath = null) {
       border-radius: 3px;
     }
 
-    .guide-code-example {
-      background: #f5f5f5;
-      padding: 1rem;
-      border-radius: 4px;
-      overflow-x: auto;
-      font-family: arial;
-      font-size: 12px;
-    }
+    /* Code example - manejado por guide-styles.css */
 
     /* Estilos generales */
     * {
@@ -930,11 +776,8 @@ function generateHTML(configData, previousValuesPath = null) {
       height: 300px;
     }
 
+    /* Boxes de spacing - posicionamiento manejado por guide-styles.css */
     .guide-spacing-margin-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       width: 80%;
       height: 70%;
       border: 1px dashed #cccccc;
@@ -943,22 +786,14 @@ function generateHTML(configData, previousValuesPath = null) {
     }
 
     .guide-spacing-padding-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       width: 60%;
       height: 50%;
-      border: 1px dashedrgb(74, 95, 117);
+      border: 1px dashed rgb(74, 95, 117);
       background: rgba(1, 112, 233, 0.05);
       border-radius: 4px;
     }
 
     .guide-spacing-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       width: 40%;
       height: 30%;
       background: #333;
@@ -984,29 +819,11 @@ function generateHTML(configData, previousValuesPath = null) {
       white-space: nowrap;
     }
 
-    .guide-spacing-label-top {
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .guide-spacing-label-bottom {
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .guide-spacing-label-left {
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .guide-spacing-label-right {
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+    /* Labels de spacing - posicionamiento manejado por guide-styles.css */
+    .guide-spacing-label-top { top: 0; }
+    .guide-spacing-label-bottom { bottom: 0; }
+    .guide-spacing-label-left { left: 0; }
+    .guide-spacing-label-right { right: 0; }
 
     .guide-spacing-label-margin {
       color: #ccc;
@@ -1016,29 +833,11 @@ function generateHTML(configData, previousValuesPath = null) {
       color: #000;
     }
 
-    .guide-spacing-label-padding-top {
-      top: 15%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .guide-spacing-label-padding-right {
-      right: 10%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .guide-spacing-label-padding-bottom {
-      bottom: 15%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .guide-spacing-label-padding-left {
-      left: 10%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+    /* Labels de padding - posicionamiento manejado por guide-styles.css */
+    .guide-spacing-label-padding-top { top: 15%; }
+    .guide-spacing-label-padding-right { right: 10%; }
+    .guide-spacing-label-padding-bottom { bottom: 15%; }
+    .guide-spacing-label-padding-left { left: 10%; }
 
     }`;
 
@@ -1195,6 +994,7 @@ function generateHTML(configData, previousValuesPath = null) {
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
   <link rel="stylesheet" href="guide-header.css?v=${Date.now()}">
   <style>
+    ${consolidatedStyles}
     ${allStyles}
     
     /* Lenis Smooth Scroll Styles - Solo para la guía */

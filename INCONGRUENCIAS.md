@@ -160,3 +160,4 @@ console.log('✅ Demo HTML copiado con sidebar: dist/themes/dutti-demo.html');
 - Algunas afectan la capacidad de usar múltiples temas
 
 
+
