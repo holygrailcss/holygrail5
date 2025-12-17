@@ -76,18 +76,20 @@
       
       <div class="demo-section-2" >
         <h3 > ¿Dónde se customiza el tema?</h3>
+        <div> </div>
         <p >
           El tema Dutti se customiza en <strong>dos niveles</strong>:
         </p>
-        <ol >
-          <li>
+        <div> </div>
+
+          <div class="mb-24">
             <strong>Variables base (HolyGrail5) :</strong> <br> Edita <code>config.json</code> en la raíz del proyecto para cambiar colores, espaciados y tipografía base. Luego ejecuta <code>npm run build</code> para regenerar <code>dist/output.css</code>.
-          </li>
-          <li>
+          </div>
+          <div class="mb-24">
             <strong>Variables del tema (Dutti)</strong>: <br>   Edita <code>themes/dutti/_variables.css</code> para mapear las variables de HolyGrail5 a las variables específicas del tema (ej: <code>--btn-primary-bg: var(--hg-color-primary)</code>).
-          </li>
-        </ol>
-        <p >
+          </div>
+     
+        <p class="mb-24">
           <strong>Archivo principal:</strong> <br> <code>themes/dutti/theme.css</code> importa automáticamente todos los módulos CSS del tema. Los componentes individuales (<code>_buttons.css</code>, <code>_inputs.css</code>, etc.) usan las variables definidas en <code>_variables.css</code>.
         </p>
       </div>
