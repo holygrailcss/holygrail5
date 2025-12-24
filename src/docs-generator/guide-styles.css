@@ -66,7 +66,7 @@ h2 {
   }
   
   .guide-section-description {
-    font-size: 48px;
+    font-size: 28px;
   }
 }
 
@@ -102,26 +102,24 @@ h2 {
 
 .guide-section-description {
   margin-top: 1rem;
-  font-size: 48px;
+  font-size: 28px;
   color: #000000;
   font-family: "Instrument Sans", sans-serif;
-  width: 50%;
+
   line-height: 1.2;
   margin-bottom: 1rem;
+  width: 100%;
+  margin-left: 0;
 }
 
 @media (min-width: 768px) {
   .guide-section-description {
     margin-bottom: 5rem;
+    font-size: 48px;
+    width: 50%;
   }
 }
 
-@media (max-width: 768px) {
-  .guide-section-description {
-    width: 100%;
-    margin-left: 0;
-  }
-}
 
 /* ============================================
    HEADER Y NAVEGACIÓN
@@ -169,6 +167,19 @@ h2 {
   border: 1px solid #000000;
   padding: 4px;
   border-radius: 8px;
+}
+
+.guide-logo a {
+  color: #000;
+  text-decoration: none;
+}
+
+.guide-logo a:visited {
+  color: #000;
+}
+
+.guide-logo a:hover {
+  color: #000;
 }
 
 .guide-header-button {
@@ -615,6 +626,15 @@ h2 {
   padding-inline: 0.5rem;
   padding-bottom: 2rem;
 }
+
+
+@media (min-width: 768px) {
+  .guide-colors-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+
 
 .guide-color-card {
   background: white;
