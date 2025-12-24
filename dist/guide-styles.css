@@ -81,7 +81,12 @@ h2 {
 
 .guide-section.guide-section--highlighted {
   background: #fff;
-  padding: 5rem 0;
+  padding: 5rem 0 2rem 0;
+}
+@media (min-width: 768px) {
+  .guide-section.guide-section--highlighted {
+    padding: 5rem 0;
+  }
 }
 
 .guide-section-title {
