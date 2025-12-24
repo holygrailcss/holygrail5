@@ -194,8 +194,9 @@
   margin-top: 0.5rem;
 }
 
-
-/* Estilos para thead sticky */
+/* ============================================
+   ESTILOS DE TABLA THEAD STICKY
+   ============================================ */
 .guide-table thead {
   position: sticky;
   top: 0;
@@ -352,7 +353,6 @@
 }
 
 .guide-search-input:focus {
-  border-color: #000000;
   border: 2px solid #000000;
 }
 
@@ -456,12 +456,13 @@
 
 .guide-section {
   background: white;
-  padding: 0rem;
+
   border-radius: 8px;
 }
 
 .guide-section.guide-section--highlighted {
   background: #fff;
+  padding: 5rem 0;
 }
 
 body {
@@ -618,13 +619,10 @@ body {
 
 /* Header Button */
 .guide-header-button {
- 
   color: black;
-  border: none;
   border: 1px solid #000000;
-  background:transparent;
- 
-  border-radius: 4px;
+  background: transparent;
+  border-radius: 50%;
   cursor: pointer;
   font-size: 10px;
   font-weight: 500;
@@ -632,8 +630,6 @@ body {
   margin-left: 1rem;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-
 }
 
 .guide-header-button:hover {
@@ -653,17 +649,21 @@ body {
 }
 
 .guide-main-content strong {
-    font-weight: 700;
-
+  font-weight: 700;
 }
 
 /* Títulos de sección */
 .guide-section-title {
   font-size: 1.5rem;
   font-weight: 700;
-  padding-top: 6rem;
-  padding-bottom: 2rem;
 
+  padding-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+h2{
+  padding-top: 6rem;
+	padding-bottom: 2rem;
 }
 
 /* Descripciones de sección */
@@ -673,9 +673,9 @@ body {
   color: #000000;
   font-family: 'Instrument Sans', sans-serif;
   width: 50%;
-  margin-left: 50%;
+
   line-height: 1.2;
-  margin-bottom: 10rem;
+  margin-bottom: 5rem;
 }
 @media (max-width: 768px) {
   .guide-section-description {
@@ -712,14 +712,13 @@ body {
 
   border-radius: 20px;
   background: white;
-  border-right: 1px solid #efefef;
+  border: 1px solid black;
   padding: 2rem 0;
   padding-bottom: 120px;
   overflow-y: auto;
   z-index: 999;
   box-shadow: 2px 0 8px rgba(0,0,0,0.1);
   transition: right 0.3s ease;
-  border: 1px solid black;
 }
 
 .guide-sidebar.open {
@@ -823,23 +822,9 @@ ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Demo Styles */
-.demo-title {
-  font-size: var(--hg-typo-font-size-24);
-  margin-block-end: var(--hg-spacing-24);
-  padding-block-end: var(--hg-spacing-16);
-  border-bottom: 2px solid var(--hg-color-primary);
-  padding-top: var(--hg-spacing-32);
-}
-
-.demo-subtitle {
-  font-size: var(--hg-typo-font-size-14);
-  font-weight: var(--hg-typo-font-weight-700);
-  margin-block-end: var(--hg-spacing-16);
-  text-transform: uppercase;
-}
-
-/* Responsive */
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 @media (max-width: 768px) {
   .guide-header {
     padding: 1rem 2rem;
@@ -860,11 +845,11 @@ ease;
   }
 }
 
-.guide-sidebar-title{
-    font-size: 24px;
-    color:#cccccc;
-    margin-bottom: 1rem;
-    padding: 0.2rem 1rem;
+.guide-sidebar-title {
+  font-size: 24px;
+  color: #cccccc;
+  margin-bottom: 1rem;
+  padding: 0.2rem 1rem;
 }
 
 /* Estilos para demo-section-2 (dos columnas con ancho máximo 50%) */
@@ -877,17 +862,18 @@ ease;
   margin-bottom: 10rem;
 }
 
+/* ============================================
+   ESTILOS DEMO
+   ============================================ */
 
 body {
-
-
   font-family: var(--hg-typo-font-family-primary);
 }
 
 .demo-container {
   margin: 0 auto;
   background-color: var(--hg-color-white);
- padding: var(--hg-spacing-32);
+  padding: var(--hg-spacing-32);
 }
 
 .demo-section {
@@ -936,4 +922,95 @@ body {
   font-size: var(--hg-typo-font-size-12);
   overflow-x: auto;
   margin-block-start: var(--hg-spacing-16);
+}
+
+.case-study-img-holygrail {
+	background-image: url(src/intro.jpg);
+	height: 100vh;
+  margin-inline: -2rem;
+  background-position: 50%;
+	background-size: cover;
+	background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* Typeface Specimen */
+.guide-typeface-specimen {
+  display: flex;
+
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #e3e3e3;
+
+
+}
+
+.guide-typeface-left {
+  font-family: var(--hg-typo-font-family-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 200px;
+  width: 50%;
+
+}
+
+.guide-typeface-large-aa {
+  font-size: 8rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #000;
+}
+
+.guide-typeface-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.guide-typeface-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.guide-typeface-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #737373;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.guide-typeface-value {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
+}
+
+.guide-typeface-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #000;
+  width: 50%;
+
+}
+
+.guide-typeface-chars {
+  display: flex;
+
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.guide-typeface-char {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
 }

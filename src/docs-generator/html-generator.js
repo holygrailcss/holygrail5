@@ -1,11 +1,9 @@
 // Generador de guía HTML desde JSON
-
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { pxToRem, remToPx, getFontFamilyName } = require('../generators/utils');
 const { buildValueMap } = require('../css-generator');
-
 // Lee los valores anteriores guardados en un archivo JSON
 function loadPreviousValues(previousValuesPath) {
   try {
@@ -18,7 +16,6 @@ function loadPreviousValues(previousValuesPath) {
   }
   return null;
 }
-
 // Guarda los valores actuales para la próxima comparación
 function saveCurrentValues(currentValues, previousValuesPath) {
   try {
@@ -31,17 +28,14 @@ function saveCurrentValues(currentValues, previousValuesPath) {
     console.warn('⚠️  No se pudo guardar los valores anteriores:', error.message);
   }
 }
-
 // Compara valores actuales con anteriores y devuelve un mapa de cambios
 function getChangedValues(currentValues, previousValues) {
   const changes = new Set();
-  
   // Si no hay valores previos, no marca nada como cambiado (primera ejecución o build limpio)
   // Solo se marcarán cambios cuando haya valores previos para comparar
   if (!previousValues) {
     return changes;
   }
-  
   // Compara breakpoints
   if (currentValues.breakpoints) {
     if (!previousValues.breakpoints) {
@@ -56,22 +50,18 @@ function getChangedValues(currentValues, previousValues) {
       }
     }
   }
-  
   // Compara fontFamilyMap
   if (currentValues.fontFamilyMap) {
     const currentFontMap = currentValues.fontFamilyMap;
     const previousFontMap = previousValues.fontFamilyMap || {};
-    
     // Compara cada fuente en el mapa
     Object.keys(currentFontMap).forEach(fontName => {
       const currentVal = currentFontMap[fontName];
       const previousVal = previousFontMap[fontName];
-      
       if (currentVal !== previousVal) {
         changes.add(`fontFamilyMap.${fontName}`);
       }
     });
-    
     // Detecta fuentes eliminadas
     Object.keys(previousFontMap).forEach(fontName => {
       if (!currentFontMap[fontName]) {
@@ -79,22 +69,18 @@ function getChangedValues(currentValues, previousValues) {
       }
     });
   }
-  
   // Compara spacingMap
   if (currentValues.spacingMap) {
     const currentSpacingMap = currentValues.spacingMap;
     const previousSpacingMap = previousValues.spacingMap || {};
-    
     // Compara cada valor de spacing en el mapa
     Object.keys(currentSpacingMap).forEach(spacingKey => {
       const currentVal = currentSpacingMap[spacingKey];
       const previousVal = previousSpacingMap[spacingKey];
-      
       if (currentVal !== previousVal) {
         changes.add(`spacingMap.${spacingKey}`);
       }
     });
-    
     // Detecta valores de spacing eliminados
     Object.keys(previousSpacingMap).forEach(spacingKey => {
       if (!currentSpacingMap[spacingKey]) {
@@ -102,22 +88,18 @@ function getChangedValues(currentValues, previousValues) {
       }
     });
   }
-  
   // Compara colors
   if (currentValues.colors) {
     const currentColors = currentValues.colors;
     const previousColors = previousValues.colors || {};
-    
     // Compara cada color en el mapa
     Object.keys(currentColors).forEach(colorKey => {
       const currentVal = currentColors[colorKey];
       const previousVal = previousColors[colorKey];
-      
       if (currentVal !== previousVal) {
         changes.add(`colors.${colorKey}`);
       }
     });
-    
     // Detecta colores eliminados
     Object.keys(previousColors).forEach(colorKey => {
       if (!currentColors[colorKey]) {
@@ -125,15 +107,12 @@ function getChangedValues(currentValues, previousValues) {
       }
     });
   }
-  
   // Compara cada clase
   const currentClasses = currentValues.typo || currentValues;
   const previousClasses = previousValues.typo || previousValues;
-  
   Object.keys(currentClasses).forEach(className => {
     const current = currentClasses[className];
     const previous = previousClasses[className];
-    
     if (!previous) {
       // Nueva clase, marca todo como cambiado
       Object.keys(current).forEach(prop => {
@@ -143,7 +122,6 @@ function getChangedValues(currentValues, previousValues) {
       });
       return;
     }
-    
     // Compara propiedades base
     ['fontFamily', 'fontWeight', 'letterSpacing', 'textTransform'].forEach(prop => {
       const currentVal = current[prop];
@@ -152,7 +130,6 @@ function getChangedValues(currentValues, previousValues) {
         changes.add(`${className}.${prop}`);
       }
     });
-    
     // Compara propiedades de breakpoints
     ['mobile', 'desktop'].forEach(bp => {
       if (current[bp]) {
@@ -172,27 +149,22 @@ function getChangedValues(currentValues, previousValues) {
       }
     });
   });
-  
   // Compara variables CSS compartidas
   if (currentValues.variables) {
     const currentVars = currentValues.variables;
     const previousVars = previousValues.variables || {};
-    
     // Detecta nuevas variables o variables con valores cambiados
     Object.keys(currentVars).forEach(varName => {
       const currentVal = currentVars[varName];
       const previousVal = previousVars[varName];
-      
       // Si no existía antes o el valor cambió, marca como cambiado
       if (previousVal === undefined || currentVal !== previousVal) {
         changes.add(`variable.${varName}`);
       }
     });
   }
-  
   return changes;
 }
-
 // Obtiene el autor del último commit de git
 function getLastCommitAuthor() {
   try {
@@ -207,7 +179,6 @@ function getLastCommitAuthor() {
     return null;
   }
 }
-
 // Obtiene la versión del package.json
 function getPackageVersion() {
   try {
@@ -221,30 +192,24 @@ function getPackageVersion() {
   }
   return null;
 }
-
 function generateHTML(configData, previousValuesPath = null) {
   const classNames = Object.keys(configData.typo);
   const prefix = configData.prefix || 'hg';
   const category = configData.category || 'typo';
   const baseFontSize = configData.baseFontSize || 16;
-  
   // Obtener autor del último commit
   const lastCommitAuthor = getLastCommitAuthor();
   // Obtener versión del package.json
   const packageVersion = getPackageVersion();
-  
   // Construir variables CSS primero para poder guardarlas
   const { fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars } = 
     buildValueMap(configData.typo, configData.fontFamilyMap, prefix, category);
-  
   // Generar variables de spacing
   const { generateSpacingVariables } = require('../css-generator');
   const spacingVars = generateSpacingVariables(configData.spacingMap, prefix, baseFontSize);
-  
   // Generar variables de colores
   const { generateColorVariables } = require('../css-generator');
   const colorVars = generateColorVariables(configData.colors, prefix);
-  
   // Construir array de variables (incluyendo spacing y colores)
   const allVariables = [
     ...Array.from(fontFamilyVars.values()),
@@ -256,7 +221,6 @@ function generateHTML(configData, previousValuesPath = null) {
     ...spacingVars,
     ...colorVars
   ].map(item => ({ name: item.varName, value: item.value }));
-  
   // Preparar valores actuales para comparación
   const currentValues = {
     breakpoints: {
@@ -269,12 +233,10 @@ function generateHTML(configData, previousValuesPath = null) {
     typo: {},
     variables: {}
   };
-  
   // Guardar variables CSS en currentValues
   allVariables.forEach(variable => {
     currentValues.variables[variable.name] = variable.value;
   });
-  
   classNames.forEach(className => {
     const cls = configData.typo[className];
     currentValues.typo[className] = {
@@ -292,26 +254,21 @@ function generateHTML(configData, previousValuesPath = null) {
       }
     };
   });
-  
   // Cargar valores anteriores y detectar cambios
   const previousValuesPathDefault = previousValuesPath || path.join(__dirname, '..', '.data', '.previous-values.json');
   const previousValues = loadPreviousValues(previousValuesPathDefault);
   const changedValues = getChangedValues(currentValues, previousValues);
-  
   // Guardar valores actuales para la próxima vez
   saveCurrentValues(currentValues, previousValuesPathDefault);
-  
   // Función auxiliar para verificar si un valor cambió
   function isChanged(className, prop, breakpoint = null) {
     const key = breakpoint ? `${className}.${breakpoint}.${prop}` : `${className}.${prop}`;
     return changedValues.has(key);
   }
-  
   // Generar tabla de clases
   const tableRows = classNames.map(className => {
     const cls = configData.typo[className];
     const fontFamilyName = getFontFamilyName(cls.fontFamily, configData.fontFamilyMap);
-    
     const fontFamilyChanged = isChanged(className, 'fontFamily');
     const fontWeightChanged = isChanged(className, 'fontWeight');
     const letterSpacingChanged = isChanged(className, 'letterSpacing');
@@ -320,7 +277,6 @@ function generateHTML(configData, previousValuesPath = null) {
     const mobileLineHeightChanged = isChanged(className, 'lineHeight', 'mobile');
     const desktopFontSizeChanged = isChanged(className, 'fontSize', 'desktop');
     const desktopLineHeightChanged = isChanged(className, 'lineHeight', 'desktop');
-    
     return `
       <tr>
         <td class="guide-table-name">.${className}</td>
@@ -337,7 +293,6 @@ function generateHTML(configData, previousValuesPath = null) {
         <td class="guide-desktop-value ${desktopLineHeightChanged ? 'guide-changed' : ''}">${cls.desktop?.lineHeight || '-'}</td>
       </tr>`;
   }).join('');
-  
   const classesHTML = `
     <div class="guide-table-wrapper">
       <table class="guide-table">
@@ -365,7 +320,6 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>`;
-  
   // Generar tabla de font families
   const fontFamiliesHTML = configData.fontFamilyMap ? Object.entries(configData.fontFamilyMap).map(([name, value]) => {
     const varName = `--${prefix}-${category}-font-family-${name}`;
@@ -379,7 +333,6 @@ function generateHTML(configData, previousValuesPath = null) {
         <td class="guide-table-value">${varName}</td>
       </tr>`;
   }).join('') : '';
-  
   const fontFamiliesTableHTML = configData.fontFamilyMap ? `
     <div class="guide-table-wrapper">
       <table class="guide-table">
@@ -396,13 +349,11 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>` : '';
-  
       // Generar tabla de variables
       const variableRows = allVariables.map(variable => {
         const remValue = variable.value.match(/^([\d.]+)rem$/) ? variable.value : '-';
         const pxValue = remValue !== '-' ? remToPx(variable.value, baseFontSize) : '-';
         const isVariableChanged = changedValues.has(`variable.${variable.name}`);
-        
         return `
           <tr>
             <td class="guide-table-name guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${variable.name}" title="Click para copiar ${variable.name}">${variable.name}</td>
@@ -411,7 +362,6 @@ function generateHTML(configData, previousValuesPath = null) {
             <td class="guide-value-center-orange guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${pxValue}" title="Click para copiar ${pxValue}">${pxValue}</td>
           </tr>`;
       }).join('');
-  
   const variablesTableHTML = `
     <div class="guide-table-wrapper">
       <table class="guide-table">
@@ -428,18 +378,15 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>`;
-  
   // Generar tabla de spacing helpers
   const spacingHelpersHTML = configData.spacingMap ? Object.entries(configData.spacingMap).map(([key, value]) => {
     const hasImportant = configData.spacingImportant && configData.spacingImportant.includes(key);
     const importantLabel = hasImportant ? '<br><strong>Con !important:</strong><br>.*-' + key + '!' : '';
-    
     const varName = `--${prefix}-spacing-${key}`;
     // Si el valor termina en %, no lo convierte a rem
     const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
     const pxValue = value;
     const isChanged = changedValues.has(`spacingMap.${key}`);
-    
         return `
       <tr>
         <td class="guide-table-name">.*-${key}${importantLabel}</td>
@@ -448,7 +395,6 @@ function generateHTML(configData, previousValuesPath = null) {
         <td class="guide-value-center-orange ${isChanged ? 'guide-changed' : ''}">${pxValue}</td>
       </tr>`;
   }).join('') : '';
-  
   const spacingHelpersTableHTML = configData.spacingMap ? `
     <div class="guide-table-wrapper">
       <table class="guide-table">
@@ -465,28 +411,23 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>` : '';
-  
   // Estilos dinámicos basados en config
   const allStyles = `
     body {
       font-family: var(--${prefix}-${category}-font-family-primary);
     }`;
-
   // Generar tabla de layout helpers
   const layoutHelpersHTML = configData.helpers ? Object.entries(configData.helpers).flatMap(([helperName, config]) => {
     const { property, class: className, responsive, values, useSpacing, description, explanation } = config;
     const helperDescription = description || explanation || '';
     const prefix = configData.prefix || 'hg';
     const baseFontSize = configData.baseFontSize || 16;
-    
     const rows = [];
-    
     if (useSpacing && configData.spacingMap) {
       Object.entries(configData.spacingMap).forEach(([key, value]) => {
         const baseClass = `.${prefix}-${className}-${key}`;
         const responsiveClass = responsive ? `.md:${prefix}-${className}-${key}` : '';
         const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
-        
         rows.push(`
       <tr>
         <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
@@ -500,7 +441,6 @@ function generateHTML(configData, previousValuesPath = null) {
         values.forEach(value => {
           const baseClass = `.${prefix}-${className}-${value}`;
           const responsiveClass = responsive ? `.md:${prefix}-${className}-${value}` : '';
-          
           rows.push(`
       <tr>
         <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
@@ -513,7 +453,6 @@ function generateHTML(configData, previousValuesPath = null) {
         Object.entries(values).forEach(([key, value]) => {
           const baseClass = `.${prefix}-${className}-${key}`;
           const responsiveClass = responsive ? `.md:${prefix}-${className}-${key}` : '';
-          
           rows.push(`
       <tr>
         <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
@@ -524,10 +463,8 @@ function generateHTML(configData, previousValuesPath = null) {
         });
       }
     }
-    
     return rows;
   }).join('') : '';
-
   const layoutHelpersTableHTML = configData.helpers ? `
     <div class="guide-table-wrapper">
       <table class="guide-table">
@@ -544,7 +481,6 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>` : '';
-  
       const colorsGridHTML = configData.colors ? `
         <div class="guide-colors-grid">
           ${Object.entries(configData.colors).map(([key, value]) => {
@@ -567,7 +503,6 @@ function generateHTML(configData, previousValuesPath = null) {
           </div>`;
           }).join('')}
         </div>` : '';
-      
       // Construir menú lateral
       const menuItems = [];
       if (colorsGridHTML) {
@@ -590,20 +525,16 @@ function generateHTML(configData, previousValuesPath = null) {
         menuItems.push({ id: 'grid', label: 'Grid System' });
       }
       menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
-      
       const menuHTML = menuItems.map(item => `
         <a href="#${item.id}" class="guide-menu-item" data-section="${item.id}">${item.label}</a>
       `).join('');
-      
       // Añadir enlace al demo del tema si está habilitado
       const themeDemoLink = (configData.theme && configData.theme.enabled && configData.theme.name) 
         ? `
       <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
-      
         <a href="themes/${configData.theme.name}-demo.html" class="guide-menu-item" style="color: #000000; font-weight: 600;"> Tema ${configData.theme.name.charAt(0).toUpperCase() + configData.theme.name.slice(1)}</a>
       `
         : '';
-      
       return `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -613,37 +544,29 @@ function generateHTML(configData, previousValuesPath = null) {
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
-  
   <!-- Google Fonts - Solo para la guía -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,500,600,700" media="all">
-  
   <!-- Lenis Smooth Scroll - Solo para la guía -->
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-  
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
   <link rel="stylesheet" href="guide-styles.css?v=${Date.now()}">
   <style>
     ${allStyles}
-    
     /* Lenis Smooth Scroll Styles - Solo para la guía */
     html.lenis {
       height: auto;
     }
-
     .lenis.lenis-smooth {
       scroll-behavior: auto;
     }
-
     .lenis.lenis-smooth[data-lenis-prevent] {
       overscroll-behavior: contain;
     }
-
     .lenis.lenis-stopped {
       overflow: hidden;
     }
-    
     /* Google Fonts - Solo para la guía (sobrescribe la fuente del body) */
     body {
       font-family: 'Instrument Sans', sans-serif !important;
@@ -652,23 +575,17 @@ function generateHTML(configData, previousValuesPath = null) {
 </head>
 <body>
   <div class="guide-sidebar-overlay" onclick="toggleSidebar()"></div>
-  
   <aside class="guide-sidebar">
-
-
     <nav class="guide-sidebar-nav">
       ${menuHTML}
       ${themeDemoLink}
     </nav>
-    
     <div class="guide-sidebar-footer">
       <div class="guide-sidebar-badges">
         <a href="https://www.npmjs.com/package/holygrail5" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/npm/v/holygrail5.svg" alt="npm version" />
         </a>
-
       </div>
-
                <p class="text-m guide-sidebar-meta">
           last update: ${new Date().toLocaleString('es-ES')}
         </p>
@@ -684,13 +601,10 @@ function generateHTML(configData, previousValuesPath = null) {
       ` : ''}
     </div>
   </aside>
-
       <div class="guide-header">
-    
     <div class="guide-logo">
     Holygrail 5
     </div>
-    
     <div style="display: flex; align-items: center; gap: 1rem;">
        <div id="search-results" class="guide-search-results"></div>
       <div class="guide-search-container">
@@ -719,20 +633,34 @@ function generateHTML(configData, previousValuesPath = null) {
           title="Limpiar búsqueda"
         >×</button>
       </div>
-   
       <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
     </div>
     </div>
-  
   <main class="guide-main-content">
-
-
-
 <div class="guide-container">
+    <div class="guide-section guide-section--highlighted" id="inicio">
+      <div class="guide-section-title">
+    <div>
+<div class="guide-logo">
+ <a href="themes/dutti-demo.html">Dutti theme</a>
+    </div>
+    </div>
+        <p class="text-m guide-section-description">
+       Holygrail Design System redujo el tiempo de diseño en un 73% y permitió una renovación del producto 3.75 veces más rápida
+        </p>
+      </div>
+      <div class="guide-section-content">
+
+      </div>
+    </div>
+<div class="case-study-img-holygrail h-100vh" id="dutti-theme">
+
+    </div>
     ${colorsGridHTML ? `
     <div class="guide-section guide-section--highlighted" id="colors">
+          <h2 >Colores</h2>
       <div class="guide-section-title">
-        <h2 >Colores</h2>
+      <div> </div>
         <p class="text-m guide-section-description">
         Paleta de colores disponibles con sus variables CSS.
         </p>
@@ -742,24 +670,48 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
     </div>
     ` : ''}
-
     ${fontFamiliesTableHTML ? `
     <div class="guide-section" id="font-families">
+          <h2 >Typography</h2>
       <div class="guide-section-title">
-        <h2 >Typography</h2>
+      <div> </div>
         <p class="text-m guide-section-description">
         Font families disponibles para la tipografía.
         </p>
       </div>
       <div class="guide-section-content">
+ 
+        <div class="guide-typeface-specimen">
+          <div class="guide-typeface-left">
+            <div class="guide-typeface-large-aa" style="font-family: var(--${prefix}-${category}-font-family-primary);">Aa</div>
+            <div class="guide-typeface-info">
+              <div class="guide-typeface-info-item">
+                <div class="guide-typeface-label">FAMILY</div>
+                <div class="guide-typeface-value">Suisse</div>
+              </div>
+              <div class="guide-typeface-info-item">
+                <div class="guide-typeface-label">WEIGHT</div>
+                <div class="guide-typeface-value">Regular, Medium, Semibold</div>
+              </div>
+            </div>
+          </div>
+          <div class="guide-typeface-right" style="font-family: var(--${prefix}-${category}-font-family-primary);">
+            <div class="guide-typeface-chars">${'a b c d e f g h i j k l m'.split(' ').map(char => `<div class="guide-typeface-char">${char}</div>`).join('')}</div>
+            <div class="guide-typeface-chars">${'n o p q r s t u v w x y z'.split(' ').map(char => `<div class="guide-typeface-char">${char}</div>`).join('')}</div>
+            <div class="guide-typeface-chars">${'A B C D E F G H I J K L M'.split(' ').map(char => `<div class="guide-typeface-char">${char}</div>`).join('')}</div>
+            <div class="guide-typeface-chars">${'N O P Q R S T U V W X Y Z'.split(' ').map(char => `<div class="guide-typeface-char">${char}</div>`).join('')}</div>
+            <div class="guide-typeface-chars">${'0 1 2 3 4 5 6 7 8 9 ! " #'.split(' ').map(char => `<div class="guide-typeface-char">${char}</div>`).join('')}</div>
+            <div class="guide-typeface-chars">${'$ % & \' ( ) * + . - , / ='.split(' ').map(char => `<div class="guide-typeface-char">${char}</div>`).join('')}</div>
+          </div>
+        </div>
         ${fontFamiliesTableHTML}
       </div>
     </div>
     ` : ''}
-
     <div class="guide-section" id="tipografia">
+          <h2 >Hierarchy</h2>
       <div class="guide-section-title">
-        <h2 >Hierarchy</h2>
+      <div> </div>
         <p class="text-m guide-section-description">
         Clases de tipografía disponibles.
         </p>
@@ -768,10 +720,10 @@ function generateHTML(configData, previousValuesPath = null) {
         ${classesHTML}
       </div>
     </div>
-
     <div class="guide-section" id="variables">
+          <h2 >Variables</h2>
       <div class="guide-section-title">
-        <h2 >Variables</h2>
+      <div> </div>
         <p class="text-m guide-section-description">
         Variables CSS compartidas.
         </p>
@@ -780,12 +732,11 @@ function generateHTML(configData, previousValuesPath = null) {
         ${variablesTableHTML}
       </div>
     </div>
-
-
     ${spacingHelpersTableHTML ? `
     <div class="guide-section" id="spacing">
+          <h2 >Spacing</h2>
       <div class="guide-section-title">
-        <h2 >Spacing</h2>
+      <div> </div>
             <p class="text-m guide-section-description">
         Clases helper para padding y margin basadas en el spacingMap.
         Usa las variables CSS definidas en :root.
@@ -793,14 +744,9 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       <div class="guide-section-content">
         <div class="guide-info-box guide-info-box-warning hg-d-flex">
-    
-    
-          
-       
             <div class="demo-section-2">
             <div>
              <div class=""> <strong>¿Cómo se generan los helpers de espaciado?</strong></div>
-        
             <ul class="guide-info-box-list">
               <li class="text-m guide-info-box-list-item">
                 <strong>Primera letra:</strong> tipo de spacing → <code class="guide-info-box-code">p</code> (padding) o <code class="guide-info-box-code">m</code> (margin)
@@ -818,44 +764,12 @@ function generateHTML(configData, previousValuesPath = null) {
                         </p>
 <div>
 
-               
-                               <div class="guide-spacing-diagram">
-            <div class="guide-spacing-diagram-container">
-              <!-- Etiquetas de margin (exterior) -->
-              <div class="guide-spacing-label guide-spacing-label-top guide-spacing-label-margin">mt-</div>
-              <div class="guide-spacing-label guide-spacing-label-right guide-spacing-label-margin">mr-</div>
-              <div class="guide-spacing-label guide-spacing-label-bottom guide-spacing-label-margin">mb-</div>
-              <div class="guide-spacing-label guide-spacing-label-left guide-spacing-label-margin">ml-</div>
-              
-              <!-- Caja de margin (exterior) -->
-              <div class="guide-spacing-margin-box"></div>
-              
-              <!-- Etiquetas de padding (interior) -->
-              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-top">pt-</div>
-              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-right">pr-</div>
-              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-bottom">pb-</div>
-              <div class="guide-spacing-label guide-spacing-label-padding guide-spacing-label-padding-left">pl-</div>
-              
-              <!-- Caja de padding (interior) -->
-              <div class="guide-spacing-padding-box"></div>
-              
-              <!-- Contenido -->
-              <div class="guide-spacing-content">Contenido</div>
-            </div>
+
           </div>
-          </div>
-
-                        
+          <img src="src/margen.webp" alt="Spacing Diagram" class="guide-spacing-diagram-img">
             </div>
-
-      
-   
-
-
         </div>
         ${spacingHelpersTableHTML}
-
-
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
           <h3 class="guide-info-box-title guide-info-box-title-info">Helpers con prefijo md: (Desktop)</h3>
           <p class="text-m guide-info-box-text">
@@ -888,11 +802,11 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       </div>
     ` : ''}
-
     ${layoutHelpersTableHTML ? `
     <div class="guide-section" id="layout">
+          <h2 >Layout</h2>
       <div class="guide-section-title">
-        <h2 >Layout</h2>
+      <div> </div>
         <p class="text-m guide-section-description">
         Clases helper para display, flexbox, alignment y gap. 
         Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
@@ -900,8 +814,6 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       <div class="guide-section-content">
         ${layoutHelpersTableHTML}
-
-        
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
           <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplos de uso</h3>
           <ul class="guide-info-box-list">
@@ -928,19 +840,21 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
     </div>
     ` : ''}
-
     ${configData.grid && configData.grid.enabled ? `
     <div class="guide-section" id="grid">
-      <div class="guide-section-title">
-        <h2>Grid </h2>
-        <p class="text-m guide-section-description">
+          <h2>Grid </h2>
+
+   <div class="guide-section-title">
+      <p class="text-m guide-section-description">
           Sistema de grid responsive estilo Bootstrap con 12 columnas (xs, sm, md, lg) y 24 columnas (xl).
         </p>
+        </div>
 
-
+      <div class="guide-section-title">
+      <div> </div>
+  
         <div class="demo-section-2">
           <div> <strong>¿Cómo funciona el Grid?</strong> 
-          
           <br>
                 <ul class="guide-info-box-list">
             <li class="text-m guide-info-box-list-item">
@@ -968,23 +882,14 @@ function generateHTML(configData, previousValuesPath = null) {
               <strong>.bleed-0</strong> - Elimina completamente el padding y márgenes, útil para contenido que debe ocupar todo el ancho sin espacios
             </li>
           </ul>
-          
           </div>
           <p>El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.</p>
-     
               <p class="text-m guide-info-box-text">
             <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
           </p>
         </div>
-
-
-
       </div>
       <div >
-   
-
-   
-        
         <div class="guide-table-wrapper">
           <table class="guide-table">
             <thead>
@@ -1012,7 +917,6 @@ function generateHTML(configData, previousValuesPath = null) {
             </tbody>
           </table>
         </div>
-
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
           <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplo de uso básico</h3>
           <p class="text-m guide-info-box-text">
@@ -1044,9 +948,6 @@ function generateHTML(configData, previousValuesPath = null) {
             </li>
           </ul>
         </div>
-
-        
-
         <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
           <h3 class="guide-info-box-title guide-info-box-title-info">Columnas a sangre (Bleed)</h3>
           <p class="text-m guide-info-box-text">
@@ -1073,13 +974,11 @@ function generateHTML(configData, previousValuesPath = null) {
         </div>
       </div>
     </div>
-
     ` : ''}
-
     <div class="guide-section" id="breakpoints">
+          <h2 >Breakpoints</h2>
       <div class="guide-section-title">
-        <h2 >Breakpoints</h2>
-
+      <div> </div>
             <p class="text-m guide-section-description">
           Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
           Resize la ventana del navegador para ver los cambios.
@@ -1112,17 +1011,14 @@ function generateHTML(configData, previousValuesPath = null) {
             </tbody>
           </table>
         </div>
-    
       </div>
     </div>
         </div>
   </main>
-  
   <script>
     // Scroll suave y resaltado de sección activa
     const menuItems = document.querySelectorAll('.guide-menu-item');
     const sections = document.querySelectorAll('.guide-section');
-    
     // Funciones para abrir/cerrar sidebar
     function toggleSidebar() {
       const sidebar = document.querySelector('.guide-sidebar');
@@ -1130,35 +1026,28 @@ function generateHTML(configData, previousValuesPath = null) {
       sidebar.classList.toggle('open');
       overlay.classList.toggle('active');
     }
-    
     function closeSidebar() {
       const sidebar = document.querySelector('.guide-sidebar');
       const overlay = document.querySelector('.guide-sidebar-overlay');
       sidebar.classList.remove('open');
       overlay.classList.remove('active');
     }
-    
     // Hacer funciones globales
     window.toggleSidebar = toggleSidebar;
     window.closeSidebar = closeSidebar;
-    
     // Manejar clic en menú
     menuItems.forEach(item => {
       item.addEventListener('click', (e) => {
         const targetId = item.getAttribute('data-section');
-        
         // Si no tiene data-section, es un enlace externo, permitir navegación normal
         if (!targetId) {
           return;
         }
-        
         e.preventDefault();
         const targetSection = document.getElementById(targetId);
-        
         if (targetSection) {
           const offset = 80; // Offset para compensar header
           const targetPosition = targetSection.offsetTop - offset;
-          
           // Usar Lenis si está disponible, sino usar scroll nativo
           if (window.lenis) {
             window.lenis.scrollTo(targetSection, { offset: -offset });
@@ -1168,19 +1057,16 @@ function generateHTML(configData, previousValuesPath = null) {
               behavior: 'smooth'
             });
           }
-          
           // Cerrar sidebar después de hacer clic
           closeSidebar();
         }
       });
     });
-    
     // Funcionalidad de búsqueda
     const searchInput = document.getElementById('search-input');
     const clearSearchBtn = document.getElementById('clear-search');
     const searchResults = document.getElementById('search-results');
     let searchTimeout;
-    
     // Función para resaltar texto
     function highlightText(text, searchTerm) {
       if (!searchTerm) return text;
@@ -1189,7 +1075,6 @@ function generateHTML(configData, previousValuesPath = null) {
       const regex = new RegExp('(' + escapedTerm2 + ')', 'gi');
       return text.replace(regex, '<mark class="guide-search-highlight">$1</mark>');
     }
-    
     // Función para buscar en tablas y grids
     function searchInTables(searchTerm) {
       if (!searchTerm || searchTerm.trim() === '') {
@@ -1206,26 +1091,21 @@ function generateHTML(configData, previousValuesPath = null) {
         clearSearchBtn.style.display = 'none';
         return;
       }
-      
       const term = searchTerm.toLowerCase().trim();
       let matchCount = 0;
       const matchedSections = new Set();
-      
       // Buscar en todas las tablas
       document.querySelectorAll('.guide-table tbody tr, .spacing-helpers-table tbody tr').forEach(row => {
         const text = row.textContent.toLowerCase();
         const cells = row.querySelectorAll('td');
-        
         if (text.includes(term)) {
           row.style.display = '';
           matchCount++;
-          
           // Resaltar texto en las celdas
           cells.forEach(cell => {
             const originalText = cell.textContent;
             cell.innerHTML = highlightText(originalText, term);
           });
-          
           // Encontrar la sección padre
           let section = row.closest('.guide-section');
           if (section) {
@@ -1235,15 +1115,12 @@ function generateHTML(configData, previousValuesPath = null) {
           row.style.display = 'none';
         }
       });
-      
       // Buscar en grid de colores
       document.querySelectorAll('[style*="grid-template-columns"] > div').forEach(card => {
         const text = card.textContent.toLowerCase();
-        
         if (text.includes(term)) {
           card.style.display = '';
           matchCount++;
-          
           // Resaltar texto en la tarjeta
           const textElements = card.querySelectorAll('div');
           textElements.forEach(el => {
@@ -1252,7 +1129,6 @@ function generateHTML(configData, previousValuesPath = null) {
               el.innerHTML = highlightText(originalText, term);
             }
           });
-          
           // Encontrar la sección padre
           let section = card.closest('.guide-section');
           if (section) {
@@ -1262,7 +1138,6 @@ function generateHTML(configData, previousValuesPath = null) {
           card.style.display = 'none';
         }
       });
-      
       // Mostrar/ocultar secciones según si tienen resultados
       document.querySelectorAll('.guide-section').forEach(section => {
         const hasVisibleRows = section.querySelector('tbody tr[style=""]') || 
@@ -1275,7 +1150,6 @@ function generateHTML(configData, previousValuesPath = null) {
           section.style.display = 'none';
         }
       });
-      
       // Mostrar contador de resultados
       if (matchCount > 0) {
         searchResults.textContent = 'Se encontraron ' + matchCount + ' resultado' + (matchCount !== 1 ? 's' : '');
@@ -1284,10 +1158,8 @@ function generateHTML(configData, previousValuesPath = null) {
         searchResults.textContent = 'No se encontraron resultados';
         searchResults.style.display = 'block';
       }
-      
       clearSearchBtn.style.display = 'block';
     }
-    
     // Event listeners para búsqueda
     searchInput.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
@@ -1295,31 +1167,25 @@ function generateHTML(configData, previousValuesPath = null) {
         searchInTables(e.target.value);
       }, 200);
     });
-    
     searchInput.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         searchInput.value = '';
         searchInTables('');
       }
     });
-    
     clearSearchBtn.addEventListener('click', () => {
       searchInput.value = '';
       searchInTables('');
       searchInput.focus();
     });
-    
     // El estilo de focus ya está en CSS (.search-input:focus)
-    
     // Resaltar sección activa al hacer scroll
     function updateActiveSection() {
       const scrollPosition = window.scrollY + 200;
-      
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         const sectionId = section.getAttribute('id');
-        
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
           menuItems.forEach(item => {
             item.classList.remove('active');
@@ -1330,15 +1196,12 @@ function generateHTML(configData, previousValuesPath = null) {
         }
       });
     }
-    
     window.addEventListener('scroll', updateActiveSection);
     window.addEventListener('load', updateActiveSection);
-    
     // Cerrar menú al hacer clic fuera en mobile
     document.addEventListener('click', (e) => {
       const sidebar = document.querySelector('.guide-sidebar');
       const menuToggle = document.querySelector('.guide-menu-toggle');
-      
       if (window.innerWidth <= 768 && 
           sidebar.classList.contains('open') && 
           !sidebar.contains(e.target) && 
@@ -1346,7 +1209,6 @@ function generateHTML(configData, previousValuesPath = null) {
         sidebar.classList.remove('open');
       }
     });
-    
     // Funcionalidad para copiar al portapapeles
     function copyToClipboard(text) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1369,12 +1231,10 @@ function generateHTML(configData, previousValuesPath = null) {
         }
       }
     }
-    
     function showCopyFeedback(element) {
       const originalBg = element.style.backgroundColor;
       element.style.backgroundColor = '#d4edda';
       element.style.transition = 'background-color 0.3s';
-      
       setTimeout(() => {
         element.style.backgroundColor = originalBg || '';
         setTimeout(() => {
@@ -1382,7 +1242,6 @@ function generateHTML(configData, previousValuesPath = null) {
         }, 300);
       }, 500);
     }
-    
     // Funcionalidad para copiar al portapapeles - se ejecuta cuando el DOM está listo
     function setupCopyToClipboard() {
       // Manejar clics en colores
@@ -1404,7 +1263,6 @@ function generateHTML(configData, previousValuesPath = null) {
           }
         });
       });
-      
       // Manejar clics en variables
       document.querySelectorAll('.guide-copyable').forEach(element => {
         element.addEventListener('click', (e) => {
@@ -1420,7 +1278,6 @@ function generateHTML(configData, previousValuesPath = null) {
         });
       });
     }
-    
     // Ejecutar cuando el DOM esté listo
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', setupCopyToClipboard);
@@ -1428,7 +1285,6 @@ function generateHTML(configData, previousValuesPath = null) {
       setupCopyToClipboard();
     }
   </script>
-  
   <script>
     // Inicializar Lenis Smooth Scroll - Solo para la guía
     const lenis = new Lenis({
@@ -1442,27 +1298,21 @@ function generateHTML(configData, previousValuesPath = null) {
       touchMultiplier: 2,
       infinite: false,
     });
-
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-
     requestAnimationFrame(raf);
-
     // Integrar con el scroll del navegador
     lenis.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
       // Puedes agregar callbacks aquí si es necesario
     });
-
     // Hacer lenis disponible globalmente para el scroll del menú
     window.lenis = lenis;
   </script>
 </body>
 </html>`;
 }
-
 module.exports = {
   generateHTML
 };
-

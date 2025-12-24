@@ -53,6 +53,22 @@ function generateFiles(configPath, outputPath, htmlPath, silent = false) {
     
     writeFile(htmlPath, htmlContent, 'HTML');
     
+    // Copiar archivos CSS e imágenes después de generar
+    copyCSSFiles(silent);
+    copyImageFiles(silent);
+    
+    // Ejecutar copy-theme-html.js si existe
+    const copyThemeScript = path.join(__dirname, '..', 'copy-theme-html.js');
+    if (fs.existsSync(copyThemeScript)) {
+      try {
+        require('child_process').execSync(`node "${copyThemeScript}"`, { stdio: silent ? 'ignore' : 'inherit' });
+      } catch (error) {
+        if (!silent) {
+          console.warn('⚠️  Error al ejecutar copy-theme-html.js:', error.message);
+        }
+      }
+    }
+    
     if (!silent) {
       console.log(`\n🎉 Generación completada exitosamente! (${new Date().toLocaleTimeString('es-ES')})\n`);
     }
@@ -61,10 +77,72 @@ function generateFiles(configPath, outputPath, htmlPath, silent = false) {
   }
 }
 
+// Función para copiar archivos CSS a dist
+function copyCSSFiles(silent = false) {
+  const filesToCopy = [
+    { 
+      source: path.join(__dirname, 'docs-generator', 'guide-styles.css'),
+      dest: path.join(__dirname, '..', 'dist', 'guide-styles.css')
+    }
+  ];
+  
+  filesToCopy.forEach(({ source, dest }) => {
+    if (fs.existsSync(source)) {
+      try {
+        const dir = path.dirname(dest);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
+        fs.copyFileSync(source, dest);
+        if (!silent) {
+          console.log(`✅ ${path.basename(source)} copiado a dist/`);
+        }
+      } catch (error) {
+        if (!silent) {
+          console.error(`❌ Error al copiar ${path.basename(source)}:`, error.message);
+        }
+      }
+    }
+  });
+}
+
+// Función para copiar imágenes a dist
+function copyImageFiles(silent = false) {
+  const imagesToCopy = [
+    {
+      source: path.join(__dirname, 'intro.jpg'),
+      dest: path.join(__dirname, '..', 'dist', 'src', 'intro.jpg')
+    },
+    {
+      source: path.join(__dirname, 'margenes.webp'),
+      dest: path.join(__dirname, '..', 'dist', 'src', 'margen.webp')
+    }
+  ];
+  
+  imagesToCopy.forEach(({ source, dest }) => {
+    if (fs.existsSync(source)) {
+      try {
+        const dir = path.dirname(dest);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
+        fs.copyFileSync(source, dest);
+        if (!silent) {
+          console.log(`✅ ${path.basename(source)} copiado a dist/src/`);
+        }
+      } catch (error) {
+        if (!silent) {
+          console.error(`❌ Error al copiar ${path.basename(source)}:`, error.message);
+        }
+      }
+    }
+  });
+}
+
 // Función principal de watch optimizada
 function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPath = path.join(__dirname, '..', 'dist', 'output.css'), htmlPath = path.join(__dirname, '..', 'dist', 'index.html'), silent = false) {
   if (!silent) {
-    console.log('👀 Modo watch activado - Monitoreando cambios en config.json...\n');
+    console.log('👀 Modo watch activado - Monitoreando cambios en config.json y CSS...\n');
     console.log('📝 Presiona Ctrl+C para salir\n');
     console.log('💡 Tip: Abre otro terminal y ejecuta "npm run serve" para levantar el servidor\n');
   }
@@ -77,11 +155,39 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
   
   // Generar archivos inicialmente
   generateFiles(configPath, outputPath, htmlPath, silent);
+  copyCSSFiles(silent);
+  copyImageFiles(silent);
+  
+  // Archivos CSS a observar
+  const cssFilesToWatch = [
+    path.join(__dirname, 'docs-generator', 'guide-styles.css')
+  ];
+  
+  // Archivos de tema a observar
+  const themeFilesToWatch = [
+    path.join(__dirname, '..', 'themes', 'dutti', 'demo.html')
+  ];
   
   // Estado del watch
   let lastHash = getFileHash(configPath);
+  const cssHashes = new Map();
+  cssFilesToWatch.forEach(cssFile => {
+    if (fs.existsSync(cssFile)) {
+      cssHashes.set(cssFile, getFileHash(cssFile));
+    }
+  });
+  
+  const themeHashes = new Map();
+  themeFilesToWatch.forEach(themeFile => {
+    if (fs.existsSync(themeFile)) {
+      themeHashes.set(themeFile, getFileHash(themeFile));
+    }
+  });
+  
   let debounceTimer = null;
   let watcher = null;
+  const cssWatchers = new Map();
+  const themeWatchers = new Map();
   let isRegenerating = false;
   
   // Función para regenerar archivos con debouncing
@@ -111,39 +217,127 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
     }, DEBOUNCE_DELAY);
   }
   
-  // Intentar usar fs.watch (más eficiente, event-driven)
-  try {
-    watcher = fs.watch(configPath, { persistent: true }, (eventType, filename) => {
-      // fs.watch puede emitir múltiples eventos, ignorar si no hay filename
-      if (filename && (eventType === 'change' || eventType === 'rename')) {
-        handleFileChange();
-      }
-    });
-    
-    // Manejar errores del watcher
-    watcher.on('error', (error) => {
-      console.warn('⚠️  Error en fs.watch, usando fallback a fs.watchFile:', error.message);
-      // Fallback a watchFile
-      startWatchFileFallback();
-    });
-    
-  } catch (error) {
-    // Si fs.watch falla, usar watchFile como fallback
-    console.warn('⚠️  fs.watch no disponible, usando fs.watchFile como fallback');
-    startWatchFileFallback();
-  }
-  
-  // Función fallback usando fs.watchFile (menos eficiente pero más compatible)
-  function startWatchFileFallback() {
-    // Limpiar watcher anterior si existe
-    if (watcher) {
-      watcher.close();
+  // Función para manejar cambios en archivos CSS
+  function handleCSSChange(cssFile) {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
     }
     
-    fs.watchFile(configPath, { interval: WATCH_POLL_INTERVAL }, (curr, prev) => {
+    debounceTimer = setTimeout(() => {
+      const currentHash = getFileHash(cssFile);
+      const lastCSSHash = cssHashes.get(cssFile);
+      
+      if (currentHash && currentHash !== lastCSSHash && !isRegenerating) {
+        isRegenerating = true;
+        cssHashes.set(cssFile, currentHash);
+        if (!silent) {
+          console.log(`🔄 Detectado cambio en ${path.basename(cssFile)}, copiando a dist/...\n`);
+        }
+        copyCSSFiles(silent);
+        copyImageFiles(silent);
+        if (!silent) {
+          console.log('✨ CSS actualizado - Recarga el navegador para ver los cambios\n');
+        }
+        isRegenerating = false;
+      }
+    }, DEBOUNCE_DELAY);
+  }
+  
+  // Función para manejar cambios en archivos de tema
+  function handleThemeChange(themeFile) {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+    
+    debounceTimer = setTimeout(() => {
+      const currentHash = getFileHash(themeFile);
+      const lastThemeHash = themeHashes.get(themeFile);
+      
+      if (currentHash && currentHash !== lastThemeHash && !isRegenerating) {
+        isRegenerating = true;
+        themeHashes.set(themeFile, currentHash);
+        if (!silent) {
+          console.log(`🔄 Detectado cambio en ${path.basename(themeFile)}, regenerando demo...\n`);
+        }
+        const copyThemeScript = path.join(__dirname, '..', 'copy-theme-html.js');
+        if (fs.existsSync(copyThemeScript)) {
+          try {
+            require('child_process').execSync(`node "${copyThemeScript}"`, { stdio: silent ? 'ignore' : 'inherit' });
+            if (!silent) {
+              console.log('✨ Demo actualizado - Recarga el navegador para ver los cambios\n');
+            }
+          } catch (error) {
+            if (!silent) {
+              console.error('❌ Error al regenerar demo:', error.message);
+            }
+          }
+        }
+        isRegenerating = false;
+      }
+    }, DEBOUNCE_DELAY);
+  }
+  
+  // Función para iniciar watch de un archivo
+  function startFileWatch(filePath, onChange) {
+    try {
+      const fileWatcher = fs.watch(filePath, { persistent: true }, (eventType, filename) => {
+        if (filename && (eventType === 'change' || eventType === 'rename')) {
+          onChange();
+        }
+      });
+      
+      fileWatcher.on('error', (error) => {
+        if (!silent) {
+          console.warn(`⚠️  Error en fs.watch para ${path.basename(filePath)}, usando fallback:`, error.message);
+        }
+        startWatchFileFallback(filePath, onChange);
+      });
+      
+      return fileWatcher;
+    } catch (error) {
+      if (!silent) {
+        console.warn(`⚠️  fs.watch no disponible para ${path.basename(filePath)}, usando fallback`);
+      }
+      startWatchFileFallback(filePath, onChange);
+      return null;
+    }
+  }
+  
+  // Observar cambios en config.json
+  try {
+    watcher = startFileWatch(configPath, handleFileChange);
+  } catch (error) {
+    if (!silent) {
+      console.warn('⚠️  Error al iniciar watch de config.json:', error.message);
+    }
+  }
+  
+  // Observar cambios en archivos CSS
+  cssFilesToWatch.forEach(cssFile => {
+    if (fs.existsSync(cssFile)) {
+      const cssWatcher = startFileWatch(cssFile, () => handleCSSChange(cssFile));
+      if (cssWatcher) {
+        cssWatchers.set(cssFile, cssWatcher);
+      }
+    }
+  });
+  
+  // Observar cambios en archivos de tema
+  themeFilesToWatch.forEach(themeFile => {
+    if (fs.existsSync(themeFile)) {
+      const themeWatcher = startFileWatch(themeFile, () => handleThemeChange(themeFile));
+      if (themeWatcher) {
+        themeWatchers.set(themeFile, themeWatcher);
+      }
+    }
+  });
+  
+  // Función fallback usando fs.watchFile (menos eficiente pero más compatible)
+  function startWatchFileFallback(filePath, onChange) {
+    fs.watchFile(filePath, { interval: WATCH_POLL_INTERVAL }, (curr, prev) => {
       // Solo procesar si el archivo realmente cambió
       if (curr.mtime.getTime() !== prev.mtime.getTime()) {
-        handleFileChange();
+        onChange();
       }
     });
   }
@@ -162,6 +356,30 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
       if (watcher) {
         watcher.close();
       }
+      
+      // Cerrar watchers de CSS
+      cssWatchers.forEach((cssWatcher, cssFile) => {
+        if (cssWatcher) {
+          cssWatcher.close();
+        }
+        try {
+          fs.unwatchFile(cssFile);
+        } catch (error) {
+          // Ignorar errores al limpiar
+        }
+      });
+      
+      // Cerrar watchers de tema
+      themeWatchers.forEach((themeWatcher, themeFile) => {
+        if (themeWatcher) {
+          themeWatcher.close();
+        }
+        try {
+          fs.unwatchFile(themeFile);
+        } catch (error) {
+          // Ignorar errores al limpiar
+        }
+      });
       
       // Limpiar watchFile si está activo
       try {
@@ -187,5 +405,5 @@ if (require.main === module) {
   watch(configPath, outputPath, htmlPath);
 }
 
-module.exports = { watch, generateFiles };
+module.exports = { watch, generateFiles, copyCSSFiles, copyImageFiles };
 

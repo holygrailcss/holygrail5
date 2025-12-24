@@ -56,6 +56,30 @@ if (require.main === module) {
       console.log('✅ guide-styles.css copiado a dist/');
     }
     
+    // Copiar imágenes a dist
+    const introImageSource = path.join(__dirname, 'src', 'intro.jpg');
+    const introImageDest = path.join(__dirname, 'dist', 'src', 'intro.jpg');
+    if (fs.existsSync(introImageSource)) {
+      const destDir = path.dirname(introImageDest);
+      if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+      }
+      fs.copyFileSync(introImageSource, introImageDest);
+      console.log('✅ intro.jpg copiado a dist/src/');
+    }
+    
+    // Copiar archivos webp a dist
+    const margenesWebpSource = path.join(__dirname, 'src', 'margenes.webp');
+    const margenesWebpDest = path.join(__dirname, 'dist', 'src', 'margen.webp');
+    if (fs.existsSync(margenesWebpSource)) {
+      const destDir = path.dirname(margenesWebpDest);
+      if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+      }
+      fs.copyFileSync(margenesWebpSource, margenesWebpDest);
+      console.log('✅ margenes.webp copiado a dist/src/');
+    }
+    
     // Generar tema combinado en dist si está habilitado
     if (configData.theme && configData.theme.enabled && configData.theme.name) {
       const themeName = configData.theme.name;
