@@ -617,6 +617,30 @@ h2 {
   display: none;
 }
 
+@media (max-width: 768px) {
+  .guide-header > div[style*="display: flex"] {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .guide-search-results {
+    width: 100%;
+    order: 3;
+    margin-top: 0.5rem;
+  }
+  
+  .guide-search-container {
+    order: 1;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .guide-header-button {
+    order: 2;
+  }
+}
+
 .guide-search-highlight {
   background: #ffeb3b;
   padding: 0.125rem 0.25rem;
