@@ -38,7 +38,7 @@ const headerAndSidebarHTML = `
   
   <aside class="guide-sidebar">
     <div class="guide-sidebar-header">
-      <h2>HolyGrail5</h2>
+      <div>HolyGrail5</div>
       <p class="guide-sidebar-subtitle">Demo Tema Dutti</p>
     </div>
 
