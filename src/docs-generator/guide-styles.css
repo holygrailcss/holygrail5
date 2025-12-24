@@ -101,6 +101,7 @@ h2 {
 
 @media (min-width: 768px) {
   .guide-section-title {
+    margin-top: 3rem;
     flex-direction: row;
   }
 }
@@ -558,6 +559,8 @@ h2 {
   overflow-x: auto;
   font-family: arial;
   font-size: 12px;
+  border-radius: 24px;
+	margin-bottom: 24px;
 }
 
 /* ============================================
@@ -957,7 +960,7 @@ h2 {
 
 .demo-section-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: var(--hg-spacing-24);
   max-width: 100%;
   margin-left: 0;
@@ -966,6 +969,7 @@ h2 {
 
 @media (min-width: 768px) {
   .demo-section-2 {
+    grid-template-columns: repeat(2, 1fr);
     max-width: 50%;
     margin-left: 50%;
     margin-bottom: 10rem;

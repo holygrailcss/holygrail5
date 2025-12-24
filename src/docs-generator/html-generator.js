@@ -814,28 +814,35 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       <div class="guide-section-content">
         ${layoutHelpersTableHTML}
-        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
-          <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplos de uso</h3>
-          <ul class="guide-info-box-list">
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.d-flex</code> - Display flex
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.flex-column</code> - Flex direction column
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.justify-center</code> - Justify content center
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.items-center</code> - Align items center
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.gap-16</code> - Gap de 16px (1rem)
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
-            </li>
-          </ul>
+        <div class="guide-section-title">
+          <div> </div>
+          <div class="demo-section-2">
+            <div>
+              <strong>Ejemplos de uso:</strong>
+              <ul class="guide-info-box-list">
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.d-flex</code> - Display flex
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.flex-column</code> - Flex direction column
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.justify-center</code> - Justify content center
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.items-center</code> - Align items center
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.gap-16</code> - Gap de 16px (1rem)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
+                </li>
+              </ul>
+            </div>
+            <div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -854,9 +861,17 @@ function generateHTML(configData, previousValuesPath = null) {
       <div> </div>
   
         <div class="demo-section-2">
+        <div>
+
+  <p>El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.</p>
+              <p class="text-m guide-info-box-text">
+        
+          </p>
+         
+          </div>
           <div> <strong>¿Cómo funciona el Grid?</strong> 
           <br>
-                <ul class="guide-info-box-list">
+           <ul class="guide-info-box-list">
             <li class="text-m guide-info-box-list-item">
               <strong>.row</strong> - Contenedor flex con márgenes negativos para compensar el gutter
             </li>
@@ -881,12 +896,15 @@ function generateHTML(configData, previousValuesPath = null) {
             <li class="text-m guide-info-box-list-item">
               <strong>.bleed-0</strong> - Elimina completamente el padding y márgenes, útil para contenido que debe ocupar todo el ancho sin espacios
             </li>
+
+            <li class="text-m guide-info-box-list-item">
+              <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
+            </li>
           </ul>
+
+          
           </div>
-          <p>El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.</p>
-              <p class="text-m guide-info-box-text">
-            <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
-          </p>
+        
         </div>
       </div>
       <div >
@@ -917,12 +935,17 @@ function generateHTML(configData, previousValuesPath = null) {
             </tbody>
           </table>
         </div>
-        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
-          <h3 class="guide-info-box-title guide-info-box-title-info">Ejemplo de uso básico</h3>
-          <p class="text-m guide-info-box-text">
-            <strong>HTML:</strong>
-          </p>
-          <pre class="guide-code-example"><code>&lt;div class="row"&gt;
+
+
+        
+        <div class="guide-section-title">
+          <div> </div>
+          <div class="demo-section-2">
+            <div>
+              <p class="guide-info-box-text mb-64">
+                <strong>Columnas normales:</strong>
+              </p>
+              <pre class="guide-code-example"><code>&lt;div class="row"&gt;
   &lt;div class="col-xs-12 col-md-6 col-lg-4"&gt;
     Columna 1
   &lt;/div&gt;
@@ -933,44 +956,47 @@ function generateHTML(configData, previousValuesPath = null) {
     Columna 3
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-          <p class="text-m guide-info-box-text">
-            Este ejemplo muestra 3 columnas que:
-          </p>
-          <ul class="guide-info-box-list">
-            <li class="text-m guide-info-box-list-item">
-              En <strong>xs</strong>: Ocupan 12 columnas cada una (100% de ancho, apiladas)
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              En <strong>md</strong> (≥${configData.grid.breakpoints.md}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              En <strong>lg</strong> (≥${configData.grid.breakpoints.lg}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
-            </li>
-          </ul>
-        </div>
-        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
-          <h3 class="guide-info-box-title guide-info-box-title-info">Columnas a sangre (Bleed)</h3>
-          <p class="text-m guide-info-box-text">
-            Cuando necesitas que las columnas vayan a sangre (full bleed), eliminando los márgenes laterales del gutter, usa la clase <code class="guide-info-box-code-info">.bleed</code>:
-          </p>
-          <pre class="guide-code-example"><code>&lt;div class="row"&gt;
+              <p class="text-m guide-info-box-text">
+                Este ejemplo muestra 3 columnas que:
+              </p>
+              <ul class="guide-info-box-list">
+                <li class="text-m guide-info-box-list-item">
+                  En <strong>xs</strong>: Ocupan 12 columnas cada una (100% de ancho, apiladas)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  En <strong>md</strong> (≥${configData.grid.breakpoints.md}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  En <strong>lg</strong> (≥${configData.grid.breakpoints.lg}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
+                </li>
+              </ul>
+            </div>
+            <div>
+              <strong>Columnas a sangre (Bleed)</strong>
+              <br>
+              <p class="text-m guide-info-box-text">
+                Cuando necesitas que las columnas vayan a sangre (full bleed), eliminando los márgenes laterales del gutter, usa la clase <code class="guide-info-box-code-info">.bleed</code>:
+              </p>
+              <pre class="guide-code-example"><code>&lt;div class="row"&gt;
   &lt;div class="col-xs-12 bleed"&gt;
     Contenido que va a sangre (sin márgenes laterales)
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-          <p class="text-m guide-info-box-text">
-            Para eliminar completamente el padding y márgenes, usa <code class="guide-info-box-code-info">.bleed-0</code>:
-          </p>
-          <pre class="guide-code-example"><code>&lt;div class="bleed-0"&gt;
+              <p class="text-m guide-info-box-text">
+                Para eliminar completamente el padding y márgenes, usa <code class="guide-info-box-code-info">.bleed-0</code>:
+              </p>
+              <pre class="guide-code-example"><code>&lt;div class="bleed-0"&gt;
   &lt;div class="row"&gt;
     &lt;div class="col-xs-12"&gt;
       Contenido sin padding ni márgenes
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-          <p class="text-m guide-info-box-text-small">
-            <strong>Nota:</strong> <code class="guide-info-box-code-info">.bleed</code> aplica márgenes negativos iguales al gutter (${configData.grid.gutter}) para que el contenido llegue hasta los bordes. <code class="guide-info-box-code-info">.bleed-0</code> elimina todo el padding y márgenes, útil para imágenes o contenido que debe ocupar todo el ancho disponible.
-          </p>
+              <p class="text-m guide-info-box-text-small">
+                <strong>Nota:</strong> <code class="guide-info-box-code-info">.bleed</code> aplica márgenes negativos iguales al gutter (${configData.grid.gutter}) para que el contenido llegue hasta los bordes. <code class="guide-info-box-code-info">.bleed-0</code> elimina todo el padding y márgenes, útil para imágenes o contenido que debe ocupar todo el ancho disponible.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
