@@ -107,7 +107,14 @@ h2 {
   font-family: "Instrument Sans", sans-serif;
   width: 50%;
   line-height: 1.2;
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .guide-section-description {
+    margin-bottom: 5rem;
+
+  }
 }
 
 @media (max-width: 768px) {
@@ -978,30 +985,31 @@ flex-direction: row;
   margin-block-start: var(--hg-spacing-16);
 }
 
+
+
+
+
 .case-study-img-holygrail {
-  background-image: url(src/intro.jpg);
-  height: 300px;
-  margin-inline: -2rem;
+  background-image: url(src/introm.jpg);
+  height: 50vh;
+  background-size: cover;
   background-position: 50%;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  position: relative;
-  overflow: hidden;
 }
 
-/* Mobile: imagen optimizada y scroll (iOS no soporta fixed) */
-@media (max-width: 768px) {
-  .case-study-img-holygrail {
-    background-image: url(src/introm.jpg);
-  }
-}
 
-/* Desktop: altura completa, cover y fixed (excepto iOS) */
 @media (min-width: 768px) {
   .case-study-img-holygrail {
     height: 100vh;
     background-size: cover;
+    background-image: url(src/intro.jpg);
+
+    margin-inline: -2rem;
+    background-position: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    position: relative;
+    overflow: hidden;
   }
   
   /* Solo aplicar fixed en navegadores que lo soportan (no iOS) */
@@ -1029,8 +1037,7 @@ flex-direction: row;
   }
 
   .guide-container {
-    width: 100%;
-    padding-right: 1rem;
+
     margin: 0 1rem;
   }
 }

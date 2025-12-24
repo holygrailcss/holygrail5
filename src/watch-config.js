@@ -114,6 +114,10 @@ function copyImageFiles(silent = false) {
       dest: path.join(__dirname, '..', 'dist', 'src', 'intro.jpg')
     },
     {
+      source: path.join(__dirname, 'introm.jpg'),
+      dest: path.join(__dirname, '..', 'dist', 'src', 'introm.jpg')
+    },
+    {
       source: path.join(__dirname, 'margenes.webp'),
       dest: path.join(__dirname, '..', 'dist', 'src', 'margen.webp')
     }

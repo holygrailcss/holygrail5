@@ -68,6 +68,18 @@ if (require.main === module) {
       console.log('✅ intro.jpg copiado a dist/src/');
     }
     
+    // Copiar introm.jpg a dist
+    const intromImageSource = path.join(__dirname, 'src', 'introm.jpg');
+    const intromImageDest = path.join(__dirname, 'dist', 'src', 'introm.jpg');
+    if (fs.existsSync(intromImageSource)) {
+      const destDir = path.dirname(intromImageDest);
+      if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+      }
+      fs.copyFileSync(intromImageSource, intromImageDest);
+      console.log('✅ introm.jpg copiado a dist/src/');
+    }
+    
     // Copiar archivos webp a dist
     const margenesWebpSource = path.join(__dirname, 'src', 'margenes.webp');
     const margenesWebpDest = path.join(__dirname, 'dist', 'src', 'margen.webp');
