@@ -17,16 +17,16 @@
     ],
     "images": [
       {
-        "source": "src/intro.jpg",
-        "dest": "dist/src/intro.jpg"
+        "source": "src/assets/intro.jpg",
+        "dest": "dist/assets/intro.jpg"
       },
       {
-        "source": "src/introm.jpg",
-        "dest": "dist/src/introm.jpg"
+        "source": "src/assets/introm.jpg",
+        "dest": "dist/assets/introm.jpg"
       },
       {
-        "source": "src/margenes.webp",
-        "dest": "dist/src/margen.webp"
+        "source": "src/assets/margenes.webp",
+        "dest": "dist/assets/margen.webp"
       }
     ]
   },

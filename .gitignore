@@ -1,9 +1,8 @@
 # Dependencias
 node_modules/
 
-# Archivos generados
-output.css
-index.html
+# Archivos generados (dist se genera automáticamente)
+dist/
 
 # Archivos de estado y datos
 .data/
@@ -37,3 +36,5 @@ build/
 *.swo
 *~
 
+# Archivos de test temporales
+test-*.html

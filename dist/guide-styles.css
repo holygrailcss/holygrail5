@@ -1046,7 +1046,7 @@ h2 {
 }
 
 .case-study-img-holygrail {
-  background-image: url(src/introm.jpg);
+  background-image: url(assets/introm.jpg);
   height: 50vh;
   background-size: cover;
   background-position: 50%;
@@ -1057,7 +1057,7 @@ h2 {
 
 @media (min-width: 768px) {
   .case-study-img-holygrail {
-    background-image: url(src/intro.jpg);
+    background-image: url(assets/intro.jpg);
     height: 100vh;
     margin-inline: -2rem;
     background-attachment: scroll;
