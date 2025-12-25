@@ -770,34 +770,40 @@ function generateHTML(configData, previousValuesPath = null) {
             </div>
         </div>
         ${spacingHelpersTableHTML}
-        <div class="guide-info-box guide-info-box-info guide-info-box-margin-top">
-          <h3 class="guide-info-box-title guide-info-box-title-info">Helpers con prefijo md: (Desktop)</h3>
-          <p class="text-m guide-info-box-text">
-            Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
-          </p>
-          <p class="text-m guide-info-box-text">
-            <strong>Ejemplos de uso:</strong>
-          </p>
-          <ul class="guide-info-box-list">
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
-            </li>
-            <li class="text-m guide-info-box-list-item">
-              <code class="guide-info-box-code-info">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
-            </li>
-          </ul>
-          <p class="text-m guide-info-box-text-small">
-            <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Por ejemplo: <code class="guide-info-box-code-info">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
-          </p>
+        <div class="guide-section-title">
+          <div> </div>
+          <div class="demo-section-2">
+            <div>
+  <strong class="mb-16">¿Cómo se funcionan los helpers de espaciado?</strong>
+
+              <p class="text-m guide-info-box-text">
+                Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
+              </p>
+              <p class="text-m guide-info-box-text-small">
+                <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Por ejemplo: <code class="guide-info-box-code-info">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
+              </p>
+            </div>
+            <div>
+              <strong>Ejemplos de uso:</strong>
+              <ul class="guide-info-box-list">
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       </div>

@@ -1,13 +1,14 @@
 // Modo watch - Detecta cambios en config.json y regenera automáticamente
 // Optimizado con fs.watch, debouncing y verificación de hash
+// Refactorizado para usar BuildOrchestrator
 
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { BuildOrchestrator } = require('./build/build-orchestrator');
+const { AssetManager } = require('./build/asset-manager');
+const { ThemeTransformer } = require('./build/theme-transformer');
 const { loadConfig } = require('./config-loader');
-const { generateCSS } = require('./css-generator');
-const { generateHTML } = require('./docs-generator/html-generator');
-const { writeFile } = require('./generators/utils');
 
 // Constantes
 const DEBOUNCE_DELAY = 300; // ms - tiempo de espera antes de regenerar
@@ -23,124 +24,42 @@ function getFileHash(filePath) {
   }
 }
 
-// Función para generar CSS y HTML
+// Función para generar CSS y HTML usando BuildOrchestrator
 function generateFiles(configPath, outputPath, htmlPath, silent = false) {
   try {
-    const configData = loadConfig(configPath);
+    const projectRoot = path.dirname(path.dirname(configPath));
+    const orchestrator = new BuildOrchestrator({
+      projectRoot,
+      configPath,
+      outputPath,
+      htmlPath,
+      silent,
+      watchMode: true // Activar modo watch para agregar timestamp
+    });
     
-    // Generar CSS
-    const cssContent = generateCSS(configData);
-    writeFile(outputPath, cssContent, 'CSS');
-    
-    // Generar HTML (ajustar ruta del CSS en el HTML si está en carpeta diferente)
-    let htmlContent = generateHTML(configData);
-    
-    // Si el HTML y CSS están en carpetas diferentes, ajustar la ruta del CSS
-    const outputDir = path.dirname(outputPath);
-    const htmlDir = path.dirname(htmlPath);
-    
-    // Si el HTML y CSS están en carpetas diferentes, ajustar la ruta del CSS
-    // Si están en la misma carpeta (dist/), usar ruta relativa simple
-    if (outputDir !== htmlDir) {
-      const relativePath = path.relative(htmlDir, outputDir);
-      const cssFileName = path.basename(outputPath);
-      const cssRelativePath = path.join(relativePath, cssFileName).replace(/\\/g, '/');
-      htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="${cssRelativePath}?v=${Date.now()}"`);
-    } else {
-      // Si están en la misma carpeta, usar solo el nombre del archivo con timestamp
-      htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="output.css?v=${Date.now()}"`);
-    }
-    
-    writeFile(htmlPath, htmlContent, 'HTML');
-    
-    // Copiar archivos CSS e imágenes después de generar
-    copyCSSFiles(silent);
-    copyImageFiles(silent);
-    
-    // Ejecutar copy-theme-html.js si existe
-    const copyThemeScript = path.join(__dirname, '..', 'copy-theme-html.js');
-    if (fs.existsSync(copyThemeScript)) {
-      try {
-        require('child_process').execSync(`node "${copyThemeScript}"`, { stdio: silent ? 'ignore' : 'inherit' });
-      } catch (error) {
-        if (!silent) {
-          console.warn('⚠️  Error al ejecutar copy-theme-html.js:', error.message);
-        }
-      }
-    }
+    orchestrator.build();
     
     if (!silent) {
       console.log(`\n🎉 Generación completada exitosamente! (${new Date().toLocaleTimeString('es-ES')})\n`);
     }
   } catch (error) {
-    console.error('❌ Error:', error.message);
+    if (!silent) {
+      console.error('❌ Error:', error.message);
+    }
   }
 }
 
-// Función para copiar archivos CSS a dist
+// Función para copiar archivos CSS e imágenes usando AssetManager
 function copyCSSFiles(silent = false) {
-  const filesToCopy = [
-    { 
-      source: path.join(__dirname, 'docs-generator', 'guide-styles.css'),
-      dest: path.join(__dirname, '..', 'dist', 'guide-styles.css')
-    }
-  ];
-  
-  filesToCopy.forEach(({ source, dest }) => {
-    if (fs.existsSync(source)) {
-      try {
-        const dir = path.dirname(dest);
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir, { recursive: true });
-        }
-        fs.copyFileSync(source, dest);
-        if (!silent) {
-          console.log(`✅ ${path.basename(source)} copiado a dist/`);
-        }
-      } catch (error) {
-        if (!silent) {
-          console.error(`❌ Error al copiar ${path.basename(source)}:`, error.message);
-        }
-      }
-    }
-  });
+  const projectRoot = path.join(__dirname, '..');
+  const assetManager = new AssetManager(projectRoot);
+  assetManager.copyCSS(silent);
 }
 
-// Función para copiar imágenes a dist
 function copyImageFiles(silent = false) {
-  const imagesToCopy = [
-    {
-      source: path.join(__dirname, 'intro.jpg'),
-      dest: path.join(__dirname, '..', 'dist', 'src', 'intro.jpg')
-    },
-    {
-      source: path.join(__dirname, 'introm.jpg'),
-      dest: path.join(__dirname, '..', 'dist', 'src', 'introm.jpg')
-    },
-    {
-      source: path.join(__dirname, 'margenes.webp'),
-      dest: path.join(__dirname, '..', 'dist', 'src', 'margen.webp')
-    }
-  ];
-  
-  imagesToCopy.forEach(({ source, dest }) => {
-    if (fs.existsSync(source)) {
-      try {
-        const dir = path.dirname(dest);
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir, { recursive: true });
-        }
-        fs.copyFileSync(source, dest);
-        if (!silent) {
-          console.log(`✅ ${path.basename(source)} copiado a dist/src/`);
-        }
-      } catch (error) {
-        if (!silent) {
-          console.error(`❌ Error al copiar ${path.basename(source)}:`, error.message);
-        }
-      }
-    }
-  });
+  const projectRoot = path.join(__dirname, '..');
+  const assetManager = new AssetManager(projectRoot);
+  assetManager.copyImages(silent);
 }
 
 // Función principal de watch optimizada
@@ -157,10 +76,10 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
     process.exit(1);
   }
   
+  const projectRoot = path.dirname(path.dirname(configPath));
+  
   // Generar archivos inicialmente
   generateFiles(configPath, outputPath, htmlPath, silent);
-  copyCSSFiles(silent);
-  copyImageFiles(silent);
   
   // Archivos CSS a observar
   const cssFilesToWatch = [
@@ -169,7 +88,7 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
   
   // Archivos de tema a observar
   const themeFilesToWatch = [
-    path.join(__dirname, '..', 'themes', 'dutti', 'demo.html')
+    path.join(projectRoot, 'themes', 'dutti', 'demo.html')
   ];
   
   // Estado del watch
@@ -263,19 +182,28 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
         if (!silent) {
           console.log(`🔄 Detectado cambio en ${path.basename(themeFile)}, regenerando demo...\n`);
         }
-        const copyThemeScript = path.join(__dirname, '..', 'copy-theme-html.js');
-        if (fs.existsSync(copyThemeScript)) {
-          try {
-            require('child_process').execSync(`node "${copyThemeScript}"`, { stdio: silent ? 'ignore' : 'inherit' });
+        
+        // Usar ThemeTransformer en lugar de ejecutar script externo
+        try {
+          const configData = loadConfig(configPath);
+          if (configData.theme && configData.theme.enabled && configData.theme.name) {
+            const themeName = configData.theme.name;
+            const outputDir = path.dirname(outputPath);
+            const targetFile = path.join(outputDir, 'themes', `${themeName}-demo.html`);
+            
+            const themeTransformer = new ThemeTransformer(projectRoot);
+            themeTransformer.transform(themeFile, targetFile, themeName, silent);
+            
             if (!silent) {
               console.log('✨ Demo actualizado - Recarga el navegador para ver los cambios\n');
             }
-          } catch (error) {
-            if (!silent) {
-              console.error('❌ Error al regenerar demo:', error.message);
-            }
+          }
+        } catch (error) {
+          if (!silent) {
+            console.error('❌ Error al regenerar demo:', error.message);
           }
         }
+        
         isRegenerating = false;
       }
     }, DEBOUNCE_DELAY);
@@ -410,4 +338,3 @@ if (require.main === module) {
 }
 
 module.exports = { watch, generateFiles, copyCSSFiles, copyImageFiles };
-

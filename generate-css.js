@@ -1,13 +1,10 @@
 #!/usr/bin/env node
 
 // Orquestador principal - Genera CSS y HTML desde JSON
+// Refactorizado para usar BuildOrchestrator
 
 const path = require('path');
-const fs = require('fs');
-const { loadConfig } = require('./src/config-loader');
-const { generateCSS } = require('./src/css-generator');
-const { generateHTML } = require('./src/docs-generator/html-generator');
-const { writeFile, combineThemeCSS } = require('./src/generators/utils');
+const { BuildOrchestrator } = require('./src/build/build-orchestrator');
 
 // Ejecución principal
 if (require.main === module) {
@@ -18,115 +15,22 @@ if (require.main === module) {
     const outputPath = args.find(arg => arg.startsWith('--output='))?.split('=')[1] || path.join(__dirname, 'dist', 'output.css');
     const htmlPath = args.find(arg => arg.startsWith('--html='))?.split('=')[1] || path.join(__dirname, 'dist', 'index.html');
     
-    // Cargar configuración
-    const configData = loadConfig(configPath);
+    // Crear orquestador y ejecutar build
+    const orchestrator = new BuildOrchestrator({
+      projectRoot: __dirname,
+      configPath,
+      outputPath,
+      htmlPath,
+      silent: false
+    });
     
-    // Generar CSS
-    const cssContent = generateCSS(configData);
-    writeFile(outputPath, cssContent, 'CSS');
-    
-    // Generar HTML (ajustar ruta del CSS en el HTML si está en carpeta diferente)
-    let htmlContent = generateHTML(configData);
-    
-    // Si el HTML y CSS están en carpetas diferentes, ajustar la ruta del CSS
-    const outputDir = path.dirname(outputPath);
-    const htmlDir = path.dirname(htmlPath);
-    
-    // Si el HTML y CSS están en carpetas diferentes, ajustar la ruta del CSS
-    // Si están en la misma carpeta (dist/), usar ruta relativa simple
-    if (outputDir !== htmlDir) {
-      // Calcular ruta relativa del HTML al CSS
-      const relativePath = path.relative(htmlDir, outputDir);
-      const cssFileName = path.basename(outputPath);
-      const cssRelativePath = path.join(relativePath, cssFileName).replace(/\\/g, '/');
-      // Reemplazar href con o sin query string
-      htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="${cssRelativePath}"`);
-    } else {
-      // Si están en la misma carpeta, usar solo el nombre del archivo
-      htmlContent = htmlContent.replace(/href="output\.css[^"]*"/, `href="output.css"`);
-    }
-    
-    writeFile(htmlPath, htmlContent, 'HTML');
-    
-    // Copiar guide-styles.css a dist
-    const guideStylesSource = path.join(__dirname, 'src', 'docs-generator', 'guide-styles.css');
-    const guideStylesDest = path.join(__dirname, 'dist', 'guide-styles.css');
-    if (fs.existsSync(guideStylesSource)) {
-      fs.copyFileSync(guideStylesSource, guideStylesDest);
-      console.log('✅ guide-styles.css copiado a dist/');
-    }
-    
-    // Copiar imágenes a dist
-    const introImageSource = path.join(__dirname, 'src', 'intro.jpg');
-    const introImageDest = path.join(__dirname, 'dist', 'src', 'intro.jpg');
-    if (fs.existsSync(introImageSource)) {
-      const destDir = path.dirname(introImageDest);
-      if (!fs.existsSync(destDir)) {
-        fs.mkdirSync(destDir, { recursive: true });
-      }
-      fs.copyFileSync(introImageSource, introImageDest);
-      console.log('✅ intro.jpg copiado a dist/src/');
-    }
-    
-    // Copiar introm.jpg a dist
-    const intromImageSource = path.join(__dirname, 'src', 'introm.jpg');
-    const intromImageDest = path.join(__dirname, 'dist', 'src', 'introm.jpg');
-    if (fs.existsSync(intromImageSource)) {
-      const destDir = path.dirname(intromImageDest);
-      if (!fs.existsSync(destDir)) {
-        fs.mkdirSync(destDir, { recursive: true });
-      }
-      fs.copyFileSync(intromImageSource, intromImageDest);
-      console.log('✅ introm.jpg copiado a dist/src/');
-    }
-    
-    // Copiar archivos webp a dist
-    const margenesWebpSource = path.join(__dirname, 'src', 'margenes.webp');
-    const margenesWebpDest = path.join(__dirname, 'dist', 'src', 'margen.webp');
-    if (fs.existsSync(margenesWebpSource)) {
-      const destDir = path.dirname(margenesWebpDest);
-      if (!fs.existsSync(destDir)) {
-        fs.mkdirSync(destDir, { recursive: true });
-      }
-      fs.copyFileSync(margenesWebpSource, margenesWebpDest);
-      console.log('✅ margenes.webp copiado a dist/src/');
-    }
-    
-    // Generar tema combinado en dist si está habilitado
-    if (configData.theme && configData.theme.enabled && configData.theme.name) {
-      const themeName = configData.theme.name;
-      const themeSourceDir = path.join(__dirname, 'themes', themeName);
-      const outputDir = path.dirname(outputPath);
-      const themeOutputDir = path.join(outputDir, 'themes');
-      const themeOutputPath = path.join(themeOutputDir, `${themeName}.css`);
-      
-      if (fs.existsSync(themeSourceDir)) {
-        try {
-          // Asegurar que el directorio de temas existe
-          if (!fs.existsSync(themeOutputDir)) {
-            fs.mkdirSync(themeOutputDir, { recursive: true });
-          }
-          
-          // Generar CSS combinado del tema
-          const combinedCSS = combineThemeCSS(themeSourceDir);
-          writeFile(themeOutputPath, combinedCSS, `Tema '${themeName}' combinado`);
-          
-          // Nota: La copia de demo.html con sidebar se hace en copy-theme-html.js
-        } catch (error) {
-          console.warn(`⚠️  No se pudo generar el tema '${themeName}':`, error.message);
-        }
-      } else {
-        console.warn(`⚠️  El tema '${themeName}' no existe en ${themeSourceDir}`);
-      }
-    }
-    
-    console.log('\n🎉 Generación completada exitosamente!');
+    orchestrator.build();
   } catch (error) {
     console.error('❌ Error:', error.message);
     process.exit(1);
   }
 }
 
-// Exportar funciones
-// Nota: generateHTML se exporta desde src/docs-generator/html-generator.js
+// Exportar funciones para compatibilidad
+const { generateCSS } = require('./src/css-generator');
 module.exports = { generateCSS };

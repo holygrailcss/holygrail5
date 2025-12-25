@@ -48,17 +48,17 @@ npm run serve
 npm run watch   # regenera al guardar config.json
 npm run dev     # watch + servidor
 
-# 4) Empaqueta tema Dutti y demo
-npm run build   # corre generate-css.js + copy-theme-html.js
+# 4) Genera CSS y tema Dutti
+npm run build   # genera CSS, HTML, assets y temas automáticamente
 ```
 
 ## 3. Scripts disponibles
 | Script | Descripción |
 | ------ | ----------- |
-| `npm run build` | Ejecuta `generate-css.js` y copia la demo del tema. |
-| `npm run watch` | Observa `config.json` y regenera CSS/HTML. |
+| `npm run build` | Genera CSS, HTML, assets y transforma temas automáticamente usando `BuildOrchestrator`. |
+| `npm run watch` | Observa `config.json`, CSS y temas, regenerando automáticamente al detectar cambios. |
 | `npm run serve` | Abre el navegador y sirve `dist/` en el puerto 3000. |
-| `npm run dev` | Alias práctico: `watch` + `serve`. |
+| `npm run dev` | Alias práctico: `watch` + `serve` (desarrollo en caliente). |
 | `npm run test` | Corre los tests de `tests/run-all.js`. |
 | `npm run vars:report` | Informe completo de variables CSS. |
 | `npm run vars:remove-unused` | Limpia variables históricas no usadas. |
@@ -111,13 +111,48 @@ npm run build   # corre generate-css.js + copy-theme-html.js
 | `grid` | object | Define breakpoints, columnas y gutter por tamaño. |
 | `typo` | object | Clases de tipografía (obligatorio al menos un breakpoint). |
 | `theme` | object | `{ name, enabled }` para combinar temas desde `themes/<name>`. |
+| `assets` | object | **Opcional**: `{ css: [...], images: [...] }` para configurar qué archivos copiar a `dist/`. |
 
-### 5.3 Helpers y grid
+### 5.3 Configuración de Assets (Opcional)
+
+Puedes configurar qué archivos CSS e imágenes se copian a `dist/` agregando una sección `assets` en tu `config.json`:
+
+```json
+{
+  "assets": {
+    "css": [
+      {
+        "source": "src/docs-generator/guide-styles.css",
+        "dest": "dist/guide-styles.css"
+      }
+    ],
+    "images": [
+      {
+        "source": "src/intro.jpg",
+        "dest": "dist/src/intro.jpg"
+      },
+      {
+        "source": "src/margenes.webp",
+        "dest": "dist/src/margen.webp"
+      }
+    ]
+  }
+}
+```
+
+**Ventajas:**
+- Configuración sin modificar código
+- Fácil agregar nuevos assets
+- Flexible para diferentes proyectos
+
+Si no se especifica `assets`, el sistema usa una configuración por defecto.
+
+### 5.4 Helpers y grid
 - `src/generators/helpers-generator.js` crea clases del tipo `.hg-d-flex`, `.md\:hg-justify-center`, `.hg-gap-16`, etc.
 - Puedes mezclar helpers basados en `values` y helpers que reutilizan `spacingMap` con `useSpacing: true` (gap, row-gap, column-gap...).
 - El grid (`grid.enabled=true`) genera utilidades `.row`, `.col-md-6`, offsets, contenedores fluidos y variantes por breakpoint.
 
-### 5.4 Tipografías
+### 5.5 Tipografías
 - El generador (`src/generators/typo-generator.js`) deduplica valores y crea variables compartidas (`--hg-typo-font-size-24`).
 - Cada clase admite propiedades base (`fontFamily`, `fontWeight`, `letterSpacing`, `textTransform`) y propiedades por breakpoint (`fontSize`, `lineHeight`).
 - Los valores px se convierten automáticamente a rem respetando `baseFontSize`.
@@ -156,14 +191,41 @@ node src/docs-generator/variables-cli.js remove -- --hg-typo-font-size-18
 
 ## 9. Tema Dutti y demos
 - El directorio `themes/dutti/` contiene CSS modular (_variables, _buttons, etc.) y un `demo.html` de referencia.
-- `copy-theme-html.js` combina el tema en `dist/themes/dutti.css`, arregla las rutas del demo y añade una sidebar con accesos rápidos.
+- El `ThemeTransformer` combina el tema en `dist/themes/dutti.css`, transforma el HTML agregando sidebar, header y scripts de Lenis automáticamente.
 - Para crear tu propio tema copia la carpeta `themes/dutti`, ajusta los ficheros y actualiza `config.json → theme.name`.
 
 ## 10. Flujo de desarrollo
-1. `npm run watch` genera `dist/output.css` e `index.html` cada vez que cambias `config.json`.
+1. `npm run watch` genera `dist/output.css` e `index.html` cada vez que cambias `config.json`, `guide-styles.css` o archivos de tema.
 2. En paralelo, `npm run serve` levanta un servidor estático sobre `dist/` (puedes usar `npm run dev` para lanzar ambos).
-3. Si trabajas con un tema, modifica los `.css` del tema y vuelve a ejecutar `npm run build` para regenerar el bundle y la demo.
+3. Si trabajas con un tema, modifica los `.css` o `demo.html` del tema; el sistema watch los detecta y regenera automáticamente.
 4. Para trabajar con otros repos o guías, aprovecha los documentos de `docs/` (ver siguiente sección).
+
+### 10.1 Arquitectura del Sistema de Build
+
+HolyGrail5 usa una arquitectura modular y centralizada para el build:
+
+**Módulos principales:**
+
+- **`BuildOrchestrator`** (`src/build/build-orchestrator.js`)
+  - Coordina todo el proceso de build de forma centralizada
+  - Genera CSS, HTML, copia assets y transforma temas
+  - Soporta modo watch con cache busting automático
+
+- **`AssetManager`** (`src/build/asset-manager.js`)
+  - Gestiona la copia de CSS e imágenes a `dist/`
+  - Configuración centralizada de assets estáticos
+  - API simple: `copyCSS()`, `copyImages()`, `copyAssets()`
+
+- **`ThemeTransformer`** (`src/build/theme-transformer.js`)
+  - Transforma HTML de temas agregando sidebar, header y scripts
+  - Inyecta Lenis para scroll suave y navegación
+  - Reemplaza la funcionalidad del anterior `copy-theme-html.js`
+
+**Ventajas:**
+- Sin duplicación de código
+- Consistencia entre build y watch
+- Más fácil de testear y mantener
+- Base sólida para futuras extensiones
 
 ## 11. Tests y calidad
 - `tests/run-all.js` ejecuta los tests unitarios (`config-loader`, `css-generator`, helpers, html generator...).
@@ -176,6 +238,8 @@ node src/docs-generator/variables-cli.js remove -- --hg-typo-font-size-18
 | `docs/SUPERPROMPT.md` | Prompt detallado para asistentes/IA que necesiten generar HTML usando HolyGrail5. |
 | `docs/COMPARACION.md` | Comparativa HolyGrail5 vs alternativas (Tailwind, frameworks legacy, etc.). |
 | `docs/GUIA-USO-OTRO-PROYECTO.md` | Pasos para integrar HolyGrail5 en proyectos existentes. |
+| `docs/ANALISIS-ARQUITECTURA.md` | Análisis de la arquitectura actual y mejoras implementadas. |
+| `docs/MEJORAS-SIGUIENTES.md` | Plan de mejoras futuras priorizadas por impacto y esfuerzo. |
 | `docs/` + `dist/index.html` | Puedes publicar la guía como doc estática (GitHub Pages, Netlify, etc.). |
 
 ## 13. Recursos y soporte

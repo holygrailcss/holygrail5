@@ -8,6 +8,28 @@
     "name": "dutti",
     "enabled": true
   },
+  "assets": {
+    "css": [
+      {
+        "source": "src/docs-generator/guide-styles.css",
+        "dest": "dist/guide-styles.css"
+      }
+    ],
+    "images": [
+      {
+        "source": "src/intro.jpg",
+        "dest": "dist/src/intro.jpg"
+      },
+      {
+        "source": "src/introm.jpg",
+        "dest": "dist/src/introm.jpg"
+      },
+      {
+        "source": "src/margenes.webp",
+        "dest": "dist/src/margen.webp"
+      }
+    ]
+  },
   "colors": {
     "white": "#ffffff",
     "black": "#000000",

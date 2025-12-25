@@ -15,8 +15,7 @@
     "holygrail5": "./generate-css.js"
   },
   "scripts": {
-    "build": "node generate-css.js && npm run copy-theme-html",
-    "copy-theme-html": "node copy-theme-html.js",
+    "build": "node generate-css.js",
     "watch": "node src/watch-config.js",
     "serve": "node src/dev-server.js",
     "dev": "node src/dev-server.js",
