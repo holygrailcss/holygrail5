@@ -646,7 +646,7 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
     </div>
         <p class="text-m guide-section-description">
-       Holygrail Design System redujo el tiempo de diseño en un 73% y permitió una renovación del producto 3.75 veces más rápida
+       Holygrail Design System redujo el tiempo de diseño en un 73% y permitió una renovación del producto 3.75 veces más rápida.
         </p>
       </div>
       <div class="guide-section-content">
