@@ -17,36 +17,30 @@ const testRatios = [
     width: 16,
     height: 9,
     description: 'Ratio 16:9 (widescreen)'
-  },
-  {
-    class: 'aspect-full',
-    width: 0,
-    height: 0,
-    description: 'Sin ratio fijo (altura automática)'
   }
 ];
 
 const css = generateAspectRatios(testRatios, 'hg');
 
-// Test 2: Verifica que se incluya la clase rat-content
-const test2 = css.includes('.rat-content {') && 
+// Test 2: Verifica que se incluya la clase hg-aspect-content
+const test2 = css.includes('.hg-aspect-content {') && 
               css.includes('position: absolute;') &&
               css.includes('inset: 0;');
-console.log(`✅ Test 1: Clase rat-content generada: ${test2 ? '✅' : '❌'}`);
+console.log(`✅ Test 1: Clase hg-aspect-content generada: ${test2 ? '✅' : '❌'}`);
 
-// Test 3: Verifica que se incluyan las clases de ratio
-const test3 = css.includes('.hg-aspect-1-1 {') && 
+// Test 3: Verifica que se incluya la clase genérica hg-aspect (ratio 2:3)
+const test3 = css.includes('.hg-aspect {') && 
+              css.includes('aspect-ratio: 2 / 3;');
+console.log(`✅ Test 2: Clase genérica hg-aspect (2:3) generada: ${test3 ? '✅' : '❌'}`);
+
+// Test 4: Verifica que se incluyan las clases de ratio
+const test4 = css.includes('.hg-aspect-1-1 {') && 
               css.includes('aspect-ratio: 1 / 1;');
-console.log(`✅ Test 2: Clase aspect-1-1 generada: ${test3 ? '✅' : '❌'}`);
+console.log(`✅ Test 3: Clase aspect-1-1 generada: ${test4 ? '✅' : '❌'}`);
 
-const test4 = css.includes('.hg-aspect-16-9 {') && 
+const test5 = css.includes('.hg-aspect-16-9 {') && 
               css.includes('aspect-ratio: 16 / 9;');
-console.log(`✅ Test 3: Clase aspect-16-9 generada: ${test4 ? '✅' : '❌'}`);
-
-// Test 4: Verifica que aspect-full no use aspect-ratio
-const test5 = css.includes('.hg-aspect-full {') && 
-              css.includes('aspect-ratio: auto;');
-console.log(`✅ Test 4: Clase aspect-full generada correctamente: ${test5 ? '✅' : '❌'}`);
+console.log(`✅ Test 4: Clase aspect-16-9 generada: ${test5 ? '✅' : '❌'}`);
 
 // Test 5: Verifica que se incluya el fallback
 const test6 = css.includes('@supports not (aspect-ratio:') && 
@@ -65,15 +59,19 @@ const emptyCSS3 = generateAspectRatios({}, 'hg');
 const test8 = emptyCSS1 === '' && emptyCSS2 === '' && emptyCSS3 === '';
 console.log(`✅ Test 7: Retorna string vacío con entrada inválida: ${test8 ? '✅' : '❌'}`);
 
-// Test 8: Calcula correctamente el padding-top para fallback
-const test9 = css.includes('padding-top: 100.0000%;'); // 1:1 = 100%
-console.log(`✅ Test 8: Calcula padding-top correctamente (1:1 = 100%): ${test9 ? '✅' : '❌'}`);
+// Test 8: Calcula correctamente el padding-top para fallback (ratio genérico 2:3)
+const test9 = css.includes('padding-top: 150.0000%;'); // 2:3 = 150%
+console.log(`✅ Test 8: Calcula padding-top correctamente (2:3 = 150%): ${test9 ? '✅' : '❌'}`);
 
-const test10 = css.includes('padding-top: 56.2500%;'); // 16:9 = 56.25%
-console.log(`✅ Test 9: Calcula padding-top correctamente (16:9 = 56.25%): ${test10 ? '✅' : '❌'}`);
+// Test 9: Calcula correctamente el padding-top para fallback (1:1)
+const test10 = css.includes('padding-top: 100.0000%;'); // 1:1 = 100%
+console.log(`✅ Test 9: Calcula padding-top correctamente (1:1 = 100%): ${test10 ? '✅' : '❌'}`);
+
+const test11 = css.includes('padding-top: 56.2500%;'); // 16:9 = 56.25%
+console.log(`✅ Test 10: Calcula padding-top correctamente (16:9 = 56.25%): ${test11 ? '✅' : '❌'}`);
 
 // Resumen
-const allTests = [test2, test3, test4, test5, test6, test7, test8, test9, test10];
+const allTests = [test2, test3, test4, test5, test6, test7, test8, test9, test10, test11];
 const passed = allTests.filter(t => t).length;
 const failed = allTests.length - passed;
 

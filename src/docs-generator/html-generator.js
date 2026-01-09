@@ -1012,7 +1012,7 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
     ${configData.aspectRatios ? `
     <div class="guide-section" id="ratios">
-          <h2>Ratios de Aspecto</h2>
+          <h2>Ratios</h2>
       <div class="guide-section-title">
       <div> </div>
         <p class="text-m guide-section-description">
@@ -1033,13 +1033,13 @@ function generateHTML(configData, previousValuesPath = null) {
             <tbody>
               ${configData.aspectRatios.map(ratio => {
                 const { class: className, width, height, description } = ratio;
-                const ratioValue = className === 'aspect-full' ? 'auto' : `${width}:${height}`;
+                const ratioValue = `${width}:${height}`;
                 return `<tr>
                 <td class="guide-table-name">.${prefix}-${className}</td>
                 <td class="guide-table-value">${ratioValue}</td>
                 <td class="guide-table-description">${description}</td>
                 <td class="guide-preview-cell">
-                  <div class="${prefix}-${className}" style="background: var(--${prefix}-color-primary); max-width: 100px; ${className === 'aspect-full' ? 'height: 50px;' : ''}"></div>
+                  <div class="${prefix}-${className}" style="background: var(--${prefix}-color-primary); max-width: 100px;"></div>
                 </td>
               </tr>`;
               }).join('\n              ')}
@@ -1055,12 +1055,12 @@ function generateHTML(configData, previousValuesPath = null) {
                 <strong>Ejemplo de uso básico:</strong>
               </p>
               <pre class="guide-code-example"><code>&lt;div class="${prefix}-aspect-16-9"&gt;
-  &lt;div class="rat-content"&gt;
+  &lt;div class="${prefix}-aspect-content"&gt;
     &lt;img src="imagen.jpg" alt="Imagen" /&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
               <p class="text-m guide-info-box-text">
-                La clase <code>.rat-content</code> posiciona el contenido absolutamente dentro del ratio. 
+                La clase <code>.${prefix}-aspect-content</code> posiciona el contenido absolutamente dentro del ratio. 
                 Este ejemplo mantiene el ratio 16:9 independientemente del tamaño del contenedor.
               </p>
             </div>
@@ -1068,6 +1068,9 @@ function generateHTML(configData, previousValuesPath = null) {
               <strong>Ratios comunes:</strong>
               <br>
               <ul class="guide-info-box-list">
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.${prefix}-aspect</code> - Ratio por defecto (2:3)
+                </li>
                 <li class="text-m guide-info-box-list-item">
                   <code class="guide-info-box-code-info">.${prefix}-aspect-1-1</code> - Cuadrado perfecto (1:1)
                 </li>
@@ -1080,13 +1083,10 @@ function generateHTML(configData, previousValuesPath = null) {
                 <li class="text-m guide-info-box-list-item">
                   <code class="guide-info-box-code-info">.${prefix}-aspect-9-20</code> - Vertical móvil (9:20)
                 </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.${prefix}-aspect-full</code> - Sin ratio fijo, altura automática
-                </li>
               </ul>
               <p class="text-m guide-info-box-text-small mt-64">
                 <strong>Nota:</strong> Los ratios usan la propiedad <code>aspect-ratio</code> nativa de CSS con fallback para navegadores antiguos. 
-                Usa la clase <code>.rat-content</code> para posicionar el contenido dentro del ratio con <code>position: absolute; inset: 0;</code>
+                Usa la clase <code>.${prefix}-aspect-content</code> para posicionar el contenido dentro del ratio con <code>position: absolute; inset: 0;</code>
               </p>
             </div>
           </div>
@@ -1095,7 +1095,7 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
     ` : ''}
     <div class="guide-section" id="breakpoints">
-          <h2 >Breakpoints</h2>
+          <h2>Breakpoints</h2>
       <div class="guide-section-title">
       <div> </div>
             <p class="text-m guide-section-description">

@@ -13,24 +13,32 @@ function generateAspectRatios(ratios, prefix) {
   let css = '\n/* Aspect Ratios */\n';
   
   // Clase para el contenido dentro del ratio
-  css += `.rat-content {
+  css += `.${prefix}-aspect-content {
   position: absolute;
   inset: 0;
+}\n\n`;
+
+  // Clase genérica .hg-aspect con ratio por defecto 2:3
+  const defaultWidth = 2;
+  const defaultHeight = 3;
+  const defaultPaddingPercent = (defaultHeight / defaultWidth * 100).toFixed(4);
+  
+  css += `/* Ratio por defecto (2:3) */\n`;
+  css += `.${prefix}-aspect {
+  aspect-ratio: ${defaultWidth} / ${defaultHeight};
+  position: relative;
+  width: 100%;
+}\n\n`;
+  
+  css += `@supports not (aspect-ratio: ${defaultWidth} / ${defaultHeight}) {
+  .${prefix}-aspect {
+    padding-top: ${defaultPaddingPercent}%;
+  }
 }\n\n`;
 
   // Generar clases para cada ratio
   ratios.forEach(ratio => {
     const { class: className, width, height, description } = ratio;
-    
-    // Caso especial para aspect-full (sin ratio fijo)
-    if (className === 'aspect-full') {
-      css += `/* ${description} */\n`;
-      css += `.${prefix}-${className} {
-  aspect-ratio: auto;
-  height: auto;
-}\n\n`;
-      return;
-    }
     
     // Calcular el padding-top en porcentaje
     const paddingPercent = (height / width * 100).toFixed(4);

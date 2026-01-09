@@ -188,12 +188,6 @@
       "width": 16,
       "height": 4,
       "description": "Ratio 16:4 (banner)"
-    },
-    {
-      "class": "aspect-full",
-      "width": 0,
-      "height": 0,
-      "description": "Sin ratio fijo (altura automática)"
     }
   ],
   "helpers": {
