@@ -30,6 +30,7 @@ console.log(`✅ Test 1: Clase hg-aspect-content generada: ${test2 ? '✅' : '�
 
 // Test 2.5: Verifica que se incluya la clase hg-aspect-image
 const test2b = css.includes('.hg-aspect-image {') && 
+               css.includes('display: block;') &&
                css.includes('height: 100%;') &&
                css.includes('width: 100%;') &&
                css.includes('object-fit: cover;') &&

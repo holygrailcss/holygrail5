@@ -20,6 +20,7 @@ function generateAspectRatios(ratios, prefix) {
 
   // Clase para imágenes y videos dentro del ratio
   css += `.${prefix}-aspect-image {
+  display: block;
   height: 100%;
   width: 100%;
   object-fit: cover;
