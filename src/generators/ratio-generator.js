@@ -18,6 +18,14 @@ function generateAspectRatios(ratios, prefix) {
   inset: 0;
 }\n\n`;
 
+  // Clase para imágenes y videos dentro del ratio
+  css += `.${prefix}-aspect-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  color: transparent;
+}\n\n`;
+
   // Clase genérica .hg-aspect con ratio por defecto 2:3
   const defaultWidth = 2;
   const defaultHeight = 3;

@@ -1058,14 +1058,20 @@ function generateHTML(configData, previousValuesPath = null) {
               <p class="guide-info-box-text mb-64">
                 <strong>Ejemplo de uso básico:</strong>
               </p>
-              <pre class="guide-code-example"><code>&lt;div class="${prefix}-aspect-16-9"&gt;
+              <pre class="guide-code-example"><code>&lt;!-- Para imágenes y videos --&gt;
+&lt;div class="${prefix}-aspect-16-9"&gt;
+  &lt;img class="${prefix}-aspect-image" src="imagen.jpg" alt="Imagen" /&gt;
+&lt;/div&gt;
+
+&lt;!-- Para contenido personalizado --&gt;
+&lt;div class="${prefix}-aspect-16-9"&gt;
   &lt;div class="${prefix}-aspect-content"&gt;
-    &lt;img src="imagen.jpg" alt="Imagen" /&gt;
+    &lt;!-- Tu contenido aquí --&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
               <p class="text-m guide-info-box-text">
-                La clase <code>.${prefix}-aspect-content</code> posiciona el contenido absolutamente dentro del ratio. 
-                Este ejemplo mantiene el ratio 16:9 independientemente del tamaño del contenedor.
+                Usa <code>.${prefix}-aspect-image</code> para imágenes y videos (con object-fit: cover). 
+                Usa <code>.${prefix}-aspect-content</code> para contenido personalizado.
               </p>
             </div>
             <div>
@@ -1090,7 +1096,7 @@ function generateHTML(configData, previousValuesPath = null) {
               </ul>
               <p class="text-m guide-info-box-text-small mt-64">
                 <strong>Nota:</strong> Los ratios usan la propiedad <code>aspect-ratio</code> nativa de CSS con fallback para navegadores antiguos. 
-                Usa la clase <code>.${prefix}-aspect-content</code> para posicionar el contenido dentro del ratio con <code>position: absolute; inset: 0;</code>
+                Usa <code>.${prefix}-aspect-image</code> para imágenes/videos con <code>object-fit: cover</code> o <code>.${prefix}-aspect-content</code> para contenido personalizado con <code>position: absolute; inset: 0;</code>
               </p>
             </div>
           </div>

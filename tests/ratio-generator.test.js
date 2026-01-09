@@ -28,6 +28,14 @@ const test2 = css.includes('.hg-aspect-content {') &&
               css.includes('inset: 0;');
 console.log(`✅ Test 1: Clase hg-aspect-content generada: ${test2 ? '✅' : '❌'}`);
 
+// Test 2.5: Verifica que se incluya la clase hg-aspect-image
+const test2b = css.includes('.hg-aspect-image {') && 
+               css.includes('height: 100%;') &&
+               css.includes('width: 100%;') &&
+               css.includes('object-fit: cover;') &&
+               css.includes('color: transparent;');
+console.log(`✅ Test 1.5: Clase hg-aspect-image generada: ${test2b ? '✅' : '❌'}`);
+
 // Test 3: Verifica que se incluya la clase genérica hg-aspect (ratio 2:3)
 const test3 = css.includes('.hg-aspect {') && 
               css.includes('aspect-ratio: 2 / 3;');
@@ -71,7 +79,7 @@ const test11 = css.includes('padding-top: 56.2500%;'); // 16:9 = 56.25%
 console.log(`✅ Test 10: Calcula padding-top correctamente (16:9 = 56.25%): ${test11 ? '✅' : '❌'}`);
 
 // Resumen
-const allTests = [test2, test3, test4, test5, test6, test7, test8, test9, test10, test11];
+const allTests = [test2, test2b, test3, test4, test5, test6, test7, test8, test9, test10, test11];
 const passed = allTests.filter(t => t).length;
 const failed = allTests.length - passed;
 

@@ -274,7 +274,8 @@ Si no se especifica `assets`, el sistema usa una configuración por defecto.
 - `src/generators/ratio-generator.js` crea clases de aspect ratio como `.hg-aspect`, `.hg-aspect-16-9`, `.hg-aspect-1-1`, etc.
 - La clase `.hg-aspect` sin sufijo usa el ratio 2:3 por defecto.
 - Usa la propiedad CSS `aspect-ratio` nativa con fallback automático para navegadores antiguos (padding-top).
-- Incluye `.hg-aspect-content` para posicionar el contenido absolutamente dentro del ratio.
+- Incluye `.hg-aspect-image` para imágenes/videos con `object-fit: cover`.
+- Incluye `.hg-aspect-content` para posicionar contenido personalizado absolutamente dentro del ratio.
 - Cada ratio se define con `class`, `width`, `height` y `description`.
 - Útil para mantener proporciones consistentes en imágenes, videos y contenedores.
 - Incluye ratios comunes (1:1, 4:3, 16:9) y especializados (separadores 3:1, 7:1, 12:1, 24:1).
