@@ -8,21 +8,41 @@ Generador de CSS + guía HTML pensado para design systems ligeros: declaras tu `
 ---
 
 ## Índice
-1. [Instalación](#1-instalación)
-2. [Flujo rápido](#2-flujo-rápido)
-3. [Scripts disponibles](#3-scripts-disponibles)
-4. [¿Qué se genera?](#4-qué-se-genera)
-5. [Estructura del proyecto](#5-estructura-del-proyecto)
-6. [Configurar `config.json`](#6-configurar-configjson)
-7. [CLI y argumentos](#7-cli-y-argumentos)
-8. [Guía HTML interactiva](#8-guía-html-interactiva)
-9. [Gestión de variables históricas](#9-gestión-de-variables-históricas)
-10. [Tema Dutti y demos](#10-tema-dutti-y-demos)
-11. [Arquitectura del sistema](#11-arquitectura-del-sistema)
-12. [Tests y calidad](#12-tests-y-calidad)
-13. [Documentos complementarios](#13-documentos-complementarios)
-14. [Recursos y soporte](#14-recursos-y-soporte)
-15. [Licencia](#15-licencia)
+- [HolyGrail5](#holygrail5)
+  - [Índice](#índice)
+  - [1. Instalación](#1-instalación)
+  - [2. Flujo rápido](#2-flujo-rápido)
+  - [3. Scripts disponibles](#3-scripts-disponibles)
+  - [4. ¿Qué se genera?](#4-qué-se-genera)
+  - [5. Estructura del proyecto](#5-estructura-del-proyecto)
+  - [6. Configurar `config.json`](#6-configurar-configjson)
+    - [6.1 Ejemplo mínimo](#61-ejemplo-mínimo)
+    - [6.2 Propiedades globales](#62-propiedades-globales)
+    - [6.3 Configuración de Assets (Opcional)](#63-configuración-de-assets-opcional)
+    - [6.4 Helpers y grid](#64-helpers-y-grid)
+    - [6.5 Ratios de Aspecto](#65-ratios-de-aspecto)
+    - [6.6 Tipografías](#66-tipografías)
+  - [7. CLI y argumentos](#7-cli-y-argumentos)
+  - [8. Guía HTML interactiva](#8-guía-html-interactiva)
+  - [9. Gestión de variables históricas](#9-gestión-de-variables-históricas)
+  - [10. Tema Dutti y demos](#10-tema-dutti-y-demos)
+    - [Flujo de desarrollo de temas](#flujo-de-desarrollo-de-temas)
+  - [11. Arquitectura del sistema](#11-arquitectura-del-sistema)
+    - [Módulos principales](#módulos-principales)
+      - [**`BuildOrchestrator`** (`src/build/build-orchestrator.js`)](#buildorchestrator-srcbuildbuild-orchestratorjs)
+      - [**`AssetManager`** (`src/build/asset-manager.js`)](#assetmanager-srcbuildasset-managerjs)
+      - [**`ThemeTransformer`** (`src/build/theme-transformer.js`)](#themetransformer-srcbuildtheme-transformerjs)
+    - [Ventajas de la arquitectura](#ventajas-de-la-arquitectura)
+    - [Diagrama de flujo](#diagrama-de-flujo)
+  - [12. Tests y calidad](#12-tests-y-calidad)
+    - [Suite de tests completa](#suite-de-tests-completa)
+  - [13. Documentos complementarios](#13-documentos-complementarios)
+    - [Publicación de la guía](#publicación-de-la-guía)
+  - [14. Recursos y soporte](#14-recursos-y-soporte)
+    - [Contribuir](#contribuir)
+  - [15. Licencia](#15-licencia)
+  - [Changelog](#changelog)
+    - [v1.0.12 - Diciembre 2024](#v1012---diciembre-2024)
 
 ---
 
@@ -251,8 +271,10 @@ Si no se especifica `assets`, el sistema usa una configuración por defecto.
 
 ### 6.5 Ratios de Aspecto
 
-- `src/generators/ratio-generator.js` crea clases de aspect ratio como `.hg-aspect-16-9`, `.hg-aspect-1-1`, etc.
+- `src/generators/ratio-generator.js` crea clases de aspect ratio como `.hg-aspect`, `.hg-aspect-16-9`, `.hg-aspect-1-1`, etc.
+- La clase `.hg-aspect` sin sufijo usa el ratio 2:3 por defecto.
 - Usa la propiedad CSS `aspect-ratio` nativa con fallback automático para navegadores antiguos (padding-top).
+- Incluye `.hg-aspect-content` para posicionar el contenido absolutamente dentro del ratio.
 - Cada ratio se define con `class`, `width`, `height` y `description`.
 - Útil para mantener proporciones consistentes en imágenes, videos y contenedores.
 - Incluye ratios comunes (1:1, 4:3, 16:9) y especializados (separadores 3:1, 7:1, 12:1, 24:1).
