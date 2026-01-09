@@ -28,6 +28,7 @@ function generateAspectRatios(ratios, prefix) {
   aspect-ratio: ${defaultWidth} / ${defaultHeight};
   position: relative;
   width: 100%;
+  overflow: hidden;
 }\n\n`;
   
   css += `@supports not (aspect-ratio: ${defaultWidth} / ${defaultHeight}) {
@@ -48,6 +49,7 @@ function generateAspectRatios(ratios, prefix) {
   aspect-ratio: ${width} / ${height};
   position: relative;
   width: 100%;
+  overflow: hidden;
 }\n\n`;
     
     // Añadir fallback para navegadores que no soporten aspect-ratio

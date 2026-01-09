@@ -1017,7 +1017,6 @@ function generateHTML(configData, previousValuesPath = null) {
       <div> </div>
         <p class="text-m guide-section-description">
           Clases para controlar el ratio de aspecto de los elementos. Útil para imágenes, videos y contenedores.
-          La clase <code>.${prefix}-aspect</code> usa el ratio 2:3 por defecto.
         </p>
       </div>
       <div class="guide-section-content">
@@ -1040,7 +1039,11 @@ function generateHTML(configData, previousValuesPath = null) {
                 <td class="guide-table-value">${ratioValue}</td>
                 <td class="guide-table-description">${description}</td>
                 <td class="guide-preview-cell">
-                  <div class="${prefix}-${className}" style="background: var(--${prefix}-color-primary); max-width: 100px;"></div>
+                  <div class="${prefix}-${className}" style="background: var(--${prefix}-color-primary); max-width: 100px;">
+                    <div class="${prefix}-aspect-content">
+                      <img class="${prefix}-aspect-image" src="assets/introm.jpg" alt="Ejemplo ${ratioValue}" />
+                    </div>
+                  </div>
                 </td>
               </tr>`;
               }).join('\n              ')}
@@ -1055,21 +1058,14 @@ function generateHTML(configData, previousValuesPath = null) {
               <p class="guide-info-box-text mb-64">
                 <strong>Ejemplo de uso básico:</strong>
               </p>
-              <pre class="guide-code-example"><code>&lt;!-- Ratio por defecto (2:3) --&gt;
-&lt;div class="${prefix}-aspect"&gt;
-  &lt;div class="${prefix}-aspect-content"&gt;
-    &lt;img src="imagen.jpg" alt="Imagen" /&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Ratio específico (16:9) --&gt;
-&lt;div class="${prefix}-aspect-16-9"&gt;
+              <pre class="guide-code-example"><code>&lt;div class="${prefix}-aspect-16-9"&gt;
   &lt;div class="${prefix}-aspect-content"&gt;
     &lt;img src="imagen.jpg" alt="Imagen" /&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
               <p class="text-m guide-info-box-text">
-                La clase <code>.${prefix}-aspect</code> usa el ratio 2:3 por defecto. Usa <code>.${prefix}-aspect-content</code> para posicionar el contenido absolutamente dentro del ratio.
+                La clase <code>.${prefix}-aspect-content</code> posiciona el contenido absolutamente dentro del ratio. 
+                Este ejemplo mantiene el ratio 16:9 independientemente del tamaño del contenedor.
               </p>
             </div>
             <div>
