@@ -27,7 +27,7 @@ yarn-error.log*
 # Directorios temporales
 .npm
 .cache
-build/
+/build/
 
 # IDE
 .vscode/
