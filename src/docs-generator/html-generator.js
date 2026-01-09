@@ -1080,10 +1080,7 @@ function generateHTML(configData, previousValuesPath = null) {
 &lt;!-- Para contenido personalizado --&gt;
 &lt;div class="${prefix}-aspect-16-9"&gt;
   &lt;div class="${prefix}-aspect-content"&gt;
-    &lt;img class="${prefix}-aspect-image" src="fondo.jpg" alt="Fondo" /&gt;
-    &lt;div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"&gt;
-      &lt;h2&gt;Tu contenido aquí&lt;/h2&gt;
-    &lt;/div&gt;
+    &lt;!-- Tu contenido aquí --&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
               <p class="text-m guide-info-box-text">
