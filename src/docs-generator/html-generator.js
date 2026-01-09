@@ -1031,6 +1031,18 @@ function generateHTML(configData, previousValuesPath = null) {
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="guide-table-name">.${prefix}-aspect</td>
+                <td class="guide-table-value">2:3</td>
+                <td class="guide-table-description">Ratio por defecto (2:3)</td>
+                <td class="guide-preview-cell">
+                  <div class="${prefix}-aspect" style="background: var(--${prefix}-color-primary); max-width: 100px;">
+                    <div class="${prefix}-aspect-content">
+                      <img class="${prefix}-aspect-image" src="assets/introm.jpg" alt="Ejemplo 2:3" />
+                    </div>
+                  </div>
+                </td>
+              </tr>
               ${configData.aspectRatios.map(ratio => {
                 const { class: className, width, height, description } = ratio;
                 const ratioValue = `${width}:${height}`;
@@ -1060,18 +1072,23 @@ function generateHTML(configData, previousValuesPath = null) {
               </p>
               <pre class="guide-code-example"><code>&lt;!-- Para imágenes y videos --&gt;
 &lt;div class="${prefix}-aspect-16-9"&gt;
-  &lt;img class="${prefix}-aspect-image" src="imagen.jpg" alt="Imagen" /&gt;
+  &lt;div class="${prefix}-aspect-content"&gt;
+    &lt;img class="${prefix}-aspect-image" src="imagen.jpg" alt="Imagen" /&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- Para contenido personalizado --&gt;
 &lt;div class="${prefix}-aspect-16-9"&gt;
   &lt;div class="${prefix}-aspect-content"&gt;
-    &lt;!-- Tu contenido aquí --&gt;
+    &lt;img class="${prefix}-aspect-image" src="fondo.jpg" alt="Fondo" /&gt;
+    &lt;div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"&gt;
+      &lt;h2&gt;Tu contenido aquí&lt;/h2&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
               <p class="text-m guide-info-box-text">
-                Usa <code>.${prefix}-aspect-image</code> para imágenes y videos (con object-fit: cover). 
-                Usa <code>.${prefix}-aspect-content</code> para contenido personalizado.
+                Usa <code>.${prefix}-aspect-content</code> como contenedor principal (position: absolute; inset: 0).
+                Usa <code>.${prefix}-aspect-image</code> para imágenes y videos (display: block, object-fit: cover).
               </p>
             </div>
             <div>
