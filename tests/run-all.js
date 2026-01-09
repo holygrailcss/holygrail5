@@ -10,6 +10,7 @@ require('./helpers.test');
 require('./config-loader.test');
 require('./css-generator.test');
 require('./html-generator.test');
+require('./ratio-generator.test');
 
 // Tests de módulos de build
 const { testAssetManager } = require('./asset-manager.test');

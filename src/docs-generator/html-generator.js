@@ -524,6 +524,9 @@ function generateHTML(configData, previousValuesPath = null) {
       if (configData.grid && configData.grid.enabled) {
         menuItems.push({ id: 'grid', label: 'Grid System' });
       }
+      if (configData.aspectRatios) {
+        menuItems.push({ id: 'ratios', label: 'Ratios de Aspecto' });
+      }
       menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
       const menuHTML = menuItems.map(item => `
         <a href="#${item.id}" class="guide-menu-item" data-section="${item.id}">${item.label}</a>
@@ -1000,6 +1003,90 @@ function generateHTML(configData, previousValuesPath = null) {
 &lt;/div&gt;</code></pre>
               <p class="text-m guide-info-box-text-small">
                 <strong>Nota:</strong> <code class="guide-info-box-code-info">.bleed</code> aplica márgenes negativos iguales al gutter (${configData.grid.gutter}) para que el contenido llegue hasta los bordes. <code class="guide-info-box-code-info">.bleed-0</code> elimina todo el padding y márgenes, útil para imágenes o contenido que debe ocupar todo el ancho disponible.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+    ${configData.aspectRatios ? `
+    <div class="guide-section" id="ratios">
+          <h2>Ratios de Aspecto</h2>
+      <div class="guide-section-title">
+      <div> </div>
+        <p class="text-m guide-section-description">
+          Clases para controlar el ratio de aspecto de los elementos. Útil para imágenes, videos y contenedores.
+        </p>
+      </div>
+      <div class="guide-section-content">
+        <div class="guide-table-wrapper">
+          <table class="guide-table">
+            <thead>
+              <tr>
+                <th>Clase</th>
+                <th>Ratio</th>
+                <th>Descripción</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${configData.aspectRatios.map(ratio => {
+                const { class: className, width, height, description } = ratio;
+                const ratioValue = className === 'aspect-full' ? 'auto' : `${width}:${height}`;
+                return `<tr>
+                <td class="guide-table-name">.${prefix}-${className}</td>
+                <td class="guide-table-value">${ratioValue}</td>
+                <td class="guide-table-description">${description}</td>
+                <td class="guide-preview-cell">
+                  <div class="${prefix}-${className}" style="background: var(--${prefix}-color-primary); max-width: 100px; ${className === 'aspect-full' ? 'height: 50px;' : ''}"></div>
+                </td>
+              </tr>`;
+              }).join('\n              ')}
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="guide-section-title">
+          <div> </div>
+          <div class="demo-section-2">
+            <div>
+              <p class="guide-info-box-text mb-64">
+                <strong>Ejemplo de uso básico:</strong>
+              </p>
+              <pre class="guide-code-example"><code>&lt;div class="${prefix}-aspect-16-9"&gt;
+  &lt;div class="rat-content"&gt;
+    &lt;img src="imagen.jpg" alt="Imagen" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              <p class="text-m guide-info-box-text">
+                La clase <code>.rat-content</code> posiciona el contenido absolutamente dentro del ratio. 
+                Este ejemplo mantiene el ratio 16:9 independientemente del tamaño del contenedor.
+              </p>
+            </div>
+            <div>
+              <strong>Ratios comunes:</strong>
+              <br>
+              <ul class="guide-info-box-list">
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.${prefix}-aspect-1-1</code> - Cuadrado perfecto (1:1)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.${prefix}-aspect-16-9</code> - Widescreen estándar (16:9)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.${prefix}-aspect-4-3</code> - Formato tradicional (4:3)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.${prefix}-aspect-9-20</code> - Vertical móvil (9:20)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.${prefix}-aspect-full</code> - Sin ratio fijo, altura automática
+                </li>
+              </ul>
+              <p class="text-m guide-info-box-text-small mt-64">
+                <strong>Nota:</strong> Los ratios usan la propiedad <code>aspect-ratio</code> nativa de CSS con fallback para navegadores antiguos. 
+                Usa la clase <code>.rat-content</code> para posicionar el contenido dentro del ratio con <code>position: absolute; inset: 0;</code>
               </p>
             </div>
           </div>

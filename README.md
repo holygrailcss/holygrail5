@@ -75,7 +75,7 @@ npm run build   # genera CSS, HTML, assets y temas automáticamente
 
 ## 4. ¿Qué se genera?
 
-- **`dist/output.css`** → Reset, variables compartidas, helpers de spacing, helpers de layout, grid opcional y tipografías mobile/desktop.
+- **`dist/output.css`** → Reset, variables compartidas, helpers de spacing, helpers de layout, grid opcional, aspect ratios y tipografías mobile/desktop.
 - **`dist/index.html`** → Guía interactiva con navegación sticky, buscador y diffs visuales.
 - **`dist/guide-styles.css`** → Estilos de la guía de documentación.
 - **`dist/assets/`** → Imágenes y recursos estáticos.
@@ -176,6 +176,10 @@ holygrail5/
     "display": { "property": "display", "class": "d", "responsive": true, "values": ["flex", "block", "none"] }
   },
   "grid": { "enabled": true, "gutter": "8px", "breakpoints": { "md": { "minWidth": "992px", "columns": 12 } } },
+  "aspectRatios": [
+    { "class": "aspect-16-9", "width": 16, "height": 9, "description": "Ratio 16:9 (widescreen)" },
+    { "class": "aspect-1-1", "width": 1, "height": 1, "description": "Ratio 1:1 (cuadrado)" }
+  ],
   "typo": {
     "h2": {
       "fontFamily": "arial, sans-serif",
@@ -200,6 +204,7 @@ holygrail5/
 | `spacingImportant` | string[] | Keys de spacing con `!important`. |
 | `helpers` | object | Helpers de layout. Permite arrays simples o mapas clave → valor. |
 | `grid` | object | Define breakpoints, columnas y gutter por tamaño. |
+| `aspectRatios` | array | **Opcional**: Define ratios de aspecto como `.hg-aspect-16-9` con fallback automático. |
 | `typo` | object | Clases de tipografía (obligatorio al menos un breakpoint). |
 | `theme` | object | `{ name, enabled }` para combinar temas desde `themes/<name>`. |
 | `assets` | object | **Opcional**: `{ css: [...], images: [...] }` para configurar qué archivos copiar a `dist/`. |
@@ -244,7 +249,15 @@ Si no se especifica `assets`, el sistema usa una configuración por defecto.
 - Puedes mezclar helpers basados en `values` y helpers que reutilizan `spacingMap` con `useSpacing: true` (gap, row-gap, column-gap...).
 - El grid (`grid.enabled=true`) genera utilidades `.row`, `.col-md-6`, offsets, contenedores fluidos y variantes por breakpoint.
 
-### 6.5 Tipografías
+### 6.5 Ratios de Aspecto
+
+- `src/generators/ratio-generator.js` crea clases de aspect ratio como `.hg-aspect-16-9`, `.hg-aspect-1-1`, etc.
+- Usa la propiedad CSS `aspect-ratio` nativa con fallback automático para navegadores antiguos (padding-top).
+- Cada ratio se define con `class`, `width`, `height` y `description`.
+- Útil para mantener proporciones consistentes en imágenes, videos y contenedores.
+- Incluye ratios comunes (1:1, 4:3, 16:9) y especializados (separadores 3:1, 7:1, 12:1, 24:1).
+
+### 6.6 Tipografías
 
 - El generador (`src/generators/typo-generator.js`) deduplica valores y crea variables compartidas (`--hg-typo-font-size-24`).
 - Cada clase admite propiedades base (`fontFamily`, `fontWeight`, `letterSpacing`, `textTransform`) y propiedades por breakpoint (`fontSize`, `lineHeight`).

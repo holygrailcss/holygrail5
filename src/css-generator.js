@@ -14,6 +14,7 @@ const {
 const { generateSpacingHelpers } = require('./generators/spacing-generator');
 const { generateLayoutHelpers } = require('./generators/helpers-generator');
 const { generateGridSystem } = require('./generators/grid-generator');
+const { generateAspectRatios } = require('./generators/ratio-generator');
 
 /**
  * Función principal que genera todo el CSS desde la configuración JSON
@@ -80,7 +81,12 @@ function generateCSS(configData) {
     ? generateGridSystem(configData.grid, baseFontSize) 
     : '';
   
-  // 7. Genera bloques de tipografías para mobile y desktop
+  // 7. Genera aspect ratios
+  const aspectRatios = configData.aspectRatios 
+    ? generateAspectRatios(configData.aspectRatios, prefix) 
+    : '';
+  
+  // 8. Genera bloques de tipografías para mobile y desktop
   const mobileTypography = generateTypographyBlock(
     'mobile', 
     configData.breakpoints.mobile, 
@@ -103,13 +109,13 @@ function generateCSS(configData) {
     configData.fontFamilyMap
   );
   
-  // 8. Combina todos los bloques en el orden correcto
+  // 9. Combina todos los bloques en el orden correcto
   return `${resetCSS}/* Variables CSS Compartidas */
 :root {
 ${rootVars}
 }
 
-${spacingHelpers}${layoutHelpers}${gridSystem}${mobileTypography}
+${spacingHelpers}${layoutHelpers}${gridSystem}${aspectRatios}${mobileTypography}
 
 ${desktopTypography}`;
 }
