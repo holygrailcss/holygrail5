@@ -54,6 +54,22 @@ function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontS
     desktopHelpers.push(`    .md\\:ml-${key} { margin-inline-start: var(${varName}); }`);
     desktopHelpers.push(`    .md\\:mb-${key} { margin-bottom: var(${varName}); }`);
     desktopHelpers.push(`    .md\\:mt-${key} { margin-top: var(${varName}); }`);
+    
+    // NUEVAS: Padding helpers con prefijo hg- usando propiedades inline/block (mobile)
+    helpers.push(`  .${prefix}-px-${key} { padding-inline: var(${varName}); }`);
+    helpers.push(`  .${prefix}-py-${key} { padding-block: var(${varName}); }`);
+    
+    // NUEVAS: Margin helpers con prefijo hg- usando propiedades inline/block (mobile)
+    helpers.push(`  .${prefix}-mx-${key} { margin-inline: var(${varName}); }`);
+    helpers.push(`  .${prefix}-my-${key} { margin-block: var(${varName}); }`);
+    
+    // NUEVAS: Padding helpers con prefijo hg- y md: usando propiedades inline/block (desktop)
+    desktopHelpers.push(`    .md\\:${prefix}-px-${key} { padding-inline: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-py-${key} { padding-block: var(${varName}); }`);
+    
+    // NUEVAS: Margin helpers con prefijo hg- y md: usando propiedades inline/block (desktop)
+    desktopHelpers.push(`    .md\\:${prefix}-mx-${key} { margin-inline: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-my-${key} { margin-block: var(${varName}); }`);
   });
   
   // Generar helpers con !important para los valores especificados en spacingImportant

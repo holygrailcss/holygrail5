@@ -395,6 +395,25 @@ function generateHTML(configData, previousValuesPath = null) {
         <td class="guide-value-center-orange ${isChanged ? 'guide-changed' : ''}">${pxValue}</td>
       </tr>`;
   }).join('') : '';
+  
+  // Tabla separada para clases modernas inline
+  const spacingInlineHelpersHTML = configData.spacingMap ? Object.entries(configData.spacingMap).map(([key, value]) => {
+    const varName = `--${prefix}-spacing-${key}`;
+    const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
+    const pxValue = value;
+    const isChanged = changedValues.has(`spacingMap.${key}`);
+    
+    return `
+      <tr>
+        <td class="guide-table-name">
+          .${prefix}-px-${key}, .${prefix}-py-${key}<br>
+          .${prefix}-mx-${key}, .${prefix}-my-${key}
+        </td>
+        <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${varName}</td>
+        <td class="guide-value-center-blue ${isChanged ? 'guide-changed' : ''}">${remValue}</td>
+        <td class="guide-value-center-orange ${isChanged ? 'guide-changed' : ''}">${pxValue}</td>
+      </tr>`;
+  }).join('') : '';
   const spacingHelpersTableHTML = configData.spacingMap ? `
     <div class="guide-table-wrapper">
       <table class="guide-table">
@@ -408,6 +427,44 @@ function generateHTML(configData, previousValuesPath = null) {
         </thead>
         <tbody>
           ${spacingHelpersHTML}
+          <tr>
+            <td class="guide-table-name">
+              <strong>Clases especiales:</strong><br>
+              .mx-auto<br>
+              <small>(margin-inline: auto para centrado horizontal)</small>
+            </td>
+            <td class="guide-table-value">-</td>
+            <td class="guide-value-center-blue">auto</td>
+            <td class="guide-value-center-orange">auto</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>` : '';
+  
+  const spacingInlineHelpersTableHTML = configData.spacingMap ? `
+    <div class="guide-table-wrapper mt-32">
+      <h3 class="title-l mb-16">Clases Modernas (Inline/Block - RTL-aware)</h3>
+      <table class="guide-table">
+        <thead>
+          <tr>
+            <th>Clases Helper</th>
+            <th>Variable CSS</th>
+            <th>Valor (rem)</th>
+            <th>Valor (px)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${spacingInlineHelpersHTML}
+          <tr>
+            <td class="guide-table-name">
+              <strong>Clases especiales:</strong><br>
+              .${prefix}-mx-auto<br>
+              <small>(margin-inline: auto para centrado horizontal)</small>
+            </td>
+            <td class="guide-table-value">-</td>
+            <td class="guide-value-center-blue">auto</td>
+            <td class="guide-value-center-orange">auto</td>
+          </tr>
         </tbody>
       </table>
     </div>` : '';
@@ -773,17 +830,34 @@ function generateHTML(configData, previousValuesPath = null) {
             </div>
         </div>
         ${spacingHelpersTableHTML}
+        ${spacingInlineHelpersTableHTML}
         <div class="guide-section-title">
           <div> </div>
           <div class="demo-section-2">
             <div>
-  <strong class="mb-16">¿Cómo se funcionan los helpers de espaciado?</strong>
+  <strong class="mb-16">¿Cómo se generan los helpers de espaciado?</strong>
 
               <p class="text-m guide-info-box-text">
-                Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}).
+                <strong>Primera letra:</strong> Tipo de spacing → <code class="guide-info-box-code-info">p</code> (padding) o <code class="guide-info-box-code-info">m</code> (margin).
+              </p>
+              <p class="text-m guide-info-box-text">
+                <strong>Segunda letra:</strong> Dirección → <code class="guide-info-box-code-info">t</code> (top), <code class="guide-info-box-code-info">r</code> (right/end), <code class="guide-info-box-code-info">b</code> (bottom), <code class="guide-info-box-code-info">l</code> (left/start). Si no hay segunda letra, se aplica a todos los lados.
+              </p>
+              <p class="text-m guide-info-box-text">
+                <strong>Guion + valor:</strong> El valor del spacing → <code class="guide-info-box-code-info">-4</code>, <code class="guide-info-box-code-info">-16</code>, <code class="guide-info-box-code-info">-50-percent</code>
+              </p>
+              <p class="text-m guide-info-box-text">
+                <strong>Ejemplos Legacy:</strong> <code class="guide-info-box-code-info">p-16</code> (padding todos lados), <code class="guide-info-box-code-info">pt-8</code> (padding-top), <code class="guide-info-box-code-info">pr-4</code> (padding-right), <code class="guide-info-box-code-info">mb-24</code> (margin-bottom), <code class="guide-info-box-code-info">ml-12</code> (margin-left).
+              </p>
+              <p class="text-m guide-info-box-text">
+                <strong>Clases Modernas (RTL-aware):</strong> A estas clases legacy se añaden versiones inline con prefijo <code class="guide-info-box-code-info">hg-</code>:
+                <code class="guide-info-box-code-info">.${prefix}-px-{valor}</code> (padding-inline/horizontal), 
+                <code class="guide-info-box-code-info">.${prefix}-py-{valor}</code> (padding-block/vertical), 
+                <code class="guide-info-box-code-info">.${prefix}-mx-{valor}</code> (margin-inline/horizontal), 
+                <code class="guide-info-box-code-info">.${prefix}-my-{valor}</code> (margin-block/vertical).
               </p>
               <p class="text-m guide-info-box-text-small">
-                <strong>Nota:</strong> Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Por ejemplo: <code class="guide-info-box-code-info">.p-4 .md:p-8</code> aplica 4px en mobile y 8px en desktop. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
+                <strong>Nota:</strong> Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}). Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
               </p>
             </div>
             <div>

@@ -39,16 +39,33 @@ Framework CSS utility-first similar a Tailwind/Bootstrap. Mobile-first, responsi
 
 ## 2. Spacing
 
-**Patrón**: `{tipo}{dirección}-{valor}`
-- **Tipo**: `p` (padding) | `m` (margin)
-- **Dirección**: nada (todos) | `t` (top) | `r` (right) | `b` (bottom) | `l` (left)
-- **Valor**: `0`, `4`, `8`, `12`, `16`, `20`, `24`, `32`, `36`, `40`, `64`, `72`, `80`, `88`, `96`, `104`, `112`, `120`, `128`, `136`, `144`, `152`, `160`
-- **Porcentajes**: `20-percent`, `25-percent`, `33-percent`, `40-percent`, `50-percent`, `60-percent`, `66-percent`, `75-percent`, `100-percent`
+**Valores disponibles**: `0`, `4`, `8`, `12`, `16`, `20`, `24`, `32`, `36`, `40`, `64`, `72`, `80`, `88`, `96`, `104`, `112`, `120`, `128`, `136`, `144`, `152`, `160`, `20-percent`, `25-percent`, `33-percent`, `40-percent`, `50-percent`, `60-percent`, `66-percent`, `75-percent`, `100-percent`
+
+### ¿Cómo se generan los helpers de espaciado?
+
+**Primera letra**: Tipo de spacing → `p` (padding) o `m` (margin).
+
+**Clases Legacy (sin prefijo)**: Se generan automáticamente para cada valor del spacingMap:
+- **Padding**: `p-{valor}` `pt-{valor}` `pr-{valor}` `pb-{valor}` `pl-{valor}`
+- **Margin**: `m-{valor}` `mt-{valor}` `mr-{valor}` `mb-{valor}` `ml-{valor}` `mx-auto`
+
+**Clases Modernas (con prefijo `hg-`)**: A estas clases legacy se añaden versiones inline con prefijo `hg-`:
+- **Padding**: `.hg-px-{valor}` (padding-inline/horizontal) `.hg-py-{valor}` (padding-block/vertical)
+- **Margin**: `.hg-mx-{valor}` (margin-inline/horizontal) `.hg-my-{valor}` (margin-block/vertical)
 
 ```html
+<!-- Legacy -->
 <div class="p-16 mb-24">Contenido</div>
 <div class="pt-8 pb-16 pl-4 pr-4">Padding mixto</div>
-<div class="p-8 md:p-24">Responsive</div>
+
+<!-- Modernas (RTL-aware) -->
+<div class="hg-px-16 hg-py-8">Padding horizontal y vertical</div>
+<div class="hg-mx-auto" style="max-width: 800px;">Centrado horizontal</div>
+<div class="hg-px-24 hg-my-16">Padding horizontal + margin vertical</div>
+
+<!-- Responsive -->
+<div class="p-8 md:p-24">Legacy responsive</div>
+<div class="hg-px-8 md:hg-px-24 hg-py-8 md:hg-py-16">Moderna responsive</div>
 ```
 
 ---
@@ -314,8 +331,10 @@ Valores: mismos que spacing
 `.h2` `.title-l-b` `.title-l` `.title-m` `.title-s` `.text-l` `.text-m` `.suisse-1` `.suisse-2` `.suisse-body`
 
 ### Spacing
-`{p|m}{t|r|b|l|}-{0|4|8|12|16|20|24|32|36|40|64|72|80|88|96|104|112|120|128|136|144|152|160|20-percent|25-percent|33-percent|40-percent|50-percent|60-percent|66-percent|75-percent|100-percent}`
-`md:{spacing}` para responsive
+**Legacy**: `{p|m}{t|r|b|l|}-{valor}` `mx-auto`
+**Modernas**: `.hg-px-{valor}` `.hg-py-{valor}` `.hg-mx-{valor}` `.hg-my-{valor}` `.hg-mx-auto`
+**Valores**: `0|4|8|12|16|20|24|32|36|40|64|72|80|88|96|104|112|120|128|136|144|152|160|20-percent|25-percent|33-percent|40-percent|50-percent|60-percent|66-percent|75-percent|100-percent`
+**Responsive**: `md:{spacing}`
 
 ### Display
 `.hg-d-block` `.hg-d-flex` `.hg-d-none` `.hg-d-inline-block` `.hg-d-contents` `.hg-d-inline` `.hg-d-inline-flex`
@@ -348,11 +367,12 @@ Valores: mismos que spacing
 ## Mejores Prácticas
 
 1. **Usar clases, NO inline styles**: `class="p-16"` en vez de `style="padding: 16px;"`
-2. **Responsive mobile-first**: `class="p-8 md:p-24"`
-3. **Combinar helpers**: `class="hg-d-flex hg-justify-center hg-items-center hg-gap-16 p-24"`
-4. **Variables para colores**: `var(--hg-color-primary)` en vez de `#000000`
-5. **HTML semántico**: `<header>` `<nav>` `<main>` `<footer>` `<article>` `<aside>`
-6. **Accesibilidad**: `alt=""` en imágenes, `aria-label=""` cuando necesario
+2. **Preferir clases modernas con prefijo** `hg-` para mejor compatibilidad RTL: `.hg-px-16` `.hg-py-8`
+3. **Responsive mobile-first**: `class="p-8 md:p-24"` o `class="hg-px-8 md:hg-px-24"`
+4. **Combinar helpers**: `class="hg-d-flex hg-justify-center hg-items-center hg-gap-16 hg-px-24"`
+5. **Variables para colores**: `var(--hg-color-primary)` en vez de `#000000`
+6. **HTML semántico**: `<header>` `<nav>` `<main>` `<footer>` `<article>` `<aside>`
+7. **Accesibilidad**: `alt=""` en imágenes, `aria-label=""` cuando necesario
 
 ---
 

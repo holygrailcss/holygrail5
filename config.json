@@ -742,6 +742,30 @@
         "fontSize": "12px",
         "lineHeight": "1.1"
       }
+    },
+    "hg-body-m": {
+      "fontFamily": "arial, sans-serif",
+      "fontWeight": "100",
+      "mobile": {
+        "fontSize": "12px",
+        "lineHeight": "1.5"
+      },
+      "desktop": {
+        "fontSize": "13px",
+        "lineHeight": "1.5"
+      }
+    },
+    "hg-body-m-b": {
+      "fontFamily": "arial, sans-serif",
+      "fontWeight": "400",
+      "mobile": {
+        "fontSize": "12px",
+        "lineHeight": "1.5"
+      },
+      "desktop": {
+        "fontSize": "13px",
+        "lineHeight": "1.5"
+      }
     }
   }
 }
