@@ -115,7 +115,7 @@ holygrail5/
 │   ├── assets/                    # Assets estáticos (imágenes)
 │   │   ├── intro.jpg
 │   │   ├── introm.jpg
-│   │   └── margenes.webp
+│   │   └── margen.webp
 │   │
 │   ├── build/                     # Sistema de build modular
 │   │   ├── asset-manager.js       # Gestión de assets
@@ -248,7 +248,7 @@ Puedes configurar qué archivos CSS e imágenes se copian a `dist/` agregando un
         "dest": "dist/assets/intro.jpg"
       },
       {
-        "source": "src/assets/margenes.webp",
+        "source": "src/assets/margen.webp",
         "dest": "dist/assets/margen.webp"
       }
     ]

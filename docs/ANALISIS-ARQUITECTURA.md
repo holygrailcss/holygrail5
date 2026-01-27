@@ -128,7 +128,7 @@ const ASSETS_CONFIG = {
       dest: 'dist/src/introm.jpg'
     },
     {
-      source: 'src/margenes.webp',
+      source: 'src/margen.webp',
       dest: 'dist/src/margen.webp'
     }
   ],
@@ -263,7 +263,7 @@ holygrail5/
 │   ├── images/
 │   │   ├── intro.jpg
 │   │   ├── introm.jpg
-│   │   └── margenes.webp
+│   │   └── margen.webp
 │   └── styles/
 │       └── guide-styles.css
 ├── src/
@@ -304,7 +304,7 @@ holygrail5/
       "images": [
         "src/intro.jpg",
         "src/introm.jpg",
-        "src/margenes.webp"
+        "src/margen.webp"
       ]
     },
     "output": {

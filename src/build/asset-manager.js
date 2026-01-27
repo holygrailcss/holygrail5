@@ -22,7 +22,7 @@ const ASSETS_CONFIG = {
       dest: 'dist/assets/introm.jpg'
     },
     {
-      source: 'src/assets/margenes.webp',
+      source: 'src/assets/margen.webp',
       dest: 'dist/assets/margen.webp'
     }
   ]
