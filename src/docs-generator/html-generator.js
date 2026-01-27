@@ -1016,6 +1016,10 @@ function generateHTML(configData, previousValuesPath = null) {
                 <th>Min-width</th>
                 <th>Min-width (rem)</th>
                 <th>Columnas</th>
+                <th>Gutter (px)</th>
+                <th>Gutter (rem)</th>
+                <th>Margen lateral (px)</th>
+                <th>Margen lateral (rem)</th>
                 <th>Clases</th>
               </tr>
             </thead>
@@ -1023,12 +1027,22 @@ function generateHTML(configData, previousValuesPath = null) {
               ${Object.entries(configData.grid.breakpoints).map(([name, config]) => {
                 const minWidth = config.minWidth || config;
                 const columns = config.columns || 12;
-                const remValue = minWidth.endsWith('px') ? pxToRem(minWidth, baseFontSize) : '-';
+                const minWidthRem = minWidth.endsWith('px') ? pxToRem(minWidth, baseFontSize) : '-';
+                const gutter = configData.grid.gutter || '-';
+                const gutterRem = gutter !== '-' && String(gutter).endsWith('px') ? pxToRem(gutter, baseFontSize) : gutter !== '-' ? gutter : '-';
+                const gutterPx = gutter;
+                const marginLateral = configData.grid.containerMargin || '-';
+                const marginLateralRem = marginLateral !== '-' && String(marginLateral).endsWith('px') ? pxToRem(marginLateral, baseFontSize) : marginLateral !== '-' ? marginLateral : '-';
+                const marginLateralPx = marginLateral;
                 return `<tr>
                 <td class="guide-table-name">${name}</td>
                 <td class="guide-table-value">${minWidth}</td>
-                <td class="guide-table-value">${remValue}</td>
+                <td class="guide-table-value">${minWidthRem}</td>
                 <td class="guide-table-value">${columns}</td>
+                <td class="guide-value-center-orange">${gutterPx}</td>
+                <td class="guide-value-center-blue">${gutterRem}</td>
+                <td class="guide-value-center-orange">${marginLateralPx}</td>
+                <td class="guide-value-center-blue">${marginLateralRem}</td>
                 <td class="guide-table-value">.col-${name}-1 a .col-${name}-${columns}</td>
               </tr>`;
               }).join('\n              ')}

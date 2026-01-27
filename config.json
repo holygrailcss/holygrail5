@@ -95,6 +95,7 @@
   "grid": {
     "enabled": true,
     "gutter": "8px",
+    "containerMargin": "16px",
     "breakpoints": {
       "xs": {
         "minWidth": "1px",
