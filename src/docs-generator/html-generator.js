@@ -555,16 +555,18 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>` : '';
-      const colorsGridHTML = configData.colors ? `
-        <div class="guide-colors-grid">
-          ${Object.entries(configData.colors).map(([key, value]) => {
-            const varName = `--${prefix}-color-${key}`;
-            const isChanged = changedValues.has(`colors.${key}`);
-            const normalizedValue = value.trim().toLowerCase();
-            const isLight = normalizedValue === '#ffffff' || normalizedValue === '#f0f0f0' || normalizedValue === '#f4f2ed' || normalizedValue === '#e3e3e3';
-            // Asegurar que el valor del color sea opaco (sin alfa)
-            const opaqueValue = normalizedValue.length === 7 ? normalizedValue : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
-            return `
+      // Clasificación primarios (blancos, grises, negros, fondos neutros) vs semánticos
+      const primaryColorKeys = configData.colorsPrimaryKeys || Object.keys(configData.colors || {}).filter(k =>
+        k === 'white' || k === 'black' || /grey|gray/i.test(k) || ['bg-light', 'bg-cream', 'sk-grey'].includes(k)
+      );
+      const semanticColorKeys = configData.colors ? Object.keys(configData.colors).filter(k => !primaryColorKeys.includes(k)) : [];
+      const renderColorCard = (key, value) => {
+        const varName = `--${prefix}-color-${key}`;
+        const isChanged = changedValues.has(`colors.${key}`);
+        const normalizedValue = value.trim().toLowerCase();
+        const isLight = normalizedValue === '#ffffff' || normalizedValue === '#f0f0f0' || normalizedValue === '#f4f2ed' || normalizedValue === '#e3e3e3';
+        const opaqueValue = normalizedValue.length === 7 ? normalizedValue : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
+        return `
           <div class="guide-color-card" data-copy-value="${varName}" title="Click para copiar ${varName}">
             <div class="guide-color-preview" style="--color-value: ${opaqueValue};">
               ${isLight ? `<div class="guide-color-pattern"></div>` : ''}
@@ -575,8 +577,20 @@ function generateHTML(configData, previousValuesPath = null) {
               <div class="guide-color-value ${isChanged ? 'guide-changed' : ''}" data-copy-value="${value}" title="Click para copiar ${value}">${value}</div>
             </div>
           </div>`;
-          }).join('')}
+      };
+      const colorsGridPrimaryHTML = configData.colors && primaryColorKeys.length > 0 ? `
+        <h3 class="guide-colors-subtitle title-m mb-16">Colores primarios</h3>
+        <p class="text-m guide-section-description mb-24">Blancos, negros, grises y fondos neutros.</p>
+        <div class="guide-colors-grid">
+          ${primaryColorKeys.filter(k => configData.colors[k]).map(key => renderColorCard(key, configData.colors[key])).join('')}
         </div>` : '';
+      const colorsGridSemanticHTML = configData.colors && semanticColorKeys.length > 0 ? `
+        <h3 class="guide-colors-subtitle title-m mb-16 mt-48">Colores semánticos</h3>
+        <p class="text-m guide-section-description mb-24">Colores por significado (marca, estados, feedback).</p>
+        <div class="guide-colors-grid">
+          ${semanticColorKeys.map(key => renderColorCard(key, configData.colors[key])).join('')}
+        </div>` : '';
+      const colorsGridHTML = configData.colors ? (colorsGridPrimaryHTML + colorsGridSemanticHTML) : '';
       // Construir menú lateral
       const menuItems = [];
       if (colorsGridHTML) {
