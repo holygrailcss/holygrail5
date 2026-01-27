@@ -395,92 +395,182 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>`;
-  // Generar tabla de spacing helpers
-  const spacingHelpersHTML = configData.spacingMap ? Object.entries(configData.spacingMap).map(([key, value]) => {
-    const hasImportant = configData.spacingImportant && configData.spacingImportant.includes(key);
-    const importantLabel = hasImportant ? '<br><strong>Con !important:</strong><br>.*-' + key + '!' : '';
-    const varName = `--${prefix}-spacing-${key}`;
-    // Si el valor termina en %, no lo convierte a rem
-    const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
-    const pxValue = value;
-    const isChanged = changedValues.has(`spacingMap.${key}`);
-        return `
-      <tr>
-        <td class="guide-table-name">.*-${key}${importantLabel}</td>
-        <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${varName}</td>
-        <td class="guide-value-center-blue ${isChanged ? 'guide-changed' : ''}">${remValue}</td>
-        <td class="guide-value-center-orange ${isChanged ? 'guide-changed' : ''}">${pxValue}</td>
-      </tr>`;
-  }).join('') : '';
-  
-  // Tabla separada para clases modernas inline
-  const spacingInlineHelpersHTML = configData.spacingMap ? Object.entries(configData.spacingMap).map(([key, value]) => {
-    const varName = `--${prefix}-spacing-${key}`;
-    const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
-    const pxValue = value;
-    const isChanged = changedValues.has(`spacingMap.${key}`);
-    
-    return `
-      <tr>
-        <td class="guide-table-name">
-          .${prefix}-px-${key}, .${prefix}-py-${key}<br>
-          .${prefix}-mx-${key}, .${prefix}-my-${key}
-        </td>
-        <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${varName}</td>
-        <td class="guide-value-center-blue ${isChanged ? 'guide-changed' : ''}">${remValue}</td>
-        <td class="guide-value-center-orange ${isChanged ? 'guide-changed' : ''}">${pxValue}</td>
-      </tr>`;
-  }).join('') : '';
+  // Valores para las filas de resumen (Legacy y moderna)
+  const spacingNumericKeysLegacy = configData.spacingMap ? Object.keys(configData.spacingMap).filter(k => !k.endsWith('-percent')).join(', ') : '';
+  const spacingPercentKeysLegacy = configData.spacingMap ? Object.keys(configData.spacingMap).filter(k => k.endsWith('-percent')).map(k => k.replace(/-percent$/, '')).join(', ') : '';
+  // Tabla horizontal compacta: Valor | rem | px (poco espacio vertical, scroll horizontal si hace falta)
+  const numericEntries = configData.spacingMap ? Object.entries(configData.spacingMap).filter(([k]) => !k.endsWith('-percent')) : [];
+  const spacingValuesCompactTableHTML = numericEntries.length ? `
+    <div class="guide-spacing-compact-wrap">
+      <table class="guide-table guide-spacing-compact">
+        <thead><tr><th></th>${numericEntries.map(([k]) => `<th>${k}</th>`).join('')}</tr></thead>
+        <tbody>
+          <tr><td class="guide-spacing-compact-label">Valor</td>${numericEntries.map(([k]) => `<td>${k}</td>`).join('')}</tr>
+          <tr><td class="guide-spacing-compact-label">rem</td>${numericEntries.map(([k, v]) => `<td class="guide-value-center-blue">${v.endsWith('%') ? v : pxToRem(v, baseFontSize)}</td>`).join('')}</tr>
+          <tr><td class="guide-spacing-compact-label">px</td>${numericEntries.map(([k, v]) => `<td class="guide-value-center-orange">${v.endsWith('%') ? v : v}</td>`).join('')}</tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-m guide-spacing-compact-note">Variable CSS <code>--${prefix}-spacing-&lt;valor&gt;</code>.</p>` : '';
+  // Tabla horizontal compacta para Valores para <n>-percent
+  const percentEntries = configData.spacingMap ? Object.entries(configData.spacingMap).filter(([k]) => k.endsWith('-percent')) : [];
+  const spacingPercentCompactTableHTML = percentEntries.length ? `
+    <div class="guide-spacing-compact-wrap">
+      <table class="guide-table guide-spacing-compact">
+        <thead><tr><th></th>${percentEntries.map(([k]) => `<th>${k.replace(/-percent$/, '')}</th>`).join('')}</tr></thead>
+        <tbody>
+          <tr><td class="guide-spacing-compact-label">%</td>${percentEntries.map(([, v]) => `<td class="guide-value-center-orange">${v}</td>`).join('')}</tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-m guide-spacing-compact-note">Variable CSS <code>--${prefix}-spacing-&lt;n&gt;-percent</code>. Sustituye &lt;n&gt; por el número (20, 25, 33, etc.).</p>` : '';
+  // Bloque "Valores para <variable>" y "Valores para <n>-percent" para colocar después de la explicación y antes de las tablas
+  const spacingValuesBlockHTML = configData.spacingMap && (numericEntries.length || percentEntries.length) ? `
+    <div class="guide-spacing-values-block mt-32 mb-32">
+      ${numericEntries.length ? `<h3 class="title-m mb-16">Valores para &lt;variable&gt;</h3>
+      ${spacingValuesCompactTableHTML}` : ''}
+      ${percentEntries.length ? `<h3 class="title-m mb-16 mt-48">Valores para &lt;n&gt;-percent</h3>
+      ${spacingPercentCompactTableHTML}` : ''}
+    </div>` : '';
+  // Tabla Legacy por patrones: Lados | Clase | Explicación | Valor (rem) | Valor (px) — como en la guía deseada
+  const legacyPatternRows = [
+    { sides: 'sides-all', clase: '.p-&lt;variable&gt;', explicacion: 'Padding en los cuatro lados.' },
+    { sides: 'sides-top', clase: '.pt-&lt;variable&gt;', explicacion: 'Padding en el lado superior.' },
+    { sides: 'sides-right', clase: '.pr-&lt;variable&gt;', explicacion: 'Padding en el lado derecho.' },
+    { sides: 'sides-bottom', clase: '.pb-&lt;variable&gt;', explicacion: 'Padding en el lado inferior.' },
+    { sides: 'sides-left', clase: '.pl-&lt;variable&gt;', explicacion: 'Padding en el lado izquierdo.' },
+    { sides: 'sides-all', clase: '.m-&lt;variable&gt;', explicacion: 'Margin en los cuatro lados.' },
+    { sides: 'sides-top', clase: '.mt-&lt;variable&gt;', explicacion: 'Margin en el lado superior.' },
+    { sides: 'sides-right', clase: '.mr-&lt;variable&gt;', explicacion: 'Margin en el lado derecho.' },
+    { sides: 'sides-bottom', clase: '.mb-&lt;variable&gt;', explicacion: 'Margin en el lado inferior.' },
+    { sides: 'sides-left', clase: '.ml-&lt;variable&gt;', explicacion: 'Margin en el lado izquierdo.' },
+    { sides: 'sides-all', clase: '.p-&lt;n&gt;-percent', explicacion: 'Padding en los cuatro lados (porcentaje).' },
+    { sides: 'sides-top', clase: '.pt-&lt;n&gt;-percent', explicacion: 'Padding superior en porcentaje.' },
+    { sides: 'sides-right', clase: '.pr-&lt;n&gt;-percent', explicacion: 'Padding derecho en porcentaje.' },
+    { sides: 'sides-bottom', clase: '.pb-&lt;n&gt;-percent', explicacion: 'Padding inferior en porcentaje.' },
+    { sides: 'sides-left', clase: '.pl-&lt;n&gt;-percent', explicacion: 'Padding izquierdo en porcentaje.' },
+    { sides: 'sides-all', clase: '.m-&lt;n&gt;-percent', explicacion: 'Margin en los cuatro lados (porcentaje).' },
+    { sides: 'sides-top', clase: '.mt-&lt;n&gt;-percent', explicacion: 'Margin superior en porcentaje.' },
+    { sides: 'sides-right', clase: '.mr-&lt;n&gt;-percent', explicacion: 'Margin derecho en porcentaje.' },
+    { sides: 'sides-bottom', clase: '.mb-&lt;n&gt;-percent', explicacion: 'Margin inferior en porcentaje.' },
+    { sides: 'sides-left', clase: '.ml-&lt;n&gt;-percent', explicacion: 'Margin izquierdo en porcentaje.' }
+  ];
   const spacingHelpersTableHTML = configData.spacingMap ? `
     <div class="guide-table-wrapper">
       <table class="guide-table">
         <thead>
           <tr>
-            <th>Clases Helper</th>
-            <th>Variable CSS</th>
+            <th>Lados</th>
+            <th>Clase</th>
+            <th>Explicación</th>
             <th>Valor (rem)</th>
             <th>Valor (px)</th>
           </tr>
         </thead>
         <tbody>
-          ${spacingHelpersHTML}
+          ${legacyPatternRows.map(r => `
           <tr>
-            <td class="guide-table-name">
-              <strong>Clases especiales:</strong><br>
-              .mx-auto<br>
-              <small>(margin-inline: auto para centrado horizontal)</small>
-            </td>
-            <td class="guide-table-value">-</td>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box ${r.sides}" title="Lado(s) afectado(s)"></div></td>
+            <td class="guide-table-name"><code>${r.clase}</code></td>
+            <td class="guide-table-value">${r.explicacion}</td>
+            <td class="guide-value-center-blue">según valor</td>
+            <td class="guide-value-center-orange">según valor</td>
+          </tr>`).join('')}
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-inline" title="Izquierda y derecha (auto)"></div></td>
+            <td class="guide-table-name"><code>.mx-auto</code></td>
+            <td class="guide-table-value">Centrado horizontal (margin-inline: auto).</td>
             <td class="guide-value-center-blue">auto</td>
             <td class="guide-value-center-orange">auto</td>
+          </tr>
+          <tr class="guide-table-synthesis-note">
+            <td class="guide-spacing-sides-cell"></td>
+            <td class="guide-table-name"><strong>Valores para &lt;n&gt;-percent</strong></td>
+            <td colspan="3" class="guide-table-value">${spacingPercentKeysLegacy}.</td>
           </tr>
         </tbody>
       </table>
     </div>` : '';
   
+  // Tabla por patrones: Clase | Explicación | Ejemplo (según esquema de documentación)
+  const spacingNumericKeys = configData.spacingMap ? Object.keys(configData.spacingMap).filter(k => !k.endsWith('-percent')).join(', ') : '';
+  const spacingPercentKeys = configData.spacingMap ? Object.keys(configData.spacingMap).filter(k => k.endsWith('-percent')).map(k => k.replace(/-percent$/, '')).join(', ') : '';
   const spacingInlineHelpersTableHTML = configData.spacingMap ? `
     <div class="guide-table-wrapper mt-32">
-      <h3 class="title-l mb-16">Clases Modernas (Inline/Block - RTL-aware)</h3>
+      <h3 class="title-l mb-16">Clases modernas (Inline/Block · RTL-aware)</h3>
       <table class="guide-table">
         <thead>
           <tr>
-            <th>Clases Helper</th>
-            <th>Variable CSS</th>
-            <th>Valor (rem)</th>
-            <th>Valor (px)</th>
+            <th>Lados</th>
+            <th>Clase</th>
+            <th>Explicación</th>
+            <th>Ejemplo</th>
           </tr>
         </thead>
         <tbody>
-          ${spacingInlineHelpersHTML}
           <tr>
-            <td class="guide-table-name">
-              <strong>Clases especiales:</strong><br>
-              .${prefix}-mx-auto<br>
-              <small>(margin-inline: auto para centrado horizontal)</small>
-            </td>
-            <td class="guide-table-value">-</td>
-            <td class="guide-value-center-blue">auto</td>
-            <td class="guide-value-center-orange">auto</td>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-inline" title="Izquierda y derecha"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-px-&lt;valor&gt;</code></td>
+            <td class="guide-table-value">Padding horizontal (izquierda y derecha). Usa <code>padding-inline</code>.</td>
+            <td class="guide-table-value"><code>.${prefix}-px-16</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-block" title="Arriba y abajo"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-py-&lt;valor&gt;</code></td>
+            <td class="guide-table-value">Padding vertical (arriba y abajo). Usa <code>padding-block</code>.</td>
+            <td class="guide-table-value"><code>.${prefix}-py-8</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-inline" title="Izquierda y derecha"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-mx-&lt;valor&gt;</code></td>
+            <td class="guide-table-value">Margin horizontal (izquierda y derecha). Usa <code>margin-inline</code>.</td>
+            <td class="guide-table-value"><code>.${prefix}-mx-24</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-block" title="Arriba y abajo"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-my-&lt;valor&gt;</code></td>
+            <td class="guide-table-value">Margin vertical (arriba y abajo). Usa <code>margin-block</code>.</td>
+            <td class="guide-table-value"><code>.${prefix}-my-16</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-inline" title="Izquierda y derecha"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-px-&lt;n&gt;-percent</code></td>
+            <td class="guide-table-value">Padding horizontal en porcentaje del contenedor.</td>
+            <td class="guide-table-value"><code>.${prefix}-px-50-percent</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-block" title="Arriba y abajo"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-py-&lt;n&gt;-percent</code></td>
+            <td class="guide-table-value">Padding vertical en porcentaje del contenedor.</td>
+            <td class="guide-table-value"><code>.${prefix}-py-25-percent</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-inline" title="Izquierda y derecha"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-mx-&lt;n&gt;-percent</code></td>
+            <td class="guide-table-value">Margin horizontal en porcentaje.</td>
+            <td class="guide-table-value"><code>.${prefix}-mx-33-percent</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-block" title="Arriba y abajo"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-my-&lt;n&gt;-percent</code></td>
+            <td class="guide-table-value">Margin vertical en porcentaje.</td>
+            <td class="guide-table-value"><code>.${prefix}-my-50-percent</code></td>
+          </tr>
+          <tr>
+            <td class="guide-spacing-sides-cell"><div class="guide-spacing-sides-box sides-inline" title="Margin izquierda y derecha (auto)"></div></td>
+            <td class="guide-table-name"><code>.${prefix}-mx-auto</code></td>
+            <td class="guide-table-value">Centra el bloque horizontalmente (<code>margin-inline: auto</code>).</td>
+            <td class="guide-table-value"><code>.${prefix}-mx-auto</code></td>
+          </tr>
+          <tr class="guide-table-synthesis-note">
+            <td class="guide-spacing-sides-cell"></td>
+            <td class="guide-table-name"><strong>Valores para &lt;valor&gt;</strong></td>
+            <td colspan="2" class="guide-table-value">${spacingNumericKeys}. Ver tabla Legacy arriba para rem/px.</td>
+          </tr>
+          <tr class="guide-table-synthesis-note">
+            <td class="guide-spacing-sides-cell"></td>
+            <td class="guide-table-name"><strong>Valores para &lt;n&gt;-percent</strong></td>
+            <td colspan="2" class="guide-table-value">${spacingPercentKeys}. Ver tabla Legacy arriba para equivalencias.</td>
           </tr>
         </tbody>
       </table>
@@ -811,18 +901,6 @@ function generateHTML(configData, previousValuesPath = null) {
         ${classesHTML}
       </div>
     </div>
-    <div class="guide-section" id="variables">
-          <h2 >Variables</h2>
-      <div class="guide-section-title">
-      <div> </div>
-        <p class="text-m guide-section-description">
-        Variables CSS compartidas.
-        </p>
-      </div>
-      <div class="guide-section-content">
-        ${variablesTableHTML}
-      </div>
-    </div>
     ${spacingHelpersTableHTML ? `
     <div class="guide-section" id="spacing">
           <h2 >Spacing</h2>
@@ -834,40 +912,15 @@ function generateHTML(configData, previousValuesPath = null) {
             </p>
       </div>
       <div class="guide-section-content">
-        <div class="guide-info-box guide-info-box-warning hg-d-flex">
-            <div class="demo-section-2">
-            <div>
-             <div class=""> <strong>¿Cómo se generan los helpers de espaciado?</strong></div>
-            <ul class="guide-info-box-list">
-              <li class="text-m guide-info-box-list-item">
-                <strong>Primera letra:</strong> tipo de spacing → <code class="guide-info-box-code">p</code> (padding) o <code class="guide-info-box-code">m</code> (margin)
-              </li>
-              <li class="text-m guide-info-box-list-item">
-                <strong>Segunda letra:</strong> dirección → <code class="guide-info-box-code">t</code> (top), <code class="guide-info-box-code">r</code> (right/end), <code class="guide-info-box-code">b</code> (bottom), <code class="guide-info-box-code">l</code> (left/start)
-              </li>
-              <li class="text-m guide-info-box-list-item">
-                <strong>Guión + valor:</strong> el valor del spacing → <code class="guide-info-box-code">-4</code>, <code class="guide-info-box-code">-16</code>, <code class="guide-info-box-code">-50-percent</code>
-              </li>
-             </ul>
-             </div>
-                      <p class="text-m guide-info-box-text">
-              <strong>Ejemplos:</strong> <code class="guide-info-box-code">.p-16</code> (padding all), <code class="guide-info-box-code">.pt-8</code> (padding-top), <code class="guide-info-box-code">.mr-4</code> (margin-right), <code class="guide-info-box-code">.mb-0</code> (margin-bottom)
-                        </p>
-<div>
-
-
-          </div>
-      
-            </div>
+        <div id="variables">
+          <h3 class="title-m mb-16">Variables CSS</h3>
+          <p class="text-m guide-section-description mb-24">Variables compartidas usadas por el spacing y el sistema.</p>
+          ${variablesTableHTML}
         </div>
-        ${spacingHelpersTableHTML}
-        ${spacingInlineHelpersTableHTML}
-        <div class="guide-section-title">
-          <div> </div>
-          <div class="demo-section-2">
-            <div>
-  <strong class="mb-16">¿Cómo se generan los helpers de espaciado?</strong>
-
+        <div class="guide-info-box guide-info-box-warning mb-32">
+          <strong class="mb-16" style="display: block;">¿Cómo se generan los helpers de espaciado?</strong>
+          <div class="guide-spacing-explanation-cols">
+            <div class="guide-spacing-explanation-col">
               <p class="text-m guide-info-box-text">
                 <strong>Primera letra:</strong> Tipo de spacing → <code class="guide-info-box-code-info">p</code> (padding) o <code class="guide-info-box-code-info">m</code> (margin).
               </p>
@@ -881,40 +934,29 @@ function generateHTML(configData, previousValuesPath = null) {
                 <strong>Ejemplos Legacy:</strong> <code class="guide-info-box-code-info">p-16</code> (padding todos lados), <code class="guide-info-box-code-info">pt-8</code> (padding-top), <code class="guide-info-box-code-info">pr-4</code> (padding-right), <code class="guide-info-box-code-info">mb-24</code> (margin-bottom), <code class="guide-info-box-code-info">ml-12</code> (margin-left).
               </p>
               <p class="text-m guide-info-box-text">
-                <strong>Clases Modernas (RTL-aware):</strong> A estas clases legacy se añaden versiones inline con prefijo <code class="guide-info-box-code-info">hg-</code>:
-                <code class="guide-info-box-code-info">.${prefix}-px-{valor}</code> (padding-inline/horizontal), 
-                <code class="guide-info-box-code-info">.${prefix}-py-{valor}</code> (padding-block/vertical), 
-                <code class="guide-info-box-code-info">.${prefix}-mx-{valor}</code> (margin-inline/horizontal), 
-                <code class="guide-info-box-code-info">.${prefix}-my-{valor}</code> (margin-block/vertical).
+                <strong>Clases Modernas (RTL-aware):</strong> A estas clases legacy se añaden versiones inline con prefijo <code class="guide-info-box-code-info">hg-</code>: <code class="guide-info-box-code-info">.${prefix}-px-{valor}</code> (padding-inline/horizontal), <code class="guide-info-box-code-info">.${prefix}-py-{valor}</code> (padding-block/vertical), <code class="guide-info-box-code-info">.${prefix}-mx-{valor}</code> (margin-inline/horizontal), <code class="guide-info-box-code-info">.${prefix}-my-{valor}</code> (margin-block/vertical).
               </p>
               <p class="text-m guide-info-box-text-small">
                 <strong>Nota:</strong> Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}). Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
               </p>
             </div>
-            <div>
-              <strong>Ejemplos de uso:</strong>
+            <div class="guide-spacing-explanation-col">
+              <p class="text-m guide-info-box-text"><strong>Ejemplos de uso:</strong></p>
               <ul class="guide-info-box-list">
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.p-4</code> - Aplica padding de 4px en todos los tamaños de pantalla
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.md:p-4</code> - Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.md:pr-8</code> - Aplica padding-right de 8px solo en desktop
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.md:mt-16</code> - Aplica margin-top de 16px solo en desktop
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.p-0!</code> - Aplica padding de 0 con !important (útil para sobrescribir otros estilos)
-                </li>
+                <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.p-4</code> — Aplica padding de 4px en todos los tamaños de pantalla</li>
+                <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.md:p-4</code> — Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})</li>
+                <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.md:pr-8</code> — Aplica padding-right de 8px solo en desktop</li>
+                <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.md:mt-16</code> — Aplica margin-top de 16px solo en desktop</li>
+                <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.p-0!</code> — Aplica padding de 0 con !important (útil para sobrescribir otros estilos)</li>
               </ul>
             </div>
           </div>
         </div>
+        ${spacingValuesBlockHTML}
+        ${spacingHelpersTableHTML}
+        ${spacingInlineHelpersTableHTML}
       </div>
-      </div>
+    </div>
     ` : ''}
     ${layoutHelpersTableHTML ? `
     <div class="guide-section" id="layout">

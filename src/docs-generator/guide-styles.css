@@ -385,6 +385,88 @@ h2 {
   font-weight: 600;
 }
 
+/* Rectángulo de lados afectados (tabla spacing modernas) */
+.guide-spacing-sides-box {
+  width: 32px;
+  height: 24px;
+  box-sizing: border-box;
+  border: 2px solid #e0e0e0;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+.guide-spacing-sides-box.sides-inline {
+  border-left-color: var(--hg-color-info, #0170e9);
+  border-right-color: var(--hg-color-info, #0170e9);
+  border-left-width: 3px;
+  border-right-width: 3px;
+}
+.guide-spacing-sides-box.sides-block {
+  border-top-color: var(--hg-color-info, #0170e9);
+  border-bottom-color: var(--hg-color-info, #0170e9);
+  border-top-width: 3px;
+  border-bottom-width: 3px;
+}
+.guide-spacing-sides-box.sides-all {
+  border-color: var(--hg-color-info, #0170e9);
+  border-width: 3px;
+}
+.guide-spacing-sides-box.sides-top {
+  border-top-color: var(--hg-color-info, #0170e9);
+  border-top-width: 3px;
+}
+.guide-spacing-sides-box.sides-right {
+  border-right-color: var(--hg-color-info, #0170e9);
+  border-right-width: 3px;
+}
+.guide-spacing-sides-box.sides-bottom {
+  border-bottom-color: var(--hg-color-info, #0170e9);
+  border-bottom-width: 3px;
+}
+.guide-spacing-sides-box.sides-left {
+  border-left-color: var(--hg-color-info, #0170e9);
+  border-left-width: 3px;
+}
+.guide-spacing-sides-cell {
+  vertical-align: middle;
+  padding-right: 0.5rem;
+}
+.guide-spacing-sides-cell .guide-spacing-sides-box {
+  display: block;
+}
+
+/* Tabla horizontal compacta de equivalencias valor/rem/px (poco espacio vertical) */
+.guide-spacing-compact-wrap {
+  overflow-x: auto;
+  margin: 0.25rem 0;
+  max-width: 100%;
+}
+.guide-table.guide-spacing-compact {
+  font-size: 0.7rem;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+}
+.guide-table.guide-spacing-compact th,
+.guide-table.guide-spacing-compact td {
+  padding: 0.2rem 0.35rem;
+  border: 1px solid #eee;
+  white-space: nowrap;
+}
+.guide-table.guide-spacing-compact thead th {
+  background: #f9f9f9;
+  font-weight: 600;
+}
+.guide-table.guide-spacing-compact .guide-spacing-compact-label {
+  font-weight: 600;
+  background: #fafafa;
+  color: #333;
+}
+.guide-spacing-compact-note {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
 /* ============================================
    TIPOGRAFÍA Y TEXTO
    ============================================ */
@@ -733,6 +815,22 @@ h2 {
 .guide-info-box {
   margin-bottom: 2rem;
   padding: 1.5rem 0;
+}
+
+/* Dos columnas para la explicación de helpers de espaciado */
+.guide-spacing-explanation-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+@media (max-width: 768px) {
+  .guide-spacing-explanation-cols {
+    grid-template-columns: 1fr;
+  }
+}
+.guide-spacing-explanation-col {
+  min-width: 0;
 }
 
 .guide-info-box-title {
