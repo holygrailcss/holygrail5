@@ -557,7 +557,7 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>` : '';
       // Clasificación primarios (blancos, grises, negros, fondos neutros) vs semánticos
       const primaryColorKeys = configData.colorsPrimaryKeys || Object.keys(configData.colors || {}).filter(k =>
-        k === 'white' || k === 'black' || /grey|gray/i.test(k) || ['bg-light', 'bg-cream', 'sk-grey'].includes(k)
+        k === 'white' || k === 'black' || /grey|gray/i.test(k) || ['bg-light', 'bg-cream', 'sk-grey', 'orange', 'mustard'].includes(k)
       );
       const semanticColorKeys = configData.colors ? Object.keys(configData.colors).filter(k => !primaryColorKeys.includes(k)) : [];
       const renderColorCard = (key, value) => {
