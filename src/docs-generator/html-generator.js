@@ -265,6 +265,15 @@ function generateHTML(configData, previousValuesPath = null) {
     const key = breakpoint ? `${className}.${breakpoint}.${prop}` : `${className}.${prop}`;
     return changedValues.has(key);
   }
+  // Convierte fontSize (px o rem) a string en px para la tabla
+  function fontSizeToPx(value, baseFontSize) {
+    if (value == null || value === '') return '-';
+    const s = String(value).trim();
+    if (s.endsWith('px')) return s;
+    if (s.endsWith('rem')) return remToPx(s, baseFontSize);
+    const n = parseFloat(s);
+    return Number.isNaN(n) ? '-' : `${n}px`;
+  }
   // Generar tabla de clases
   const tableRows = classNames.map(className => {
     const cls = configData.typo[className];
@@ -277,6 +286,10 @@ function generateHTML(configData, previousValuesPath = null) {
     const mobileLineHeightChanged = isChanged(className, 'lineHeight', 'mobile');
     const desktopFontSizeChanged = isChanged(className, 'fontSize', 'desktop');
     const desktopLineHeightChanged = isChanged(className, 'lineHeight', 'desktop');
+    const mobileRem = cls.mobile?.fontSize ? pxToRem(cls.mobile.fontSize, baseFontSize) : '-';
+    const mobilePx = cls.mobile?.fontSize ? fontSizeToPx(cls.mobile.fontSize, baseFontSize) : '-';
+    const desktopRem = cls.desktop?.fontSize ? pxToRem(cls.desktop.fontSize, baseFontSize) : '-';
+    const desktopPx = cls.desktop?.fontSize ? fontSizeToPx(cls.desktop.fontSize, baseFontSize) : '-';
     return `
       <tr>
         <td class="guide-table-name">.${className}</td>
@@ -287,9 +300,11 @@ function generateHTML(configData, previousValuesPath = null) {
         <td class="guide-table-value ${fontWeightChanged ? 'guide-changed' : ''}">${cls.fontWeight || '-'}</td>
         <td class="guide-table-value ${letterSpacingChanged ? 'guide-changed' : ''}">${cls.letterSpacing || '-'}</td>
         <td class="guide-table-value ${textTransformChanged ? 'guide-changed' : ''}">${cls.textTransform || '-'}</td>
-        <td class="guide-mobile-value ${mobileFontSizeChanged ? 'guide-changed' : ''}">${cls.mobile?.fontSize ? pxToRem(cls.mobile.fontSize, baseFontSize) : '-'}</td>
+        <td class="guide-mobile-value guide-value-center-blue ${mobileFontSizeChanged ? 'guide-changed' : ''}">${mobileRem}</td>
+        <td class="guide-mobile-value guide-value-center-orange ${mobileFontSizeChanged ? 'guide-changed' : ''}">${mobilePx}</td>
         <td class="guide-mobile-value ${mobileLineHeightChanged ? 'guide-changed' : ''}">${cls.mobile?.lineHeight || '-'}</td>
-        <td class="guide-desktop-value ${desktopFontSizeChanged ? 'guide-changed' : ''}">${cls.desktop?.fontSize ? pxToRem(cls.desktop.fontSize, baseFontSize) : '-'}</td>
+        <td class="guide-desktop-value guide-value-center-blue ${desktopFontSizeChanged ? 'guide-changed' : ''}">${desktopRem}</td>
+        <td class="guide-desktop-value guide-value-center-orange ${desktopFontSizeChanged ? 'guide-changed' : ''}">${desktopPx}</td>
         <td class="guide-desktop-value ${desktopLineHeightChanged ? 'guide-changed' : ''}">${cls.desktop?.lineHeight || '-'}</td>
       </tr>`;
   }).join('');
@@ -304,14 +319,16 @@ function generateHTML(configData, previousValuesPath = null) {
             <th>Font Weight</th>
             <th>Letter Spacing</th>
             <th>Text Transform</th>
-            <th colspan="2" class="guide-mobile-header">Mobile</th>
-            <th colspan="2" class="guide-desktop-header">Desktop</th>
+            <th colspan="3" class="guide-mobile-header">Mobile</th>
+            <th colspan="3" class="guide-desktop-header">Desktop</th>
           </tr>
           <tr class="guide-sub-header">
             <th colspan="6"></th>
-            <th class="guide-mobile-value">Font Size</th>
+            <th class="guide-mobile-value">Font Size (rem)</th>
+            <th class="guide-mobile-value">Font Size (px)</th>
             <th class="guide-mobile-value">Line Height</th>
-            <th class="guide-desktop-value">Font Size</th>
+            <th class="guide-desktop-value">Font Size (rem)</th>
+            <th class="guide-desktop-value">Font Size (px)</th>
             <th class="guide-desktop-value">Line Height</th>
           </tr>
         </thead>
