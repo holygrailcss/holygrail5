@@ -827,7 +827,7 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="guide-section" id="spacing">
           <h2 >Spacing</h2>
       <div class="guide-section-title">
-      <div>     <img src="src/margen.webp" alt="Spacing Diagram" class="guide-spacing-diagram-img"></div>
+      <div>     <img src="assets/margen.webp" alt="Spacing Diagram" class="guide-spacing-diagram-img"></div>
             <p class="text-m guide-section-description">
         Clases helper para padding y margin basadas en el spacingMap.
         Usa las variables CSS definidas en :root.
