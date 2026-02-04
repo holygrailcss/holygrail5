@@ -670,13 +670,13 @@ function generateHTML(configData, previousValuesPath = null) {
       };
       const colorsGridPrimaryHTML = configData.colors && primaryColorKeys.length > 0 ? `
         <h3 class="guide-colors-subtitle title-m mb-16">Colores primarios</h3>
-        <p class="text-m guide-section-description mb-24">Blancos, negros, grises y fondos neutros.</p>
+        <p class="guide-section-description mb-24">Blancos, negros, grises y fondos neutros.</p>
         <div class="guide-colors-grid">
           ${primaryColorKeys.filter(k => configData.colors[k]).map(key => renderColorCard(key, configData.colors[key])).join('')}
         </div>` : '';
       const colorsGridSemanticHTML = configData.colors && semanticColorKeys.length > 0 ? `
         <h3 class="guide-colors-subtitle title-m mb-16 mt-48">Colores semánticos</h3>
-        <p class="text-m guide-section-description mb-24">Colores por significado (marca, estados, feedback).</p>
+        <p class="guide-section-description mb-24">Colores por significado (marca, estados, feedback).</p>
         <div class="guide-colors-grid">
           ${semanticColorKeys.map(key => renderColorCard(key, configData.colors[key])).join('')}
         </div>` : '';
@@ -728,7 +728,9 @@ function generateHTML(configData, previousValuesPath = null) {
   <!-- Google Fonts - Solo para la guía -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,500,600,700" media="all">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,100,500,600,700" media="all">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
   <!-- Lenis Smooth Scroll - Solo para la guía -->
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
@@ -821,31 +823,38 @@ function generateHTML(configData, previousValuesPath = null) {
 <div class="guide-container">
     <div class="guide-section guide-section--highlighted" id="inicio">
       <div class="guide-section-title">
-    <div>
+    <div class="col-xs-12 col-md-6">
+
+            <h2 >
+          HolyGrail 5, la nueva evolución del Design System de Massimo Dutti.
+        </h2>
+
+
 <div class="guide-logo">
  <a href="themes/dutti-demo.html">Dutti theme</a>
     </div>
     </div>
-        <p class="text-m guide-section-description">
-       Holygrail Design System redujo el tiempo de diseño en un 73% y permitió una renovación del producto 3.75 veces más rápida.
-        </p>
+
       </div>
       <div class="guide-section-content">
 
       </div>
     </div>
 <div class="case-study-img-holygrail h-100vh" id="dutti-theme">
-
+      <span class="case-study-holygrail-title">HOLYGRAIL 5</span>
     </div>
     ${colorsGridHTML ? `
     <div class="guide-section guide-section--highlighted" id="colors">
-          <h2 >Colores</h2>
-      <div class="guide-section-title">
-      <div> </div>
-        <p class="text-m guide-section-description">
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Colores</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="">
         Paleta de colores disponibles con sus variables CSS.
-        </p>
-      </div>
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
       <div class="guide-section-content">
         ${colorsGridHTML}
       </div>
@@ -853,15 +862,19 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
     ${fontFamiliesTableHTML ? `
     <div class="guide-section" id="font-families">
-          <h2 >Typography</h2>
-      <div class="guide-section-title">
-      <div> </div>
-        <p class="text-m guide-section-description">
+    <div class="row mb-120">
+
+    <div class="col-xs-12 col-md-6"> <h2>Typography</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">      
+      <p class=" ">
         Font families disponibles para la tipografía.
-        </p>
-      </div>
+        </p> </div>
+
+        <div class="col-xs-12 col-md-12">
+        <hr>
+        </div>
+    </div>
       <div class="guide-section-content">
- 
         <div class="guide-typeface-specimen">
           <div class="guide-typeface-left">
             <div class="guide-typeface-large-aa" style="font-family: var(--${prefix}-${category}-font-family-primary);">Aa</div>
@@ -890,31 +903,36 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
     ` : ''}
     <div class="guide-section" id="tipografia">
-          <h2 >Hierarchy</h2>
-      <div class="guide-section-title">
-      <div> </div>
-        <p class="text-m guide-section-description">
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Hierarchy</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="">
         Clases de tipografía disponibles.
-        </p>
-      </div>
-      <div class="guide-section-content">
-        ${classesHTML}
-      </div>
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
     </div>
+    </div>
+    
     ${spacingHelpersTableHTML ? `
     <div class="guide-section" id="spacing">
-          <h2 >Spacing</h2>
-      <div class="guide-section-title">
-      <div>     <img src="assets/margen.webp" alt="Spacing Diagram" class="guide-spacing-diagram-img"></div>
-            <p class="text-m guide-section-description">
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Spacing</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class=" ">
         Clases helper para padding y margin basadas en el spacingMap.
         Usa las variables CSS definidas en :root.
-            </p>
-      </div>
+      </p>
+      <img src="assets/margen.webp" alt="Spacing Diagram" class="guide-spacing-diagram-img">
+    </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
       <div class="guide-section-content">
         <div id="variables">
           <h3 class="title-m mb-16">Variables CSS</h3>
-          <p class="text-m guide-section-description mb-24">Variables compartidas usadas por el spacing y el sistema.</p>
+          <p class="guide-section-description mb-24">Variables compartidas usadas por el spacing y el sistema.</p>
           ${variablesTableHTML}
         </div>
         <div class="guide-info-box guide-info-box-warning mb-32">
@@ -960,14 +978,17 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
     ${layoutHelpersTableHTML ? `
     <div class="guide-section" id="layout">
-          <h2 >Layout</h2>
-      <div class="guide-section-title">
-      <div> </div>
-        <p class="text-m guide-section-description">
-        Clases helper para display, flexbox, alignment y gap. 
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Layout</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="text-m ">
+        Clases helper para display, flexbox, alignment y gap.
         Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
-        </p>
-      </div>
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
       <div class="guide-section-content">
         ${layoutHelpersTableHTML}
         <div class="guide-section-title">
@@ -1005,14 +1026,16 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
     ${configData.grid && configData.grid.enabled ? `
     <div class="guide-section" id="grid">
-          <h2>Grid </h2>
-
-   <div class="guide-section-title">
-      <p class="text-m guide-section-description">
-          Sistema de grid responsive estilo Bootstrap con 12 columnas (xs, sm, md, lg) y 24 columnas (xl).
-        </p>
-        </div>
-
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Grid</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="">
+        Sistema de grid responsive estilo Bootstrap con 12 columnas (xs, sm, md, lg) y 24 columnas (xl).
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
       <div class="guide-section-title">
       <div> </div>
   
@@ -1173,13 +1196,16 @@ function generateHTML(configData, previousValuesPath = null) {
     ` : ''}
     ${configData.aspectRatios ? `
     <div class="guide-section" id="ratios">
-          <h2>Ratios</h2>
-      <div class="guide-section-title">
-      <div> </div>
-        <p class="text-m guide-section-description">
-          Clases para controlar el ratio de aspecto de los elementos. Útil para imágenes, videos y contenedores.
-        </p>
-      </div>
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Ratios</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="">
+        Clases para controlar el ratio de aspecto de los elementos. Útil para imágenes, videos y contenedores.
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
       <div class="guide-section-content">
         <div class="guide-table-wrapper">
           <table class="guide-table">
@@ -1280,14 +1306,17 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
     ` : ''}
     <div class="guide-section" id="breakpoints">
-          <h2>Breakpoints</h2>
-      <div class="guide-section-title">
-      <div> </div>
-            <p class="text-m guide-section-description">
-          Las clases de tipografía se adaptan automáticamente a cada breakpoint. 
-          Resize la ventana del navegador para ver los cambios.
-        </p>
-      </div>
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Breakpoints</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="">
+        Las clases de tipografía se adaptan automáticamente a cada breakpoint.
+        Resize la ventana del navegador para ver los cambios.
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
       <div class="guide-section-content">
         <div class="guide-table-wrapper">
           <table class="guide-table">

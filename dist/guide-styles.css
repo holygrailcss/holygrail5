@@ -39,7 +39,6 @@ h2 {
   color: #000;
   font-family: "Instrument Sans", sans-serif;
   letter-spacing: 0;
-  border-bottom: 1px solid var(--hg-color-primary);
 }
 
 .guide-main-content h3 {
@@ -52,9 +51,9 @@ h2 {
 
 @media (min-width: 768px) {
   .guide-main-content h2 {
-    font-size: 88px;
-    padding-bottom: 60px;
-    margin-bottom: 60px;
+    font-size: 64px;
+    padding-bottom: 40px;
+    margin-bottom: 10px;
   }
 
   .guide-main-content h3 {
@@ -91,8 +90,9 @@ h2 {
 
 .guide-section-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 500;
   padding-bottom: 2rem;
+  line-height: 1.2;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -111,19 +111,29 @@ h2 {
   font-size: 28px;
   color: #000000;
   font-family: "Instrument Sans", sans-serif;
+  margin-bottom: 20px;
 
   line-height: 1.2;
-  margin-bottom: 1rem;
   width: 100%;
   margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-@media (min-width: 768px) {
-  .guide-section-description {
-    margin-bottom: 5rem;
-    font-size: 48px;
-    width: 50%;
-  }
+.guide-section-description {
+  margin-top: 1rem;
+  font-size: 28px;
+  color: #000000;
+  font-family: "Instrument Sans", sans-serif;
+  margin-bottom: 20px;
+
+  line-height: 1.2;
+  width: 100%;
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 
@@ -173,6 +183,7 @@ h2 {
   border: 1px solid #000000;
   padding: 4px;
   border-radius: 8px;
+  width: max-content;
 }
 
 .guide-logo a {
@@ -1104,7 +1115,7 @@ h2 {
 }
 
 .demo-title {
-  font-size: var(--hg-typo-font-size-24);
+  font-size: var(--hg-typo-font-size-12);
   font-weight: var(--hg-typo-font-weight-900);
   margin-block-end: var(--hg-spacing-24);
   padding-block-end: var(--hg-spacing-16);
@@ -1151,6 +1162,20 @@ h2 {
   background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-study-holygrail-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(2.5rem, 12vw, 8rem);
+  font-weight: 100;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  line-height: 1.1;
 }
 
 @media (min-width: 768px) {
