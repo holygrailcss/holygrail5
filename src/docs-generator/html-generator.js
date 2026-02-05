@@ -937,8 +937,8 @@ function generateHTML(configData, previousValuesPath = null) {
         </div>
         <div class="guide-info-box guide-info-box-warning mb-32">
           <strong class="mb-16" style="display: block;">¿Cómo se generan los helpers de espaciado?</strong>
-          <div class="guide-spacing-explanation-cols">
-            <div class="guide-spacing-explanation-col">
+          <div class="row">
+            <div class="col-xs-12 col-md-6 guide-spacing-explanation-col">
               <p class="text-m guide-info-box-text">
                 <strong>Primera letra:</strong> Tipo de spacing → <code class="guide-info-box-code-info">p</code> (padding) o <code class="guide-info-box-code-info">m</code> (margin).
               </p>
@@ -958,7 +958,7 @@ function generateHTML(configData, previousValuesPath = null) {
                 <strong>Nota:</strong> Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}). Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
               </p>
             </div>
-            <div class="guide-spacing-explanation-col">
+            <div class="col-xs-12 col-md-6 guide-spacing-explanation-col">
               <p class="text-m guide-info-box-text"><strong>Ejemplos de uso:</strong></p>
               <ul class="guide-info-box-list">
                 <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.p-4</code> — Aplica padding de 4px en todos los tamaños de pantalla</li>
