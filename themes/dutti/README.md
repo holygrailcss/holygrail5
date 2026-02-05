@@ -266,7 +266,7 @@ Para cambiar los colores, edita `config.json`:
   "colors": {
     "primary": "#000000",
     "error": "#b40016",
-    "success": "#76ae4a",
+    "success": "#12882C",
     "warning": "#ffc700",
     "feel": "#fb9962"
   }
