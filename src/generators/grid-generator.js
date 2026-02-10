@@ -78,7 +78,7 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
   });
 
   // Genera estilos para todas las columnas
-  css += `[class*=col-] {
+  css += `[class*=" col-"], [class^="col-"] {
   box-sizing: border-box;
   min-height: 1px;
   padding-left: ${gutterValue};
@@ -121,7 +121,8 @@ function generateGridSystem(gridConfig, baseFontSize = 16) {
   flex-wrap: wrap;
 }\n\n`;
 
-  css += `.bleed-0 > [class*=col-],
+  css += `.bleed-0 > [class*=" col-"],
+.bleed-0 > [class^="col-"],
 .bleed-0 > .col {
   padding: 0px;
   box-sizing: border-box;

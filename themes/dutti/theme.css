@@ -26,3 +26,25 @@
 @import url('_radios.css');
 @import url('_switches.css');
 @import url('_forms.css');
+
+/** ITCSS esctructurado 
+  * basado en HolyGrail5 
+  * para las nuevas necesidades 
+  * del tema Dutti 
+  */
+
+/* Settings - Variables y configuración */
+
+/* Tools - Mixins y funciones */
+
+/* Generic - Resets, normalize */
+
+/* Elements - Estilos de elementos HTML (h1, p, a) */
+
+/* Objects - Patrones de layout */
+@import url('./objects/_grid.css');
+
+/* Components - Componentes de UI específicos */
+@import url('./components/_icons.css');
+
+/* Utilities - Helpers y utilidades */
