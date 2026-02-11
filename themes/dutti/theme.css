@@ -19,13 +19,13 @@
 @import url('_variables.css');
 
 /* Componentes */
-@import url('_buttons.css');
-@import url('_inputs.css');
-@import url('_labels.css');
-@import url('_checkboxes.css');
-@import url('_radios.css');
-@import url('_switches.css');
-@import url('_forms.css');
+/* @import url('_buttons.css'); */
+/* @import url('_inputs.css'); */
+/* @import url('_labels.css'); */
+/* @import url('_checkboxes.css');*/
+/* @import url('_radios.css'); */
+/* @import url('_switches.css'); */
+/* @import url('_forms.css'); */
 
 /** ITCSS esctructurado 
   * basado en HolyGrail5 
@@ -42,9 +42,9 @@
 /* Elements - Estilos de elementos HTML (h1, p, a) */
 
 /* Objects - Patrones de layout */
-@import url('./objects/_grid.css');
+/* @import url('./objects/_grid.css');
 
 /* Components - Componentes de UI específicos */
-@import url('./components/_icons.css');
+/* @import url('./components/_icons.css');
 
 /* Utilities - Helpers y utilidades */
