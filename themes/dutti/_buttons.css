@@ -1,6 +1,6 @@
 /**
  * Botones
- * Variantes: primary, secondary, tertiary
+ * Variantes: primary, secondary, tertiary, label-m
  * Tamaños: sm, md, lg
  */
 
@@ -221,6 +221,72 @@
   border: 0 solid transparent !important;
 }
 
+/* LABEL M BUTTON (similar a tertiary) */
+.btn-label-m {
+  background-color: transparent;
+  border: 0 solid transparent;
+  height: auto;
+  min-height: auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  line-height: 1;
+  min-width: 24px;
+  padding-inline: 0;
+  color: var(--hg-color-black);
+  letter-spacing: 0.16em;
+}
+
+.btn-label-m svg g {
+  fill: var(--hg-color-black);
+  stroke: var(--hg-color-black);
+}
+
+.btn-label-m svg circle {
+  stroke: var(--hg-color-black);
+}
+
+.btn-label-m:focus,
+.btn-label-m.focus,
+.btn-label-m:hover,
+.btn-label-m.hover,
+.btn-label-m:active,
+.btn-label-m.active {
+  border: 0 solid transparent;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: var(--hg-typo-font-family-primary-bold);
+  font-weight: var(--hg-typo-font-weight-500);
+}
+
+.btn-label-m.active {
+  border-bottom: 0.5px solid var(--hg-color-black);
+}
+
+.btn-label-m:disabled,
+.btn-label-m[disabled],
+.btn-label-m.disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: var(--hg-color-bg-light);
+  border: var(--border-width) var(--border-style) var(--hg-color-bg-light);
+  color: var(--hg-color-dark-grey);
+  filter: none;
+  opacity: 1;
+}
+
+.btn-label-m:disabled svg-icon,
+.btn-label-m:disabled svg-icon2,
+.btn-label-m:disabled md-icon,
+.btn-label-m[disabled] svg-icon,
+.btn-label-m[disabled] svg-icon2,
+.btn-label-m[disabled] md-icon,
+.btn-label-m.disabled svg-icon,
+.btn-label-m.disabled svg-icon2,
+.btn-label-m.disabled md-icon {
+  background-color: transparent !important;
+  border: 0 solid transparent !important;
+}
+
 /* LINK BUTTON */
 .btn-link {
   background-color: transparent;
@@ -235,7 +301,6 @@
 .btn-link:focus {
   color: var(--hg-color-dark-grey);
   background-color: transparent;
-
 }
 
 .btn-link:disabled,
@@ -252,4 +317,3 @@
 .btn-full {
   width: 100%;
 }
-

@@ -59,6 +59,7 @@
   },
   "fontFamilyMap": {
     "primary": "arial, sans-serif",
+    "primary-bold": "\"Arial Bold\", Arial, sans-serif",
     "secondary": "\"ms-serif\", serif"
   },
   "spacingMap": {

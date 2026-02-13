@@ -44,6 +44,9 @@ El sistema está dividido en módulos para facilitar el mantenimiento:
 
 - **Primary**: `.btn .btn-primary`
 - **Secondary**: `.btn .btn-secondary`
+- **Tertiary**: `.btn .btn-tertiary`
+- **Label M**: `.btn .btn-label-m` (similar a tertiary)
+- **Link**: `.btn .btn-link`
 - **Outline**: `.btn .btn-outline`
 - **Ghost**: `.btn .btn-ghost`
 - **Feel**: `.btn .btn-feel`

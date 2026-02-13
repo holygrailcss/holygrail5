@@ -117,12 +117,22 @@ function generateColorVariables(colorsMap, prefix) {
 
 /**
  * Genera todas las variables CSS en el bloque :root
- * Recorre todos los mapas de variables y las convierte en declaraciones CSS
+ * Recorre todos los mapas de variables y las convierte en declaraciones CSS.
+ * Si se pasa fontFamilyMap, las variables font-family se generan desde el map (una por entrada).
  */
-function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars = [], colorVars = []) {
+function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars = [], colorVars = [], fontFamilyMap = null, prefix = 'hg', category = 'typo') {
   const variables = [];
-  const allMaps = [
-    { map: fontFamilyVars, name: 'font-family' },
+  // Font-family: usar fontFamilyMap si existe (todas las entradas en :root), si no usar fontFamilyVars
+  if (fontFamilyMap && typeof fontFamilyMap === 'object') {
+    Object.entries(fontFamilyMap).forEach(([name, value]) => {
+      variables.push(`  --${prefix}-${category}-font-family-${name}: ${value};`);
+    });
+  } else {
+    Array.from(fontFamilyVars.values()).forEach(item => {
+      variables.push(`  ${item.varName}: ${item.value};`);
+    });
+  }
+  const restMaps = [
     { map: lineHeightVars, name: 'line-height' },
     { map: fontWeightVars, name: 'font-weight' },
     { map: letterSpacingVars, name: 'letter-spacing' },
@@ -130,7 +140,7 @@ function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, l
     { map: fontSizeVars, name: 'font-size' }
   ];
   
-  allMaps.forEach(({ map }) => {
+  restMaps.forEach(({ map }) => {
     Array.from(map.values()).forEach(item => {
       variables.push(`  ${item.varName}: ${item.value};`);
     });

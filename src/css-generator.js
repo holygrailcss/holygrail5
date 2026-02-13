@@ -53,7 +53,10 @@ function generateCSS(configData) {
     textTransformVars, 
     fontSizeVars, 
     spacingVars, 
-    colorVars
+    colorVars, 
+    configData.fontFamilyMap || null, 
+    prefix, 
+    category
   );
   
   // 4. Genera helpers de spacing (padding/margin)
