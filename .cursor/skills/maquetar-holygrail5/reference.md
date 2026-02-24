@@ -44,8 +44,9 @@ Siempre referenciar `var(--hg-*)` desde estas variables del tema.
 ## Clases de componentes (resumen)
 
 ### Botones
-- Base: `.btn`. Variantes: `.btn-primary`, `.btn-secondary`, `.btn-tertiary`, `.btn-label-m`, `.btn-link`.
+- Base: `.btn`. Variantes: `.btn-primary`, `.btn-secondary`, `.btn-tertiary`, `.btn-label-m`, `.btn-link`, `.btn-badge` (pill, compacto).
 - Tamaños: `.btn-sm`, `.btn-md`, `.btn-lg`. Ancho completo: `.btn-full`. Disabled: `disabled` o `.disabled`.
+- Badge en fondo oscuro: contenedor con clase `.has-light`; dentro, `.btn-badge` usa texto blanco y fondo transparente.
 
 ### Formularios
 - Input: `.input`; estados: `.input-error`, `.input-success`, `.input-warning`.

@@ -54,7 +54,7 @@ Al añadir una variante o componente nuevo: crear o editar el módulo correspond
 
 ## Componentes disponibles (clases)
 
-- **Botones**: `.btn` + `.btn-primary` | `.btn-secondary` | `.btn-tertiary` | `.btn-label-m` | `.btn-link`; tamaños `.btn-sm`, `.btn-md`, `.btn-lg`; `.btn-full` para ancho completo.
+- **Botones**: `.btn` + `.btn-primary` | `.btn-secondary` | `.btn-tertiary` | `.btn-label-m` | `.btn-link` | `.btn-badge` (pill); tamaños `.btn-sm`, `.btn-md`, `.btn-lg`; `.btn-full` para ancho completo. Badge en contexto claro: `.has-light .btn-badge`.
 - **Inputs**: `.input`, `.select`, `.textarea`; estados `.input-error`, `.input-success`, `.input-warning`; labels `.label`; ayuda `.helper-text`, `.helper-text-error`, etc.
 - **Checkboxes / Radios / Switches**: ver `themes/dutti/README.md` y los archivos `_checkboxes.css`, `_radios.css`, `_switches.css` para clases y estructura HTML.
 - **Forms**: form groups y form rows según `_forms.css`.

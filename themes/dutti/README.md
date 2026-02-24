@@ -47,6 +47,7 @@ El sistema está dividido en módulos para facilitar el mantenimiento:
 - **Tertiary**: `.btn .btn-tertiary`
 - **Label M**: `.btn .btn-label-m` (similar a tertiary)
 - **Link**: `.btn .btn-link`
+- **Badge**: `.btn .btn-badge` (pill, compacto; en contexto `.has-light` usa texto blanco sobre fondo oscuro)
 - **Outline**: `.btn .btn-outline`
 - **Ghost**: `.btn .btn-ghost`
 - **Feel**: `.btn .btn-feel`
