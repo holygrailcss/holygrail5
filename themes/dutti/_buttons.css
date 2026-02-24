@@ -313,14 +313,13 @@
   opacity: 0.5;
 }
 
-/* BADGE BUTTON (pill, compacto) */
+
 .btn-badge {
   min-height: auto;
   height: auto;
   padding: var(--hg-spacing-4) var(--hg-spacing-12);
-  border-radius: 9999px;
-  border: var(--border-width) var(--border-style) transparent;
-  background-color: var(--hg-color-white);
+
+  background-color: transparent;
   color: var(--hg-color-dark-grey);
   font-size: var(--hg-typo-font-size-12);
   white-space: nowrap;
@@ -332,7 +331,7 @@
 .btn-badge.hover,
 .btn-badge:active,
 .btn-badge.active {
-  background-color: var(--hg-color-white);
+  background-color:transparent;
   color: var(--hg-color-primary);
   border-color: transparent;
   cursor: pointer;

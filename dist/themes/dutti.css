@@ -83,7 +83,7 @@
 /* === _buttons.css === */
 /**
  * Botones
- * Variantes: primary, secondary, tertiary, label-m
+ * Variantes: primary, secondary, tertiary, label-m, link, badge
  * Tamaños: sm, md, lg
  */
 
@@ -394,6 +394,69 @@
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.5;
+}
+
+/* BADGE BUTTON (pill, compacto) */
+.btn-badge {
+  min-height: auto;
+  height: auto;
+  padding: var(--hg-spacing-4) var(--hg-spacing-12);
+
+  background-color: transparent;
+  color: var(--hg-color-dark-grey);
+  font-size: var(--hg-typo-font-size-12);
+  white-space: nowrap;
+}
+
+.btn-badge:focus,
+.btn-badge.focus,
+.btn-badge:hover,
+.btn-badge.hover,
+.btn-badge:active,
+.btn-badge.active {
+  background-color:transparent;
+  color: var(--hg-color-primary);
+  border-color: transparent;
+  cursor: pointer;
+}
+
+.btn-badge:disabled,
+.btn-badge[disabled],
+.btn-badge.disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: var(--hg-color-white);
+  border-color: transparent;
+  color: var(--hg-color-middle-grey);
+  opacity: 1;
+}
+
+/* Badge en contexto claro (fondo oscuro) */
+.has-light .btn-badge {
+  background-color: transparent;
+  color: var(--hg-color-white);
+  border-color: transparent;
+}
+
+.has-light .btn-badge:focus,
+.has-light .btn-badge.focus,
+.has-light .btn-badge:hover,
+.has-light .btn-badge.hover,
+.has-light .btn-badge:active,
+.has-light .btn-badge.active {
+  background-color: transparent;
+  color: var(--hg-color-white);
+  border-color: transparent;
+  cursor: pointer;
+}
+
+.has-light .btn-badge:disabled,
+.has-light .btn-badge[disabled],
+.has-light .btn-badge.disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--hg-color-light-grey);
+  opacity: 1;
 }
 
 /* Ancho completo */
