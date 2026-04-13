@@ -706,6 +706,9 @@ function generateHTML(configData, previousValuesPath = null) {
         menuItems.push({ id: 'ratios', label: 'Ratios de Aspecto' });
       }
       menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
+      if (configData.theme && configData.theme.enabled) {
+        menuItems.push({ id: 'containers', label: 'Containers' });
+      }
       const menuHTML = menuItems.map(item => `
         <a href="#${item.id}" class="guide-menu-item" data-section="${item.id}">${item.label}</a>
       `).join('');
@@ -761,7 +764,6 @@ function generateHTML(configData, previousValuesPath = null) {
   <aside class="guide-sidebar">
     <nav class="guide-sidebar-nav">
       ${menuHTML}
-      ${themeDemoLink}
     </nav>
     <div class="guide-sidebar-footer">
       <div class="guide-sidebar-badges">
@@ -785,39 +787,42 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
   </aside>
       <div class="guide-header">
-    <div class="guide-logo">
-    Holygrail 5
-    </div>
-    <div style="display: flex; align-items: center; gap: 1rem;">
-       <div id="search-results" class="guide-search-results"></div>
-      <div class="guide-search-container">
-        <input 
-          type="text" 
-          id="search-input" 
+    <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 0;">
+      <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
+      <a href="index.html" class="guide-logo" style="text-decoration:none; flex-shrink:0;">HolyGrail5</a>
+      <div class="guide-search-container" style="flex: 1; max-width: 320px;">
+        <input
+          type="text"
+          id="search-input"
           class="guide-search-input"
-          placeholder="Buscar clases, variables, helpers..." 
+          placeholder="Buscar clases, variables, helpers..."
           autocomplete="off"
         />
-        <svg 
+        <svg
           class="guide-search-icon"
-          width="20" 
-          height="20" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
           stroke-width="2"
         >
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
-        <button 
-          id="clear-search" 
+        <button
+          id="clear-search"
           class="guide-clear-search-btn"
           title="Limpiar búsqueda"
         >×</button>
       </div>
-      <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
+      <div id="search-results" class="guide-search-results"></div>
     </div>
+    <nav class="guide-nav">
+      <a href="index.html" class="active">Guía</a>
+      <a href="themes/dutti-demo.html">Tema Dutti</a>
+      <a href="skills.html">Skills</a>
+    </nav>
     </div>
   <main class="guide-main-content">
 <div class="guide-container">
@@ -829,10 +834,6 @@ function generateHTML(configData, previousValuesPath = null) {
           HolyGrail 5, la nueva evolución del Design System de Massimo Dutti.
         </h2>
 
-
-<div class="guide-logo">
- <a href="themes/dutti-demo.html">Dutti theme</a>
-    </div>
     </div>
 
       </div>
@@ -1346,6 +1347,174 @@ function generateHTML(configData, previousValuesPath = null) {
         </div>
       </div>
     </div>
+    ${configData.theme && configData.theme.enabled ? `
+    <div class="guide-section" id="containers">
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Containers</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p>
+        Contenedores responsivos del tema ${configData.theme.name ? configData.theme.name.charAt(0).toUpperCase() + configData.theme.name.slice(1) : 'activo'}. Cada container define un <code>max-width</code> y padding adaptativo según breakpoint.
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-12"><hr></div>
+    </div>
+      <div class="guide-section-content">
+        <div class="guide-table-wrapper">
+          <table class="guide-table">
+            <thead>
+              <tr>
+                <th>Clase</th>
+                <th>Max-width</th>
+                <th>Responsive</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="guide-table-name">.container</td>
+                <td class="guide-table-value">800px (50rem)</td>
+                <td class="guide-table-description">sm: 768px (48rem) / md: 992px (62rem) / lg: 1280px (80rem) / xl: 1440px (90rem)</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 100%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-2</td>
+                <td class="guide-table-value">700px (43.75rem)</td>
+                <td class="guide-table-description">width: 90%</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 87%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-3</td>
+                <td class="guide-table-value">900px (56.25rem)</td>
+                <td class="guide-table-description">padding: 60px (3.75rem) → 20px (1.25rem) en sm+</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 95%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-4</td>
+                <td class="guide-table-value">360px (22.5rem)</td>
+                <td class="guide-table-description">padding: 40px (2.5rem)</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 25%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-5</td>
+                <td class="guide-table-value">800px (50rem)</td>
+                <td class="guide-table-description">lg+: 1000px (62.5rem), padding: 0</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 70%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-6</td>
+                <td class="guide-table-value">442px (27.625rem)</td>
+                <td class="guide-table-description">—</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 31%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-7</td>
+                <td class="guide-table-value">295px (18.44rem) → 595px (37.19rem)</td>
+                <td class="guide-table-description">sm: 460px (28.75rem) / md: 460px (28.75rem) / lg: 595px (37.19rem)</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 42%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-8</td>
+                <td class="guide-table-value">395px (24.69rem)</td>
+                <td class="guide-table-description">—</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 28%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-9</td>
+                <td class="guide-table-value">798px (49.88rem)</td>
+                <td class="guide-table-description">padding: 20px (1.25rem)</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 55%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-10</td>
+                <td class="guide-table-value">200px (12.5rem)</td>
+                <td class="guide-table-description">sin padding, sin margin auto</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 14%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-11</td>
+                <td class="guide-table-value">1080px (67.5rem)</td>
+                <td class="guide-table-description">padding: 20px (1.25rem)</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 75%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-12</td>
+                <td class="guide-table-value">1080px (67.5rem)</td>
+                <td class="guide-table-description">padding: 20px (1.25rem), sin margin auto</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 75%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-360</td>
+                <td class="guide-table-value">360px (22.5rem)</td>
+                <td class="guide-table-description">solo max-width</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 25%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-496</td>
+                <td class="guide-table-value">496px (31rem)</td>
+                <td class="guide-table-description">solo max-width</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 35%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-512</td>
+                <td class="guide-table-value">512px (32rem)</td>
+                <td class="guide-table-description">solo max-width</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 36%; border-radius: 4px;"></div></td>
+              </tr>
+              <tr>
+                <td class="guide-table-name">.container-640</td>
+                <td class="guide-table-value">640px (40rem)</td>
+                <td class="guide-table-description">solo max-width</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 45%; border-radius: 4px;"></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="guide-section-title">
+          <div> </div>
+          <div class="demo-section-2">
+            <div>
+              <p class="guide-info-box-text mb-64">
+                <strong>Ejemplo de uso:</strong>
+              </p>
+              <pre class="guide-code-example"><code>&lt;div class="container"&gt;
+  &lt;!-- Contenido centrado, max 800px, responsive --&gt;
+&lt;/div&gt;
+
+&lt;div class="container-5"&gt;
+  &lt;!-- 800px → 1000px en lg+, sin padding --&gt;
+&lt;/div&gt;
+
+&lt;div class="container-11"&gt;
+  &lt;!-- 1080px, padding adaptativo mobile/desktop --&gt;
+&lt;/div&gt;</code></pre>
+              <p class="text-m guide-info-box-text">
+                Los containers son parte del tema Dutti. Requieren importar <code>dutti.css</code> además de <code>output.css</code>.
+              </p>
+            </div>
+            <div>
+              <strong>Tipos de container:</strong>
+              <br>
+              <ul class="guide-info-box-list">
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.container</code> - Principal, responsive en todos los breakpoints
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.container-7</code> - Progresivo: 295px → 460px → 595px
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.container-9, -11, -12</code> - Padding mobile/desktop adaptativo
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.container-360, -496, -512, -640</code> - Solo max-width, sin padding
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
         </div>
   </main>
   <script>

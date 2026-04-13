@@ -8,6 +8,7 @@ const { generateHTML } = require('../docs-generator/html-generator');
 const { writeFile, combineThemeCSS } = require('../generators/utils');
 const { AssetManager } = require('./asset-manager');
 const { ThemeTransformer } = require('./theme-transformer');
+const { generateSkillsPage } = require('./skills-generator');
 
 class BuildOrchestrator {
   constructor(options = {}) {
@@ -163,6 +164,25 @@ class BuildOrchestrator {
       if (configData.theme) {
         result.theme.css = this.buildThemeCSS(configData.theme);
         result.theme.html = this.buildThemeHTML(configData.theme);
+      }
+
+      // 6. Generar página de skills si existe la carpeta skills/
+      try {
+        const skillsHtml = generateSkillsPage(this.projectRoot);
+        if (skillsHtml) {
+          const distDir = path.dirname(this.outputPath);
+          const skillsPath = path.join(distDir, 'skills.html');
+          writeFile(skillsPath, skillsHtml, 'Skills');
+          // Copiar SKILL.md a dist para descarga
+          const mdSrc = path.join(this.projectRoot, 'skills', 'developer-guide', 'SKILL.md');
+          const mdDest = path.join(distDir, 'developer-guide.md');
+          if (require('fs').existsSync(mdSrc)) {
+            require('fs').copyFileSync(mdSrc, mdDest);
+          }
+          result.skills = true;
+        }
+      } catch (err) {
+        if (!this.silent) console.warn('⚠️  No se pudo generar skills.html:', err.message);
       }
       
       result.success = true;

@@ -6,8 +6,45 @@ const fs = require('fs');
 const path = require('path');
 const { watch } = require('./watch-config');
 
-const PORT = process.env.PORT || 3000;
+const INITIAL_PORT = parseInt(process.env.PORT, 10) || 3000;
+const MAX_PORT_ATTEMPTS = 30;
 const DIST_DIR = path.join(__dirname, '..', 'dist');
+
+/**
+ * Escucha en el primer puerto libre desde initialPort (hasta initialPort + MAX_PORT_ATTEMPTS - 1).
+ */
+function listenOnAvailablePort(server, initialPort) {
+  return new Promise((resolve, reject) => {
+    let currentPort = initialPort;
+
+    function tryListen() {
+      const onError = (err) => {
+        server.removeListener('error', onError);
+        if (err.code === 'EADDRINUSE' && currentPort < initialPort + MAX_PORT_ATTEMPTS - 1) {
+          console.warn(`⚠️  Puerto ${currentPort} ocupado, probando ${currentPort + 1}...`);
+          currentPort += 1;
+          tryListen();
+        } else if (err.code === 'EADDRINUSE') {
+          reject(
+            new Error(
+              `No hay puerto libre entre ${initialPort} y ${initialPort + MAX_PORT_ATTEMPTS - 1}. Cierra el proceso que usa el puerto o define PORT explícitamente.`
+            )
+          );
+        } else {
+          reject(err);
+        }
+      };
+
+      server.once('error', onError);
+      server.listen(currentPort, () => {
+        server.removeListener('error', onError);
+        resolve(currentPort);
+      });
+    }
+
+    tryListen();
+  });
+}
 
 // MIME types para diferentes archivos
 const MIME_TYPES = {
@@ -101,36 +138,35 @@ function startDevServer() {
   // Iniciar watch en background (no bloquea, modo silencioso)
   watch(configPath, outputPath, htmlPath, true);
   
-  // Crear y iniciar servidor HTTP
+  // Crear y iniciar servidor HTTP (prueba puertos consecutivos si el inicial está ocupado)
   const server = createServer();
-  
-  server.listen(PORT, () => {
-    const url = `http://localhost:${PORT}`;
-    console.log(`\n🌐 Servidor HTTP iniciado en ${url}`);
-    console.log(`📄 Abre en tu navegador: ${url}/index.html\n`);
-    console.log('💡 Los archivos se regenerarán automáticamente cuando cambies config.json');
-    console.log('💡 Recarga el navegador (Cmd+Shift+R o Ctrl+Shift+R) para ver los cambios\n');
-    
-    // Abrir navegador automáticamente (solo en macOS/Linux)
-    if (process.platform === 'darwin') {
-      spawn('open', [url]);
-    } else if (process.platform === 'linux') {
-      spawn('xdg-open', [url]);
-    } else if (process.platform === 'win32') {
-      spawn('cmd', ['/c', 'start', url]);
-    }
-  });
-  
-  // Manejar errores del servidor
-  server.on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-      console.error(`\n❌ Error: El puerto ${PORT} ya está en uso`);
-      console.error(`💡 Usa otro puerto: PORT=3001 npm run dev\n`);
-    } else {
-      console.error(`\n❌ Error del servidor:`, err.message);
-    }
-    process.exit(1);
-  });
+
+  listenOnAvailablePort(server, INITIAL_PORT)
+    .then((port) => {
+      const url = `http://localhost:${port}`;
+      if (port !== INITIAL_PORT) {
+        console.log(`\n💡 Puerto ${INITIAL_PORT} estaba ocupado; usando ${port}`);
+      }
+      console.log(`\n🌐 Servidor HTTP iniciado en ${url}`);
+      console.log(`📄 Abre en tu navegador: ${url}/index.html\n`);
+      console.log('💡 Los archivos se regenerarán automáticamente cuando cambies config.json');
+      console.log('💡 Recarga el navegador (Cmd+Shift+R o Ctrl+Shift+R) para ver los cambios\n');
+
+      if (process.platform === 'darwin') {
+        spawn('open', [url]);
+      } else if (process.platform === 'linux') {
+        spawn('xdg-open', [url]);
+      } else if (process.platform === 'win32') {
+        spawn('cmd', ['/c', 'start', url]);
+      }
+    })
+    .catch((err) => {
+      console.error(`\n❌ Error al iniciar el servidor:`, err.message);
+      if (err.code === 'EADDRINUSE' || err.message.includes('No hay puerto libre')) {
+        console.error(`💡 Cierra el proceso que usa el puerto o fuerza uno: PORT=3001 npm run dev\n`);
+      }
+      process.exit(1);
+    });
   
   // Manejar cierre del proceso
   function cleanup() {
@@ -149,4 +185,4 @@ if (require.main === module) {
   startDevServer();
 }
 
-module.exports = { startDevServer, createServer };
+module.exports = { startDevServer, createServer, listenOnAvailablePort };

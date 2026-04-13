@@ -199,6 +199,27 @@ h2 {
   color: #000;
 }
 
+/* Nav links unificado */
+.guide-nav {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.guide-nav a {
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.guide-nav a:hover {
+  color: #000;
+}
+.guide-nav a.active {
+  color: #000;
+  font-weight: 600;
+}
+
 .guide-header-button {
   color: black;
   border: 1px solid #000000;

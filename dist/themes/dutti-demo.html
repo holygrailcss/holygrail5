@@ -35,8 +35,15 @@
   <body>
 
   <div class="guide-header">
-    <a class="btn-link" href="../index.html" class="guide-menu-item"><h1 class="guide-logo" style="">HolyGrail 5</h1> </a>
-    <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
+    <a href="../index.html" class="guide-logo" style="text-decoration:none;">HolyGrail5</a>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <nav class="guide-nav">
+        <a href="../index.html">Guía</a>
+        <a href="../themes/dutti-demo.html" class="active">Tema Dutti</a>
+        <a href="../skills.html">Skills</a>
+      </nav>
+      <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
+    </div>
   </div>
   
   <div class="guide-sidebar-overlay" onclick="toggleSidebar()"></div>
@@ -48,10 +55,6 @@
     </div>
 
     <nav class="guide-sidebar-nav">
-      <a href="../index.html" class="guide-menu-item">← </a>
-      
-      <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
-      
       <p class="guide-sidebar-title">Componentes</p>
       
       <a href="#buttons" class="guide-menu-item">Botones</a>

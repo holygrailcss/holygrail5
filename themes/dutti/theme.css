@@ -42,6 +42,7 @@
 /* Elements - Estilos de elementos HTML (h1, p, a) */
 
 /* Objects - Patrones de layout */
+@import url('./_containers.css');
 /* @import url('./objects/_grid.css');
 
 /* Components - Componentes de UI específicos */
