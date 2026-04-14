@@ -789,8 +789,7 @@ function generateHTML(configData, previousValuesPath = null) {
       <div class="guide-header">
     <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 0;">
       <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
-      <a href="index.html" class="guide-logo" style="text-decoration:none; flex-shrink:0;">HolyGrail5</a>
-      <div class="guide-search-container" style="flex: 1; max-width: 320px;">
+      <div class="guide-search-container" style="flex: 1; max-width: 360px;">
         <input
           type="text"
           id="search-input"
@@ -818,9 +817,9 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       <div id="search-results" class="guide-search-results"></div>
     </div>
-    <nav class="guide-nav">
+    <nav class="guide-nav" style="text-transform: uppercase; letter-spacing: 0.05em;">
       <a href="index.html" class="active">Guía</a>
-      <a href="themes/dutti-demo.html">Tema Dutti</a>
+      <a href="themes/dutti-demo.html">Tema</a>
       <a href="skills.html">Skills</a>
     </nav>
     </div>
