@@ -26,7 +26,14 @@ Cuando el usuario pida crear un componente HTML con HolyGrail 5:
 
 4. **Usa el grid cuando sea necesario**: `.row` como contenedor flex, `.col-{bp}-{n}` para columnas. El grid soporta breakpoints: xs, sm, md, lg, xl.
 
-5. **Devuelve HTML limpio** con comentarios explicando las decisiones de layout.
+5. **Naming consistente**: el nombre del componente React y la primera clase CSS del `<div>` raíz deben coincidir, usando formato kebab-case (minúsculas con guiones). Los nombres deben ser cortos y únicos. Por ejemplo, si el componente se llama `ProductCard`, la primera clase del div contenedor debe ser `product-card`:
+   ```jsx
+   function ProductCard() {
+     return <div className="product-card hg-gap-16">...</div>
+   }
+   ```
+
+6. **Devuelve HTML limpio** con comentarios explicando las decisiones de layout.
 
 ## Ejemplo de salida
 
