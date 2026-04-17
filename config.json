@@ -610,6 +610,18 @@
     }
   },
   "typo": {
+    "title-xxl": {
+      "fontFamily": "\"ms-serif\", serif",
+      "fontWeight": "300",
+      "mobile": {
+        "fontSize": "24px",
+        "lineHeight": "1"
+      },
+      "desktop": {
+        "fontSize": "24px",
+        "lineHeight": "1"
+      }
+    },
     "h2": {
       "fontFamily": "arial, sans-serif",
       "fontWeight": "900",
