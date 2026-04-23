@@ -168,7 +168,7 @@ function testAssetManager() {
     const manager = new AssetManager(path.join(__dirname, '..'));
     const initialLength = ASSETS_CONFIG.images.length;
     manager.addImageAsset('test.jpg', 'dist/test.jpg');
-    
+
     if (ASSETS_CONFIG.images.length === initialLength + 1) {
       console.log('✅ Test 10: addImageAsset funciona');
       // Limpiar
@@ -182,9 +182,92 @@ function testAssetManager() {
     failedTests++;
   }
 
+  // Test 11: copyFonts retorna un número (cuenta de ficheros copiados).
+  // Las fuentes se añadieron después de CSS/images, así que este test
+  // protege contra regresiones en la copia silenciosa de los .woff/.woff2.
+  try {
+    const manager = new AssetManager(path.join(__dirname, '..'));
+    const result = manager.copyFonts(true);
+
+    if (typeof result === 'number' && result >= 0) {
+      console.log('✅ Test 11: copyFonts retorna número de archivos copiados');
+      passedTests++;
+    } else {
+      throw new Error('copyFonts no retornó un número');
+    }
+  } catch (error) {
+    console.log('❌ Test 11: Error en copyFonts:', error.message);
+    failedTests++;
+  }
+
+  // Test 12: copyAssets('fonts') aísla solo la rama de fuentes.
+  try {
+    const manager = new AssetManager(path.join(__dirname, '..'));
+    const result = manager.copyAssets('fonts', true);
+
+    if (result &&
+        result.css === 0 &&
+        result.images === 0 &&
+        typeof result.fonts === 'number') {
+      console.log('✅ Test 12: copyAssets solo fonts funciona');
+      passedTests++;
+    } else {
+      throw new Error('copyAssets solo fonts no funcionó');
+    }
+  } catch (error) {
+    console.log('❌ Test 12: Error en copyAssets solo fonts:', error.message);
+    failedTests++;
+  }
+
+  // Test 13: addFontAsset añade entrada al array de fonts.
+  // Importante: si assetsConfig.fonts fuera undefined, el método debe
+  // crearlo. Forzamos ese caso con un assetsConfig custom para
+  // garantizar la rama de fallback.
+  try {
+    const customConfig = { css: [], images: [] }; // sin `fonts`
+    const manager = new AssetManager(path.join(__dirname, '..'), customConfig);
+    manager.addFontAsset('test.woff2', 'dist/test.woff2');
+
+    if (Array.isArray(customConfig.fonts) && customConfig.fonts.length === 1) {
+      console.log('✅ Test 13: addFontAsset crea fonts[] si no existe');
+      passedTests++;
+    } else {
+      throw new Error('addFontAsset no inicializó fonts[]');
+    }
+  } catch (error) {
+    console.log('❌ Test 13: Error en addFontAsset:', error.message);
+    failedTests++;
+  }
+
+  // Test 14: El constructor respeta assetsConfig custom (fuente de
+  // verdad viene de config.json vía watch/BuildOrchestrator, no del
+  // ASSETS_CONFIG hardcodeado).
+  try {
+    const customConfig = {
+      css: [{ source: 'a.css', dest: 'dist/a.css' }],
+      images: [],
+      fonts: [
+        { source: 'b.woff2', dest: 'dist/b.woff2' },
+        { source: 'c.woff',  dest: 'dist/c.woff'  }
+      ]
+    };
+    const manager = new AssetManager(path.join(__dirname, '..'), customConfig);
+
+    if (manager.assetsConfig === customConfig &&
+        manager.assetsConfig.fonts.length === 2) {
+      console.log('✅ Test 14: Constructor acepta assetsConfig custom');
+      passedTests++;
+    } else {
+      throw new Error('El constructor no usó el assetsConfig pasado');
+    }
+  } catch (error) {
+    console.log('❌ Test 14: Error en assetsConfig custom:', error.message);
+    failedTests++;
+  }
+
   // Resumen
   console.log(`\n📊 Resumen AssetManager: ${passedTests} pasados, ${failedTests} fallidos\n`);
-  
+
   return { passed: passedTests, failed: failedTests };
 }
 

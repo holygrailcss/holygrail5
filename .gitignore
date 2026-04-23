@@ -34,6 +34,9 @@ yarn-error.log*
 *.swp
 *.swo
 *~
+.cursor/skills/maquetar-holygrail5/SKILL.md
+themes/dutti/README.md
+src/docs-generator/html-generator.js
 
 # Archivos de test temporales
 test-*.html

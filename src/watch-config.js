@@ -7,8 +7,8 @@ const path = require('path');
 const crypto = require('crypto');
 const { BuildOrchestrator } = require('./build/build-orchestrator');
 const { AssetManager } = require('./build/asset-manager');
-const { ThemeTransformer } = require('./build/theme-transformer');
 const { loadConfig } = require('./config-loader');
+const { resolveActiveThemes } = require('./generators/utils');
 
 // Constantes
 const DEBOUNCE_DELAY = 300; // ms - tiempo de espera antes de regenerar
@@ -50,16 +50,39 @@ function generateFiles(configPath, outputPath, htmlPath, silent = false) {
 }
 
 // Función para copiar archivos CSS e imágenes usando AssetManager
-function copyCSSFiles(silent = false) {
+// IMPORTANTE: Carga `assets` desde config.json (misma fuente de verdad que
+// usa el BuildOrchestrator). Si no pudiera leerse, AssetManager aplica su
+// fallback interno ASSETS_CONFIG. Esto evita que watch use una lista
+// distinta a la del build principal (incl. woff además de woff2).
+function loadAssetsConfig(configPath) {
+  if (!configPath) return null;
+  try {
+    const cfg = loadConfig(configPath);
+    return cfg && cfg.assets ? cfg.assets : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function copyCSSFiles(silent = false, configPath = null) {
   const projectRoot = path.join(__dirname, '..');
-  const assetManager = new AssetManager(projectRoot);
+  const assetsConfig = loadAssetsConfig(configPath);
+  const assetManager = new AssetManager(projectRoot, assetsConfig);
   assetManager.copyCSS(silent);
 }
 
-function copyImageFiles(silent = false) {
+function copyImageFiles(silent = false, configPath = null) {
   const projectRoot = path.join(__dirname, '..');
-  const assetManager = new AssetManager(projectRoot);
+  const assetsConfig = loadAssetsConfig(configPath);
+  const assetManager = new AssetManager(projectRoot, assetsConfig);
   assetManager.copyImages(silent);
+}
+
+function copyFontFiles(silent = false, configPath = null) {
+  const projectRoot = path.join(__dirname, '..');
+  const assetsConfig = loadAssetsConfig(configPath);
+  const assetManager = new AssetManager(projectRoot, assetsConfig);
+  assetManager.copyFonts(silent);
 }
 
 // Función principal de watch optimizada
@@ -86,10 +109,54 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
     path.join(__dirname, 'docs-generator', 'guide-styles.css')
   ];
   
-  // Archivos de tema a observar
-  const themeFilesToWatch = [
-    path.join(projectRoot, 'themes', 'dutti', 'demo.html')
-  ];
+  // Archivos de tema a observar.
+  // Antes solo se vigilaba themes/dutti/demo.html. Con la arquitectura
+  // actual:
+  //   - Puede haber varios temas activos (config.themes[]).
+  //   - Los componentes compartidos viven en themes/_base/ y cambios ahí
+  //     también deben disparar un rebuild de todas las demos.
+  // Recolectamos dinámicamente los demo.html de cada tema activo +
+  // todos los .css de themes/_base/ (recursivo).
+  const themeFilesToWatch = (() => {
+    const watched = [];
+
+    // Intentamos leer el config para saber qué temas están activos.
+    // Delegamos en `resolveActiveThemes` para que el watch reaccione
+    // exactamente a los mismos temas que construye el orquestador.
+    // Soporta tanto `config.themes[]` (nuevo) como `config.theme` (antiguo).
+    let activeThemes = [];
+    try {
+      const configData = loadConfig(configPath);
+      activeThemes = resolveActiveThemes(configData);
+    } catch (e) {
+      // Si no podemos leer el config, caemos al fallback histórico
+      // para no romper flujos existentes.
+      activeThemes = [{ name: 'dutti', enabled: true, label: 'Tema Dutti' }];
+    }
+
+    activeThemes.forEach(t => {
+      const demoFile = path.join(projectRoot, 'themes', t.name, 'demo.html');
+      if (fs.existsSync(demoFile)) watched.push(demoFile);
+    });
+
+    // Componentes compartidos: watch recursivo simple sobre themes/_base/.
+    const baseDir = path.join(projectRoot, 'themes', '_base');
+    if (fs.existsSync(baseDir)) {
+      const walk = (dir) => {
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+          const full = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            walk(full);
+          } else if (entry.isFile() && full.endsWith('.css')) {
+            watched.push(full);
+          }
+        }
+      };
+      try { walk(baseDir); } catch (_) { /* ignorar errores de lectura */ }
+    }
+
+    return watched;
+  })();
   
   // Estado del watch
   let lastHash = getFileHash(configPath);
@@ -156,8 +223,9 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
         if (!silent) {
           console.log(`🔄 Detectado cambio en ${path.basename(cssFile)}, copiando a dist/...\n`);
         }
-        copyCSSFiles(silent);
-        copyImageFiles(silent);
+        copyCSSFiles(silent, configPath);
+        copyImageFiles(silent, configPath);
+        copyFontFiles(silent, configPath);
         if (!silent) {
           console.log('✨ CSS actualizado - Recarga el navegador para ver los cambios\n');
         }
@@ -166,44 +234,43 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
     }, DEBOUNCE_DELAY);
   }
   
-  // Función para manejar cambios en archivos de tema
+  // Función para manejar cambios en archivos de tema.
+  // Antes el handler intentaba re-transformar SOLO la demo de un único
+  // tema (leyendo `configData.theme` singular). Con la arquitectura
+  // actual, un cambio puede venir de:
+  //   - themes/<name>/demo.html  → afecta a la demo de ESE tema
+  //   - themes/_base/**/*.css    → afecta al CSS de TODOS los temas
+  // Para cubrir ambos casos sin reimplementar la orquestación,
+  // delegamos en `generateFiles`, que usa BuildOrchestrator y ya sabe
+  // recorrer `config.themes[]` (o el antiguo `config.theme`).
   function handleThemeChange(themeFile) {
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
-    
+
     debounceTimer = setTimeout(() => {
       const currentHash = getFileHash(themeFile);
       const lastThemeHash = themeHashes.get(themeFile);
-      
+
       if (currentHash && currentHash !== lastThemeHash && !isRegenerating) {
         isRegenerating = true;
         themeHashes.set(themeFile, currentHash);
         if (!silent) {
-          console.log(`🔄 Detectado cambio en ${path.basename(themeFile)}, regenerando demo...\n`);
+          const rel = path.relative(projectRoot, themeFile);
+          console.log(`🔄 Detectado cambio en ${rel}, regenerando...\n`);
         }
-        
-        // Usar ThemeTransformer en lugar de ejecutar script externo
+
         try {
-          const configData = loadConfig(configPath);
-          if (configData.theme && configData.theme.enabled && configData.theme.name) {
-            const themeName = configData.theme.name;
-            const outputDir = path.dirname(outputPath);
-            const targetFile = path.join(outputDir, 'themes', `${themeName}-demo.html`);
-            
-            const themeTransformer = new ThemeTransformer(projectRoot);
-            themeTransformer.transform(themeFile, targetFile, themeName, silent);
-            
-            if (!silent) {
-              console.log('✨ Demo actualizado - Recarga el navegador para ver los cambios\n');
-            }
+          generateFiles(configPath, outputPath, htmlPath, silent);
+          if (!silent) {
+            console.log('✨ Tema(s) actualizado(s) - Recarga el navegador para ver los cambios\n');
           }
         } catch (error) {
           if (!silent) {
-            console.error('❌ Error al regenerar demo:', error.message);
+            console.error('❌ Error al regenerar tema:', error.message);
           }
         }
-        
+
         isRegenerating = false;
       }
     }, DEBOUNCE_DELAY);
@@ -337,4 +404,4 @@ if (require.main === module) {
   watch(configPath, outputPath, htmlPath);
 }
 
-module.exports = { watch, generateFiles, copyCSSFiles, copyImageFiles };
+module.exports = { watch, generateFiles, copyCSSFiles, copyImageFiles, copyFontFiles };

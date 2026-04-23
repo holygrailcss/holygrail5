@@ -66,7 +66,13 @@
   
   --form-group-gap: var(--hg-spacing-16);
   
-  /* Tipografía - se usan directamente las variables de HolyGrail5 */
+  /* Tipografía del tema Dutti — Suisse Intl (sans) por peso.
+     Cada peso es una font-family propia (suisse-light/regular/
+     medium/semibold) declaradas en guide-styles.css. */
+  --hg-typo-font-family-primary-light: "suisse-light", Arial, Helvetica, sans-serif;
+  --hg-typo-font-family-primary-regular: "suisse-regular", Arial, Helvetica, sans-serif;
+  --hg-typo-font-family-primary-bold: "suisse-semibold", Arial, Helvetica, sans-serif;
+  --hg-typo-font-family-secondary: "suisse-medium", Arial, Helvetica, sans-serif;
   
   /* Bordes y radios */
   --border-radius: 0;

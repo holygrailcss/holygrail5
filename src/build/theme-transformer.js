@@ -3,6 +3,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const { generateTypographyHTML } = require('./typo-table-generator');
+const { generateThemeBlockHTML } = require('./theme-vars-table-generator');
+const { applyThemeTypographyOverrides } = require('../generators/utils');
 
 // Estilos del sidebar + Lenis (solo para dutti-demo.html en dist)
 const SIDEBAR_STYLES = `
@@ -24,31 +27,84 @@ const SIDEBAR_STYLES = `
     }
 `;
 
-// HTML del header y sidebar
-const HEADER_AND_SIDEBAR_HTML = `
+// Fallback de temas conocidos para la navegación de cada demo, usado
+// cuando el llamador NO inyecta una lista dinámica (p. ej. tests o
+// ejecuciones standalone del ThemeTransformer sin pasar por
+// BuildOrchestrator). En modo build normal, esta lista se sustituye por
+// los temas realmente activos en `config.themes[]`, de forma que
+// nunca se genere un enlace `../themes/<x>-demo.html` a un fichero
+// que no existe en `dist/themes/`.
+// El orden aquí determina el orden en el que aparecen los enlaces.
+// `name` es el slug del tema (coincide con la carpeta themes/<name>/ y
+// con el fichero generado themes/<name>-demo.html). `label` es el
+// texto visible en la nav principal.
+const THEMES_IN_NAV = [
+  { name: 'dutti', label: 'Tema Dutti' },
+  { name: 'limited', label: 'Tema Limited' }
+];
+
+// Capitaliza un slug para usarlo como nombre legible en el sidebar
+// (p. ej. 'dutti' → 'Dutti', 'limited' → 'Limited').
+function capitalize(s) {
+  if (!s) return '';
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/**
+ * Construye el HTML del header + sidebar para una demo concreta.
+ * El enlace del tema actual se marca con la clase `active` para que
+ * el usuario vea en qué tema está. Los enlaces a otros temas apuntan
+ * al fichero `../themes/<slug>-demo.html` correspondiente.
+ *
+ * @param {string} currentTheme - slug del tema activo (p. ej. 'dutti')
+ * @param {Array<{name:string,label:string}>} [themesForNav] - Lista de
+ *   temas a mostrar en la nav. Si se omite o viene vacía, se usa el
+ *   fallback `THEMES_IN_NAV`. Inyectar esta lista desde el build evita
+ *   que la demo enlace a temas que no se han generado en `dist/themes/`.
+ * @returns {string} HTML listo para inyectar tras `<body>`.
+ */
+function buildHeaderAndSidebar(currentTheme, themesForNav = null) {
+  const list = Array.isArray(themesForNav) && themesForNav.length > 0
+    ? themesForNav
+    : THEMES_IN_NAV;
+
+  const themeLinks = list.map(t => {
+    const cls = t.name === currentTheme ? ' class="active"' : '';
+    return `        <a href="../themes/${t.name}-demo.html"${cls}>${t.label}</a>`;
+  }).join('\n');
+
+  const displayName = capitalize(currentTheme);
+
+  return `
   <div class="guide-header">
     <a href="../index.html" class="guide-logo" style="text-decoration:none;">HolyGrail5</a>
     <div style="display: flex; align-items: center; gap: 1rem;">
       <nav class="guide-nav">
         <a href="../index.html">Guía</a>
-        <a href="../themes/dutti-demo.html" class="active">Tema Dutti</a>
+        <a href="../componentes.html">Componentes</a>
+${themeLinks}
         <a href="../skills.html">Skills</a>
       </nav>
       <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-  
+
   <div class="guide-sidebar-overlay" onclick="toggleSidebar()"></div>
-  
+
   <aside class="guide-sidebar">
     <div class="guide-sidebar-header">
       <div>HolyGrail5</div>
-      <p class="guide-sidebar-subtitle">Demo Tema Dutti</p>
+      <p class="guide-sidebar-subtitle">Demo Tema ${displayName}</p>
     </div>
 
     <nav class="guide-sidebar-nav">
+      <p class="guide-sidebar-title">Tema</p>
+
+      <a href="#theme-vars" class="guide-menu-item">Variables del tema</a>
+
       <p class="guide-sidebar-title">Componentes</p>
-      
+
+      <a href="#typography" class="guide-menu-item">Tipografía</a>
       <a href="#buttons" class="guide-menu-item">Botones</a>
       <a href="#inputs" class="guide-menu-item">Inputs</a>
       <a href="#checkboxes" class="guide-menu-item">Checkboxes</a>
@@ -57,7 +113,7 @@ const HEADER_AND_SIDEBAR_HTML = `
       <a href="#forms" class="guide-menu-item">Formularios</a>
     </nav>
   </aside>
-  
+
   <script>
     function toggleSidebar() {
       const sidebar = document.querySelector('.guide-sidebar');
@@ -65,19 +121,20 @@ const HEADER_AND_SIDEBAR_HTML = `
       sidebar.classList.toggle('open');
       overlay.classList.toggle('active');
     }
-    
+
     function closeSidebar() {
       const sidebar = document.querySelector('.guide-sidebar');
       const overlay = document.querySelector('.guide-sidebar-overlay');
       sidebar.classList.remove('open');
       overlay.classList.remove('active');
     }
-    
+
     // Hacer funciones globales
     window.toggleSidebar = toggleSidebar;
     window.closeSidebar = closeSidebar;
   </script>
 `;
+}
 
 // Script de Lenis para el head
 const LENIS_HEAD_SCRIPT = `
@@ -153,9 +210,14 @@ class ThemeTransformer {
    * @param {string} destPath - Ruta donde guardar el HTML transformado
    * @param {string} themeName - Nombre del tema (para personalización)
    * @param {boolean} silent - Si true, no muestra mensajes
+   * @param {Object} [config] - Config cargado de config.json (para inyectar tablas dinámicas como tipografía)
+   * @param {Object} [themeData] - theme.json parseado (para inyectar meta + tablas de variables del tema)
+   * @param {Array<{name:string,label:string}>} [themesForNav] - Lista de
+   *   temas activos a exponer en la nav del demo. Si se omite, se usa
+   *   el fallback estático de theme-transformer (dutti + limited).
    * @returns {boolean} - true si se transformó exitosamente
    */
-  transform(sourcePath, destPath, themeName = 'dutti', silent = false) {
+  transform(sourcePath, destPath, themeName = 'dutti', silent = false, config = null, themeData = null, themesForNav = null) {
     const fullSourcePath = path.isAbsolute(sourcePath)
       ? sourcePath
       : path.join(this.projectRoot, sourcePath);
@@ -174,7 +236,32 @@ class ThemeTransformer {
     try {
       // Leer el contenido
       let content = fs.readFileSync(fullSourcePath, 'utf8');
-      
+
+      // Inyectar bloques dinámicos derivados del config (p. ej. tabla de tipografía).
+      // Si el HTML fuente no contiene el placeholder, se ignora silenciosamente.
+      //
+      // Para cada tema aplicamos los overrides de tipografía declarados
+      // en `theme.json → typography.fontFamilyMap`. Así la tabla
+      // muestra la fuente real del tema (Suisse Works en Limited, por
+      // ejemplo) en vez de la fuente base de config.json.
+      if (config) {
+        const typoConfig = applyThemeTypographyOverrides(config, themeData);
+        const typoSection = generateTypographyHTML(typoConfig);
+        content = content.replace(/<!--\s*HG_TYPO_TABLE\s*-->/g, typoSection);
+      } else {
+        // Sin config, eliminamos el placeholder para no mostrarlo en crudo
+        content = content.replace(/<!--\s*HG_TYPO_TABLE\s*-->/g, '');
+      }
+
+      // Inyectar bloque del tema (meta + tablas de variables) si hay theme.json.
+      // Si no lo hay, quitamos el placeholder para no dejar comentarios huérfanos.
+      if (themeData) {
+        const themeBlock = generateThemeBlockHTML(themeData, config);
+        content = content.replace(/<!--\s*HG_THEME_BLOCK\s*-->/g, themeBlock);
+      } else {
+        content = content.replace(/<!--\s*HG_THEME_BLOCK\s*-->/g, '');
+      }
+
       // Ajustar rutas CSS
       content = content.replace(/href="\.\.\/\.\.\/dist\/output\.css"/g, 'href="../output.css"');
       content = content.replace(/href="\.\.\/output\.css"/g, 'href="../output.css"');
@@ -197,11 +284,17 @@ class ThemeTransformer {
       // Añadir inicialización de Lenis antes de </body>
       content = content.replace('</body>', `${LENIS_INIT_SCRIPT}\n</body>`);
       
-      // Añadir header y sidebar después del <body>
-      content = content.replace(/(<body[^>]*>)/i, '$1\n' + HEADER_AND_SIDEBAR_HTML);
-      
+      // Añadir header y sidebar después del <body>.
+      // La nav principal se construye dinámicamente a partir del tema
+      // activo, marcando su enlace con `active` y dejando los otros
+      // temas accesibles como enlaces normales. Si el build ha pasado
+      // la lista de temas activos, se respeta; si no, se cae al
+      // fallback estático THEMES_IN_NAV (compatibilidad).
+      const headerAndSidebarHTML = buildHeaderAndSidebar(themeName, themesForNav);
+      content = content.replace(/(<body[^>]*>)/i, '$1\n' + headerAndSidebarHTML);
+
       // Eliminar el título h1 del contenido si existe (ya está en el header)
-      content = content.replace(/<h1 class="demo-title">Sistema de Theming Dutti<\/h1>\s*/g, '');
+      content = content.replace(/<h1 class="demo-title">Sistema de Theming [^<]+<\/h1>\s*/g, '');
       
       // Envolver el contenido de demo-container con guide-container
       content = content.replace(

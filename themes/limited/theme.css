@@ -1,11 +1,14 @@
 /**
- * Sistema de Theming Dutti
+ * Sistema de Theming Limited
  * Basado en HolyGrail5 CSS Variables
+ *
+ * Paleta lujo cálido (dorados + crema) con tipografía 100% serif
+ * (Suisse Works en titulares y texto corrido).
  *
  * Los componentes (botones, inputs, checkboxes, radios, switches, labels,
  * forms, containers, grid, icons) son compartidos desde `themes/_base/`.
  * Para personalizar un componente SOLO en este tema, crea una copia
- * local del fichero en `themes/dutti/` y cambia su @import aquí para
+ * local del fichero en `themes/limited/` y cambia su @import aquí para
  * que apunte a esa versión en vez de a `../_base/`.
  */
 

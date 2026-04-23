@@ -25,6 +25,64 @@ const ASSETS_CONFIG = {
       source: 'src/assets/margen.webp',
       dest: 'dist/assets/margen.webp'
     }
+  ],
+  fonts: [
+    {
+      source: 'src/assets/fonts/suisse-intl-light.woff2',
+      dest: 'dist/assets/fonts/suisse-intl-light.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-light.woff',
+      dest: 'dist/assets/fonts/suisse-intl-light.woff'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-regular.woff2',
+      dest: 'dist/assets/fonts/suisse-intl-regular.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-regular.woff',
+      dest: 'dist/assets/fonts/suisse-intl-regular.woff'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-medium.woff2',
+      dest: 'dist/assets/fonts/suisse-intl-medium.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-medium.woff',
+      dest: 'dist/assets/fonts/suisse-intl-medium.woff'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-semibold.woff2',
+      dest: 'dist/assets/fonts/suisse-intl-semibold.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-semibold.woff',
+      dest: 'dist/assets/fonts/suisse-intl-semibold.woff'
+    },
+    {
+      source: 'src/assets/fonts/suisse-works-regular.woff2',
+      dest: 'dist/assets/fonts/suisse-works-regular.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-works-regular.woff',
+      dest: 'dist/assets/fonts/suisse-works-regular.woff'
+    },
+    {
+      source: 'src/assets/fonts/suisse-works-medium.woff2',
+      dest: 'dist/assets/fonts/suisse-works-medium.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-works-medium.woff',
+      dest: 'dist/assets/fonts/suisse-works-medium.woff'
+    },
+    {
+      source: 'src/assets/fonts/suisse-works-bold.woff2',
+      dest: 'dist/assets/fonts/suisse-works-bold.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-works-bold.woff',
+      dest: 'dist/assets/fonts/suisse-works-bold.woff'
+    }
   ]
 };
 
@@ -107,15 +165,32 @@ class AssetManager {
   }
 
   /**
-   * Copia todos los assets (CSS e imágenes)
-   * @param {string|Array} types - 'all', 'css', 'images', o array de tipos
+   * Copia todas las fuentes configuradas
+   * @param {boolean} silent - Si true, no muestra mensajes
+   * @returns {number} - Número de archivos copiados exitosamente
+   */
+  copyFonts(silent = false) {
+    let count = 0;
+    const fonts = this.assetsConfig.fonts || [];
+    fonts.forEach(({ source, dest }) => {
+      if (this.copyFile(source, dest, silent)) {
+        count++;
+      }
+    });
+    return count;
+  }
+
+  /**
+   * Copia todos los assets (CSS, imágenes y fuentes)
+   * @param {string|Array} types - 'all', 'css', 'images', 'fonts', o array de tipos
    * @param {boolean} silent - Si true, no muestra mensajes
    * @returns {Object} - Objeto con conteo de archivos copiados por tipo
    */
   copyAssets(types = 'all', silent = false) {
     const result = {
       css: 0,
-      images: 0
+      images: 0,
+      fonts: 0
     };
 
     if (types === 'all' || (Array.isArray(types) && types.includes('css')) || types === 'css') {
@@ -124,6 +199,10 @@ class AssetManager {
 
     if (types === 'all' || (Array.isArray(types) && types.includes('images')) || types === 'images') {
       result.images = this.copyImages(silent);
+    }
+
+    if (types === 'all' || (Array.isArray(types) && types.includes('fonts')) || types === 'fonts') {
+      result.fonts = this.copyFonts(silent);
     }
 
     return result;
@@ -145,6 +224,18 @@ class AssetManager {
    */
   addImageAsset(source, dest) {
     this.assetsConfig.images.push({ source, dest });
+  }
+
+  /**
+   * Agrega una fuente a la configuración
+   * @param {string} source - Ruta relativa al proyecto
+   * @param {string} dest - Ruta relativa al proyecto
+   */
+  addFontAsset(source, dest) {
+    if (!this.assetsConfig.fonts) {
+      this.assetsConfig.fonts = [];
+    }
+    this.assetsConfig.fonts.push({ source, dest });
   }
 }
 

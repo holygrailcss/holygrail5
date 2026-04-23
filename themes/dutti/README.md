@@ -14,27 +14,56 @@ Sistema de componentes UI basado en las variables CSS de **HolyGrail5**. Todos l
 <link rel="stylesheet" href="themes/dutti/theme.css">
 ```
 
-**Nota**: El archivo `theme.css` importa automáticamente todos los módulos. Si solo necesitas ciertos componentes, puedes importar los archivos individuales:
+**Nota**: El archivo `theme.css` importa automáticamente todos los módulos. Los componentes (botones, inputs, checkboxes, radios, switches, labels, forms, containers, grid, icons) **no viven dentro de `themes/dutti/`**: se comparten desde `themes/_base/` y el `theme.css` hace `@import url('../_base/_buttons.css')` para cada uno. Si solo necesitas ciertos componentes, puedes importarlos directamente desde `_base/`:
 
 ```html
-<!-- Solo variables y botones -->
+<!-- Solo variables del tema y botones compartidos -->
 <link rel="stylesheet" href="themes/dutti/_variables.css">
-<link rel="stylesheet" href="themes/dutti/_buttons.css">
+<link rel="stylesheet" href="themes/_base/_buttons.css">
 ```
 
 ## 📁 Estructura de Archivos
 
-El sistema está dividido en módulos para facilitar el mantenimiento:
+La carpeta del tema solo contiene **lo que hace distinto a Dutti** — el resto se hereda de `themes/_base/`:
 
-- **`theme.css`** - Archivo principal que importa todos los módulos
-- **`_variables.css`** - Variables del tema (colores, espaciados, tipografía)
-- **`_buttons.css`** - Estilos de botones
-- **`_inputs.css`** - Estilos de inputs, selects y textareas
-- **`_labels.css`** - Estilos de labels
-- **`_checkboxes.css`** - Estilos de checkboxes
-- **`_radios.css`** - Estilos de radios
-- **`_switches.css`** - Estilos de switches/toggles
-- **`_forms.css`** - Form groups, form rows y helper text
+```
+themes/
+├── _base/                # Componentes compartidos (fuente única de verdad)
+│   ├── _buttons.css
+│   ├── _inputs.css
+│   ├── _labels.css
+│   ├── _checkboxes.css
+│   ├── _radios.css
+│   ├── _switches.css
+│   ├── _forms.css
+│   ├── _containers.css
+│   ├── objects/_grid.css
+│   └── components/_icons.css
+│
+└── dutti/
+    ├── theme.json        # Meta + tokenOverrides + componentVars + design
+    ├── _variables.css    # Overrides de --hg-color-* y mapeo de componentVars (--btn-*, --input-*, …)
+    ├── theme.css         # @import de _variables.css + @import de ../_base/*.css
+    └── demo.html         # Demo interactiva (usa placeholders HG_THEME_BLOCK y HG_TYPO_TABLE)
+```
+
+Los componentes apuntan a los componentVars (`var(--btn-primary-bg)`, `var(--input-border-focus)`, …) y esos componentVars se mapean en `_variables.css` a los tokens base `--hg-color-*`. Como todos los temas comparten `_base/`, cambiar la paleta en `_variables.css` repinta automáticamente todos los componentes sin duplicar CSS.
+
+### Sobrescribir un componente SOLO en Dutti
+
+Si Dutti necesita un componente distinto al de `_base/`:
+
+1. Copia, p. ej., `themes/_base/_inputs.css` → `themes/dutti/_inputs.css` y modifícalo.
+2. En `themes/dutti/theme.css` cambia el `@import` correspondiente:
+
+   ```css
+   /* antes */
+   @import url('../_base/_inputs.css');
+   /* después */
+   @import url('_inputs.css');
+   ```
+
+El resto de componentes sigue heredando de `_base/`.
 
 ## 🎨 Componentes Disponibles
 
@@ -234,7 +263,12 @@ Mensajes de ayuda, error, éxito o advertencia:
 
 ## 🎨 Personalización
 
-Todos los componentes utilizan variables CSS de HolyGrail5. Puedes personalizar el tema editando el archivo `config.json` de HolyGrail5 y regenerando el CSS.
+Todos los componentes utilizan variables CSS de HolyGrail5. Hay **dos niveles** de personalización:
+
+1. **Globales** — edita `config.json` de HolyGrail5 (colores base, spacing, tipografías). Afecta a todos los temas.
+2. **Por tema** — edita `themes/dutti/theme.json` o `themes/dutti/_variables.css` para overridear los tokens solo para Dutti. Esto es lo que usa, por ejemplo, el tema `limited` para cambiar toda su paleta y tipografía sin tocar `config.json`.
+
+En ambos casos, después regenera con `npm run build`.
 
 ### Variables principales
 
@@ -256,14 +290,14 @@ El sistema de theming Dutti utiliza estas variables de HolyGrail5:
 - `--hg-spacing-4`, `--hg-spacing-8`, `--hg-spacing-12`, `--hg-spacing-16`, etc.
 
 #### Tipografía
-- `--hg-typo-font-family-primary`: Fuente principal
+- `--hg-typo-font-family-primary-regular`: Fuente principal
 - `--hg-typo-font-size-*`: Tamaños de fuente
 - `--hg-typo-font-weight-*`: Pesos de fuente
 - `--hg-typo-line-height-*`: Alturas de línea
 
-### Personalizar el tema
+### Personalizar globalmente (todos los temas)
 
-Para cambiar los colores, edita `config.json`:
+Para cambiar los colores base compartidos, edita `config.json`:
 
 ```json
 {
@@ -277,13 +311,25 @@ Para cambiar los colores, edita `config.json`:
 }
 ```
 
-Luego regenera el CSS:
+### Personalizar solo Dutti
 
-```bash
-npm run generate
+Para cambiar la paleta o la tipografía únicamente del tema Dutti, edita `themes/dutti/_variables.css` y añade overrides sobre los tokens base:
+
+```css
+:root {
+  --hg-color-primary: #111;
+  --hg-color-feel: #fb9962;
+  --hg-typo-font-family-primary-regular: "Inter", sans-serif;
+}
 ```
 
-Los cambios se reflejarán automáticamente en todos los componentes del tema Dutti.
+Los componentes de `themes/_base/` consumen estas variables a través del mapeo en `componentVars`, así que se repintan automáticamente sin duplicar CSS.
+
+Luego regenera:
+
+```bash
+npm run build
+```
 
 ## 📱 Responsive
 

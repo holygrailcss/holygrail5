@@ -6,7 +6,7 @@
 .input {
   display: block;
   width: 100%;
-  font-family: var(--hg-typo-font-family-primary);
+  font-family: var(--hg-typo-font-family-primary-regular);
   font-size: var(--hg-typo-font-size-13);
   font-weight: var(--hg-typo-font-weight-400);
   line-height: var(--hg-typo-line-height-1-5);
@@ -56,7 +56,7 @@
 
 .form-input-label-2,
 .error-zone {
-  font-family: var(--hg-typo-font-family-primary);
+  font-family: var(--hg-typo-font-family-primary-regular);
   position: relative;
 
   display: block;
@@ -74,7 +74,7 @@
 
 .form-input-label-2 .help,
 .error-zone .help {
-  font-family: var(--hg-typo-font-family-primary);
+  font-family: var(--hg-typo-font-family-primary-regular);
   position: relative;
   line-height: 1.5;
   font-size: 12px;
@@ -107,7 +107,7 @@
 .form-input-label-2 > label,
 .error-zone > input,
 .error-zone > label {
-  font-family: var(--hg-typo-font-family-primary);
+  font-family: var(--hg-typo-font-family-primary-regular);
   font-weight: normal;
 }
 

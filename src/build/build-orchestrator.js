@@ -5,10 +5,12 @@ const path = require('path');
 const { loadConfig } = require('../config-loader');
 const { generateCSS } = require('../css-generator');
 const { generateHTML } = require('../docs-generator/html-generator');
-const { writeFile, combineThemeCSS } = require('../generators/utils');
+const { writeFile, combineThemeCSS, resolveActiveThemes } = require('../generators/utils');
 const { AssetManager } = require('./asset-manager');
 const { ThemeTransformer } = require('./theme-transformer');
 const { generateSkillsPage } = require('./skills-generator');
+const { generateComponentsPage } = require('./components-generator');
+const { loadThemeConfig } = require('./theme-config-loader');
 
 class BuildOrchestrator {
   constructor(options = {}) {
@@ -106,10 +108,14 @@ class BuildOrchestrator {
 
   /**
    * Transforma el HTML del tema agregando sidebar y scripts
-   * @param {Object} themeConfig - Configuración del tema
+   * @param {Object} themeConfig - Configuración del tema en config.json (name + enabled)
+   * @param {Object} [fullConfig] - Config completo, para inyectar tablas dinámicas (typo, etc.)
+   * @param {Array<{name:string,label:string}>} [themesForNav] - Lista de
+   *   temas activos a exponer en la nav. Si se omite, el ThemeTransformer
+   *   cae al fallback estático.
    * @returns {boolean} - true si se transformó exitosamente
    */
-  buildThemeHTML(themeConfig) {
+  buildThemeHTML(themeConfig, fullConfig = null, themesForNav = null) {
     if (!themeConfig || !themeConfig.enabled || !themeConfig.name) {
       return false;
     }
@@ -118,12 +124,19 @@ class BuildOrchestrator {
     const sourceFile = path.join(this.projectRoot, 'themes', themeName, 'demo.html');
     const outputDir = path.dirname(this.outputPath);
     const targetFile = path.join(outputDir, 'themes', `${themeName}-demo.html`);
-    
+
+    // Cargar el theme.json del tema activo (opcional). Pasarlo al transformer
+    // permite a la demo mostrar metadatos y tablas de variables del tema.
+    const themeData = loadThemeConfig(this.projectRoot, themeName, this.silent);
+
     return this.themeTransformer.transform(
       sourceFile,
       targetFile,
       themeName,
-      this.silent
+      this.silent,
+      fullConfig,
+      themeData,
+      themesForNav
     );
   }
 
@@ -160,15 +173,48 @@ class BuildOrchestrator {
       const assetsResult = this.assetManager.copyAssets('all', this.silent);
       result.assets = assetsResult;
       
-      // 5. Generar tema si está habilitado
-      if (configData.theme) {
-        result.theme.css = this.buildThemeCSS(configData.theme);
-        result.theme.html = this.buildThemeHTML(configData.theme);
+      // 5. Generar tema(s) si están habilitados.
+      // La resolución de temas activos (soporte de `config.themes[]` +
+      // fallback a `config.theme` singular) está centralizada en
+      // `resolveActiveThemes` para que todos los generadores (HTML de
+      // guía, nav de demos, skills.html, watch-config) usen la misma
+      // lista. Devuelve entradas con `{ name, enabled:true, label }`.
+      const activeThemes = resolveActiveThemes(configData);
+
+      // La lista para la nav sólo necesita `name` + `label`; el flag
+      // `enabled` ya fue filtrado por el helper.
+      const themesForNav = activeThemes.map(t => ({ name: t.name, label: t.label }));
+
+      // Para iterar el build, necesitamos las entradas originales del
+      // config (pueden incluir flags adicionales específicos de un
+      // tema). Igual que antes, seguimos soportando la forma antigua.
+      const themeList = Array.isArray(configData.themes)
+        ? configData.themes
+        : (configData.theme ? [configData.theme] : []);
+
+      // Resultado agregado: true si AL MENOS un tema se generó correctamente.
+      // Se expone además `themes` con el detalle por tema.
+      result.theme = { css: false, html: false };
+      result.themes = [];
+
+      for (const themeConfig of themeList) {
+        const cssOk = this.buildThemeCSS(themeConfig);
+        const htmlOk = this.buildThemeHTML(themeConfig, configData, themesForNav);
+        result.themes.push({
+          name: themeConfig && themeConfig.name,
+          css: cssOk,
+          html: htmlOk
+        });
+        if (cssOk) result.theme.css = true;
+        if (htmlOk) result.theme.html = true;
       }
 
-      // 6. Generar página de skills si existe la carpeta skills/
+      // 6. Generar página de skills si existe la carpeta skills/.
+      // Pasamos el config para que la nav de skills.html enlace sólo a
+      // demos de temas realmente activos (dutti+limited por defecto,
+      // pero un consumidor puede tener sólo uno).
       try {
-        const skillsHtml = generateSkillsPage(this.projectRoot);
+        const skillsHtml = generateSkillsPage(this.projectRoot, configData);
         if (skillsHtml) {
           const distDir = path.dirname(this.outputPath);
           const skillsPath = path.join(distDir, 'skills.html');
@@ -184,7 +230,23 @@ class BuildOrchestrator {
       } catch (err) {
         if (!this.silent) console.warn('⚠️  No se pudo generar skills.html:', err.message);
       }
-      
+
+      // 7. Generar página de componentes base si existe themes/_base/.
+      // Se renderiza con el tema Dutti como base genérica (ver
+      // components-generator.js → BASE_THEME). La nav recibe la lista
+      // de temas activos para enlazar a sus demos.
+      try {
+        const componentsHtml = generateComponentsPage(this.projectRoot, configData);
+        if (componentsHtml) {
+          const distDir = path.dirname(this.outputPath);
+          const componentsPath = path.join(distDir, 'componentes.html');
+          writeFile(componentsPath, componentsHtml, 'Componentes');
+          result.components = true;
+        }
+      } catch (err) {
+        if (!this.silent) console.warn('⚠️  No se pudo generar componentes.html:', err.message);
+      }
+
       result.success = true;
       
       if (!this.silent) {

@@ -24,7 +24,7 @@ Valores numéricos del mapa (0, 4, 8, 12, 16, 24, 32, …) y porcentajes (20-per
 
 ## Tipografía
 
-- **Familias**: `--hg-typo-font-family-primary`, `--hg-typo-font-family-primary-bold`, `--hg-typo-font-family-secondary`.
+- **Familias**: `--hg-typo-font-family-primary-regular`, `--hg-typo-font-family-primary-bold`, `--hg-typo-font-family-secondary`.
 - **Pesos**: `--hg-typo-font-weight-400`, `--hg-typo-font-weight-500`, `--hg-typo-font-weight-700`, etc.
 - **Tamaños**: `--hg-typo-font-size-12`, `--hg-typo-font-size-13`, `--hg-typo-font-size-14`, etc.
 - **Line-height**: `--hg-typo-line-height-1`, `--hg-typo-line-height-1-5`, etc.

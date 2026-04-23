@@ -39,15 +39,17 @@
     <div style="display: flex; align-items: center; gap: 1rem;">
       <nav class="guide-nav">
         <a href="../index.html">Guía</a>
+        <a href="../componentes.html">Componentes</a>
         <a href="../themes/dutti-demo.html" class="active">Tema Dutti</a>
+        <a href="../themes/limited-demo.html">Tema Limited</a>
         <a href="../skills.html">Skills</a>
       </nav>
       <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
     </div>
   </div>
-  
+
   <div class="guide-sidebar-overlay" onclick="toggleSidebar()"></div>
-  
+
   <aside class="guide-sidebar">
     <div class="guide-sidebar-header">
       <div>HolyGrail5</div>
@@ -55,8 +57,13 @@
     </div>
 
     <nav class="guide-sidebar-nav">
+      <p class="guide-sidebar-title">Tema</p>
+
+      <a href="#theme-vars" class="guide-menu-item">Variables del tema</a>
+
       <p class="guide-sidebar-title">Componentes</p>
-      
+
+      <a href="#typography" class="guide-menu-item">Tipografía</a>
       <a href="#buttons" class="guide-menu-item">Botones</a>
       <a href="#inputs" class="guide-menu-item">Inputs</a>
       <a href="#checkboxes" class="guide-menu-item">Checkboxes</a>
@@ -65,7 +72,7 @@
       <a href="#forms" class="guide-menu-item">Formularios</a>
     </nav>
   </aside>
-  
+
   <script>
     function toggleSidebar() {
       const sidebar = document.querySelector('.guide-sidebar');
@@ -73,14 +80,14 @@
       sidebar.classList.toggle('open');
       overlay.classList.toggle('active');
     }
-    
+
     function closeSidebar() {
       const sidebar = document.querySelector('.guide-sidebar');
       const overlay = document.querySelector('.guide-sidebar-overlay');
       sidebar.classList.remove('open');
       overlay.classList.remove('active');
     }
-    
+
     // Hacer funciones globales
     window.toggleSidebar = toggleSidebar;
     window.closeSidebar = closeSidebar;
@@ -91,25 +98,679 @@
       <h2 class="demo-title">Dutti Theme</h2>
 
       
-      <div class="demo-section-2" >
-        <h3 > ¿Dónde se customiza el tema?</h3>
-        <div> </div>
-        <p >
-          El tema Dutti se customiza en <strong>dos niveles</strong>:
+      <div class="demo-section-2">
+        <h3>¿Dónde se customiza el tema?</h3>
+        <p class="mb-16">
+          Dutti se construye en <strong>dos capas</strong> sobre HolyGrail5:
         </p>
-        <div> </div>
 
-          <div class="mb-24">
-            <strong>Variables base (HolyGrail5) :</strong> <br> Edita <code>config.json</code> en la raíz del proyecto para cambiar colores, espaciados y tipografía base. Luego ejecuta <code>npm run build</code> para regenerar <code>dist/output.css</code>.
-          </div>
-          <div class="mb-24">
-            <strong>Variables del tema (Dutti)</strong>: <br>   Edita <code>themes/dutti/_variables.css</code> para mapear las variables de HolyGrail5 a las variables específicas del tema (ej: <code>--btn-primary-bg: var(--hg-color-primary)</code>).
-          </div>
-     
+        <div class="mb-16">
+          <strong>1. Tokens base</strong> — <code>config.json</code> define la paleta, espaciados y tipografía compartidos. <code>npm run build</code> regenera <code>dist/output.css</code>.
+        </div>
+        <div class="mb-16">
+          <strong>2. Overrides del tema</strong> — <code>themes/dutti/theme.json</code> declara los metadatos y overrides del tema. <code>themes/dutti/_variables.css</code> los materializa como CSS custom properties y mapea las variables de componente (ej. <code>--btn-primary-bg: var(--hg-color-primary)</code>).
+        </div>
+
         <p class="mb-24">
-          <strong>Archivo principal:</strong> <br> <code>themes/dutti/theme.css</code> importa automáticamente todos los módulos CSS del tema. Los componentes individuales (<code>_buttons.css</code>, <code>_inputs.css</code>, etc.) usan las variables definidas en <code>_variables.css</code>.
+          <code>themes/dutti/theme.css</code> es el punto de entrada: importa todos los módulos (<code>_buttons.css</code>, <code>_inputs.css</code>, etc.) que consumen esas variables.
         </p>
       </div>
+
+      <!-- BLOQUE DEL TEMA (meta + variables) generado en build a partir de themes/<tema>/theme.json -->
+      
+        <style>
+          .hg-theme-meta {
+            margin-bottom: 32px;
+            padding: 20px 24px;
+            border-left: 4px solid var(--hg-color-primary, #000);
+            background: var(--hg-color-bg-light, #f0f0f0);
+          }
+          .hg-theme-meta h3 { margin: 0 0 4px; font-size: 22px; font-family: arial, sans-serif; }
+          .hg-theme-meta .hg-theme-meta-line {
+            font-size: 12px; color: var(--hg-color-dark-grey, #737373);
+            text-transform: uppercase; letter-spacing: 0.06em;
+          }
+          .hg-theme-meta p { margin: 12px 0 0; font-size: 14px; line-height: 1.6; }
+          .hg-vars-group { margin: 0; }
+          .hg-vars-group h4 {
+            margin: 0 0 8px; font-family: arial, sans-serif; font-size: 14px;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            color: var(--hg-color-dark-grey, #737373);
+          }
+          /* 3 columnas verticales manuales (grid), balanceadas por item count */
+          .hg-vars-columns {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 32px;
+            font-family: arial, sans-serif;
+            font-size: 11px;
+            align-items: start;
+          }
+          @media (max-width: 960px) {
+            .hg-vars-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          }
+          @media (max-width: 600px) {
+            .hg-vars-columns { grid-template-columns: 1fr; }
+          }
+          .hg-vars-col {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-width: 0;
+          }
+          /* Lista de variables dentro del grupo: nombre izquierda, valor derecha */
+          .hg-vars-list {
+            display: flex;
+            flex-direction: column;
+          }
+          .hg-vars-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--hg-color-middle-grey, #a9a9a9);
+            min-width: 0;
+          }
+          .hg-vars-item .hg-vars-name,
+          .hg-vars-item .hg-vars-value {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+          }
+          .hg-vars-item .hg-vars-name { flex: 1 1 auto; }
+          .hg-vars-item .hg-vars-value { flex: 0 0 auto; justify-content: flex-end; text-align: right; }
+          .hg-vars-item code {
+            background: var(--hg-color-bg-light, #f0f0f0);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10.5px;
+            line-height: 1.35;
+            word-break: break-all;
+            white-space: normal;
+          }
+          .hg-vars-item .hg-vars-name code { color: #000; font-weight: 600; }
+          .hg-vars-item .hg-vars-value code { color: #333; }
+          .hg-vars-item.is-overridden .hg-vars-name code { color: var(--hg-color-feel-dark, #c94c07); }
+          .hg-vars-item .hg-vars-badge {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 1px 5px;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: var(--hg-color-feel, #fb9962);
+            color: #fff;
+            border-radius: 2px;
+          }
+          .hg-vars-swatch {
+            display: inline-block; width: 12px; height: 12px;
+            border-radius: 3px; vertical-align: middle;
+            margin-left: 6px;
+            border: 1px solid var(--hg-color-middle-grey, #a9a9a9);
+            flex-shrink: 0;
+            order: 2;
+          }
+          /* Sección de colores semánticos: swatch al final de la fila, 18x18 */
+          .hg-vars-group-semantic .hg-vars-swatch {
+            width: 18px; height: 18px;
+            margin-right: 0;
+            margin-left: 8px;
+            order: 2;
+          }
+          .hg-vars-group-semantic .hg-vars-item { padding: 7px 0; }
+          .hg-vars-group-semantic .hg-vars-value { gap: 0; }
+          .hg-vars-empty { color: var(--hg-color-middle-grey, #a9a9a9); font-style: italic; padding: 12px; }
+        </style>
+      <div class="hg-theme-meta">
+        <div class="hg-theme-meta-line">dutti · v1.0.0 · HolyGrail CSS</div>
+        <h3>Dutti</h3>
+        <p>Tema base que extiende HolyGrail5 con variables específicas para botones, inputs, formularios, switches y radios. Las variables del tema referencian los tokens de --hg-color-* y --hg-spacing-* para mantener coherencia con el design system global.</p>
+      </div>
+      <section class="demo-section" id="theme-vars">
+        <h2 class="demo-title">Variables del tema</h2>
+        <p class="mb-24">
+          Definidas en <code>themes/dutti/theme.json</code>. La fuente del CSS sigue siendo
+          <code>themes/dutti/_variables.css</code>; este JSON sirve como manifiesto del tema y para que
+          la demo muestre tablas siempre coherentes con sus tokens.
+        </p>
+        <div class="hg-vars-columns">
+      <div class="hg-vars-col">
+        <div class="hg-vars-group hg-vars-group-semantic">
+          <h4>Colores semánticos <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(12)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-orange</code></div>
+                <div class="hg-vars-value"><code>#B75D0B</code><span class="hg-vars-swatch" style="background:#B75D0B" title="#B75D0B"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-mustard</code></div>
+                <div class="hg-vars-value"><code>#FFE693</code><span class="hg-vars-swatch" style="background:#FFE693" title="#FFE693"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-primary</code></div>
+                <div class="hg-vars-value"><code>#000000</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-error</code></div>
+                <div class="hg-vars-value"><code>#dd2d01</code><span class="hg-vars-swatch" style="background:#dd2d01" title="#dd2d01"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-info</code></div>
+                <div class="hg-vars-value"><code>#2037a6</code><span class="hg-vars-swatch" style="background:#2037a6" title="#2037a6"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-success</code></div>
+                <div class="hg-vars-value"><code>#12882C</code><span class="hg-vars-swatch" style="background:#12882C" title="#12882C"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-warning</code></div>
+                <div class="hg-vars-value"><code>#ffce4e</code><span class="hg-vars-swatch" style="background:#ffce4e" title="#ffce4e"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-feel</code></div>
+                <div class="hg-vars-value"><code>#fb9962</code><span class="hg-vars-swatch" style="background:#fb9962" title="#fb9962"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-feel-dark</code></div>
+                <div class="hg-vars-value"><code>#c94c07</code><span class="hg-vars-swatch" style="background:#c94c07" title="#c94c07"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-silver</code></div>
+                <div class="hg-vars-value"><code>#87888D</code><span class="hg-vars-swatch" style="background:#87888D" title="#87888D"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-gold</code></div>
+                <div class="hg-vars-value"><code>#A38A6B</code><span class="hg-vars-swatch" style="background:#A38A6B" title="#A38A6B"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--hg-color-platinum</code></div>
+                <div class="hg-vars-value"><code>#5B7FA1</code><span class="hg-vars-swatch" style="background:#5B7FA1" title="#5B7FA1"></span></div>
+              </div>
+          </div>
+        </div>
+        <div class="hg-vars-group">
+          <h4>Componente: checkbox <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(4)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--checkbox-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--checkbox-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-middle-grey)</code><span class="hg-vars-swatch" style="background:#a9a9a9" title="#a9a9a9"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--checkbox-checked-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--checkbox-checked-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+          </div>
+        </div>
+        <div class="hg-vars-group">
+          <h4>Componente: switch <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(3)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--switch-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-middle-grey)</code><span class="hg-vars-swatch" style="background:#a9a9a9" title="#a9a9a9"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--switch-active-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--switch-thumb</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+          </div>
+        </div>
+        <div class="hg-vars-group">
+          <h4>Design tokens <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(4)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--border-radius</code></div>
+                <div class="hg-vars-value"><code>0</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--border-width</code></div>
+                <div class="hg-vars-value"><code>1px</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--border-style</code></div>
+                <div class="hg-vars-value"><code>solid</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--transition</code></div>
+                <div class="hg-vars-value"><code>all 0.2s ease</code></div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="hg-vars-col">
+        <div class="hg-vars-group">
+          <h4>Componente: btn <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(21)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-primary-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-primary-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-primary-hover-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-dark-grey)</code><span class="hg-vars-swatch" style="background:#737373" title="#737373"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-secondary-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-dark-grey)</code><span class="hg-vars-swatch" style="background:#737373" title="#737373"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-secondary-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-secondary-hover-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-middle-grey)</code><span class="hg-vars-swatch" style="background:#a9a9a9" title="#a9a9a9"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-outline-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-outline-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-outline-hover-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-outline-hover-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-ghost-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-ghost-hover-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-light-grey)</code><span class="hg-vars-swatch" style="background:#F9F9F9" title="#F9F9F9"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-feel-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-feel)</code><span class="hg-vars-swatch" style="background:#fb9962" title="#fb9962"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-feel-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-feel-hover-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-feel-dark)</code><span class="hg-vars-swatch" style="background:#c94c07" title="#c94c07"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-padding-x-sm</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-12)</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-padding-y-sm</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-8)</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-padding-x-md</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-16)</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-padding-y-md</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-12)</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-padding-x-lg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-24)</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--btn-padding-y-lg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-16)</code></div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="hg-vars-col">
+        <div class="hg-vars-group">
+          <h4>Componente: input <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(11)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-middle-grey)</code><span class="hg-vars-swatch" style="background:#a9a9a9" title="#a9a9a9"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-border-focus</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-placeholder</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-middle-grey)</code><span class="hg-vars-swatch" style="background:#a9a9a9" title="#a9a9a9"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-error-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-error)</code><span class="hg-vars-swatch" style="background:#dd2d01" title="#dd2d01"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-success-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-success)</code><span class="hg-vars-swatch" style="background:#12882C" title="#12882C"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-warning-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-warning)</code><span class="hg-vars-swatch" style="background:#ffce4e" title="#ffce4e"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-padding-x</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-16)</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-padding-y</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-12)</code></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--input-gap</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-8)</code></div>
+              </div>
+          </div>
+        </div>
+        <div class="hg-vars-group">
+          <h4>Componente: label <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(2)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--label-color</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--label-required</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-error)</code><span class="hg-vars-swatch" style="background:#dd2d01" title="#dd2d01"></span></div>
+              </div>
+          </div>
+        </div>
+        <div class="hg-vars-group">
+          <h4>Componente: radio <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(4)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--radio-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-white)</code><span class="hg-vars-swatch" style="background:#ffffff" title="#ffffff"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--radio-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-middle-grey)</code><span class="hg-vars-swatch" style="background:#a9a9a9" title="#a9a9a9"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--radio-checked-bg</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--radio-checked-border</code></div>
+                <div class="hg-vars-value"><code>var(--hg-color-primary)</code><span class="hg-vars-swatch" style="background:#000000" title="#000000"></span></div>
+              </div>
+          </div>
+        </div>
+        <div class="hg-vars-group">
+          <h4>Componente: form-group <span style="color:var(--hg-color-middle-grey, #a9a9a9);font-weight:400;">(1)</span></h4>
+          <div class="hg-vars-list">
+              <div class="hg-vars-item">
+                <div class="hg-vars-name"><code>--form-group-gap</code></div>
+                <div class="hg-vars-value"><code>var(--hg-spacing-16)</code></div>
+              </div>
+          </div>
+        </div>
+      </div>
+        </div>
+      </section>
+
+      <!-- TIPOGRAFÍA (tabla generada en build a partir de config.json → typo) -->
+            <section class="demo-section" id="typography">
+        <h2 class="demo-title">Tipografía</h2>
+        <p class="mb-24">
+          Cada fila usa la clase real generada en <code>dist/output.css</code> a partir de <code>config.json → typo</code>.
+          La columna <em>Preview</em> aplica la clase tal cual, así puedes comparar el valor numérico con el render en vivo.
+        </p>
+
+        <style>
+          .hg-typo-table-wrap { overflow-x: auto; }
+          .hg-typo-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: arial, sans-serif;
+            font-size: 13px;
+          }
+          .hg-typo-table th,
+          .hg-typo-table td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--hg-color-middle-grey, #a9a9a9);
+            vertical-align: middle;
+          }
+          .hg-typo-table thead th {
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--hg-color-dark-grey, #737373);
+            border-bottom: 2px solid var(--hg-color-middle-grey, #a9a9a9);
+            background: var(--hg-color-bg-light, #f0f0f0);
+          }
+          .hg-typo-table tbody tr:hover { background: var(--hg-color-bg-light, #f0f0f0); }
+          .hg-typo-table code {
+            background: var(--hg-color-bg-light, #f0f0f0);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+          }
+          .hg-typo-preview {
+            min-width: 180px;
+            color: var(--hg-color-primary, #1d1d1d);
+          }
+          .hg-typo-num { font-weight: 700; }
+          .hg-typo-meta { color: var(--hg-color-dark-grey, #737373); font-size: 12px; }
+          .hg-typo-empty { color: var(--hg-color-middle-grey, #a9a9a9); }
+        </style>
+
+        <div class="hg-typo-table-wrap">
+          <table class="hg-typo-table">
+            <thead>
+              <tr>
+                <th>Preview</th>
+                <th>Clase</th>
+                <th>Font family</th>
+                <th>Weight</th>
+                <th>Mobile</th>
+                <th>Desktop</th>
+                <th>Line height</th>
+                <th>Letter spacing</th>
+                <th>Text transform</th>
+              </tr>
+            </thead>
+            <tbody>
+        <tr>
+          <td class="hg-typo-preview"><span class="title-xxl">Aa Bb Cc 123</span></td>
+          <td><code>.title-xxl</code></td>
+          <td><code>primary-regular</code> <span class="hg-typo-meta">&quot;suisse-regular&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>300</td>
+          <td><span class="hg-typo-num">24px</span></td>
+          <td><span class="hg-typo-num">24px</span></td>
+          <td><span class="hg-typo-num">1</span></td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="h2">Aa Bb Cc 123</span></td>
+          <td><code>.h2</code></td>
+          <td><code>primary-bold</code> <span class="hg-typo-meta">&quot;suisse-semibold&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>600</td>
+          <td><span class="hg-typo-num">18px</span></td>
+          <td><span class="hg-typo-num">24px</span></td>
+          <td><span class="hg-typo-num">1.2</span></td>
+          <td>0rem</td>
+          <td>none</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="title-l-b">Aa Bb Cc 123</span></td>
+          <td><code>.title-l-b</code></td>
+          <td><code>primary-regular</code> <span class="hg-typo-meta">&quot;suisse-regular&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>300</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">13px</span></td>
+          <td><span class="hg-typo-num">1.4</span></td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="title-l">Aa Bb Cc 123</span></td>
+          <td><code>.title-l</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">13px</span></td>
+          <td><span class="hg-typo-num">1.4</span></td>
+          <td>0.16em</td>
+          <td>uppercase</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="title-m">Aa Bb Cc 123</span></td>
+          <td><code>.title-m</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">13px</span></td>
+          <td><span class="hg-typo-num">1.4</span></td>
+          <td>0.16em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="title-s-b">Aa Bb Cc 123</span></td>
+          <td><code>.title-s-b</code></td>
+          <td><code>primary-regular</code> <span class="hg-typo-meta">&quot;suisse-regular&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>300</td>
+          <td><span class="hg-typo-num">10px</span></td>
+          <td><span class="hg-typo-num">10px</span></td>
+          <td><span class="hg-typo-num">1.4</span></td>
+          <td>0.16em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="title-s">Aa Bb Cc 123</span></td>
+          <td><code>.title-s</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">10px</span></td>
+          <td><span class="hg-typo-num">10px</span></td>
+          <td><span class="hg-typo-num">1.4</span></td>
+          <td>0.16em</td>
+          <td>uppercase</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="text-l">Aa Bb Cc 123</span></td>
+          <td><code>.text-l</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">13px</span></td>
+          <td><span class="hg-typo-num">13px</span></td>
+          <td><span class="hg-typo-num">1.5</span></td>
+          <td>0.04em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="text-m">Aa Bb Cc 123</span></td>
+          <td><code>.text-m</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">1.5</span></td>
+          <td>0.04em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="p-tag">Aa Bb Cc 123</span></td>
+          <td><code>.p-tag</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">9px</span></td>
+          <td><span class="hg-typo-num">10px</span></td>
+          <td><span class="hg-typo-num">1</span></td>
+          <td>0.16em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="hg-body-l">Aa Bb Cc 123</span></td>
+          <td><code>.hg-body-l</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">13px</span></td>
+          <td><span class="hg-typo-num">1.5</span></td>
+          <td>0.04em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="hg-body-l-b">Aa Bb Cc 123</span></td>
+          <td><code>.hg-body-l-b</code></td>
+          <td><code>primary-regular</code> <span class="hg-typo-meta">&quot;suisse-regular&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>300</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">13px</span></td>
+          <td><span class="hg-typo-num">1.5</span></td>
+          <td>0.04em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="hg-body-m">Aa Bb Cc 123</span></td>
+          <td><code>.hg-body-m</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">1.5</span></td>
+          <td>0.04em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="hg-body-m-b">Aa Bb Cc 123</span></td>
+          <td><code>.hg-body-m-b</code></td>
+          <td><code>primary-regular</code> <span class="hg-typo-meta">&quot;suisse-regular&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>300</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">1.5</span></td>
+          <td>0.04em</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td class="hg-typo-preview"><span class="label-m">Aa Bb Cc 123</span></td>
+          <td><code>.label-m</code></td>
+          <td><code>primary-light</code> <span class="hg-typo-meta">&quot;suisse-light&quot;, Arial, Helvetica, sans-serif</span></td>
+          <td>100</td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">12px</span></td>
+          <td><span class="hg-typo-num">1</span></td>
+          <td>0.16em</td>
+          <td>uppercase</td>
+        </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <!-- BOTONES -->
       <section class="demo-section" id="buttons">

@@ -16,25 +16,29 @@
       <h2 class="demo-title">Dutti Theme</h2>
 
       
-      <div class="demo-section-2" >
-        <h3 > ¿Dónde se customiza el tema?</h3>
-        <div> </div>
-        <p >
-          El tema Dutti se customiza en <strong>dos niveles</strong>:
+      <div class="demo-section-2">
+        <h3>¿Dónde se customiza el tema?</h3>
+        <p class="mb-16">
+          Dutti se construye en <strong>dos capas</strong> sobre HolyGrail5:
         </p>
-        <div> </div>
 
-          <div class="mb-24">
-            <strong>Variables base (HolyGrail5) :</strong> <br> Edita <code>config.json</code> en la raíz del proyecto para cambiar colores, espaciados y tipografía base. Luego ejecuta <code>npm run build</code> para regenerar <code>dist/output.css</code>.
-          </div>
-          <div class="mb-24">
-            <strong>Variables del tema (Dutti)</strong>: <br>   Edita <code>themes/dutti/_variables.css</code> para mapear las variables de HolyGrail5 a las variables específicas del tema (ej: <code>--btn-primary-bg: var(--hg-color-primary)</code>).
-          </div>
-     
+        <div class="mb-16">
+          <strong>1. Tokens base</strong> — <code>config.json</code> define la paleta, espaciados y tipografía compartidos. <code>npm run build</code> regenera <code>dist/output.css</code>.
+        </div>
+        <div class="mb-16">
+          <strong>2. Overrides del tema</strong> — <code>themes/dutti/theme.json</code> declara los metadatos y overrides del tema. <code>themes/dutti/_variables.css</code> los materializa como CSS custom properties y mapea las variables de componente (ej. <code>--btn-primary-bg: var(--hg-color-primary)</code>).
+        </div>
+
         <p class="mb-24">
-          <strong>Archivo principal:</strong> <br> <code>themes/dutti/theme.css</code> importa automáticamente todos los módulos CSS del tema. Los componentes individuales (<code>_buttons.css</code>, <code>_inputs.css</code>, etc.) usan las variables definidas en <code>_variables.css</code>.
+          <code>themes/dutti/theme.css</code> es el punto de entrada: importa todos los módulos (<code>_buttons.css</code>, <code>_inputs.css</code>, etc.) que consumen esas variables.
         </p>
       </div>
+
+      <!-- BLOQUE DEL TEMA (meta + variables) generado en build a partir de themes/<tema>/theme.json -->
+      <!-- HG_THEME_BLOCK -->
+
+      <!-- TIPOGRAFÍA (tabla generada en build a partir de config.json → typo) -->
+      <!-- HG_TYPO_TABLE -->
 
       <!-- BOTONES -->
       <section class="demo-section" id="buttons">

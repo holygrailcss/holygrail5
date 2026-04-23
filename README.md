@@ -25,7 +25,10 @@ Generador de CSS + guía HTML pensado para design systems ligeros: declaras tu `
   - [7. CLI y argumentos](#7-cli-y-argumentos)
   - [8. Guía HTML interactiva](#8-guía-html-interactiva)
   - [9. Gestión de variables históricas](#9-gestión-de-variables-históricas)
-  - [10. Tema Dutti y demos](#10-tema-dutti-y-demos)
+  - [10. Temas (Dutti, Limited) y demos](#10-temas-dutti-limited-y-demos)
+    - [Arquitectura compartida: `themes/_base/`](#arquitectura-compartida-themes_base)
+    - [Crear un tema nuevo](#crear-un-tema-nuevo)
+    - [Sobrescribir un componente SOLO en un tema](#sobrescribir-un-componente-solo-en-un-tema)
     - [Flujo de desarrollo de temas](#flujo-de-desarrollo-de-temas)
   - [11. Arquitectura del sistema](#11-arquitectura-del-sistema)
     - [Módulos principales](#módulos-principales)
@@ -73,7 +76,7 @@ npm run serve
 npm run watch   # regenera al guardar config.json
 npm run dev     # watch + servidor
 
-# 4) Genera CSS y tema Dutti
+# 4) Genera CSS y todos los temas activos (Dutti, Limited, …)
 npm run build   # genera CSS, HTML, assets y temas automáticamente
 ```
 
@@ -99,7 +102,7 @@ npm run build   # genera CSS, HTML, assets y temas automáticamente
 - **`dist/index.html`** → Guía interactiva con navegación sticky, buscador y diffs visuales.
 - **`dist/guide-styles.css`** → Estilos de la guía de documentación.
 - **`dist/assets/`** → Imágenes y recursos estáticos.
-- **`dist/themes/dutti.css`** + **`dist/themes/dutti-demo.html`** → Cuando `theme.enabled` es `true`.
+- **`dist/themes/<name>.css`** + **`dist/themes/<name>-demo.html`** → Un par de ficheros por cada tema activo en `config.themes[]`. Actualmente se generan `dutti.css` / `dutti-demo.html` y `limited.css` / `limited-demo.html`.
 
 ---
 
@@ -142,13 +145,32 @@ holygrail5/
 │   ├── dev-server.js              # Servidor de desarrollo
 │   └── watch-config.js            # Sistema de watch
 │
-├── themes/
-│   └── dutti/                     # Tema de ejemplo
+├── themes/                        # Sistema de temas
+│   ├── _base/                     # Componentes compartidos (fuente única)
+│   │   ├── _buttons.css
+│   │   ├── _inputs.css
+│   │   ├── _labels.css
+│   │   ├── _checkboxes.css
+│   │   ├── _radios.css
+│   │   ├── _switches.css
+│   │   ├── _forms.css
+│   │   ├── _containers.css
+│   │   ├── objects/
+│   │   │   └── _grid.css
+│   │   └── components/
+│   │       └── _icons.css
+│   │
+│   ├── dutti/                     # Tema Dutti (paleta neutra + sans-serif)
+│   │   ├── theme.json
+│   │   ├── _variables.css
+│   │   ├── theme.css              # @imports a ../_base/*
+│   │   └── demo.html
+│   │
+│   └── limited/                   # Tema Limited (dorados + serif)
+│       ├── theme.json
 │       ├── _variables.css
-│       ├── _buttons.css
-│       ├── _inputs.css
-│       ├── demo.html
-│       └── theme.css
+│       ├── theme.css              # @imports a ../_base/*
+│       └── demo.html
 │
 ├── tests/                         # Tests unitarios
 │   ├── asset-manager.test.js
@@ -226,7 +248,7 @@ holygrail5/
 | `grid` | object | Define breakpoints, columnas y gutter por tamaño. |
 | `aspectRatios` | array | **Opcional**: Define ratios de aspecto como `.hg-aspect-16-9` con fallback automático. |
 | `typo` | object | Clases de tipografía (obligatorio al menos un breakpoint). |
-| `theme` | object | `{ name, enabled }` para combinar temas desde `themes/<name>`. |
+| `themes` | array | Lista de temas a combinar desde `themes/<name>/`. Cada entrada es `{ name, enabled }`. El `BuildOrchestrator` genera un par `dist/themes/<name>.css` + `dist/themes/<name>-demo.html` por cada tema con `enabled: true`. Por compatibilidad hacia atrás se sigue aceptando el antiguo `theme: { name, enabled }` (un único tema). |
 | `assets` | object | **Opcional**: `{ css: [...], images: [...] }` para configurar qué archivos copiar a `dist/`. |
 
 ### 6.3 Configuración de Assets (Opcional)
@@ -330,18 +352,66 @@ node src/docs-generator/variables-cli.js remove -- --hg-typo-font-size-18
 
 ---
 
-## 10. Tema Dutti y demos
+## 10. Temas (Dutti, Limited) y demos
 
-- El directorio `themes/dutti/` contiene CSS modular (_variables, _buttons, etc.) y un `demo.html` de referencia.
-- El `ThemeTransformer` combina el tema en `dist/themes/dutti.css`, transforma el HTML agregando sidebar, header y scripts de Lenis automáticamente.
-- Para crear tu propio tema copia la carpeta `themes/dutti`, ajusta los ficheros y actualiza `config.json → theme.name`.
+HolyGrail5 soporta **múltiples temas simultáneos** bajo `themes/`. El build recorre el array `config.themes[]` y, para cada entrada con `enabled: true`, produce un par `dist/themes/<name>.css` + `dist/themes/<name>-demo.html`. Por defecto vienen dos temas:
+
+- **Dutti** (`themes/dutti/`): paleta neutra con tipografía sans-serif (Suisse Intl).
+- **Limited** (`themes/limited/`): paleta de lujo cálido (dorados + crema) con tipografía 100% serif (Suisse Works).
+
+### Arquitectura compartida: `themes/_base/`
+
+Los CSS de componente (`_buttons.css`, `_inputs.css`, `_checkboxes.css`, `_radios.css`, `_switches.css`, `_labels.css`, `_forms.css`, `_containers.css`, `objects/_grid.css`, `components/_icons.css`) viven **una sola vez** en `themes/_base/` y se comparten entre todos los temas. Cada tema aporta únicamente lo que lo hace distinto:
+
+- `theme.json` — meta + `tokenOverrides.color` + `componentVars` + `design`
+- `_variables.css` — overrides de `--hg-color-*`, `--hg-typo-font-family-*` y mapeo de componentVars (`--btn-*`, `--input-*`, …) a los tokens base
+- `theme.css` — `@import` de `_variables.css` local + `@import` de los componentes de `../_base/*.css`
+- `demo.html` — demo interactiva con placeholders `HG_THEME_BLOCK` y `HG_TYPO_TABLE` que el build sustituye por las tablas de variables y tipografía del tema
+
+Como los componentes de `_base/` consumen `var(--btn-*)`, `var(--input-*)`, etc., cambiar la paleta o la tipografía en el `_variables.css` de un tema se propaga automáticamente sin tocar los componentes.
+
+### Crear un tema nuevo
+
+1. Crea `themes/<nombre>/` con los 4 ficheros descritos arriba (puedes partir copiando `themes/dutti/` o `themes/limited/` y ajustar `theme.json` y `_variables.css`).
+2. Registra el tema en `config.json`:
+
+   ```json
+   {
+     "themes": [
+       { "name": "dutti",   "enabled": true },
+       { "name": "limited", "enabled": true },
+       { "name": "<nombre>", "enabled": true }
+     ]
+   }
+   ```
+
+3. Añade una entrada a `THEMES_IN_NAV` en `src/build/theme-transformer.js` (y a los nav estáticos de `src/docs-generator/html-generator.js`, `src/build/skills-generator.js` y `src/skills.html`) para que el nuevo tema aparezca como enlace cruzado en los demos.
+4. `npm run build` → verifica `dist/themes/<nombre>.css` y `dist/themes/<nombre>-demo.html`.
+
+Para guía detallada paso a paso y plantillas completas ver `skills/theme-creator/SKILL.md`.
+
+### Sobrescribir un componente SOLO en un tema
+
+La regla es: *"si quieres un componente distinto, machácalo en el tema"*.
+
+1. Copia el CSS de `themes/_base/_inputs.css` a `themes/<nombre>/_inputs.css` y modifícalo.
+2. En `themes/<nombre>/theme.css` cambia el `@import` para apuntar al fichero local:
+
+   ```css
+   /* antes */
+   @import url('../_base/_inputs.css');
+   /* después */
+   @import url('_inputs.css');
+   ```
+
+3. El resto de componentes sigue heredando de `_base/`. Así evitas duplicar ficheros salvo cuando realmente haya override.
 
 ### Flujo de desarrollo de temas
 
-1. `npm run watch` detecta cambios en `themes/dutti/` automáticamente
-2. Los cambios en `demo.html` o archivos CSS se procesan al guardar
-3. El resultado se genera en `dist/themes/dutti-demo.html`
-4. El servidor de desarrollo (`npm run serve`) sirve los cambios en tiempo real
+1. `npm run watch` detecta cambios en `themes/` automáticamente (tanto en `_base/` como en cada tema).
+2. Los cambios en `demo.html`, `theme.css`, `_variables.css` o en los componentes compartidos se procesan al guardar.
+3. Los resultados se regeneran en `dist/themes/<name>-demo.html` y `dist/themes/<name>.css`.
+4. `npm run serve` sirve los demos en tiempo real con navegación cruzada entre todos los temas activos.
 
 ---
 

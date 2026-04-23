@@ -112,12 +112,101 @@ function combineThemeCSS(themeDir) {
   }
 }
 
+/**
+ * Devuelve la lista canónica de temas activos a partir de un config.
+ *
+ * Soporta dos formatos de configuración:
+ *   - Nuevo:  { themes: [{ name, enabled }, ...] }
+ *   - Antiguo: { theme:  { name, enabled } }
+ *
+ * Cuando hay ambos, `themes[]` tiene prioridad. Los consumidores que
+ * heredan configs antiguos siguen funcionando sin cambios. El objeto
+ * devuelto por cada tema se enriquece con `label` (capitalización del
+ * slug) para que los generadores de nav no tengan que recalcularlo.
+ *
+ * @param {Object} configData - Config ya cargado (objeto JS).
+ * @returns {Array<{name:string, enabled:boolean, label:string}>}
+ */
+function resolveActiveThemes(configData) {
+  if (!configData) return [];
+
+  const rawList = Array.isArray(configData.themes)
+    ? configData.themes
+    : (configData.theme ? [configData.theme] : []);
+
+  return rawList
+    .filter(t => t && t.enabled && t.name)
+    .map(t => ({
+      name: t.name,
+      enabled: true,
+      label: 'Tema ' + t.name.charAt(0).toUpperCase() + t.name.slice(1)
+    }));
+}
+
+/**
+ * Aplica los overrides de tipografía de un tema sobre el config base.
+ *
+ * Motivación: la tabla de tipografía lee `config.typo.*.fontFamily`
+ * (strings CSS crudos). Cuando un tema redefine las variables
+ * `--hg-typo-font-family-*` en su `_variables.css`, el Preview se
+ * renderiza con la fuente del tema (porque las variables ganan), pero
+ * las columnas "Font family" seguirían mostrando las de la base. Para
+ * que la tabla refleje lo que realmente se pinta, mapeamos cada
+ * `fontFamily` del typo a través de su alias en la fontFamilyMap base
+ * y lo sustituimos por el override del tema.
+ *
+ * Convención: el tema declara sus overrides en
+ *   theme.json → typography.fontFamilyMap
+ * con las MISMAS claves que la base (`primary-light`, `primary-regular`,
+ * `primary-bold`, `secondary`, …). Así seguimos teniendo una única
+ * fuente de verdad para la tabla y evitamos duplicar la lista de clases
+ * (`title-xxl`, `title-l`, …) en cada tema.
+ *
+ * Devuelve un NUEVO objeto (no muta el config original). Si no hay
+ * overrides, devuelve el config tal cual.
+ *
+ * @param {Object} config   - Config base (config.json parseado).
+ * @param {Object} themeData - theme.json parseado (puede ser null).
+ * @returns {Object} Config con `fontFamilyMap` y `typo.*.fontFamily` remapeados.
+ */
+function applyThemeTypographyOverrides(config, themeData) {
+  if (!config) return config;
+  const overrides =
+    themeData &&
+    themeData.typography &&
+    themeData.typography.fontFamilyMap;
+  if (!overrides || Object.keys(overrides).length === 0) return config;
+
+  const baseMap = config.fontFamilyMap || {};
+  const mergedMap = { ...baseMap, ...overrides };
+
+  const remappedTypo = {};
+  Object.entries(config.typo || {}).forEach(([className, cls]) => {
+    const alias = getFontFamilyName(cls.fontFamily, baseMap);
+    // `alias` será una clave conocida (primary-regular, …) cuando el
+    // fontFamily del typo coincida con un valor de la base. Si coincide
+    // y el tema la sobreescribe, sustituimos el fontFamily por el del
+    // tema. Si no, dejamos el string original (no hay nada que remapear).
+    const overriddenFamily =
+      overrides[alias] !== undefined ? overrides[alias] : cls.fontFamily;
+    remappedTypo[className] = { ...cls, fontFamily: overriddenFamily };
+  });
+
+  return {
+    ...config,
+    fontFamilyMap: mergedMap,
+    typo: remappedTypo
+  };
+}
+
 module.exports = {
   toKebabCase,
   pxToRem,
   remToPx,
   getFontFamilyName,
   writeFile,
-  combineThemeCSS
+  combineThemeCSS,
+  resolveActiveThemes,
+  applyThemeTypographyOverrides
 };
 

@@ -17,3 +17,8 @@
   - "fix: corregir desplazamiento en inputs (afecta a: themes/dutti/_inputs.css)"
   - "refactor: simplificar generador de variables (afecta a: src/generators/variables-generator.js)"
   - "docs: actualizar README del tema dutti (afecta a: themes/dutti/README.md)"
+
+## Privacidad y contenido sensible
+
+- No mostrar ni mencionar información de marcas/empresas sensibles solicitadas por el usuario.
+- En este proyecto, evitar explícitamente referencias a "Massimo Dutti" o "Inditex" en respuestas, resúmenes y comentarios generados por IA.

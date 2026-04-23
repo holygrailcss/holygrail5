@@ -5,6 +5,17 @@
 
 const fs = require('fs');
 const path = require('path');
+const { resolveActiveThemes } = require('../generators/utils');
+
+// Fallback usado cuando el llamador NO inyecta un config (p. ej. CLI
+// standalone `node src/build/skills-generator.js`). Permite seguir
+// generando skills.html con los temas históricos aunque falte el config
+// activo. Si el BuildOrchestrator llama a `generateSkillsPage(root, config)`,
+// este fallback queda ignorado y se usa la lista real de temas activos.
+const FALLBACK_THEMES_IN_NAV = [
+  { name: 'dutti', label: 'Tema Dutti' },
+  { name: 'limited', label: 'Tema Limited' }
+];
 
 /**
  * Parsea Markdown básico a HTML
@@ -204,8 +215,16 @@ function extractSections(md) {
 
 /**
  * Main generator
+ *
+ * @param {string} projectRoot - Raíz del proyecto (donde vive skills/).
+ * @param {Object} [configData] - config.json ya cargado. Si se pasa,
+ *   los enlaces a demos en la nav de skills.html se construyen a partir
+ *   de los temas realmente activos (`config.themes[]` o `config.theme`),
+ *   evitando enlazar a ficheros `dutti-demo.html` / `limited-demo.html`
+ *   que quizá no existan en dist/. Si se omite, se usa el fallback
+ *   histórico con Dutti + Limited para no romper ejecuciones standalone.
  */
-function generateSkillsPage(projectRoot) {
+function generateSkillsPage(projectRoot, configData = null) {
   const skillsDir = path.join(projectRoot, 'skills');
 
   if (!fs.existsSync(skillsDir)) {
@@ -235,12 +254,26 @@ function generateSkillsPage(projectRoot) {
     raw: md
   };
 
+  // Resolver temas activos para la nav. Si el llamador no pasó un
+  // config, usamos el fallback estático.
+  const activeThemes = configData
+    ? resolveActiveThemes(configData)
+    : FALLBACK_THEMES_IN_NAV;
+
   // Generate HTML
-  const html = buildPage(devGuide);
+  const html = buildPage(devGuide, activeThemes);
   return html;
 }
 
-function buildPage(skill) {
+function buildPage(skill, activeThemes = FALLBACK_THEMES_IN_NAV) {
+  // Nav de temas construida dinámicamente a partir de la lista activa.
+  // Se respeta el orden definido en config.themes[].
+  const themeNavLinks = (activeThemes && activeThemes.length > 0
+    ? activeThemes
+    : FALLBACK_THEMES_IN_NAV
+  )
+    .map(t => `      <a href="themes/${t.name}-demo.html">${t.label}</a>`)
+    .join('\n');
   const toc = skill.sections.map(sec =>
     `<a href="#${sec.id}" class="sk-toc-link">${sec.text}</a>`
   ).join('\n          ');
@@ -386,7 +419,8 @@ function buildPage(skill) {
     <a href="index.html" class="guide-logo" style="text-decoration:none;">HolyGrail5</a>
     <nav class="guide-nav">
       <a href="index.html">Guía</a>
-      <a href="themes/dutti-demo.html">Tema Dutti</a>
+      <a href="componentes.html">Componentes</a>
+${themeNavLinks}
       <a href="skills.html" class="active">Skills</a>
     </nav>
   </div>

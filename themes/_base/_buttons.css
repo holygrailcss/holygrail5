@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--hg-spacing-8);
-  font-family: var(--hg-typo-font-family-primary);
+  font-family: var(--hg-typo-font-family-primary-regular);
   font-size: var(--hg-typo-font-size-13);
   font-weight: var(--hg-typo-font-weight-400);
   line-height: var(--hg-typo-line-height-1-5);
@@ -45,7 +45,7 @@
   color: var(--hg-color-white);
   background-color: var(--hg-color-black);
   border: var(--border-width) var(--border-style) var(--hg-color-black);
-  font-family: var(--hg-typo-font-family-primary);
+  font-family: var(--hg-typo-font-family-primary-regular);
   font-weight: var(--hg-typo-font-weight-400);
 }
 

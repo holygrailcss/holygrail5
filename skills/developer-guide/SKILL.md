@@ -94,14 +94,14 @@ Definidos en `config.colors`. Cada color genera una variable `--hg-color-{nombre
 ```css
 /* Uso en CSS */
 color: var(--hg-color-primary);
-background: var(--hg-color-vanilla);
+background: var(--hg-color-bg-cream);
 border-color: var(--hg-color-error);
 
 /* Uso inline en HTML (cuando no hay clase específica) */
 <div style="color: var(--hg-color-dark-grey)">Texto</div>
 ```
 
-Colores disponibles por defecto: `white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `grey-ultra`, `orange`, `mustard`, `primary`, `error`, `info`, `success`, `warning`, `feel`, `feel-dark`, `special`, `vanilla`, `silver`, `gold`, `platinum`, `charcoal`, `bg-light`, `sk-grey`, `bg-cream`.
+Colores disponibles por defecto: `white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `grey-ultra`, `orange`, `mustard`, `primary`, `error`, `info`, `success`, `warning`, `feel`, `feel-dark`, `silver`, `gold`, `platinum`, `bg-light`, `bg-cream`.
 
 ### Spacing
 
@@ -129,7 +129,7 @@ Los valores px se convierten automáticamente a rem (base 16px).
 Las variables tipográficas se generan automáticamente y se deduplicam para evitar repeticiones:
 
 ```css
---hg-typo-font-family-primary: arial, sans-serif;
+--hg-typo-font-family-primary-regular: arial, sans-serif;
 --hg-typo-font-family-secondary: "ms-serif", serif;
 --hg-typo-font-size-12: 0.75rem;
 --hg-typo-font-size-14: 0.875rem;
@@ -393,7 +393,7 @@ Las clases son mobile-first. Los valores base aplican a mobile y un media query 
 ```css
 /* CSS generado (ejemplo) */
 .hg-h2 {
-  font-family: var(--hg-typo-font-family-primary);
+  font-family: var(--hg-typo-font-family-primary-regular);
   font-weight: var(--hg-typo-font-weight-900);
   font-size: var(--hg-typo-font-size-18);     /* mobile */
   line-height: var(--hg-typo-line-height-1-976);
@@ -570,7 +570,7 @@ Clases para mantener proporciones en contenedores.
 
 ```html
 <header class="hg-position-sticky hg-z-50 hg-d-flex hg-justify-between hg-items-center p-16"
-        style="top: 0; background: var(--hg-color-white); border-bottom: 1px solid var(--hg-color-sk-grey);">
+        style="top: 0; background: var(--hg-color-white); border-bottom: 1px solid var(--hg-color-middle-grey);">
   <span class="hg-title-l-b">Logo</span>
   <nav class="hg-d-flex hg-gap-24">
     <a class="hg-text-m" href="#">Inicio</a>
@@ -585,7 +585,7 @@ Clases para mantener proporciones en contenedores.
 ```html
 <div class="row">
   <aside class="col-xs-12 col-md-3 hg-d-none md:hg-d-block p-16"
-         style="border-right: 1px solid var(--hg-color-sk-grey);">
+         style="border-right: 1px solid var(--hg-color-middle-grey);">
     <nav class="hg-d-flex hg-flex-column hg-gap-8">
       <a class="hg-text-m" href="#">Sección 1</a>
       <a class="hg-text-m" href="#">Sección 2</a>
@@ -601,7 +601,7 @@ Clases para mantener proporciones en contenedores.
 ### Footer multicolumna
 
 ```html
-<footer class="pt-48 pb-24" style="background: var(--hg-color-charcoal); color: var(--hg-color-white);">
+<footer class="pt-48 pb-24" style="background: var(--hg-color-grey-ultra); color: var(--hg-color-white);">
   <div class="row hg-px-16 md:hg-px-32 hg-gap-24">
     <div class="col-xs-12 col-md-4">
       <h4 class="hg-title-l-b" style="color: var(--hg-color-white);">Empresa</h4>

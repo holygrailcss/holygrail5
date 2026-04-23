@@ -36,7 +36,7 @@ En los CSS del tema **no** uses valores fijos (px, hex, nombres de fuente). Usa 
 |-----------|----------|
 | Colores | `var(--hg-color-primary)`, `--hg-color-white`, `--hg-color-error` |
 | Espaciado | `var(--hg-spacing-8)`, `var(--hg-spacing-16)` |
-| Tipografía familia | `var(--hg-typo-font-family-primary)`, `var(--hg-typo-font-family-primary-bold)` |
+| Tipografía familia | `var(--hg-typo-font-family-primary-regular)`, `var(--hg-typo-font-family-primary-bold)` |
 | Tipografía peso | `var(--hg-typo-font-weight-400)`, `var(--hg-typo-font-weight-700)` |
 | Tipografía tamaño | `var(--hg-typo-font-size-13)`, `var(--hg-typo-font-size-14)` |
 | Line-height | `var(--hg-typo-line-height-1-5)` |
@@ -63,7 +63,7 @@ Para detalles de clases, atributos y ejemplos HTML, consultar [reference.md](ref
 
 ## Añadir fuentes (font-family)
 
-Las familias se definen en `config.json` → `fontFamilyMap`. Cada clave se expone como `--hg-typo-font-family-{clave}` (ej. `primary` → `--hg-typo-font-family-primary`, `primary-bold` → `--hg-typo-font-family-primary-bold`). Añadir o cambiar una fuente: editar `fontFamilyMap` y ejecutar `npm run build`.
+Las familias se definen en `config.json` → `fontFamilyMap`. Cada clave se expone como `--hg-typo-font-family-{clave}` (ej. `primary` → `--hg-typo-font-family-primary-regular`, `primary-bold` → `--hg-typo-font-family-primary-bold`). Añadir o cambiar una fuente: editar `fontFamilyMap` y ejecutar `npm run build`.
 
 ## Build y salidas
 

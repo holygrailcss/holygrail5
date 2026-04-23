@@ -2,169 +2,15 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { pxToRem, remToPx, getFontFamilyName } = require('../generators/utils');
+const { pxToRem, remToPx, getFontFamilyName, resolveActiveThemes } = require('../generators/utils');
 const { buildValueMap } = require('../css-generator');
-// Lee los valores anteriores guardados en un archivo JSON
-function loadPreviousValues(previousValuesPath) {
-  try {
-    if (fs.existsSync(previousValuesPath)) {
-      const content = fs.readFileSync(previousValuesPath, 'utf8');
-      return JSON.parse(content);
-    }
-  } catch (error) {
-    // Si no existe o hay error, devuelve null
-  }
-  return null;
-}
-// Guarda los valores actuales para la próxima comparación
-function saveCurrentValues(currentValues, previousValuesPath) {
-  try {
-    const dir = path.dirname(previousValuesPath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(previousValuesPath, JSON.stringify(currentValues, null, 2), 'utf8');
-  } catch (error) {
-    console.warn('⚠️  No se pudo guardar los valores anteriores:', error.message);
-  }
-}
-// Compara valores actuales con anteriores y devuelve un mapa de cambios
-function getChangedValues(currentValues, previousValues) {
-  const changes = new Set();
-  // Si no hay valores previos, no marca nada como cambiado (primera ejecución o build limpio)
-  // Solo se marcarán cambios cuando haya valores previos para comparar
-  if (!previousValues) {
-    return changes;
-  }
-  // Compara breakpoints
-  if (currentValues.breakpoints) {
-    if (!previousValues.breakpoints) {
-      changes.add('breakpoints.mobile');
-      changes.add('breakpoints.desktop');
-    } else {
-      if (currentValues.breakpoints.mobile !== previousValues.breakpoints.mobile) {
-        changes.add('breakpoints.mobile');
-      }
-      if (currentValues.breakpoints.desktop !== previousValues.breakpoints.desktop) {
-        changes.add('breakpoints.desktop');
-      }
-    }
-  }
-  // Compara fontFamilyMap
-  if (currentValues.fontFamilyMap) {
-    const currentFontMap = currentValues.fontFamilyMap;
-    const previousFontMap = previousValues.fontFamilyMap || {};
-    // Compara cada fuente en el mapa
-    Object.keys(currentFontMap).forEach(fontName => {
-      const currentVal = currentFontMap[fontName];
-      const previousVal = previousFontMap[fontName];
-      if (currentVal !== previousVal) {
-        changes.add(`fontFamilyMap.${fontName}`);
-      }
-    });
-    // Detecta fuentes eliminadas
-    Object.keys(previousFontMap).forEach(fontName => {
-      if (!currentFontMap[fontName]) {
-        changes.add(`fontFamilyMap.${fontName}`);
-      }
-    });
-  }
-  // Compara spacingMap
-  if (currentValues.spacingMap) {
-    const currentSpacingMap = currentValues.spacingMap;
-    const previousSpacingMap = previousValues.spacingMap || {};
-    // Compara cada valor de spacing en el mapa
-    Object.keys(currentSpacingMap).forEach(spacingKey => {
-      const currentVal = currentSpacingMap[spacingKey];
-      const previousVal = previousSpacingMap[spacingKey];
-      if (currentVal !== previousVal) {
-        changes.add(`spacingMap.${spacingKey}`);
-      }
-    });
-    // Detecta valores de spacing eliminados
-    Object.keys(previousSpacingMap).forEach(spacingKey => {
-      if (!currentSpacingMap[spacingKey]) {
-        changes.add(`spacingMap.${spacingKey}`);
-      }
-    });
-  }
-  // Compara colors
-  if (currentValues.colors) {
-    const currentColors = currentValues.colors;
-    const previousColors = previousValues.colors || {};
-    // Compara cada color en el mapa
-    Object.keys(currentColors).forEach(colorKey => {
-      const currentVal = currentColors[colorKey];
-      const previousVal = previousColors[colorKey];
-      if (currentVal !== previousVal) {
-        changes.add(`colors.${colorKey}`);
-      }
-    });
-    // Detecta colores eliminados
-    Object.keys(previousColors).forEach(colorKey => {
-      if (!currentColors[colorKey]) {
-        changes.add(`colors.${colorKey}`);
-      }
-    });
-  }
-  // Compara cada clase
-  const currentClasses = currentValues.typo || currentValues;
-  const previousClasses = previousValues.typo || previousValues;
-  Object.keys(currentClasses).forEach(className => {
-    const current = currentClasses[className];
-    const previous = previousClasses[className];
-    if (!previous) {
-      // Nueva clase, marca todo como cambiado
-      Object.keys(current).forEach(prop => {
-        if (prop !== 'mobile' && prop !== 'desktop') {
-          changes.add(`${className}.${prop}`);
-        }
-      });
-      return;
-    }
-    // Compara propiedades base
-    ['fontFamily', 'fontWeight', 'letterSpacing', 'textTransform'].forEach(prop => {
-      const currentVal = current[prop];
-      const previousVal = previous[prop];
-      if (currentVal !== previousVal) {
-        changes.add(`${className}.${prop}`);
-      }
-    });
-    // Compara propiedades de breakpoints
-    ['mobile', 'desktop'].forEach(bp => {
-      if (current[bp]) {
-        if (!previous[bp]) {
-          // Nuevo breakpoint
-          if (current[bp].fontSize) changes.add(`${className}.${bp}.fontSize`);
-          if (current[bp].lineHeight) changes.add(`${className}.${bp}.lineHeight`);
-        } else {
-          // Compara fontSize y lineHeight
-          if (current[bp].fontSize !== previous[bp]?.fontSize) {
-            changes.add(`${className}.${bp}.fontSize`);
-          }
-          if (current[bp].lineHeight !== previous[bp]?.lineHeight) {
-            changes.add(`${className}.${bp}.lineHeight`);
-          }
-        }
-      }
-    });
-  });
-  // Compara variables CSS compartidas
-  if (currentValues.variables) {
-    const currentVars = currentValues.variables;
-    const previousVars = previousValues.variables || {};
-    // Detecta nuevas variables o variables con valores cambiados
-    Object.keys(currentVars).forEach(varName => {
-      const currentVal = currentVars[varName];
-      const previousVal = previousVars[varName];
-      // Si no existía antes o el valor cambió, marca como cambiado
-      if (previousVal === undefined || currentVal !== previousVal) {
-        changes.add(`variable.${varName}`);
-      }
-    });
-  }
-  return changes;
-}
+const { generateTypographyHTML } = require('../build/typo-table-generator');
+const {
+  loadPreviousValues,
+  saveCurrentValues,
+  getChangedValues
+} = require('./value-tracker');
+const { generateColorsGridHTML } = require('./sections/colors-section');
 // Obtiene el autor del último commit de git
 function getLastCommitAuthor() {
   try {
@@ -366,35 +212,62 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>` : '';
-      // Generar tabla de variables
-      const variableRows = allVariables.map(variable => {
-        const remValue = variable.value.match(/^([\d.]+)rem$/) ? variable.value : '-';
-        const pxValue = remValue !== '-' ? remToPx(variable.value, baseFontSize) : '-';
+      // Generar items de variables agrupados por categoría.
+      // Sólo las categorías cuyo valor puede expresarse en rem/px
+      // (spacing y font-size) muestran la columna de conversión;
+      // el resto se renderiza con una única columna de valor.
+      const VAR_GROUPS = [
+        { id: 'font-family',    label: 'Font family',    prefix: '--hg-typo-font-family-',    showUnits: false },
+        { id: 'font-weight',    label: 'Font weight',    prefix: '--hg-typo-font-weight-',    showUnits: false },
+        { id: 'line-height',    label: 'Line height',    prefix: '--hg-typo-line-height-',    showUnits: false },
+        { id: 'letter-spacing', label: 'Letter spacing', prefix: '--hg-typo-letter-spacing-', showUnits: false },
+        { id: 'text-transform', label: 'Text transform', prefix: '--hg-typo-text-transform-', showUnits: false },
+        { id: 'font-size',      label: 'Font size',      prefix: '--hg-typo-font-size-',      showUnits: true  },
+        { id: 'spacing',        label: 'Spacing',        prefix: '--hg-spacing-',             showUnits: true  },
+        { id: 'color',          label: 'Color',          prefix: '--hg-color-',               showUnits: false }
+      ];
+      const isRemValue = v => /^([\d.]+)rem$/.test(String(v || ''));
+      const isColorValue = v => /^(#|rgb|hsl)/i.test(String(v || ''));
+      const renderVarItem = (variable, showUnits) => {
         const isVariableChanged = changedValues.has(`variable.${variable.name}`);
+        const changedCls = isVariableChanged ? 'guide-changed' : '';
+        const canConvert = showUnits && isRemValue(variable.value);
+        const isColorVar = variable.name.startsWith('--hg-color-') && isColorValue(variable.value);
+        // Para variables con conversión (spacing / font-size) mostramos rem + px
+        // (sin duplicar el rem en una columna aparte). Para el resto, solo el valor.
+        // Para variables de color añadimos un swatch a la derecha del valor.
+        const swatchHTML = isColorVar
+          ? `<span class="guide-variable-swatch" style="background:${variable.value}" title="${variable.value}"></span>`
+          : '';
+        const valueHTML = canConvert
+          ? `<span class="guide-value-center-blue guide-copyable ${changedCls}" data-copy-value="${variable.value}" title="Click para copiar ${variable.value}">${variable.value}</span>
+             <span class="guide-value-center-orange guide-copyable ${changedCls}" data-copy-value="${remToPx(variable.value, baseFontSize)}" title="Click para copiar ${remToPx(variable.value, baseFontSize)}">${remToPx(variable.value, baseFontSize)}</span>`
+          : `<span class="guide-variable-value guide-copyable ${changedCls}" data-copy-value="${variable.value}" title="Click para copiar ${variable.value}">${variable.value}</span>`;
         return `
-          <tr>
-            <td class="guide-table-name guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${variable.name}" title="Click para copiar ${variable.name}">${variable.name}</td>
-            <td class="guide-table-value guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${variable.value}" title="Click para copiar ${variable.value}">${variable.value}</td>
-            <td class="guide-value-center-blue guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${remValue}" title="Click para copiar ${remValue}">${remValue}</td>
-            <td class="guide-value-center-orange guide-copyable ${isVariableChanged ? 'guide-changed' : ''}" data-copy-value="${pxValue}" title="Click para copiar ${pxValue}">${pxValue}</td>
-          </tr>`;
-      }).join('');
+          <div class="guide-variable-item">
+            <span class="guide-variable-name guide-copyable ${changedCls}" data-copy-value="${variable.name}" title="Click para copiar ${variable.name}">${variable.name}</span>
+            <span class="guide-variable-values">${valueHTML}${swatchHTML}</span>
+          </div>`;
+      };
+      const groupsHTML = VAR_GROUPS.map(group => {
+        const items = allVariables.filter(v => v.name && v.name.startsWith(group.prefix));
+        if (!items.length) return '';
+        const itemsHTML = items.map(v => renderVarItem(v, group.showUnits)).join('');
+        return `
+        <div class="guide-variables-group">
+          <h4 class="guide-variables-group-title">${group.label} <span class="guide-variables-group-count">(${items.length})</span></h4>
+          <div class="guide-variables-group-list">
+            ${itemsHTML}
+          </div>
+        </div>`;
+      }).filter(Boolean).join('');
   const variablesTableHTML = `
-    <div class="guide-table-wrapper">
-      <table class="guide-table">
-        <thead>
-          <tr>
-            <th>Variable CSS</th>
-            <th>Valor</th>
-            <th>Rem</th>
-            <th>Píxeles</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${variableRows}
-        </tbody>
-      </table>
+    <div class="guide-variables-grid">
+      ${groupsHTML}
     </div>`;
+  // Tabla de tipografía: reutilizamos el mismo generator que usa el bloque
+  // HG_TYPO_TABLE en las demos de tema para que el origen de verdad sea uno solo.
+  const typoTableHTML = generateTypographyHTML(configData);
   // Valores para las filas de resumen (Legacy y moderna)
   const spacingNumericKeysLegacy = configData.spacingMap ? Object.keys(configData.spacingMap).filter(k => !k.endsWith('-percent')).join(', ') : '';
   const spacingPercentKeysLegacy = configData.spacingMap ? Object.keys(configData.spacingMap).filter(k => k.endsWith('-percent')).map(k => k.replace(/-percent$/, '')).join(', ') : '';
@@ -645,42 +518,12 @@ function generateHTML(configData, previousValuesPath = null) {
         </tbody>
       </table>
     </div>` : '';
-      // Clasificación primarios (blancos, grises, negros, fondos neutros) vs semánticos
-      const primaryColorKeys = configData.colorsPrimaryKeys || Object.keys(configData.colors || {}).filter(k =>
-        k === 'white' || k === 'black' || /grey|gray/i.test(k) || ['bg-light', 'bg-cream', 'sk-grey', 'orange', 'mustard'].includes(k)
-      );
-      const semanticColorKeys = configData.colors ? Object.keys(configData.colors).filter(k => !primaryColorKeys.includes(k)) : [];
-      const renderColorCard = (key, value) => {
-        const varName = `--${prefix}-color-${key}`;
-        const isChanged = changedValues.has(`colors.${key}`);
-        const normalizedValue = value.trim().toLowerCase();
-        const isLight = normalizedValue === '#ffffff' || normalizedValue === '#f0f0f0' || normalizedValue === '#f4f2ed' || normalizedValue === '#e3e3e3';
-        const opaqueValue = normalizedValue.length === 7 ? normalizedValue : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
-        return `
-          <div class="guide-color-card" data-copy-value="${varName}" title="Click para copiar ${varName}">
-            <div class="guide-color-preview" style="--color-value: ${opaqueValue};">
-              ${isLight ? `<div class="guide-color-pattern"></div>` : ''}
-            </div>
-            <div class="guide-color-card-content">
-              <div class="guide-color-name">${key}</div>
-              <div class="guide-color-var-name" data-copy-value="${varName}" title="Click para copiar ${varName}">${varName}</div>
-              <div class="guide-color-value ${isChanged ? 'guide-changed' : ''}" data-copy-value="${value}" title="Click para copiar ${value}">${value}</div>
-            </div>
-          </div>`;
-      };
-      const colorsGridPrimaryHTML = configData.colors && primaryColorKeys.length > 0 ? `
-        <h3 class="guide-colors-subtitle title-m mb-16">Colores primarios</h3>
-        <p class="guide-section-description mb-24">Blancos, negros, grises y fondos neutros.</p>
-        <div class="guide-colors-grid">
-          ${primaryColorKeys.filter(k => configData.colors[k]).map(key => renderColorCard(key, configData.colors[key])).join('')}
-        </div>` : '';
-      const colorsGridSemanticHTML = configData.colors && semanticColorKeys.length > 0 ? `
-        <h3 class="guide-colors-subtitle title-m mb-16 mt-48">Colores semánticos</h3>
-        <p class="guide-section-description mb-24">Colores por significado (marca, estados, feedback).</p>
-        <div class="guide-colors-grid">
-          ${semanticColorKeys.map(key => renderColorCard(key, configData.colors[key])).join('')}
-        </div>` : '';
-      const colorsGridHTML = configData.colors ? (colorsGridPrimaryHTML + colorsGridSemanticHTML) : '';
+      // Sección "Colores" → extraída a ./sections/colors-section.js.
+      // Usa `changedValues` (Set compartido con el resto del generador)
+      // para marcar diffs, y `prefix` para construir los nombres de
+      // variables CSS. Devuelve string vacío si no hay colores, lo que
+      // hace que la lógica de menú más abajo omita la entrada.
+      const colorsGridHTML = generateColorsGridHTML(configData, prefix, changedValues);
       // Construir menú lateral
       const menuItems = [];
       if (colorsGridHTML) {
@@ -706,17 +549,23 @@ function generateHTML(configData, previousValuesPath = null) {
         menuItems.push({ id: 'ratios', label: 'Ratios de Aspecto' });
       }
       menuItems.push({ id: 'breakpoints', label: 'Breakpoints' });
-      if (configData.theme && configData.theme.enabled) {
+      // Lista canónica de temas activos (soporta tanto `themes[]` como
+      // el antiguo `theme` singular). Toda la lógica de nav se deriva
+      // de aquí para evitar referencias hardcodeadas a dutti/limited.
+      const activeThemes = resolveActiveThemes(configData);
+      if (activeThemes.length > 0) {
         menuItems.push({ id: 'containers', label: 'Containers' });
       }
       const menuHTML = menuItems.map(item => `
         <a href="#${item.id}" class="guide-menu-item" data-section="${item.id}">${item.label}</a>
       `).join('');
-      // Añadir enlace al demo del tema si está habilitado
-      const themeDemoLink = (configData.theme && configData.theme.enabled && configData.theme.name) 
+      // Añadir un enlace al demo por cada tema activo. Si no hay
+      // ningún tema habilitado, la sección queda vacía y no se inyecta
+      // el separador, para no dejar un <hr> suelto al final.
+      const themeDemoLink = activeThemes.length > 0
         ? `
       <hr style="margin: 1rem 0; border: none; border-top: 1px solid #ddd;">
-        <a href="themes/${configData.theme.name}-demo.html" class="guide-menu-item" style="color: #000000; font-weight: 600;"> Tema ${configData.theme.name.charAt(0).toUpperCase() + configData.theme.name.slice(1)}</a>
+${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html" class="guide-menu-item" style="color: #000000; font-weight: 600;"> ${t.label}</a>`).join('\n')}
       `
         : '';
       return `<!DOCTYPE html>
@@ -788,7 +637,6 @@ function generateHTML(configData, previousValuesPath = null) {
   </aside>
       <div class="guide-header">
     <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 0;">
-      <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
       <div class="guide-search-container" style="flex: 1; max-width: 360px;">
         <input
           type="text"
@@ -817,11 +665,15 @@ function generateHTML(configData, previousValuesPath = null) {
       </div>
       <div id="search-results" class="guide-search-results"></div>
     </div>
-    <nav class="guide-nav" style="text-transform: uppercase; letter-spacing: 0.05em;">
-      <a href="index.html" class="active">Guía</a>
-      <a href="themes/dutti-demo.html">Tema</a>
-      <a href="skills.html">Skills</a>
-    </nav>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <nav class="guide-nav" style="text-transform: uppercase; letter-spacing: 0.05em;">
+        <a href="index.html" class="active">Guía</a>
+        <a href="componentes.html">Componentes</a>
+${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}</a>`).join('\n')}
+        <a href="skills.html">Skills</a>
+      </nav>
+      <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
+    </div>
     </div>
   <main class="guide-main-content">
 <div class="guide-container">
@@ -885,7 +737,7 @@ function generateHTML(configData, previousValuesPath = null) {
               </div>
               <div class="guide-typeface-info-item">
                 <div class="guide-typeface-label">WEIGHT</div>
-                <div class="guide-typeface-value">Regular, Medium, Semibold</div>
+                <div class="guide-typeface-value">Light, Regular, Medium, Semibold</div>
               </div>
             </div>
           </div>
@@ -903,17 +755,11 @@ function generateHTML(configData, previousValuesPath = null) {
     </div>
     ` : ''}
     <div class="guide-section" id="tipografia">
-    <div class="row mb-120">
-    <div class="col-xs-12 col-md-6"> <h2>Hierarchy</h2> </div>
-    <div class="col-xs-12 col-md-6 guide-section-description">
-      <p class="">
-        Clases de tipografía disponibles.
-      </p> </div>
-    <div class="col-xs-12 col-md-12">
-    <hr>
+      <div class="guide-section-content">
+        ${typoTableHTML}
+      </div>
     </div>
-    </div>
-    
+
     ${spacingHelpersTableHTML ? `
     <div class="guide-section" id="spacing">
     <div class="row mb-120">
@@ -1346,13 +1192,13 @@ function generateHTML(configData, previousValuesPath = null) {
         </div>
       </div>
     </div>
-    ${configData.theme && configData.theme.enabled ? `
+    ${activeThemes.length > 0 ? `
     <div class="guide-section" id="containers">
     <div class="row mb-120">
     <div class="col-xs-12 col-md-6"> <h2>Containers</h2> </div>
     <div class="col-xs-12 col-md-6 guide-section-description">
       <p>
-        Contenedores responsivos del tema ${configData.theme.name ? configData.theme.name.charAt(0).toUpperCase() + configData.theme.name.slice(1) : 'activo'}. Cada container define un <code>max-width</code> y padding adaptativo según breakpoint.
+        Contenedores responsivos ${activeThemes.length === 1 ? 'del tema ' + activeThemes[0].label.replace(/^Tema\s+/, '') : 'de los temas activos'}. Cada container define un <code>max-width</code> y padding adaptativo según breakpoint.
       </p>
     </div>
     <div class="col-xs-12 col-md-12"><hr></div>
