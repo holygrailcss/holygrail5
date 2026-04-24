@@ -198,7 +198,8 @@ function generateClassCSS(className, cls, breakpointName, valueMap, prefix, cate
       varName = getSharedVarName(prop, props[prop], prefix, category);
     }
     
-    cssProps.push(`    ${toKebabCase(prop)}: var(${varName});`);
+    const importantFlag = prop === 'lineHeight' ? ' !important' : '';
+    cssProps.push(`    ${toKebabCase(prop)}: var(${varName})${importantFlag};`);
   });
   
   return cssProps.length ? `  .${className} {\n${cssProps.join('\n')}\n  }` : '';

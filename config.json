@@ -876,6 +876,48 @@
         "fontSize": "12px",
         "lineHeight": "1"
       }
+    },
+    "label-m-b": {
+      "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
+      "fontWeight": "300",
+      "letterSpacing": "0.16em",
+      "textTransform": "uppercase",
+      "mobile": {
+        "fontSize": "12px",
+        "lineHeight": "1"
+      },
+      "desktop": {
+        "fontSize": "12px",
+        "lineHeight": "1"
+      }
+    },
+    "label-s": {
+      "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
+      "fontWeight": "100",
+      "letterSpacing": "0.06em",
+      "textTransform": "uppercase",
+      "mobile": {
+        "fontSize": "10px",
+        "lineHeight": "1"
+      },
+      "desktop": {
+        "fontSize": "10px",
+        "lineHeight": "1"
+      }
+    },
+    "label-s-b": {
+      "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
+      "fontWeight": "300",
+      "letterSpacing": "0.06em",
+      "textTransform": "uppercase",
+      "mobile": {
+        "fontSize": "10px",
+        "lineHeight": "1"
+      },
+      "desktop": {
+        "fontSize": "10px",
+        "lineHeight": "1"
+      }
     }
   }
 }
