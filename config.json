@@ -538,6 +538,16 @@
         "justify": "justify"
       }
     },
+    "text-decoration": {
+      "property": "text-decoration",
+      "class": "text",
+      "responsive": false,
+      "description": "Decoración del texto (subrayado, etc.)",
+      "values": {
+        "underline": "underline",
+        "none": "none"
+      }
+    },
     "position": {
       "property": "position",
       "class": "position",

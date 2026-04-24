@@ -275,11 +275,14 @@ h2 {
   align-items: center;
 }
 .guide-nav a {
+  font-family: var(--hg-typo-font-family-primary-regular);
   font-size: 13px;
   color: #666;
   text-decoration: none;
   transition: color 0.2s;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 .guide-nav a:hover {
   color: #000;

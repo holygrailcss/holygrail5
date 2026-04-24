@@ -666,7 +666,7 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html" class="gui
       <div id="search-results" class="guide-search-results"></div>
     </div>
     <div style="display: flex; align-items: center; gap: 1rem;">
-      <nav class="guide-nav" style="text-transform: uppercase; letter-spacing: 0.05em;">
+      <nav class="guide-nav">
         <a href="index.html" class="active">Guía</a>
         <a href="componentes.html">Componentes</a>
 ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}</a>`).join('\n')}

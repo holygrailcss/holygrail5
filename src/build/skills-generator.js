@@ -314,7 +314,11 @@ function buildPage(skill, activeThemes = FALLBACK_THEMES_IN_NAV) {
       text-decoration: none; color: #000; width: max-content;
     }
     .guide-nav { display: flex; gap: 1.5rem; align-items: center; }
-    .guide-nav a { font-size: 13px; color: #666; text-decoration: none; transition: color 0.2s; }
+    .guide-nav a {
+      font-family: var(--hg-typo-font-family-primary-regular);
+      font-size: 13px; color: #666; text-decoration: none;
+      transition: color 0.2s; text-transform: uppercase; letter-spacing: 0.05em;
+    }
     .guide-nav a:hover { color: #000; }
     .guide-nav a.active { color: #000; font-weight: 600; }
 
