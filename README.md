@@ -45,6 +45,15 @@ Generador de CSS + guía HTML pensado para design systems ligeros: declaras tu `
     - [Contribuir](#contribuir)
   - [15. Licencia](#15-licencia)
   - [Changelog](#changelog)
+    - [v1.0.21 - Mayo 2026](#v1021---mayo-2026)
+    - [v1.0.20 - Abril 2026](#v1020---abril-2026)
+    - [v1.0.19 - Abril 2026](#v1019---abril-2026)
+    - [v1.0.18 - Abril 2026](#v1018---abril-2026)
+    - [v1.0.17 - Febrero 2026](#v1017---febrero-2026)
+    - [v1.0.16 - Febrero 2026](#v1016---febrero-2026)
+    - [v1.0.15 - Febrero 2026](#v1015---febrero-2026)
+    - [v1.0.14 - Febrero 2026](#v1014---febrero-2026)
+    - [v1.0.13 - Febrero 2026](#v1013---febrero-2026)
     - [v1.0.12 - Diciembre 2024](#v1012---diciembre-2024)
 
 ---
@@ -546,6 +555,60 @@ Usa, adapta y comparte libremente mientras conserves la atribución.
 ---
 
 ## Changelog
+
+### v1.0.21 - Mayo 2026
+
+- Ajustes en `typo-generator`: refinamiento de la generación de tablas tipográficas y casos límite del placeholder `HG_TYPO_TABLE`.
+
+### v1.0.20 - Abril 2026
+
+- Actualización de labels en la guía y demos (etiquetas de utilidades y secciones).
+- Nuevas clases tipográficas y sus estilos asociados (`config.json`, `typo-generator.js`, demo de Dutti).
+
+### v1.0.19 - Abril 2026
+
+- Bump de versión y mantenimiento de `package.json`.
+
+### v1.0.18 - Abril 2026
+
+- Refactor amplio bajo el commit "cambios hg5":
+  - Reorganización de skills (`.claude/skills`, `.cursor/skills/maquetar-holygrail5`) y `.cursorrules`.
+  - Fuentes Suisse Intl y Suisse Works incorporadas en `src/assets/fonts/`.
+  - Documentación nueva en `docs/`: `ANALISIS-ARQUITECTURA.md`, `ANALISIS-DESIGN-SYSTEM.md`, `CHANGELOG-MEJORAS.md`, `ESTRUCTURA-CSS.md`, `GUIA-USO-OTRO-PROYECTO.md`, `SUPERPROMPT.md`.
+  - Ajustes en `asset-manager.js`, `build-orchestrator.js`, `components-generator.js` y `guide-styles.css`.
+- Nueva clase de botón **badge** y documentación asociada en el tema Dutti.
+- Tarjeta de producto y ajustes de `margin-left` y configuración del grid.
+
+### v1.0.17 - Febrero 2026
+
+- Nueva release con limpieza general y consolidación de cambios previos.
+
+### v1.0.16 - Febrero 2026
+
+- Botón **badge** inicial (variantes y estilos personalizados).
+
+### v1.0.15 - Febrero 2026
+
+- Nuevo botón con estilos personalizados (`themes/dutti/_buttons.css`, `dutti-demo.html`).
+
+### v1.0.14 - Febrero 2026
+
+- Limpieza: eliminados estilos duplicados traspasados desde HG2.
+- Mejoras en grids (`Grids`).
+- Cambio del color verde y nuevo skill para estructura de archivos CSS.
+- Ajuste de columnas (`cambios cols`).
+
+### v1.0.13 - Febrero 2026
+
+- Refactor de la guía: ajustes de estilos y estructura (`guide-styles.css`, `html-generator.js`, demo de Dutti).
+- Mejoras en `docs-generator`:
+  - Generación de la cuadrícula de colores con clasificación de primarios y semánticos.
+  - Margen lateral y columnas de gutter en la tabla HTML; configuración de grid actualizada.
+  - Conversión de `fontSize` a px y mejora de la tabla de clases.
+- Nuevos helpers de espaciado con prefijo `hg-` para clases inline y block.
+- **Soporte para ratios de aspecto** en `config.json`, generadores y guía HTML, con tests dedicados; nueva clase para imágenes/vídeos en ratios de aspecto y propiedad `display` en `hg-aspect-image`.
+- Integración de la gestión de assets en el flujo de build (eliminada duplicación entre scripts).
+- Documentación: índice y secciones del README, simplificación de `SUPERPROMPT.md`.
 
 ### v1.0.12 - Diciembre 2024
 
