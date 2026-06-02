@@ -74,6 +74,8 @@
   --hg-typo-font-family-primary-regular: "suisse-regular", Arial, Helvetica, sans-serif;
   --hg-typo-font-family-primary-bold: "suisse-semibold", Arial, Helvetica, sans-serif;
   --hg-typo-font-family-secondary: "suisse-medium", Arial, Helvetica, sans-serif;
+  --hg-typo-font-family-mono-regular: "suisse-mono-regular", Arial, Helvetica, sans-serif;
+  --hg-typo-font-family-mono-bold: "suisse-mono-bold", Arial, Helvetica, sans-serif;
   
   /* Bordes y radios */
   --border-radius: 0;

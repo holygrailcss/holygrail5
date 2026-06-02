@@ -16,15 +16,17 @@ require('./ratio-generator.test');
 const { testAssetManager } = require('./asset-manager.test');
 const { testThemeTransformer } = require('./theme-transformer.test');
 const { testBuildOrchestrator } = require('./build-orchestrator.test');
+const { testEscaping } = require('./escaping.test');
 
 // Ejecutar tests de build
 const assetManagerResults = testAssetManager();
 const themeTransformerResults = testThemeTransformer();
 const buildOrchestratorResults = testBuildOrchestrator();
+const escapingResults = testEscaping();
 
 // Calcular totales
-const totalPassed = assetManagerResults.passed + themeTransformerResults.passed + buildOrchestratorResults.passed;
-const totalFailed = assetManagerResults.failed + themeTransformerResults.failed + buildOrchestratorResults.failed;
+const totalPassed = assetManagerResults.passed + themeTransformerResults.passed + buildOrchestratorResults.passed + escapingResults.passed;
+const totalFailed = assetManagerResults.failed + themeTransformerResults.failed + buildOrchestratorResults.failed + escapingResults.failed;
 
 console.log('='.repeat(50));
 console.log(`\n📊 Resumen Total de Tests de Build:`);

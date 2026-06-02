@@ -45,6 +45,7 @@ Generador de CSS + guía HTML pensado para design systems ligeros: declaras tu `
     - [Contribuir](#contribuir)
   - [15. Licencia](#15-licencia)
   - [Changelog](#changelog)
+    - [v1.0.22 - Junio 2026](#v1022---junio-2026)
     - [v1.0.21 - Mayo 2026](#v1021---mayo-2026)
     - [v1.0.20 - Abril 2026](#v1020---abril-2026)
     - [v1.0.19 - Abril 2026](#v1019---abril-2026)
@@ -555,6 +556,14 @@ Usa, adapta y comparte libremente mientras conserves la atribución.
 ---
 
 ## Changelog
+
+### v1.0.22 - Junio 2026
+
+- **Seguridad (guía y demos):** se escapan todos los valores del `config.json` al volcarse en la documentación generada (colores, tipografía, font families, variables CSS, helpers, aspect ratios, breakpoints, grid y containers). Evita inyección de HTML/JS al construir con un config no confiable y publicar `dist/index.html`. Nuevo `escapeHtml` centralizado en `src/generators/utils.js`.
+- **Seguridad (dev-server):** `src/dev-server.js` ahora captura URLs malformadas (ya no cae el proceso con `GET /%`), corrige el filtro de path traversal por prefijo y escucha solo en `127.0.0.1`.
+- **Fix:** los reemplazos del `ThemeTransformer` usan replacer de función para no corromper la salida cuando el contenido inyectado contiene `$`.
+- **Fix:** `getPackageVersion()` leía una ruta inexistente y la guía mostraba la versión como vacía; ahora muestra la versión real.
+- **Tests:** nuevo `tests/escaping.test.js` de regresión anti-inyección (suite en 29 tests). El CSS generado (`dist/output.css`, `dist/themes/dutti.css`) no cambia.
 
 ### v1.0.21 - Mayo 2026
 

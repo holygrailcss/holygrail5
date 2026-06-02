@@ -69,6 +69,22 @@
         "dest": "dist/assets/fonts/suisse-intl-semibold.woff"
       },
       {
+        "source": "src/assets/fonts/SuisseIntlMono-Regular-WebS.woff2",
+        "dest": "dist/assets/fonts/SuisseIntlMono-Regular-WebS.woff2"
+      },
+      {
+        "source": "src/assets/fonts/SuisseIntlMono-Regular-WebS.woff",
+        "dest": "dist/assets/fonts/SuisseIntlMono-Regular-WebS.woff"
+      },
+      {
+        "source": "src/assets/fonts/SuisseIntlMono-Bold-WebS.woff2",
+        "dest": "dist/assets/fonts/SuisseIntlMono-Bold-WebS.woff2"
+      },
+      {
+        "source": "src/assets/fonts/SuisseIntlMono-Bold-WebS.woff",
+        "dest": "dist/assets/fonts/SuisseIntlMono-Bold-WebS.woff"
+      },
+      {
         "source": "src/assets/fonts/suisse-works-regular.woff2",
         "dest": "dist/assets/fonts/suisse-works-regular.woff2"
       },
@@ -120,7 +136,9 @@
     "primary-light": "\"suisse-light\", Arial, Helvetica, sans-serif",
     "primary-regular": "\"suisse-regular\", Arial, Helvetica, sans-serif",
     "primary-bold": "\"suisse-semibold\", Arial, Helvetica, sans-serif",
-    "secondary": "\"suisse-medium\", Arial, Helvetica, sans-serif"
+    "secondary": "\"suisse-medium\", Arial, Helvetica, sans-serif",
+    "mono-regular": "\"suisse-mono-regular\", Arial, Helvetica, sans-serif",
+    "mono-bold": "\"suisse-mono-bold\", Arial, Helvetica, sans-serif"
   },
   "spacingMap": {
     "0": "0",
@@ -917,6 +935,34 @@
       "desktop": {
         "fontSize": "10px",
         "lineHeight": "1"
+      }
+    },
+    "label-mono": {
+      "fontFamily": "\"suisse-mono-regular\", Arial, Helvetica, sans-serif",
+      "fontWeight": "400",
+      "letterSpacing": "0.06em",
+      "textTransform": "uppercase",
+      "mobile": {
+        "fontSize": "10px",
+        "lineHeight": "1.2"
+      },
+      "desktop": {
+        "fontSize": "10px",
+        "lineHeight": "1.2"
+      }
+    },
+    "label-mono-b": {
+      "fontFamily": "\"suisse-mono-bold\", Arial, Helvetica, sans-serif",
+      "fontWeight": "700",
+      "letterSpacing": "0.06em",
+      "textTransform": "uppercase",
+      "mobile": {
+        "fontSize": "10px",
+        "lineHeight": "1.2"
+      },
+      "desktop": {
+        "fontSize": "10px",
+        "lineHeight": "1.2"
       }
     }
   }

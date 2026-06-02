@@ -4,6 +4,20 @@
 const fs = require('fs');
 const path = require('path');
 
+// Escapa caracteres especiales de HTML para evitar inyección al volcar
+// valores del config en la guía y las demos. Escapa también comillas
+// (" y ') porque muchos valores se interpolan dentro de atributos
+// (title="...", style="...", data-copy-value="..."): sin escapar las
+// comillas, un valor podría romper el atributo y reabrir el contexto.
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // Convierte nombres de propiedades de JavaScript (camelCase) a formato CSS (kebab-case)
 // Por ejemplo, "fontSize" se convierte en "font-size" para usarlo en CSS
 function toKebabCase(str) {
@@ -200,6 +214,7 @@ function applyThemeTypographyOverrides(config, themeData) {
 }
 
 module.exports = {
+  escapeHtml,
   toKebabCase,
   pxToRem,
   remToPx,

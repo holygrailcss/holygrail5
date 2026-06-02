@@ -247,7 +247,10 @@ class ThemeTransformer {
       if (config) {
         const typoConfig = applyThemeTypographyOverrides(config, themeData);
         const typoSection = generateTypographyHTML(typoConfig);
-        content = content.replace(/<!--\s*HG_TYPO_TABLE\s*-->/g, typoSection);
+        // Usamos un replacer de función: si `typoSection` contiene `$`
+        // (frecuente en CSS), pasarlo como string de reemplazo haría que
+        // `replace` interpretara `$&`, `$1`, `$$`… y corrompiera la salida.
+        content = content.replace(/<!--\s*HG_TYPO_TABLE\s*-->/g, () => typoSection);
       } else {
         // Sin config, eliminamos el placeholder para no mostrarlo en crudo
         content = content.replace(/<!--\s*HG_TYPO_TABLE\s*-->/g, '');
@@ -257,7 +260,9 @@ class ThemeTransformer {
       // Si no lo hay, quitamos el placeholder para no dejar comentarios huérfanos.
       if (themeData) {
         const themeBlock = generateThemeBlockHTML(themeData, config);
-        content = content.replace(/<!--\s*HG_THEME_BLOCK\s*-->/g, themeBlock);
+        // Replacer de función por el mismo motivo que el bloque de tipografía:
+        // blindar la salida frente a `$` en el contenido inyectado.
+        content = content.replace(/<!--\s*HG_THEME_BLOCK\s*-->/g, () => themeBlock);
       } else {
         content = content.replace(/<!--\s*HG_THEME_BLOCK\s*-->/g, '');
       }
@@ -291,7 +296,9 @@ class ThemeTransformer {
       // la lista de temas activos, se respeta; si no, se cae al
       // fallback estático THEMES_IN_NAV (compatibilidad).
       const headerAndSidebarHTML = buildHeaderAndSidebar(themeName, themesForNav);
-      content = content.replace(/(<body[^>]*>)/i, '$1\n' + headerAndSidebarHTML);
+      // Replacer de función: preserva el `<body>` capturado y evita que un
+      // `$` en las etiquetas del tema (themesForNav) se interprete como patrón.
+      content = content.replace(/(<body[^>]*>)/i, (m) => m + '\n' + headerAndSidebarHTML);
 
       // Eliminar el título h1 del contenido si existe (ya está en el header)
       content = content.replace(/<h1 class="demo-title">Sistema de Theming [^<]+<\/h1>\s*/g, '');

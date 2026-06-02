@@ -384,6 +384,10 @@ Las clases tipográficas se generan desde `config.typo`. Cada clase se aplica di
 <!-- Body variants -->
 <p class="hg-hg-body-m">Body medium (12→13px)</p>
 <p class="hg-hg-body-m-b">Body medium bold (weight 400)</p>
+
+<!-- Labels mono (Suisse Intl Mono, 10px / 120%) -->
+<span class="label-mono">Label mono regular</span>
+<span class="label-mono-b">Label mono bold</span>
 ```
 
 ### Cómo funciona

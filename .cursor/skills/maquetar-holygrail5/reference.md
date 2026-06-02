@@ -24,11 +24,20 @@ Valores numéricos del mapa (0, 4, 8, 12, 16, 24, 32, …) y porcentajes (20-per
 
 ## Tipografía
 
-- **Familias**: `--hg-typo-font-family-primary-regular`, `--hg-typo-font-family-primary-bold`, `--hg-typo-font-family-secondary`.
+- **Familias**: `--hg-typo-font-family-primary-regular`, `--hg-typo-font-family-primary-bold`, `--hg-typo-font-family-secondary`, `--hg-typo-font-family-mono-regular`, `--hg-typo-font-family-mono-bold`.
 - **Pesos**: `--hg-typo-font-weight-400`, `--hg-typo-font-weight-500`, `--hg-typo-font-weight-700`, etc.
 - **Tamaños**: `--hg-typo-font-size-12`, `--hg-typo-font-size-13`, `--hg-typo-font-size-14`, etc.
 - **Line-height**: `--hg-typo-line-height-1`, `--hg-typo-line-height-1-5`, etc.
 - **Letter-spacing**: `--hg-typo-letter-spacing-0-02`, etc.
+
+### Clases label mono (Suisse Intl Mono)
+
+| Clase | Uso | Fuente | Tamaño / interlineado |
+|-------|-----|--------|------------------------|
+| `.label-mono` | Label mono regular | `suisse-mono-regular` | 10px / 120% (mobile y desktop) |
+| `.label-mono-b` | Label mono bold | `suisse-mono-bold` | 10px / 120% (mobile y desktop) |
+
+Mismo patrón que `.label-s` / `.label-s-b` (uppercase, `letter-spacing: 0.06em`), con familias mono. Definidas en `config.json` → `typo`.
 
 ## Tema Dutti – Variables de componente (_variables.css)
 

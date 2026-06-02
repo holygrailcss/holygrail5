@@ -397,6 +397,23 @@ Todos los componentes son responsive por defecto. Puedes usar las clases respons
 </html>
 ```
 
+## 🔤 Tipografías HolyGrail5 (labels mono)
+
+Además de los componentes del tema, puedes usar las clases tipográficas generadas desde `config.json` (prefijo `hg-`):
+
+| Clase | Variante | Fuente | Mobile | Desktop |
+|-------|----------|--------|--------|---------|
+| `.label-mono` | Regular | `suisse-mono-regular` | 10px / 120% | 10px / 120% |
+| `.label-mono-b` | Bold | `suisse-mono-bold` | 10px / 120% | 10px / 120% |
+
+Comportamiento alineado con `.label-s` / `.label-s-b` (uppercase, `letter-spacing: 0.06em`). Variables CSS: `--hg-typo-font-family-mono-regular`, `--hg-typo-font-family-mono-bold`.
+
+```html
+<span class="label-mono">Referencia SKU</span>
+<span class="label-mono-b">Nuevo</span>
+
+La tabla completa de tipografías del tema se genera en el build (`HG_TYPO_TABLE` en `demo.html` → `dist/themes/dutti-demo.html`).
+
 ## 📄 Ver Demo
 
 Abre `demo.html` en tu navegador para ver todos los componentes en acción:

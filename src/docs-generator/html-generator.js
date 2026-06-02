@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { pxToRem, remToPx, getFontFamilyName, resolveActiveThemes } = require('../generators/utils');
+const { pxToRem, remToPx, getFontFamilyName, resolveActiveThemes, escapeHtml } = require('../generators/utils');
 const { buildValueMap } = require('../css-generator');
 const { generateTypographyHTML } = require('../build/typo-table-generator');
 const {
@@ -28,7 +28,7 @@ function getLastCommitAuthor() {
 // Obtiene la versión del package.json
 function getPackageVersion() {
   try {
-    const packagePath = path.join(__dirname, '..', 'package.json');
+    const packagePath = path.join(__dirname, '..', '..', 'package.json');
     if (fs.existsSync(packagePath)) {
       const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
       return packageData.version || null;
@@ -142,16 +142,16 @@ function generateHTML(configData, previousValuesPath = null) {
         <td class="guide-preview-cell">
           <div class="guide-typography-preview ${className}">Aa</div>
         </td>
-        <td class="guide-table-value ${fontFamilyChanged ? 'guide-changed' : ''}">${fontFamilyName || cls.fontFamily || '-'}</td>
-        <td class="guide-table-value ${fontWeightChanged ? 'guide-changed' : ''}">${cls.fontWeight || '-'}</td>
-        <td class="guide-table-value ${letterSpacingChanged ? 'guide-changed' : ''}">${cls.letterSpacing || '-'}</td>
-        <td class="guide-table-value ${textTransformChanged ? 'guide-changed' : ''}">${cls.textTransform || '-'}</td>
+        <td class="guide-table-value ${fontFamilyChanged ? 'guide-changed' : ''}">${escapeHtml(fontFamilyName || cls.fontFamily || '-')}</td>
+        <td class="guide-table-value ${fontWeightChanged ? 'guide-changed' : ''}">${escapeHtml(cls.fontWeight || '-')}</td>
+        <td class="guide-table-value ${letterSpacingChanged ? 'guide-changed' : ''}">${escapeHtml(cls.letterSpacing || '-')}</td>
+        <td class="guide-table-value ${textTransformChanged ? 'guide-changed' : ''}">${escapeHtml(cls.textTransform || '-')}</td>
         <td class="guide-mobile-value guide-value-center-blue ${mobileFontSizeChanged ? 'guide-changed' : ''}">${mobileRem}</td>
         <td class="guide-mobile-value guide-value-center-orange ${mobileFontSizeChanged ? 'guide-changed' : ''}">${mobilePx}</td>
-        <td class="guide-mobile-value ${mobileLineHeightChanged ? 'guide-changed' : ''}">${cls.mobile?.lineHeight || '-'}</td>
+        <td class="guide-mobile-value ${mobileLineHeightChanged ? 'guide-changed' : ''}">${escapeHtml(cls.mobile?.lineHeight || '-')}</td>
         <td class="guide-desktop-value guide-value-center-blue ${desktopFontSizeChanged ? 'guide-changed' : ''}">${desktopRem}</td>
         <td class="guide-desktop-value guide-value-center-orange ${desktopFontSizeChanged ? 'guide-changed' : ''}">${desktopPx}</td>
-        <td class="guide-desktop-value ${desktopLineHeightChanged ? 'guide-changed' : ''}">${cls.desktop?.lineHeight || '-'}</td>
+        <td class="guide-desktop-value ${desktopLineHeightChanged ? 'guide-changed' : ''}">${escapeHtml(cls.desktop?.lineHeight || '-')}</td>
       </tr>`;
   }).join('');
   const classesHTML = `
@@ -186,14 +186,17 @@ function generateHTML(configData, previousValuesPath = null) {
   // Generar tabla de font families
   const fontFamiliesHTML = configData.fontFamilyMap ? Object.entries(configData.fontFamilyMap).map(([name, value]) => {
     const varName = `--${prefix}-${category}-font-family-${name}`;
-    const styleValue = value.replace(/'/g, "\\'");
+    // El valor va dentro de un atributo style con comillas simples. Escapar
+    // como HTML (no con "\\'") evita que un valor con comillas rompa el
+    // atributo; el parser decodifica la entidad y el CSS recibe la comilla.
+    const styleValue = escapeHtml(value);
     const isChanged = changedValues.has(`fontFamilyMap.${name}`);
     return `
       <tr>
-        <td class="guide-table-name">${name}</td>
+        <td class="guide-table-name">${escapeHtml(name)}</td>
         <td class="guide-font-family-preview" style='font-family: ${styleValue};'>Aa</td>
-        <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${value}</td>
-        <td class="guide-table-value">${varName}</td>
+        <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${escapeHtml(value)}</td>
+        <td class="guide-table-value">${escapeHtml(varName)}</td>
       </tr>`;
   }).join('') : '';
   const fontFamiliesTableHTML = configData.fontFamilyMap ? `
@@ -236,16 +239,19 @@ function generateHTML(configData, previousValuesPath = null) {
         // Para variables con conversión (spacing / font-size) mostramos rem + px
         // (sin duplicar el rem en una columna aparte). Para el resto, solo el valor.
         // Para variables de color añadimos un swatch a la derecha del valor.
+        const eValue = escapeHtml(variable.value);
+        const eName = escapeHtml(variable.name);
+        const ePx = escapeHtml(remToPx(variable.value, baseFontSize));
         const swatchHTML = isColorVar
-          ? `<span class="guide-variable-swatch" style="background:${variable.value}" title="${variable.value}"></span>`
+          ? `<span class="guide-variable-swatch" style="background:${eValue}" title="${eValue}"></span>`
           : '';
         const valueHTML = canConvert
-          ? `<span class="guide-value-center-blue guide-copyable ${changedCls}" data-copy-value="${variable.value}" title="Click para copiar ${variable.value}">${variable.value}</span>
-             <span class="guide-value-center-orange guide-copyable ${changedCls}" data-copy-value="${remToPx(variable.value, baseFontSize)}" title="Click para copiar ${remToPx(variable.value, baseFontSize)}">${remToPx(variable.value, baseFontSize)}</span>`
-          : `<span class="guide-variable-value guide-copyable ${changedCls}" data-copy-value="${variable.value}" title="Click para copiar ${variable.value}">${variable.value}</span>`;
+          ? `<span class="guide-value-center-blue guide-copyable ${changedCls}" data-copy-value="${eValue}" title="Click para copiar ${eValue}">${eValue}</span>
+             <span class="guide-value-center-orange guide-copyable ${changedCls}" data-copy-value="${ePx}" title="Click para copiar ${ePx}">${ePx}</span>`
+          : `<span class="guide-variable-value guide-copyable ${changedCls}" data-copy-value="${eValue}" title="Click para copiar ${eValue}">${eValue}</span>`;
         return `
           <div class="guide-variable-item">
-            <span class="guide-variable-name guide-copyable ${changedCls}" data-copy-value="${variable.name}" title="Click para copiar ${variable.name}">${variable.name}</span>
+            <span class="guide-variable-name guide-copyable ${changedCls}" data-copy-value="${eName}" title="Click para copiar ${eName}">${eName}</span>
             <span class="guide-variable-values">${valueHTML}${swatchHTML}</span>
           </div>`;
       };
@@ -359,7 +365,7 @@ function generateHTML(configData, previousValuesPath = null) {
           <tr class="guide-table-synthesis-note">
             <td class="guide-spacing-sides-cell"></td>
             <td class="guide-table-name"><strong>Valores para &lt;n&gt;-percent</strong></td>
-            <td colspan="3" class="guide-table-value">${spacingPercentKeysLegacy}.</td>
+            <td colspan="3" class="guide-table-value">${escapeHtml(spacingPercentKeysLegacy)}.</td>
           </tr>
         </tbody>
       </table>
@@ -438,12 +444,12 @@ function generateHTML(configData, previousValuesPath = null) {
           <tr class="guide-table-synthesis-note">
             <td class="guide-spacing-sides-cell"></td>
             <td class="guide-table-name"><strong>Valores para &lt;valor&gt;</strong></td>
-            <td colspan="2" class="guide-table-value">${spacingNumericKeys}. Ver tabla Legacy arriba para rem/px.</td>
+            <td colspan="2" class="guide-table-value">${escapeHtml(spacingNumericKeys)}. Ver tabla Legacy arriba para rem/px.</td>
           </tr>
           <tr class="guide-table-synthesis-note">
             <td class="guide-spacing-sides-cell"></td>
             <td class="guide-table-name"><strong>Valores para &lt;n&gt;-percent</strong></td>
-            <td colspan="2" class="guide-table-value">${spacingPercentKeys}. Ver tabla Legacy arriba para equivalencias.</td>
+            <td colspan="2" class="guide-table-value">${escapeHtml(spacingPercentKeys)}. Ver tabla Legacy arriba para equivalencias.</td>
           </tr>
         </tbody>
       </table>
@@ -462,40 +468,40 @@ function generateHTML(configData, previousValuesPath = null) {
     const rows = [];
     if (useSpacing && configData.spacingMap) {
       Object.entries(configData.spacingMap).forEach(([key, value]) => {
-        const baseClass = `.${prefix}-${className}-${key}`;
-        const responsiveClass = responsive ? `.md:${prefix}-${className}-${key}` : '';
+        const baseClass = escapeHtml(`.${prefix}-${className}-${key}`);
+        const responsiveClass = responsive ? escapeHtml(`.md:${prefix}-${className}-${key}`) : '';
         const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
         rows.push(`
       <tr>
         <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
         <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
-        <td class="guide-layout-property">${property}: ${remValue}</td>
-        <td class="guide-layout-property">${helperDescription || '-'}</td>
+        <td class="guide-layout-property">${escapeHtml(property)}: ${escapeHtml(remValue)}</td>
+        <td class="guide-layout-property">${escapeHtml(helperDescription || '-')}</td>
       </tr>`);
       });
     } else if (values) {
       if (Array.isArray(values)) {
         values.forEach(value => {
-          const baseClass = `.${prefix}-${className}-${value}`;
-          const responsiveClass = responsive ? `.md:${prefix}-${className}-${value}` : '';
+          const baseClass = escapeHtml(`.${prefix}-${className}-${value}`);
+          const responsiveClass = responsive ? escapeHtml(`.md:${prefix}-${className}-${value}`) : '';
           rows.push(`
       <tr>
         <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
         <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
-        <td class="guide-layout-property">${property}: ${value}</td>
-        <td class="guide-layout-property">${helperDescription || '-'}</td>
+        <td class="guide-layout-property">${escapeHtml(property)}: ${escapeHtml(value)}</td>
+        <td class="guide-layout-property">${escapeHtml(helperDescription || '-')}</td>
       </tr>`);
         });
       } else {
         Object.entries(values).forEach(([key, value]) => {
-          const baseClass = `.${prefix}-${className}-${key}`;
-          const responsiveClass = responsive ? `.md:${prefix}-${className}-${key}` : '';
+          const baseClass = escapeHtml(`.${prefix}-${className}-${key}`);
+          const responsiveClass = responsive ? escapeHtml(`.md:${prefix}-${className}-${key}`) : '';
           rows.push(`
       <tr>
         <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
         <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
-        <td class="guide-layout-property">${property}: ${value}</td>
-        <td class="guide-layout-property">${helperDescription || '-'}</td>
+        <td class="guide-layout-property">${escapeHtml(property)}: ${escapeHtml(value)}</td>
+        <td class="guide-layout-property">${escapeHtml(helperDescription || '-')}</td>
       </tr>`);
         });
       }
@@ -625,12 +631,12 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html" class="gui
         </p>
       ${packageVersion ? `
         <p class="text-m guide-sidebar-meta-small">
-          Version: ${packageVersion}
+          Version: ${escapeHtml(packageVersion)}
         </p>
       ` : ''}
       ${lastCommitAuthor ? `
         <p class="text-s guide-sidebar-meta-small">
-          Last user: ${lastCommitAuthor}
+          Last user: ${escapeHtml(lastCommitAuthor)}
         </p>
       ` : ''}
     </div>
@@ -669,7 +675,7 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html" class="gui
       <nav class="guide-nav">
         <a href="index.html" class="active">Guía</a>
         <a href="componentes.html">Componentes</a>
-${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}</a>`).join('\n')}
+${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-demo.html">${escapeHtml(t.label)}</a>`).join('\n')}
         <a href="skills.html">Skills</a>
       </nav>
       <button class="guide-header-button" onclick="toggleSidebar()">☰</button>
@@ -801,14 +807,14 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
                 <strong>Clases Modernas (RTL-aware):</strong> A estas clases legacy se añaden versiones inline con prefijo <code class="guide-info-box-code-info">hg-</code>: <code class="guide-info-box-code-info">.${prefix}-px-{valor}</code> (padding-inline/horizontal), <code class="guide-info-box-code-info">.${prefix}-py-{valor}</code> (padding-block/vertical), <code class="guide-info-box-code-info">.${prefix}-mx-{valor}</code> (margin-inline/horizontal), <code class="guide-info-box-code-info">.${prefix}-my-{valor}</code> (margin-block/vertical).
               </p>
               <p class="text-m guide-info-box-text-small">
-                <strong>Nota:</strong> Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${configData.breakpoints.desktop}). Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
+                <strong>Nota:</strong> Los helpers con prefijo <code class="guide-info-box-code-info">md:</code> funcionan como en Tailwind CSS y solo se aplican en el breakpoint desktop (≥${escapeHtml(configData.breakpoints.desktop)}). Puedes combinar clases base y con prefijo <code class="guide-info-box-code-info">md:</code> para crear diseños responsive. Las clases con <code class="guide-info-box-code-info">!</code> aplican !important y tienen prioridad sobre otras reglas CSS.
               </p>
             </div>
             <div class="col-xs-12 col-md-6 guide-spacing-explanation-col">
               <p class="text-m guide-info-box-text"><strong>Ejemplos de uso:</strong></p>
               <ul class="guide-info-box-list">
                 <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.p-4</code> — Aplica padding de 4px en todos los tamaños de pantalla</li>
-                <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.md:p-4</code> — Aplica padding de 4px solo en desktop (≥${configData.breakpoints.desktop})</li>
+                <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.md:p-4</code> — Aplica padding de 4px solo en desktop (≥${escapeHtml(configData.breakpoints.desktop)})</li>
                 <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.md:pr-8</code> — Aplica padding-right de 8px solo en desktop</li>
                 <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.md:mt-16</code> — Aplica margin-top de 16px solo en desktop</li>
                 <li class="text-m guide-info-box-list-item"><code class="guide-info-box-code-info">.p-0!</code> — Aplica padding de 0 con !important (útil para sobrescribir otros estilos)</li>
@@ -829,7 +835,7 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
     <div class="col-xs-12 col-md-6 guide-section-description">
       <p class="text-m ">
         Clases helper para display, flexbox, alignment y gap.
-        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${configData.breakpoints.desktop}).
+        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${escapeHtml(configData.breakpoints.desktop)}).
       </p> </div>
     <div class="col-xs-12 col-md-12">
     <hr>
@@ -901,19 +907,19 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
               <strong>.row</strong> - Contenedor flex con márgenes negativos para compensar el gutter
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-xs-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.xs} (12 columnas)
+              <strong>.col-xs-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.xs)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-sm-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.sm} (12 columnas)
+              <strong>.col-sm-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.sm)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-md-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.md} (12 columnas)
+              <strong>.col-md-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.md)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-lg-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.lg} (12 columnas)
+              <strong>.col-lg-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.lg)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-xl-*</strong> - Columnas para pantallas desde ${configData.grid.breakpoints.xl} (24 columnas)
+              <strong>.col-xl-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.xl)} (24 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
               <strong>.bleed</strong> - Permite que las columnas vayan a sangre (full bleed), eliminando los márgenes laterales del gutter
@@ -923,7 +929,7 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
             </li>
 
             <li class="text-m guide-info-box-list-item">
-              <strong>Gutter:</strong> ${configData.grid.gutter} (padding horizontal en cada columna)
+              <strong>Gutter:</strong> ${escapeHtml(configData.grid.gutter)} (padding horizontal en cada columna)
             </li>
           </ul>
 
@@ -959,16 +965,18 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
                 const marginLateral = configData.grid.containerMargin || '-';
                 const marginLateralRem = marginLateral !== '-' && String(marginLateral).endsWith('px') ? pxToRem(marginLateral, baseFontSize) : marginLateral !== '-' ? marginLateral : '-';
                 const marginLateralPx = marginLateral;
+                const eName = escapeHtml(name);
+                const eColumns = escapeHtml(columns);
                 return `<tr>
-                <td class="guide-table-name">${name}</td>
-                <td class="guide-table-value">${minWidth}</td>
-                <td class="guide-table-value">${minWidthRem}</td>
-                <td class="guide-table-value">${columns}</td>
-                <td class="guide-value-center-orange">${gutterPx}</td>
-                <td class="guide-value-center-blue">${gutterRem}</td>
-                <td class="guide-value-center-orange">${marginLateralPx}</td>
-                <td class="guide-value-center-blue">${marginLateralRem}</td>
-                <td class="guide-table-value">.col-${name}-1 a .col-${name}-${columns}</td>
+                <td class="guide-table-name">${eName}</td>
+                <td class="guide-table-value">${escapeHtml(minWidth)}</td>
+                <td class="guide-table-value">${escapeHtml(minWidthRem)}</td>
+                <td class="guide-table-value">${eColumns}</td>
+                <td class="guide-value-center-orange">${escapeHtml(gutterPx)}</td>
+                <td class="guide-value-center-blue">${escapeHtml(gutterRem)}</td>
+                <td class="guide-value-center-orange">${escapeHtml(marginLateralPx)}</td>
+                <td class="guide-value-center-blue">${escapeHtml(marginLateralRem)}</td>
+                <td class="guide-table-value">.col-${eName}-1 a .col-${eName}-${eColumns}</td>
               </tr>`;
               }).join('\n              ')}
             </tbody>
@@ -1003,10 +1011,10 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
                   En <strong>xs</strong>: Ocupan 12 columnas cada una (100% de ancho, apiladas)
                 </li>
                 <li class="text-m guide-info-box-list-item">
-                  En <strong>md</strong> (≥${configData.grid.breakpoints.md}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
+                  En <strong>md</strong> (≥${escapeHtml(configData.grid.breakpoints.md)}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
                 </li>
                 <li class="text-m guide-info-box-list-item">
-                  En <strong>lg</strong> (≥${configData.grid.breakpoints.lg}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
+                  En <strong>lg</strong> (≥${escapeHtml(configData.grid.breakpoints.lg)}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
                 </li>
               </ul>
             </div>
@@ -1032,7 +1040,7 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
               <p class="text-m guide-info-box-text-small">
-                <strong>Nota:</strong> <code class="guide-info-box-code-info">.bleed</code> aplica márgenes negativos iguales al gutter (${configData.grid.gutter}) para que el contenido llegue hasta los bordes. <code class="guide-info-box-code-info">.bleed-0</code> elimina todo el padding y márgenes, útil para imágenes o contenido que debe ocupar todo el ancho disponible.
+                <strong>Nota:</strong> <code class="guide-info-box-code-info">.bleed</code> aplica márgenes negativos iguales al gutter (${escapeHtml(configData.grid.gutter)}) para que el contenido llegue hasta los bordes. <code class="guide-info-box-code-info">.bleed-0</code> elimina todo el padding y márgenes, útil para imágenes o contenido que debe ocupar todo el ancho disponible.
               </p>
             </div>
           </div>
@@ -1079,14 +1087,16 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
               ${configData.aspectRatios.map(ratio => {
                 const { class: className, width, height, description } = ratio;
                 const ratioValue = `${width}:${height}`;
+                const eClassName = escapeHtml(className);
+                const eRatioValue = escapeHtml(ratioValue);
                 return `<tr>
-                <td class="guide-table-name">.${prefix}-${className}</td>
-                <td class="guide-table-value">${ratioValue}</td>
-                <td class="guide-table-description">${description}</td>
+                <td class="guide-table-name">.${prefix}-${eClassName}</td>
+                <td class="guide-table-value">${eRatioValue}</td>
+                <td class="guide-table-description">${escapeHtml(description)}</td>
                 <td class="guide-preview-cell">
-                  <div class="${prefix}-${className}" style="background: var(--${prefix}-color-primary); max-width: 100px;">
+                  <div class="${prefix}-${eClassName}" style="background: var(--${prefix}-color-primary); max-width: 100px;">
                     <div class="${prefix}-aspect-content">
-                      <img class="${prefix}-aspect-image" src="assets/introm.jpg" alt="Ejemplo ${ratioValue}" />
+                      <img class="${prefix}-aspect-image" src="assets/introm.jpg" alt="Ejemplo ${eRatioValue}" />
                     </div>
                   </div>
                 </td>
@@ -1176,15 +1186,15 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
               <tr>
                 <td class="guide-table-name">Mobile</td>
                 <td class="guide-table-value ${changedValues.has('breakpoints.mobile') ? 'guide-changed' : ''}">
-                  ${configData.breakpoints.mobile} 
-                  ${configData.breakpoints.mobile.endsWith('px') ? `(${pxToRem(configData.breakpoints.mobile, baseFontSize)})` : ''}
+                  ${escapeHtml(configData.breakpoints.mobile)}
+                  ${configData.breakpoints.mobile.endsWith('px') ? `(${escapeHtml(pxToRem(configData.breakpoints.mobile, baseFontSize))})` : ''}
                 </td>
               </tr>
               <tr>
                 <td class="guide-table-name">Desktop</td>
                 <td class="guide-table-value ${changedValues.has('breakpoints.desktop') ? 'guide-changed' : ''}">
-                  ${configData.breakpoints.desktop} 
-                  ${configData.breakpoints.desktop.endsWith('px') ? `(${pxToRem(configData.breakpoints.desktop, baseFontSize)})` : ''}
+                  ${escapeHtml(configData.breakpoints.desktop)}
+                  ${configData.breakpoints.desktop.endsWith('px') ? `(${escapeHtml(pxToRem(configData.breakpoints.desktop, baseFontSize))})` : ''}
                 </td>
               </tr>
             </tbody>
@@ -1198,7 +1208,7 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html">${t.label}
     <div class="col-xs-12 col-md-6"> <h2>Containers</h2> </div>
     <div class="col-xs-12 col-md-6 guide-section-description">
       <p>
-        Contenedores responsivos ${activeThemes.length === 1 ? 'del tema ' + activeThemes[0].label.replace(/^Tema\s+/, '') : 'de los temas activos'}. Cada container define un <code>max-width</code> y padding adaptativo según breakpoint.
+        Contenedores responsivos ${activeThemes.length === 1 ? 'del tema ' + escapeHtml(activeThemes[0].label.replace(/^Tema\s+/, '')) : 'de los temas activos'}. Cada container define un <code>max-width</code> y padding adaptativo según breakpoint.
       </p>
     </div>
     <div class="col-xs-12 col-md-12"><hr></div>

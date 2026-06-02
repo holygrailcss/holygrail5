@@ -142,9 +142,9 @@ Esta skill es el índice y el contexto común; delega a las anteriores cuando la
 | --- | --- |
 | `npm run build` | `node generate-css.js` — invoca `BuildOrchestrator.build()` (CSS + HTML + assets + tema). |
 | `npm run watch` | `node src/watch-config.js` — observa `config.json`, CSS y `themes/`, regenera al guardar. |
-| `npm run serve` / `npm run dev` | `node src/dev-server.js` — sirve `dist/` en :3000. (`dev` actualmente es alias de `serve`.) |
+| `npm run serve` / `npm run dev` | `node src/dev-server.js` — sirve `dist/` en `127.0.0.1:3000` (solo loopback). (`dev` actualmente es alias de `serve`.) |
 | `npm run start` | `build` + `serve`. |
-| `npm test` | `node tests/run-all.js` — corre los 20 tests. |
+| `npm test` | `node tests/run-all.js` — corre los 29 tests. |
 | `npm run vars:report` | Informe de variables CSS (usadas / no usadas / históricas). |
 | `npm run vars:remove-unused` | Limpia variables históricas no referenciadas. |
 
@@ -175,6 +175,7 @@ Principios que conviene preservar al tocar el build:
 - **El orquestador es el único que escribe a disco**, vía `utils.writeFile`. Si añades un nuevo generador, devuélvele el string al orquestador en vez de escribir tú mismo.
 - **`watch` y `build` comparten orquestador**. No dupliques pipelines: si añades un paso, ponlo en `BuildOrchestrator.build()` y aparecerá en ambos.
 - **Variables tipográficas se deduplican** (`typo-generator`): no hardcodees `font-size: 14px` en una clase, registra el valor para que se materialice como `--hg-typo-font-size-14`.
+- **Escapa SIEMPRE los valores del config al volcarlos en HTML**. La guía (`dist/index.html`) y las demos se publican como documentación estática; un valor del `config.json`/`theme.json` sin escapar puede inyectar HTML/JS (la build admite `--config=` de configs no confiables). Usa `escapeHtml` de `src/generators/utils.js` (escapa `& < > " '`, válido también para atributos `title=`/`style=`/`data-*`) en CUALQUIER nuevo sink de `html-generator.js`, `sections/*`, `theme-vars-table-generator.js`, etc. Hay un test de regresión (`tests/escaping.test.js`) que lo verifica. Para inyectar bloques en `ThemeTransformer`, usa replacer de función (`replace(re, () => bloque)`) y no string, para que un `$` en el contenido no se interprete como patrón.
 
 ### Cómo añadir cosas
 
@@ -230,9 +231,10 @@ La guía HTML (`dist/index.html`) además resalta los valores que cambiaron resp
 
 ### Tests
 
-- 20 tests en `tests/`, sin frameworks pesados — son funciones puras que imprimen `✅`/`❌`. Lánzalos con `npm test`. Tardan <1 s.
-- Cobertura clave: `config-loader`, `css-generator`, `helpers`, `html-generator`, `asset-manager` (10), `theme-transformer` (5), `build-orchestrator` (5).
+- 29 tests en `tests/`, sin frameworks pesados — son funciones puras que imprimen `✅`/`❌`. Lánzalos con `npm test`. Tardan <1 s.
+- Cobertura clave: `config-loader`, `css-generator`, `helpers`, `html-generator`, `ratio-generator`, `asset-manager` (10), `theme-transformer` (5), `build-orchestrator` (5), `escaping` (3, anti-inyección en la guía).
 - Si tocas un generador, añade o actualiza el test correspondiente. Mantén los tests deterministas (usa `config` mínimos en memoria, no lecturas de disco salvo lo imprescindible).
+- Si añades un test con conteo propio (estilo `testX()` que devuelve `{passed, failed}`), recuérdalo enganchar en `tests/run-all.js` para que sume al total.
 
 ### Publicación / despliegue
 

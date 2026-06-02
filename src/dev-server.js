@@ -36,7 +36,10 @@ function listenOnAvailablePort(server, initialPort) {
       };
 
       server.once('error', onError);
-      server.listen(currentPort, () => {
+      // Bind explícito a loopback: es un servidor de desarrollo y no debe
+      // quedar expuesto en la red local (el default de Node escucha en
+      // todas las interfaces).
+      server.listen(currentPort, '127.0.0.1', () => {
         server.removeListener('error', onError);
         resolve(currentPort);
       });
@@ -73,22 +76,34 @@ function getMimeType(filePath) {
 // Servidor HTTP simple y rápido
 function createServer() {
   return http.createServer((req, res) => {
-    // Decodificar URL
-    let filePath = decodeURIComponent(req.url);
-    
+    // Decodificar URL. Una URL con secuencias %-malformadas hace que
+    // decodeURIComponent lance URIError; sin este try/catch la excepción
+    // quedaría sin capturar y tumbaría el proceso del servidor (DoS con
+    // un solo request tipo `GET /%`).
+    let filePath;
+    try {
+      filePath = decodeURIComponent(req.url);
+    } catch (e) {
+      res.writeHead(400, { 'Content-Type': 'text/plain' });
+      res.end('400 Bad Request');
+      return;
+    }
+
+    // Eliminar query string (antes de normalizar la ruta)
+    filePath = filePath.split('?')[0];
+
     // Si es la raíz, servir index.html
     if (filePath === '/' || filePath === '') {
       filePath = '/index.html';
     }
-    
-    // Eliminar query string
-    filePath = filePath.split('?')[0];
-    
-    // Construir ruta completa
-    const fullPath = path.join(DIST_DIR, filePath);
-    
-    // Verificar que el archivo esté dentro de dist/
-    if (!fullPath.startsWith(DIST_DIR)) {
+
+    // Construir ruta completa y normalizar
+    const fullPath = path.resolve(DIST_DIR, '.' + path.sep + filePath);
+
+    // Verificar que el archivo esté DENTRO de dist/. Comparamos con el
+    // separador final para que un directorio hermano con prefijo común
+    // (p. ej. `dist-backup/`) no pase el filtro de `startsWith`.
+    if (fullPath !== DIST_DIR && !fullPath.startsWith(DIST_DIR + path.sep)) {
       res.writeHead(403, { 'Content-Type': 'text/plain' });
       res.end('Forbidden');
       return;

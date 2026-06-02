@@ -41,6 +41,22 @@
        url('assets/fonts/suisse-intl-semibold.woff2') format('woff2'),
        url('assets/fonts/suisse-intl-semibold.woff') format('woff');
 }
+@font-face {
+  font-family: "suisse-mono-regular";
+  font-weight: 400;
+  font-display: swap;
+  src: local("SuisseIntlMono-Regular"),
+       url('assets/fonts/SuisseIntlMono-Regular-WebS.woff2') format('woff2'),
+       url('assets/fonts/SuisseIntlMono-Regular-WebS.woff') format('woff');
+}
+@font-face {
+  font-family: "suisse-mono-bold";
+  font-weight: 700;
+  font-display: swap;
+  src: local("SuisseIntlMono-Bold"),
+       url('assets/fonts/SuisseIntlMono-Bold-WebS.woff2') format('woff2'),
+       url('assets/fonts/SuisseIntlMono-Bold-WebS.woff') format('woff');
+}
 /* Suisse Works (serif) — reservado para el tema Limited */
 @font-face {
   font-family: "suisse-works-regular";

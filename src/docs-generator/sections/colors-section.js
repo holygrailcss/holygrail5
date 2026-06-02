@@ -11,6 +11,8 @@
 //     fondos neutros (`bg-light`, `bg-cream`, `orange`, `mustard`)
 //     → primarios. El resto → semánticos.
 
+const { escapeHtml } = require('../../generators/utils');
+
 const DEFAULT_PRIMARY_KEYS = ['bg-light', 'bg-cream', 'orange', 'mustard'];
 
 function isPrimaryColorKey(key) {
@@ -49,15 +51,23 @@ function renderColorCard(key, value, prefix, changedValues) {
       ? normalizedValue
       : (normalizedValue.length === 9 ? normalizedValue.substring(0, 7) : normalizedValue);
 
+  // Escapamos cada valor del config antes de interpolarlo. Para valores
+  // limpios (claves kebab-case, hex como #ffffff) el escape es idéntico,
+  // así que la guía no cambia; sólo blinda valores con caracteres especiales.
+  const eKey = escapeHtml(key);
+  const eValue = escapeHtml(value);
+  const eVarName = escapeHtml(varName);
+  const eOpaque = escapeHtml(opaqueValue);
+
   return `
-          <div class="guide-color-card" data-copy-value="${varName}" title="Click para copiar ${varName}">
-            <div class="guide-color-preview" style="--color-value: ${opaqueValue};">
+          <div class="guide-color-card" data-copy-value="${eVarName}" title="Click para copiar ${eVarName}">
+            <div class="guide-color-preview" style="--color-value: ${eOpaque};">
               ${isLight ? `<div class="guide-color-pattern"></div>` : ''}
             </div>
             <div class="guide-color-card-content">
-              <div class="guide-color-name">${key}</div>
-              <div class="guide-color-var-name" data-copy-value="${varName}" title="Click para copiar ${varName}">${varName}</div>
-              <div class="guide-color-value ${isChanged ? 'guide-changed' : ''}" data-copy-value="${value}" title="Click para copiar ${value}">${value}</div>
+              <div class="guide-color-name">${eKey}</div>
+              <div class="guide-color-var-name" data-copy-value="${eVarName}" title="Click para copiar ${eVarName}">${eVarName}</div>
+              <div class="guide-color-value ${isChanged ? 'guide-changed' : ''}" data-copy-value="${eValue}" title="Click para copiar ${eValue}">${eValue}</div>
             </div>
           </div>`;
 }
