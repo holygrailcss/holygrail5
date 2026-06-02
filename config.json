@@ -137,8 +137,8 @@
     "primary-regular": "\"suisse-regular\", Arial, Helvetica, sans-serif",
     "primary-bold": "\"suisse-semibold\", Arial, Helvetica, sans-serif",
     "secondary": "\"suisse-medium\", Arial, Helvetica, sans-serif",
-    "mono-regular": "\"suisse-mono-regular\", Arial, Helvetica, sans-serif",
-    "mono-bold": "\"suisse-mono-bold\", Arial, Helvetica, sans-serif"
+    "mono-regular": "\"suisse-mono-regular\", Consolas, Menlo, Monaco, \"Courier New\", monospace",
+    "mono-bold": "\"suisse-mono-bold\", Consolas, Menlo, Monaco, \"Courier New\", monospace"
   },
   "spacingMap": {
     "0": "0",
