@@ -864,54 +864,6 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
       </div>
     </div>
     ` : ''}
-    ${layoutHelpersTableHTML ? `
-    <div class="guide-section" id="layout">
-    <div class="row mb-120">
-    <div class="col-xs-12 col-md-6"> <h2>Layout</h2> </div>
-    <div class="col-xs-12 col-md-6 guide-section-description">
-      <p class="text-m ">
-        Clases helper para display, flexbox, alignment y gap.
-        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${escapeHtml(configData.breakpoints.desktop)}).
-      </p> </div>
-    <div class="col-xs-12 col-md-12">
-    <hr>
-    </div>
-    </div>
-      <div class="guide-section-content">
-        ${layoutHelpersTableHTML}
-        <div class="guide-section-title">
-          <div> </div>
-          <div class="demo-section-2">
-            <div>
-              <strong>Ejemplos de uso:</strong>
-              <ul class="guide-info-box-list">
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.d-flex</code> - Display flex
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.flex-column</code> - Flex direction column
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.justify-center</code> - Justify content center
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.items-center</code> - Align items center
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.gap-16</code> - Gap de 16px (1rem)
-                </li>
-                <li class="text-m guide-info-box-list-item">
-                  <code class="guide-info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
-                </li>
-              </ul>
-            </div>
-            <div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    ` : ''}
     ${configData.grid && configData.grid.enabled ? `
     <div class="guide-section" id="grid">
     <div class="row mb-120">
@@ -1406,6 +1358,69 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
       </div>
     </div>
     ` : ''}
+    ${layoutHelpersTableHTML ? `
+    <div class="guide-section" id="layout">
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Layout</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="text-m ">
+        Clases helper para display, flexbox, alignment y gap.
+        Todos los helpers marcados como responsive tienen variantes con prefijo .md: para desktop (≥${escapeHtml(configData.breakpoints.desktop)}).
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
+      <div class="guide-section-content">
+        ${layoutHelpersTableHTML}
+        <div class="guide-section-title">
+          <div> </div>
+          <div class="demo-section-2">
+            <div>
+              <strong>Ejemplos de uso:</strong>
+              <ul class="guide-info-box-list">
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.d-flex</code> - Display flex
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.flex-column</code> - Flex direction column
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.justify-center</code> - Justify content center
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.items-center</code> - Align items center
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.gap-16</code> - Gap de 16px (1rem)
+                </li>
+                <li class="text-m guide-info-box-list-item">
+                  <code class="guide-info-box-code-info">.md:flex-row</code> - Flex direction row solo en desktop
+                </li>
+              </ul>
+            </div>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+    <div class="guide-section" id="variables">
+    <div class="row mb-120">
+    <div class="col-xs-12 col-md-6"> <h2>Variables CSS</h2> </div>
+    <div class="col-xs-12 col-md-6 guide-section-description">
+      <p class="">
+        Variables CSS compartidas (<code>--${prefix}-*</code>) usadas por el spacing y el resto del sistema.
+      </p> </div>
+    <div class="col-xs-12 col-md-12">
+    <hr>
+    </div>
+    </div>
+      <div class="guide-section-content">
+        ${variablesTableHTML}
+      </div>
+    </div>
         </div>
   </main>
   <script>
