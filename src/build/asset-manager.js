@@ -28,6 +28,14 @@ const ASSETS_CONFIG = {
   ],
   fonts: [
     {
+      source: 'src/assets/fonts/suisse-intl-thin.woff2',
+      dest: 'dist/assets/fonts/suisse-intl-thin.woff2'
+    },
+    {
+      source: 'src/assets/fonts/suisse-intl-thin.woff',
+      dest: 'dist/assets/fonts/suisse-intl-thin.woff'
+    },
+    {
       source: 'src/assets/fonts/suisse-intl-light.woff2',
       dest: 'dist/assets/fonts/suisse-intl-light.woff2'
     },

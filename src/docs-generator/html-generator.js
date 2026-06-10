@@ -38,6 +38,38 @@ function getPackageVersion() {
   }
   return null;
 }
+// Resuelve el grosor (font-weight) que DEBERÍA tener un cut a partir de su
+// nombre/valor. Orden de comprobación importante: los compuestos
+// (semibold, extralight…) se evalúan antes que los simples (bold, light)
+// para no caer en el match equivocado.
+function inferFontWeight(str) {
+  const t = String(str).toLowerCase();
+  if (/thin|hairline/.test(t)) return 100;
+  if (/extra[-\s]?light|ultra[-\s]?light/.test(t)) return 200;
+  if (/semi[-\s]?bold|demi[-\s]?bold/.test(t)) return 600;
+  if (/extra[-\s]?bold|ultra[-\s]?bold/.test(t)) return 800;
+  if (/black|heavy/.test(t)) return 900;
+  if (/bold/.test(t)) return 700;
+  if (/medium/.test(t)) return 500;
+  if (/light/.test(t)) return 300;
+  if (/regular|normal|book/.test(t)) return 400;
+  return null;
+}
+
+// Devuelve el grosor que DEBERÍA tener una entrada de fontFamilyMap. Prioriza
+// el override explícito en `config.fontWeightMap[name]` (misma clave que
+// fontFamilyMap); si no existe, lo infiere del VALOR (que nombra el cut real,
+// p. ej. "suisse-semibold" → 600) y, como último recurso, de la clave. Se
+// infiere del valor antes que de la clave a propósito: la clave puede mentir
+// (`primary-bold` apunta en realidad a un SemiBold = 600, no a un Bold = 700).
+// Devuelve null si no hay forma de determinarlo.
+function resolveFontWeight(name, value, fontWeightMap) {
+  if (fontWeightMap && fontWeightMap[name] != null && fontWeightMap[name] !== '') {
+    return fontWeightMap[name];
+  }
+  return inferFontWeight(value) ?? inferFontWeight(name);
+}
+
 function generateHTML(configData, previousValuesPath = null) {
   const classNames = Object.keys(configData.typo);
   const prefix = configData.prefix || 'hg';
@@ -191,10 +223,17 @@ function generateHTML(configData, previousValuesPath = null) {
     // atributo; el parser decodifica la entidad y el CSS recibe la comilla.
     const styleValue = escapeHtml(value);
     const isChanged = changedValues.has(`fontFamilyMap.${name}`);
+    // Grosor que debería tener este cut (override en config.fontWeightMap o
+    // inferido del nombre). El preview se pinta con ese font-weight además de
+    // la familia, para que se vea el peso real esperado.
+    const weight = resolveFontWeight(name, value, configData.fontWeightMap);
+    const weightCell = weight != null ? escapeHtml(weight) : '—';
+    const previewWeight = weight != null ? `font-weight: ${escapeHtml(weight)};` : '';
     return `
       <tr>
         <td class="guide-table-name">${escapeHtml(name)}</td>
-        <td class="guide-font-family-preview" style='font-family: ${styleValue};'>Aa</td>
+        <td class="guide-font-family-preview" style='font-family: ${styleValue}; ${previewWeight}'>Aa</td>
+        <td class="guide-table-value">${weightCell}</td>
         <td class="guide-table-value ${isChanged ? 'guide-changed' : ''}">${escapeHtml(value)}</td>
         <td class="guide-table-value">${escapeHtml(varName)}</td>
       </tr>`;
@@ -206,6 +245,7 @@ function generateHTML(configData, previousValuesPath = null) {
           <tr>
             <th>Nombre</th>
             <th>Preview</th>
+            <th>Grosor</th>
             <th>Valor</th>
             <th>Variable CSS</th>
           </tr>
@@ -539,14 +579,10 @@ function generateHTML(configData, previousValuesPath = null) {
         menuItems.push({ id: 'font-families', label: 'Font Families' });
       }
       menuItems.push(
-        { id: 'tipografia', label: 'Tipografía' },
-        { id: 'variables', label: 'Variables CSS' }
+        { id: 'tipografia', label: 'Tipografía' }
       );
       if (spacingHelpersTableHTML) {
         menuItems.push({ id: 'spacing', label: 'Spacing' });
-      }
-      if (layoutHelpersTableHTML) {
-        menuItems.push({ id: 'layout', label: 'Helpers de Layout' });
       }
       if (configData.grid && configData.grid.enabled) {
         menuItems.push({ id: 'grid', label: 'Grid System' });
@@ -562,6 +598,11 @@ function generateHTML(configData, previousValuesPath = null) {
       if (activeThemes.length > 0) {
         menuItems.push({ id: 'containers', label: 'Containers' });
       }
+      // Helpers de Layout y Variables CSS van al final de la guía.
+      if (layoutHelpersTableHTML) {
+        menuItems.push({ id: 'layout', label: 'Helpers de Layout' });
+      }
+      menuItems.push({ id: 'variables', label: 'Variables CSS' });
       const menuHTML = menuItems.map(item => `
         <a href="#${item.id}" class="guide-menu-item" data-section="${item.id}">${item.label}</a>
       `).join('');
@@ -782,11 +823,6 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
     </div>
     </div>
       <div class="guide-section-content">
-        <div id="variables">
-          <h3 class="title-m mb-16">Variables CSS</h3>
-          <p class="guide-section-description mb-24">Variables compartidas usadas por el spacing y el sistema.</p>
-          ${variablesTableHTML}
-        </div>
         <div class="guide-info-box guide-info-box-warning mb-32">
           <strong class="mb-16" style="display: block;">¿Cómo se generan los helpers de espaciado?</strong>
           <div class="row">

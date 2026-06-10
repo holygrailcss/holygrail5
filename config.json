@@ -37,6 +37,14 @@
     ],
     "fonts": [
       {
+        "source": "src/assets/fonts/suisse-intl-thin.woff2",
+        "dest": "dist/assets/fonts/suisse-intl-thin.woff2"
+      },
+      {
+        "source": "src/assets/fonts/suisse-intl-thin.woff",
+        "dest": "dist/assets/fonts/suisse-intl-thin.woff"
+      },
+      {
         "source": "src/assets/fonts/suisse-intl-light.woff2",
         "dest": "dist/assets/fonts/suisse-intl-light.woff2"
       },
@@ -133,6 +141,7 @@
     "bg-cream": "#f4f2ed"
   },
   "fontFamilyMap": {
+    "primary-thin": "\"suisse-thin\", Arial, Helvetica, sans-serif",
     "primary-light": "\"suisse-light\", Arial, Helvetica, sans-serif",
     "primary-regular": "\"suisse-regular\", Arial, Helvetica, sans-serif",
     "primary-bold": "\"suisse-semibold\", Arial, Helvetica, sans-serif",
@@ -698,6 +707,18 @@
     }
   },
   "typo": {
+    "title-thin": {
+      "fontFamily": "\"suisse-thin\", Arial, Helvetica, sans-serif",
+      "fontWeight": "100",
+      "mobile": {
+        "fontSize": "24px",
+        "lineHeight": "1"
+      },
+      "desktop": {
+        "fontSize": "24px",
+        "lineHeight": "1"
+      }
+    },
     "title-xxl": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
       "fontWeight": "300",

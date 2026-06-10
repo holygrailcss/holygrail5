@@ -10,8 +10,16 @@
    antiguos.
    ============================================ */
 @font-face {
-  font-family: "suisse-light";
+  font-family: "suisse-thin";
   font-weight: 100;
+  font-display: swap;
+  src: local("SuisseIntl-Thin"),
+       url('assets/fonts/suisse-intl-thin.woff2') format('woff2'),
+       url('assets/fonts/suisse-intl-thin.woff') format('woff');
+}
+@font-face {
+  font-family: "suisse-light";
+  font-weight: 300;
   font-display: swap;
   src: local("SuisseIntl-Light"),
        url('assets/fonts/suisse-intl-light.woff2') format('woff2'),
@@ -19,7 +27,7 @@
 }
 @font-face {
   font-family: "suisse-regular";
-  font-weight: 300;
+  font-weight: 400;
   font-display: swap;
   src: local("SuisseIntl-Regular"),
        url('assets/fonts/suisse-intl-regular.woff2') format('woff2'),
@@ -27,7 +35,7 @@
 }
 @font-face {
   font-family: "suisse-medium";
-  font-weight: 400;
+  font-weight: 500;
   font-display: swap;
   src: local("SuisseIntl-Medium"),
        url('assets/fonts/suisse-intl-medium.woff2') format('woff2'),
@@ -35,7 +43,7 @@
 }
 @font-face {
   font-family: "suisse-semibold";
-  font-weight: 500;
+  font-weight: 600;
   font-display: swap;
   src: local("SuisseIntl-SemiBold"),
        url('assets/fonts/suisse-intl-semibold.woff2') format('woff2'),
@@ -693,7 +701,6 @@ h2 {
 .guide-text-bold,
 .guide-table .guide-table-name,
 .guide-layout-class-name {
-  font-weight: 600;
   color: #000000;
   font-family: var(--hg-typo-font-family-primary-regular);
 }
