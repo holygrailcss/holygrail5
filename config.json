@@ -146,8 +146,8 @@
     "primary-regular": "\"suisse-regular\", Arial, Helvetica, sans-serif",
     "primary-bold": "\"suisse-semibold\", Arial, Helvetica, sans-serif",
     "secondary": "\"suisse-medium\", Arial, Helvetica, sans-serif",
-    "mono-regular": "\"suisse-mono-regular\", Consolas, Menlo, Monaco, \"Courier New\", monospace",
-    "mono-bold": "\"suisse-mono-bold\", Consolas, Menlo, Monaco, \"Courier New\", monospace"
+    "mono-regular": "\"suisse-mono-regular\", ui-monospace, monospace",
+    "mono-bold": "\"suisse-mono-bold\", ui-monospace, monospace"
   },
   "spacingMap": {
     "0": "0",
@@ -721,7 +721,7 @@
     },
     "title-xxl": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
-      "fontWeight": "300",
+      "fontWeight": "400",
       "mobile": {
         "fontSize": "24px",
         "lineHeight": "1"
@@ -747,7 +747,7 @@
     },
     "title-l-b": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
-      "fontWeight": "300",
+      "fontWeight": "400",
       "mobile": {
         "fontSize": "12px",
         "lineHeight": "1.4"
@@ -759,7 +759,7 @@
     },
     "title-l": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.16em",
       "textTransform": "uppercase",
       "mobile": {
@@ -773,7 +773,7 @@
     },
     "title-m": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.16em",
       "mobile": {
         "fontSize": "12px",
@@ -786,7 +786,7 @@
     },
     "title-s-b": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
-      "fontWeight": "300",
+      "fontWeight": "400",
       "letterSpacing": "0.16em",
       "mobile": {
         "fontSize": "10px",
@@ -799,7 +799,7 @@
     },
     "title-s": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.16em",
       "textTransform": "uppercase",
       "mobile": {
@@ -813,7 +813,7 @@
     },
     "text-l": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.04em",
       "mobile": {
         "fontSize": "13px",
@@ -826,7 +826,7 @@
     },
     "text-m": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.04em",
       "mobile": {
         "fontSize": "12px",
@@ -839,7 +839,7 @@
     },
     "p-tag": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.16em",
       "mobile": {
         "fontSize": "9px",
@@ -852,7 +852,7 @@
     },
     "hg-body-l": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.04em",
       "mobile": {
         "fontSize": "12px",
@@ -865,7 +865,7 @@
     },
     "hg-body-l-b": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
-      "fontWeight": "300",
+      "fontWeight": "400",
       "letterSpacing": "0.04em",
       "mobile": {
         "fontSize": "12px",
@@ -878,7 +878,7 @@
     },
     "hg-body-m": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.04em",
       "mobile": {
         "fontSize": "12px",
@@ -891,7 +891,7 @@
     },
     "hg-body-m-b": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
-      "fontWeight": "300",
+      "fontWeight": "400",
       "letterSpacing": "0.04em",
       "mobile": {
         "fontSize": "12px",
@@ -904,7 +904,7 @@
     },
     "label-m": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.16em",
       "textTransform": "uppercase",
       "mobile": {
@@ -918,7 +918,7 @@
     },
     "label-m-b": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
-      "fontWeight": "300",
+      "fontWeight": "400",
       "letterSpacing": "0.16em",
       "textTransform": "uppercase",
       "mobile": {
@@ -932,7 +932,7 @@
     },
     "label-s": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
-      "fontWeight": "100",
+      "fontWeight": "300",
       "letterSpacing": "0.06em",
       "textTransform": "uppercase",
       "mobile": {
@@ -946,7 +946,7 @@
     },
     "label-s-b": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
-      "fontWeight": "300",
+      "fontWeight": "400",
       "letterSpacing": "0.06em",
       "textTransform": "uppercase",
       "mobile": {
@@ -959,7 +959,7 @@
       }
     },
     "label-mono": {
-      "fontFamily": "\"suisse-mono-regular\", Arial, Helvetica, sans-serif",
+      "fontFamily": "\"suisse-mono-regular\", ui-monospace, monospace",
       "fontWeight": "400",
       "letterSpacing": "0.06em",
       "textTransform": "uppercase",
@@ -973,7 +973,7 @@
       }
     },
     "label-mono-b": {
-      "fontFamily": "\"suisse-mono-bold\", Arial, Helvetica, sans-serif",
+      "fontFamily": "\"suisse-mono-bold\", ui-monospace, monospace",
       "fontWeight": "700",
       "letterSpacing": "0.06em",
       "textTransform": "uppercase",

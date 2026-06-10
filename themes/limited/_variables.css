@@ -77,6 +77,7 @@
   --checkbox-border: var(--hg-color-middle-grey);
   --checkbox-checked-bg: var(--hg-color-feel-dark);
   --checkbox-checked-border: var(--hg-color-feel-dark);
+  --checkbox-check-color: var(--hg-color-white);
 
   --radio-bg: var(--hg-color-white);
   --radio-border: var(--hg-color-middle-grey);

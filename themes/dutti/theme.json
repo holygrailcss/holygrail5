@@ -60,7 +60,8 @@
       "bg": "var(--hg-color-white)",
       "border": "var(--hg-color-middle-grey)",
       "checked-bg": "var(--hg-color-primary)",
-      "checked-border": "var(--hg-color-primary)"
+      "checked-border": "var(--hg-color-primary)",
+      "check-color": "var(--hg-color-white)"
     },
     "radio": {
       "bg": "var(--hg-color-white)",

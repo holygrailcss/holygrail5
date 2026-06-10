@@ -79,7 +79,8 @@
       "bg": "var(--hg-color-white)",
       "border": "var(--hg-color-middle-grey)",
       "checked-bg": "var(--hg-color-feel-dark)",
-      "checked-border": "var(--hg-color-feel-dark)"
+      "checked-border": "var(--hg-color-feel-dark)",
+      "check-color": "var(--hg-color-white)"
     },
     "radio": {
       "bg": "var(--hg-color-white)",
