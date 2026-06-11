@@ -33,6 +33,7 @@ Es Node puro (sin SASS, sin toolchain), pensado para que cualquier proyecto cons
 - **RTL-safe**: usa `.hg-px-*`, `.hg-py-*`, `.hg-mx-*`, `.hg-my-*` (van a `padding-inline`/`block`), no `pl-/pr-` cuando puedas evitarlo.
 - **Grid es flex, no CSS Grid**. `.row` (flex wrap con márgenes negativos) + `.col-{bp}-{n}` con breakpoints `xs`(1px) / `sm`(768) / `md`(992) / `lg`(1280) / `xl`(1440, normalmente 24 columnas).
 - **Aspect ratios** usan `aspect-ratio` nativo con fallback `padding-top` para navegadores viejos. Pon `.hg-aspect-image` en el `<img>`/`<video>` interno.
+- **Cross-browser SIEMPRE**. Todo lo que se genere o maquete debe funcionar en todos los navegadores (Chrome, Firefox, Safari, Edge, y móviles iOS/Android). Usa propiedades y herramientas con soporte universal; si una propiedad moderna no lo tiene, acompáñala de fallback o trátala como mejora progresiva. Patrones que el repo ya sigue y debes mantener: `aspect-ratio` + fallback `padding-top`, `100dvh` junto a `100vh`, `ui-monospace, monospace` como cadena de fallbacks, `padding-inline/block` (baseline en todos los actuales). Ante la duda, comprueba el soporte en caniuse antes de introducir una propiedad nueva.
 
 ---
 
@@ -118,6 +119,7 @@ Catálogo: `1-1`, `4-3`, `16-9`, `2-1`, `2-3`, `3-4`, `3-1`, `7-1`, `12-1`, `24-
 4. Spacing sin prefijo (`.p-16`), helpers con prefijo (`.hg-d-flex`). No los confundas.
 5. `.hg-aspect-image` para imágenes/vídeos dentro de un ratio.
 6. Cuando el componente tenga nombre propio (p. ej. `ProductCard`), la primera clase del root coincide en kebab-case (`product-card`) y luego se acumulan los helpers HG5.
+7. Cross-browser siempre: nada de propiedades/APIs que solo funcionen en un navegador. Si usas algo moderno, fallback primero (mismo patrón que `aspect-ratio`/`padding-top` o `100vh`/`100dvh`) y comprueba caniuse ante la duda.
 
 ### Skills hermanas para tareas concretas
 
@@ -175,6 +177,7 @@ Principios que conviene preservar al tocar el build:
 - **El orquestador es el único que escribe a disco**, vía `utils.writeFile`. Si añades un nuevo generador, devuélvele el string al orquestador en vez de escribir tú mismo.
 - **`watch` y `build` comparten orquestador**. No dupliques pipelines: si añades un paso, ponlo en `BuildOrchestrator.build()` y aparecerá en ambos.
 - **Variables tipográficas se deduplican** (`typo-generator`): no hardcodees `font-size: 14px` en una clase, registra el valor para que se materialice como `--hg-typo-font-size-14`.
+- **Compatibilidad cross-browser en el CSS generado**. Los generadores producen CSS que consumen proyectos reales en todos los navegadores: no introduzcas en un generador (ni en `themes/`) propiedades sin soporte universal salvo como mejora progresiva con fallback en la línea anterior (patrón existente: `ratio-generator` emite `padding-top` + `aspect-ratio`; los helpers de altura emiten `100vh` + `100dvh`). Verifica soporte (caniuse) antes de añadir una propiedad nueva a un generador.
 - **Escapa SIEMPRE los valores del config al volcarlos en HTML**. La guía (`dist/index.html`) y las demos se publican como documentación estática; un valor del `config.json`/`theme.json` sin escapar puede inyectar HTML/JS (la build admite `--config=` de configs no confiables). Usa `escapeHtml` de `src/generators/utils.js` (escapa `& < > " '`, válido también para atributos `title=`/`style=`/`data-*`) en CUALQUIER nuevo sink de `html-generator.js`, `sections/*`, `theme-vars-table-generator.js`, etc. Hay un test de regresión (`tests/escaping.test.js`) que lo verifica. Para inyectar bloques en `ThemeTransformer`, usa replacer de función (`replace(re, () => bloque)`) y no string, para que un `$` en el contenido no se interprete como patrón.
 
 ### Cómo añadir cosas

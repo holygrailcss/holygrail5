@@ -630,25 +630,10 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html" class="gui
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,100,500,600,700" media="all">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 
-  <!-- Lenis Smooth Scroll - Solo para la guía -->
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
   <link rel="stylesheet" href="guide-styles.css?v=${Date.now()}">
   <style>
     ${allStyles}
-    /* Lenis Smooth Scroll Styles - Solo para la guía */
-    html.lenis {
-      height: auto;
-    }
-    .lenis.lenis-smooth {
-      scroll-behavior: auto;
-    }
-    .lenis.lenis-smooth[data-lenis-prevent] {
-      overscroll-behavior: contain;
-    }
-    .lenis.lenis-stopped {
-      overflow: hidden;
-    }
     /* Google Fonts - Solo para la guía (sobrescribe la fuente del body) */
     body {
       font-family: 'Instrument Sans', sans-serif !important;
@@ -895,19 +880,19 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
               <strong>.row</strong> - Contenedor flex con márgenes negativos para compensar el gutter
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-xs-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.xs)} (12 columnas)
+              <strong>.col-xs-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.xs.minWidth || configData.grid.breakpoints.xs)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-sm-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.sm)} (12 columnas)
+              <strong>.col-sm-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.sm.minWidth || configData.grid.breakpoints.sm)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-md-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.md)} (12 columnas)
+              <strong>.col-md-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.md.minWidth || configData.grid.breakpoints.md)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-lg-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.lg)} (12 columnas)
+              <strong>.col-lg-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.lg.minWidth || configData.grid.breakpoints.lg)} (12 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
-              <strong>.col-xl-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.xl)} (24 columnas)
+              <strong>.col-xl-*</strong> - Columnas para pantallas desde ${escapeHtml(configData.grid.breakpoints.xl.minWidth || configData.grid.breakpoints.xl)} (24 columnas)
             </li>
             <li class="text-m guide-info-box-list-item">
               <strong>.bleed</strong> - Permite que las columnas vayan a sangre (full bleed), eliminando los márgenes laterales del gutter
@@ -999,10 +984,10 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
                   En <strong>xs</strong>: Ocupan 12 columnas cada una (100% de ancho, apiladas)
                 </li>
                 <li class="text-m guide-info-box-list-item">
-                  En <strong>md</strong> (≥${escapeHtml(configData.grid.breakpoints.md)}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
+                  En <strong>md</strong> (≥${escapeHtml(configData.grid.breakpoints.md.minWidth || configData.grid.breakpoints.md)}): Las dos primeras ocupan 6 columnas (50% cada una), la tercera 12 (100%)
                 </li>
                 <li class="text-m guide-info-box-list-item">
-                  En <strong>lg</strong> (≥${escapeHtml(configData.grid.breakpoints.lg)}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
+                  En <strong>lg</strong> (≥${escapeHtml(configData.grid.breakpoints.lg.minWidth || configData.grid.breakpoints.lg)}): Cada una ocupa 4 columnas (33.33% cada una, 3 columnas por fila)
                 </li>
               </ul>
             </div>
@@ -1456,15 +1441,8 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
         if (targetSection) {
           const offset = 80; // Offset para compensar header
           const targetPosition = targetSection.offsetTop - offset;
-          // Usar Lenis si está disponible, sino usar scroll nativo
-          if (window.lenis) {
-            window.lenis.scrollTo(targetSection, { offset: -offset });
-          } else {
-            window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-            });
-          }
+          // Salto directo, sin suavizado
+          window.scrollTo(0, targetPosition);
           // Cerrar sidebar después de hacer clic
           closeSidebar();
         }
@@ -1692,31 +1670,6 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
     } else {
       setupCopyToClipboard();
     }
-  </script>
-  <script>
-    // Inicializar Lenis Smooth Scroll - Solo para la guía
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    });
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-    // Integrar con el scroll del navegador
-    lenis.on('scroll', ({ scroll, limit, velocity, direction, progress }) => {
-      // Puedes agregar callbacks aquí si es necesario
-    });
-    // Hacer lenis disponible globalmente para el scroll del menú
-    window.lenis = lenis;
   </script>
 </body>
 </html>`;

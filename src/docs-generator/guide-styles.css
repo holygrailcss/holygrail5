@@ -94,9 +94,7 @@
 /* ============================================
    RESET Y BASE
    ============================================ */
-* {
-  scroll-behavior: smooth;
-}
+/* Scroll nativo (sin suavizado): los saltos de ancla son instantáneos. */
 
 body {
   margin: 0;
@@ -215,7 +213,8 @@ h2 {
 @media (min-width: 768px) {
   .guide-section-title {
     margin-top: 1.25rem;
-    flex-direction: row;
+    /* Se mantiene en columna: el contenido (cajas explicativas) queda
+       debajo del titular y alineado a la izquierda, no en la mitad derecha. */
   }
 }
 
@@ -1322,15 +1321,18 @@ h2 {
   gap: var(--hg-spacing-24);
   max-width: 100%;
   margin-left: 0;
-  margin-bottom: 10rem;
+  margin-bottom: 2rem;
 }
 
+/* Las cajas explicativas van debajo del titular + línea, alineadas a la
+   IZQUIERDA (antes: max-width 50% + margin-left 50% las empujaba a la
+   mitad derecha de la página). */
 @media (min-width: 768px) {
   .demo-section-2 {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 50%;
-    margin-left: 50%;
-    margin-bottom: 10rem;
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 2rem;
   }
 }
 
