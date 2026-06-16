@@ -497,7 +497,7 @@ function generateHTML(configData, previousValuesPath = null) {
   // Estilos dinámicos basados en config
   const allStyles = `
     body {
-      font-family: var(--${prefix}-${category}-font-family-primary);
+      font-family: var(--${prefix}-${category}-font-family-primary-regular);
     }`;
   // Generar tabla de layout helpers
   const layoutHelpersHTML = configData.helpers ? Object.entries(configData.helpers).flatMap(([helperName, config]) => {
@@ -624,20 +624,11 @@ ${activeThemes.map(t => `        <a href="themes/${t.name}-demo.html" class="gui
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>HolyGrail5 - Guía de Tipografía</title>
-  <!-- Google Fonts - Solo para la guía -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,100,500,600,700" media="all">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="output.css?v=${Date.now()}">
   <link rel="stylesheet" href="guide-styles.css?v=${Date.now()}">
   <style>
     ${allStyles}
-    /* Google Fonts - Solo para la guía (sobrescribe la fuente del body) */
-    body {
-      font-family: 'Instrument Sans', sans-serif !important;
-    }
   </style>
 </head>
 <body>

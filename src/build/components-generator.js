@@ -479,20 +479,13 @@ function generateComponentsPage(projectRoot, configData = null) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HolyGrail5 — Componentes base</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,100,500,600,700">
   <!-- Framework base -->
   <link rel="stylesheet" href="output.css">
   <!-- Tema base genérico: ${BASE_THEME} (variables + componentes) -->
   <link rel="stylesheet" href="themes/${BASE_THEME}.css">
-  <!-- Estilos compartidos de guía (header, sidebar, demo-*) -->
+  <!-- Estilos compartidos de guía (header, sidebar, demo-*; incluye @font-face Suisse y la regla body en Suisse) -->
   <link rel="stylesheet" href="guide-styles.css">
   <style>
-    body {
-      font-family: 'Instrument Sans', sans-serif !important;
-    }
-
     /* Descripción de cada sección (debajo del título) */
     .cmp-desc {
       font-size: 14px;

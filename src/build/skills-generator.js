@@ -284,15 +284,23 @@ function buildPage(skill, activeThemes = FALLBACK_THEMES_IN_NAV) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HolyGrail5 — Developer Guide</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Instrument+Sans:regular,100,500,600,700" media="all">
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <link rel="stylesheet" href="output.css">
   <style>
+    /* @font-face de Suisse (esta página no enlaza guide-styles.css, donde
+       normalmente viven). Misma convención: una familia por peso, woff2+woff
+       con fallback, y el font-weight numérico real de cada cut. */
+    @font-face { font-family: "suisse-light"; font-weight: 300; font-display: swap;
+      src: local("SuisseIntl-Light"), url('assets/fonts/suisse-intl-light.woff2') format('woff2'), url('assets/fonts/suisse-intl-light.woff') format('woff'); }
+    @font-face { font-family: "suisse-regular"; font-weight: 400; font-display: swap;
+      src: local("SuisseIntl-Regular"), url('assets/fonts/suisse-intl-regular.woff2') format('woff2'), url('assets/fonts/suisse-intl-regular.woff') format('woff'); }
+    @font-face { font-family: "suisse-medium"; font-weight: 500; font-display: swap;
+      src: local("SuisseIntl-Medium"), url('assets/fonts/suisse-intl-medium.woff2') format('woff2'), url('assets/fonts/suisse-intl-medium.woff') format('woff'); }
+    @font-face { font-family: "suisse-semibold"; font-weight: 600; font-display: swap;
+      src: local("SuisseIntl-SemiBold"), url('assets/fonts/suisse-intl-semibold.woff2') format('woff2'), url('assets/fonts/suisse-intl-semibold.woff') format('woff'); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Instrument Sans', sans-serif !important;
+      font-family: var(--hg-typo-font-family-primary-regular);
       background: #fff;
       color: #111;
       -webkit-font-smoothing: antialiased;
