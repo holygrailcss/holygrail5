@@ -499,70 +499,41 @@ function generateHTML(configData, previousValuesPath = null) {
     body {
       font-family: var(--${prefix}-${category}-font-family-primary-regular);
     }`;
-  // Generar tabla de layout helpers
-  const layoutHelpersHTML = configData.helpers ? Object.entries(configData.helpers).flatMap(([helperName, config]) => {
-    const { property, class: className, responsive, values, useSpacing, description, explanation } = config;
-    const helperDescription = description || explanation || '';
-    const prefix = configData.prefix || 'hg';
+  // Helpers de layout AGRUPADOS POR TIPO. Cada tipo (display, gap,
+  // justify-content…) es un bloque con su lista compacta de clases.
+  // Reutiliza el estilo de la sección Variables (.guide-variables-*) para
+  // unificar el look y fluir en 2 columnas (column-count).
+  const layoutGroups = configData.helpers ? Object.entries(configData.helpers).map(([helperName, conf]) => {
+    const { property, class: className, responsive, values, useSpacing } = conf;
+    const localPrefix = configData.prefix || 'hg';
     const baseFontSize = configData.baseFontSize || 16;
-    const rows = [];
+    const items = [];
+    const add = (suffix, val) => items.push({ cls: `.${localPrefix}-${className}-${suffix}`, val });
     if (useSpacing && configData.spacingMap) {
-      Object.entries(configData.spacingMap).forEach(([key, value]) => {
-        const baseClass = escapeHtml(`.${prefix}-${className}-${key}`);
-        const responsiveClass = responsive ? escapeHtml(`.md:${prefix}-${className}-${key}`) : '';
-        const remValue = value.endsWith('%') ? value : pxToRem(value, baseFontSize);
-        rows.push(`
-      <tr>
-        <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
-        <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
-        <td class="guide-layout-property">${escapeHtml(property)}: ${escapeHtml(remValue)}</td>
-        <td class="guide-layout-property">${escapeHtml(helperDescription || '-')}</td>
-      </tr>`);
-      });
+      Object.entries(configData.spacingMap).forEach(([key, value]) =>
+        add(key, `${property}: ${value.endsWith('%') ? value : pxToRem(value, baseFontSize)}`));
+    } else if (Array.isArray(values)) {
+      values.forEach(value => add(value, `${property}: ${value}`));
     } else if (values) {
-      if (Array.isArray(values)) {
-        values.forEach(value => {
-          const baseClass = escapeHtml(`.${prefix}-${className}-${value}`);
-          const responsiveClass = responsive ? escapeHtml(`.md:${prefix}-${className}-${value}`) : '';
-          rows.push(`
-      <tr>
-        <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
-        <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
-        <td class="guide-layout-property">${escapeHtml(property)}: ${escapeHtml(value)}</td>
-        <td class="guide-layout-property">${escapeHtml(helperDescription || '-')}</td>
-      </tr>`);
-        });
-      } else {
-        Object.entries(values).forEach(([key, value]) => {
-          const baseClass = escapeHtml(`.${prefix}-${className}-${key}`);
-          const responsiveClass = responsive ? escapeHtml(`.md:${prefix}-${className}-${key}`) : '';
-          rows.push(`
-      <tr>
-        <td class="guide-layout-class-name guide-copyable" data-copy-value="${baseClass}" title="Click para copiar ${baseClass}">${baseClass}</td>
-        <td class="guide-layout-class-name ${responsiveClass ? 'guide-copyable' : ''}" ${responsiveClass ? `data-copy-value="${responsiveClass}" title="Click para copiar ${responsiveClass}"` : ''}>${responsiveClass || '-'}</td>
-        <td class="guide-layout-property">${escapeHtml(property)}: ${escapeHtml(value)}</td>
-        <td class="guide-layout-property">${escapeHtml(helperDescription || '-')}</td>
-      </tr>`);
-        });
-      }
+      Object.entries(values).forEach(([key, value]) => add(key, `${property}: ${value}`));
     }
-    return rows;
-  }).join('') : '';
-  const layoutHelpersTableHTML = configData.helpers ? `
-    <div class="guide-table-wrapper">
-      <table class="guide-table">
-        <thead>
-          <tr>
-            <th>Clases Helper</th>
-            <th>Clases Helper (md:)</th>
-            <th>Propiedad CSS</th>
-            <th>Descripción</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${layoutHelpersHTML}
-        </tbody>
-      </table>
+    return { name: helperName, responsive: !!responsive, items };
+  }).filter(g => g.items.length) : [];
+  const layoutHelpersTableHTML = layoutGroups.length ? `
+    <div class="guide-variables-grid guide-layout-grid">
+      ${layoutGroups.map(g => `
+      <div class="guide-variables-group">
+        <h4 class="guide-variables-group-title">${escapeHtml(g.name)} <span class="guide-variables-group-count">(${g.items.length})</span>${g.responsive ? ' <span class="guide-layout-md" title="Tiene variantes responsive con prefijo md:">md:</span>' : ''}</h4>
+        <div class="guide-variables-group-list">
+          ${g.items.map(it => {
+            const cls = escapeHtml(it.cls);
+            return `<div class="guide-variable-item">
+            <span class="guide-variable-name guide-copyable" data-copy-value="${cls}" title="Click para copiar ${cls}">${cls}</span>
+            <span class="guide-variable-values"><span class="guide-variable-value">${escapeHtml(it.val)}</span></span>
+          </div>`;
+          }).join('')}
+        </div>
+      </div>`).join('')}
     </div>` : '';
       // Sección "Colores" → extraída a ./sections/colors-section.js.
       // Usa `changedValues` (Set compartido con el resto del generador)
@@ -1025,51 +996,50 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
     </div>
     </div>
       <div class="guide-section-content">
-        <div class="guide-table-wrapper">
-          <table class="guide-table">
-            <thead>
-              <tr>
-                <th>Clase</th>
-                <th>Ratio</th>
-                <th>Descripción</th>
-                <th>Preview</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="guide-table-name">.${prefix}-aspect</td>
-                <td class="guide-table-value">2:3</td>
-                <td class="guide-table-description">Ratio por defecto (2:3)</td>
+        ${(() => {
+          // Lista completa: el ratio por defecto (.hg-aspect = 2:3) + los del config.
+          const all = [
+            { cls: `${prefix}-aspect`, ratio: '2:3', desc: 'Ratio por defecto (2:3)' },
+            ...configData.aspectRatios.map(r => ({
+              cls: `${prefix}-${r.class}`,
+              ratio: `${r.width}:${r.height}`,
+              desc: r.description
+            }))
+          ];
+          const renderRows = items => items.map(r => {
+            const cls = escapeHtml(r.cls);
+            const ratio = escapeHtml(r.ratio);
+            return `<tr>
+                <td class="guide-table-name">.${cls}</td>
+                <td class="guide-table-value">${ratio}</td>
+                <td class="guide-table-description">${escapeHtml(r.desc)}</td>
                 <td class="guide-preview-cell">
-                  <div class="${prefix}-aspect" style="background: var(--${prefix}-color-primary); max-width: 100px;">
+                  <div class="${cls}" style="background: var(--${prefix}-color-primary); max-width: 56px;">
                     <div class="${prefix}-aspect-content">
-                      <img class="${prefix}-aspect-image" src="assets/introm.jpg" alt="Ejemplo 2:3" />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              ${configData.aspectRatios.map(ratio => {
-                const { class: className, width, height, description } = ratio;
-                const ratioValue = `${width}:${height}`;
-                const eClassName = escapeHtml(className);
-                const eRatioValue = escapeHtml(ratioValue);
-                return `<tr>
-                <td class="guide-table-name">.${prefix}-${eClassName}</td>
-                <td class="guide-table-value">${eRatioValue}</td>
-                <td class="guide-table-description">${escapeHtml(description)}</td>
-                <td class="guide-preview-cell">
-                  <div class="${prefix}-${eClassName}" style="background: var(--${prefix}-color-primary); max-width: 100px;">
-                    <div class="${prefix}-aspect-content">
-                      <img class="${prefix}-aspect-image" src="assets/introm.jpg" alt="Ejemplo ${eRatioValue}" />
+                      <img class="${prefix}-aspect-image" src="assets/introm.jpg" alt="Ejemplo ${ratio}" />
                     </div>
                   </div>
                 </td>
               </tr>`;
-              }).join('\n              ')}
+          }).join('\n              ');
+          const tableShell = rows => `<div class="guide-table-wrapper">
+          <table class="guide-table">
+            <thead>
+              <tr><th>Clase</th><th>Ratio</th><th>Descripción</th><th>Preview</th></tr>
+            </thead>
+            <tbody>
+              ${rows}
             </tbody>
           </table>
-        </div>
-        
+        </div>`;
+          // Partimos por la mitad → dos tablas lado a lado (menos scroll vertical).
+          const mid = Math.ceil(all.length / 2);
+          return `<div class="guide-cols-2">
+        ${tableShell(renderRows(all.slice(0, mid)))}
+        ${tableShell(renderRows(all.slice(mid)))}
+        </div>`;
+        })()}
+
         <div class="guide-section-title">
           <div> </div>
           <div class="demo-section-2">
@@ -1178,116 +1148,28 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
     <div class="col-xs-12 col-md-12"><hr></div>
     </div>
       <div class="guide-section-content">
-        <div class="guide-table-wrapper">
+        ${(() => {
+          const containers = [{"cls":".container","maxw":"800px (50rem)","resp":"sm: 768px (48rem) / md: 992px (62rem) / lg: 1280px (80rem) / xl: 1440px (90rem)","w":"100%"},{"cls":".container-2","maxw":"700px (43.75rem)","resp":"width: 90%","w":"87%"},{"cls":".container-3","maxw":"900px (56.25rem)","resp":"padding: 60px (3.75rem) → 20px (1.25rem) en sm+","w":"95%"},{"cls":".container-4","maxw":"360px (22.5rem)","resp":"padding: 40px (2.5rem)","w":"25%"},{"cls":".container-5","maxw":"800px (50rem)","resp":"lg+: 1000px (62.5rem), padding: 0","w":"70%"},{"cls":".container-6","maxw":"442px (27.625rem)","resp":"—","w":"31%"},{"cls":".container-7","maxw":"295px (18.44rem) → 595px (37.19rem)","resp":"sm: 460px (28.75rem) / md: 460px (28.75rem) / lg: 595px (37.19rem)","w":"42%"},{"cls":".container-8","maxw":"395px (24.69rem)","resp":"—","w":"28%"},{"cls":".container-9","maxw":"798px (49.88rem)","resp":"padding: 20px (1.25rem)","w":"55%"},{"cls":".container-10","maxw":"200px (12.5rem)","resp":"sin padding, sin margin auto","w":"14%"},{"cls":".container-11","maxw":"1080px (67.5rem)","resp":"padding: 20px (1.25rem)","w":"75%"},{"cls":".container-12","maxw":"1080px (67.5rem)","resp":"padding: 20px (1.25rem), sin margin auto","w":"75%"},{"cls":".container-360","maxw":"360px (22.5rem)","resp":"solo max-width","w":"25%"},{"cls":".container-496","maxw":"496px (31rem)","resp":"solo max-width","w":"35%"},{"cls":".container-512","maxw":"512px (32rem)","resp":"solo max-width","w":"36%"},{"cls":".container-640","maxw":"640px (40rem)","resp":"solo max-width","w":"45%"}];
+          const rows = list => list.map(c => `<tr>
+                <td class="guide-table-name">${escapeHtml(c.cls)}</td>
+                <td class="guide-table-value">${escapeHtml(c.maxw)}</td>
+                <td class="guide-table-description">${escapeHtml(c.resp)}</td>
+                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 6px; width: ${c.w}; border-radius: 4px;"></div></td>
+              </tr>`).join("\n              ");
+          const shell = r => `<div class="guide-table-wrapper">
           <table class="guide-table">
-            <thead>
-              <tr>
-                <th>Clase</th>
-                <th>Max-width</th>
-                <th>Responsive</th>
-                <th>Preview</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Clase</th><th>Max-width</th><th>Responsive</th><th>Preview</th></tr></thead>
             <tbody>
-              <tr>
-                <td class="guide-table-name">.container</td>
-                <td class="guide-table-value">800px (50rem)</td>
-                <td class="guide-table-description">sm: 768px (48rem) / md: 992px (62rem) / lg: 1280px (80rem) / xl: 1440px (90rem)</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 100%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-2</td>
-                <td class="guide-table-value">700px (43.75rem)</td>
-                <td class="guide-table-description">width: 90%</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 87%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-3</td>
-                <td class="guide-table-value">900px (56.25rem)</td>
-                <td class="guide-table-description">padding: 60px (3.75rem) → 20px (1.25rem) en sm+</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 95%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-4</td>
-                <td class="guide-table-value">360px (22.5rem)</td>
-                <td class="guide-table-description">padding: 40px (2.5rem)</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 25%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-5</td>
-                <td class="guide-table-value">800px (50rem)</td>
-                <td class="guide-table-description">lg+: 1000px (62.5rem), padding: 0</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 70%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-6</td>
-                <td class="guide-table-value">442px (27.625rem)</td>
-                <td class="guide-table-description">—</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 31%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-7</td>
-                <td class="guide-table-value">295px (18.44rem) → 595px (37.19rem)</td>
-                <td class="guide-table-description">sm: 460px (28.75rem) / md: 460px (28.75rem) / lg: 595px (37.19rem)</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 42%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-8</td>
-                <td class="guide-table-value">395px (24.69rem)</td>
-                <td class="guide-table-description">—</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 28%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-9</td>
-                <td class="guide-table-value">798px (49.88rem)</td>
-                <td class="guide-table-description">padding: 20px (1.25rem)</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 55%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-10</td>
-                <td class="guide-table-value">200px (12.5rem)</td>
-                <td class="guide-table-description">sin padding, sin margin auto</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 14%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-11</td>
-                <td class="guide-table-value">1080px (67.5rem)</td>
-                <td class="guide-table-description">padding: 20px (1.25rem)</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 75%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-12</td>
-                <td class="guide-table-value">1080px (67.5rem)</td>
-                <td class="guide-table-description">padding: 20px (1.25rem), sin margin auto</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 75%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-360</td>
-                <td class="guide-table-value">360px (22.5rem)</td>
-                <td class="guide-table-description">solo max-width</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 25%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-496</td>
-                <td class="guide-table-value">496px (31rem)</td>
-                <td class="guide-table-description">solo max-width</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 35%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-512</td>
-                <td class="guide-table-value">512px (32rem)</td>
-                <td class="guide-table-description">solo max-width</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 36%; border-radius: 4px;"></div></td>
-              </tr>
-              <tr>
-                <td class="guide-table-name">.container-640</td>
-                <td class="guide-table-value">640px (40rem)</td>
-                <td class="guide-table-description">solo max-width</td>
-                <td class="guide-preview-cell"><div style="background: var(--${prefix}-color-primary); height: 8px; width: 45%; border-radius: 4px;"></div></td>
-              </tr>
+              ${r}
             </tbody>
           </table>
-        </div>
+        </div>`;
+          const mid = Math.ceil(containers.length / 2);
+          return `<div class="guide-cols-2">
+        ${shell(rows(containers.slice(0, mid)))}
+        ${shell(rows(containers.slice(mid)))}
+        </div>`;
+        })()}
 
         <div class="guide-section-title">
           <div> </div>

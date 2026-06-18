@@ -450,6 +450,49 @@ h2 {
   overflow: auto;
 }
 
+/* Dos tablas lado a lado en desktop para ver más filas sin tanto scroll;
+   se apilan en una sola columna en móvil. Genérico: lo usan Ratios y
+   Containers. */
+.guide-cols-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 2.5rem;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .guide-cols-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+/* Tamaño compacto y unificado dentro de las vistas a 2 columnas
+   (Containers/Ratios), en línea con la densidad de la sección Layout. */
+.guide-cols-2 .guide-table {
+  font-size: 0.78rem;
+}
+.guide-cols-2 .guide-table thead th {
+  font-size: 0.68rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+.guide-cols-2 .guide-table td {
+  padding-top: 0.28rem;
+  padding-bottom: 0.28rem;
+}
+
+/* Badge "md:" en los títulos de grupo de la sección Layout (indica que el
+   helper tiene variantes responsive). */
+.guide-layout-md {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--hg-color-dark-grey, #737373);
+  background: var(--hg-color-light-grey, #f4f2ed);
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+}
+
 /* ============================================
    VARIABLES CSS — Grid de 3 columnas compacto
    ============================================ */
