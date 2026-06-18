@@ -138,7 +138,17 @@
     "gold": "#A38A6B",
     "platinum": "#5B7FA1",
     "bg-light": "#f9f9f9",
-    "bg-cream": "#f4f2ed"
+    "bg-cream": "#f4f2ed",
+    "primary-3": "rgba(0, 0, 0, 0.03)",
+    "primary-15": "rgba(0, 0, 0, 0.15)",
+    "primary-30": "rgba(0, 0, 0, 0.3)",
+    "primary-60": "rgba(0, 0, 0, 0.6)",
+    "primary-97": "rgba(0, 0, 0, 0.97)",
+    "secondary-3": "rgba(255, 255, 255, 0.03)",
+    "secondary-15": "rgba(255, 255, 255, 0.15)",
+    "secondary-30": "rgba(255, 255, 255, 0.3)",
+    "secondary-60": "rgba(255, 255, 255, 0.6)",
+    "secondary-97": "rgba(255, 255, 255, 0.97)"
   },
   "fontFamilyMap": {
     "primary-thin": "\"suisse-thin\", Arial, Helvetica, sans-serif",
