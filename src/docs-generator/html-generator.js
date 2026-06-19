@@ -523,7 +523,7 @@ function generateHTML(configData, previousValuesPath = null) {
     <div class="guide-variables-grid guide-layout-grid">
       ${layoutGroups.map(g => `
       <div class="guide-variables-group">
-        <h4 class="guide-variables-group-title">${escapeHtml(g.name)} <span class="guide-variables-group-count">(${g.items.length})</span>${g.responsive ? ' <span class="guide-layout-md" title="Tiene variantes responsive con prefijo md:">md:</span>' : ''}</h4>
+        <h4 class="guide-variables-group-title">${escapeHtml(g.name)} <span class="guide-variables-group-count">(${g.items.length})</span>${g.responsive ? ' <span class="guide-layout-md" title="Tiene variantes responsive para desktop con prefijo .md: (p. ej. .md:hg-...)">responsive</span>' : ''}</h4>
         <div class="guide-variables-group-list">
           ${g.items.map(it => {
             const cls = escapeHtml(it.cls);
@@ -826,7 +826,7 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
       <div class="guide-section-title">
       <div> </div>
   
-        <div class="demo-section-2">
+        <div class="demo-section-2 demo-section-1col">
         <div>
 
   <p>El grid system utiliza flexbox y un sistema de 12 columnas para breakpoints xs, sm, md, lg, y 24 columnas para xl.</p>
