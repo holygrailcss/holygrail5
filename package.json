@@ -1,6 +1,6 @@
 {
   "name": "holygrail5",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "Framework CSS generator con Node.js - Genera CSS optimizado con variables CSS desde un archivo JSON de configuración",
   "main": "generate-css.js",
   "style": "dist/output.css",
