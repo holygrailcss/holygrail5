@@ -67,6 +67,20 @@ function generateLayoutHelpers(helpers, spacingMap, prefix, desktopBreakpoint, b
     css += `\n@media (min-width: ${breakpointInRem}) {\n${responsiveCSS}}\n`;
   }
 
+  // Helper de accesibilidad: oculta visualmente el contenido manteniéndolo
+  // accesible para lectores de pantalla. Se hace visible al recibir foco.
+  // Se usa :not(:focus):not(:active) por compatibilidad cross-browser.
+  css += `\n/* Accessibility Helpers */\n`;
+  css += `.${prefix}-sr-only:not(:focus):not(:active) {\n`;
+  css += `  clip: rect(0, 0, 0, 0);\n`;
+  css += `  clip-path: inset(50%);\n`;
+  css += `  height: 1px;\n`;
+  css += `  overflow: hidden;\n`;
+  css += `  position: absolute;\n`;
+  css += `  white-space: nowrap;\n`;
+  css += `  width: 1px;\n`;
+  css += `}\n`;
+
   return css;
 }
 
