@@ -23,6 +23,10 @@
     ],
     "images": [
       {
+        "source": "src/assets/js/lenis.min.js",
+        "dest": "dist/assets/js/lenis.min.js"
+      },
+      {
         "source": "src/assets/intro.jpg",
         "dest": "dist/assets/intro.jpg"
       },

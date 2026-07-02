@@ -284,7 +284,8 @@ function buildPage(skill, activeThemes = FALLBACK_THEMES_IN_NAV) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HolyGrail5 — Developer Guide</title>
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <!-- Lenis vendorizado en dist/assets/js/ (sin CDN externo) -->
+  <script src="assets/js/lenis.min.js"></script>
   <link rel="stylesheet" href="output.css">
   <style>
     /* @font-face de Suisse (esta página no enlaza guide-styles.css, donde

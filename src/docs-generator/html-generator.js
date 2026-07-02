@@ -1326,14 +1326,33 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
     const clearSearchBtn = document.getElementById('clear-search');
     const searchResults = document.getElementById('search-results');
     let searchTimeout;
+    // Escapa HTML antes de inyectar con innerHTML. Sin esto, el resaltado
+    // reintroduciría como HTML vivo cualquier texto de celda (los valores
+    // del config se escapan al generar la guía, pero textContent los
+    // devuelve en crudo).
+    function escapeHtmlText(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
     // Función para resaltar texto
     function highlightText(text, searchTerm) {
-      if (!searchTerm) return text;
-      const escapedTerm = searchTerm.replace(/[.*+?^$()|[\]\\]/g, '\\\\$&');
+      const safeText = escapeHtmlText(text);
+      if (!searchTerm) return safeText;
+      // El término se busca sobre el texto YA escapado, así el <mark> se
+      // inserta en posiciones coherentes y nada del contenido se interpreta.
+      const escapedTerm = escapeHtmlText(searchTerm).replace(/[.*+?^$()|[\]\\]/g, '\\\\$&');
       const escapedTerm2 = escapedTerm.replace(/{/g, '\\\\{').replace(/}/g, '\\\\}');
       const regex = new RegExp('(' + escapedTerm2 + ')', 'gi');
-      return text.replace(regex, '<mark class="guide-search-highlight">$1</mark>');
+      return safeText.replace(regex, '<mark class="guide-search-highlight">$1</mark>');
     }
+    // Markup original de cada celda modificada por el resaltado. Al
+    // resaltar sustituimos innerHTML por texto plano (se pierden previews,
+    // <code>, swatches…); este mapa permite restaurarlo al limpiar.
+    const originalCellHTML = new Map();
     // Función para buscar en tablas y grids
     function searchInTables(searchTerm) {
       if (!searchTerm || searchTerm.trim() === '') {
@@ -1341,6 +1360,11 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
         document.querySelectorAll('.guide-section, .guide-table tbody tr, .spacing-helpers-table tbody tr, [style*="grid-template-columns"] > div').forEach(el => {
           el.style.display = '';
         });
+        // Restaurar el markup original de las celdas resaltadas
+        originalCellHTML.forEach((html, el) => {
+          el.innerHTML = html;
+        });
+        originalCellHTML.clear();
         document.querySelectorAll('mark').forEach(mark => {
           const parent = mark.parentNode;
           parent.replaceChild(document.createTextNode(mark.textContent), mark);
@@ -1360,8 +1384,9 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
         if (text.includes(term)) {
           row.style.display = '';
           matchCount++;
-          // Resaltar texto en las celdas
+          // Resaltar texto en las celdas (guardando el markup original)
           cells.forEach(cell => {
+            if (!originalCellHTML.has(cell)) originalCellHTML.set(cell, cell.innerHTML);
             const originalText = cell.textContent;
             cell.innerHTML = highlightText(originalText, term);
           });
@@ -1384,6 +1409,7 @@ ${activeThemes.map(t => `        <a href="themes/${encodeURIComponent(t.name)}-d
           const textElements = card.querySelectorAll('div');
           textElements.forEach(el => {
             if (el.textContent && !el.style.background) {
+              if (!originalCellHTML.has(el)) originalCellHTML.set(el, el.innerHTML);
               const originalText = el.textContent;
               el.innerHTML = highlightText(originalText, term);
             }

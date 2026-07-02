@@ -515,6 +515,20 @@ Los tests:
 | `docs/ANALISIS-ARQUITECTURA.md` | Análisis completo de la arquitectura y problemas resueltos. |
 | `docs/CHANGELOG-MEJORAS.md` | Registro detallado de la refactorización de diciembre 2024. |
 
+### Publicación en npm
+
+`dist/` está en `.gitignore` (no va al repo), pero **sí debe ir al paquete npm**. El script `prepack` ejecuta `npm run build` automáticamente antes de `npm pack` y `npm publish`, así que el tarball siempre incluye `dist/output.css`, temas, fuentes y la guía HTML.
+
+```bash
+# 1) Sube la versión en package.json
+# 2) Publica (build + tests + npm publish)
+npm run publish:pkg
+```
+
+También puedes usar `npm publish` directamente: `prepack` regenerará `dist/` antes de empaquetar.
+
+El paquete publica (vía `files` en `package.json`): `dist/**/*`, `config.json`, `src/**`, `themes/**` y `generate-css.js`.
+
 ### Publicación de la guía
 
 Puedes publicar `dist/index.html` como documentación estática en:

@@ -1,6 +1,6 @@
 {
   "name": "holygrail5",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "Framework CSS generator con Node.js - Genera CSS optimizado con variables CSS desde un archivo JSON de configuración",
   "main": "generate-css.js",
   "style": "dist/output.css",
@@ -16,11 +16,13 @@
   },
   "scripts": {
     "build": "node generate-css.js",
+    "prepack": "npm run build",
     "watch": "node src/watch-config.js",
     "serve": "node src/dev-server.js",
     "dev": "node src/dev-server.js",
     "start": "npm run build && npm run serve",
     "test": "node tests/run-all.js",
+    "publish:pkg": "npm test && npm publish",
     "vars:report": "node src/docs-generator/variables-cli.js report",
     "vars:remove-unused": "node src/docs-generator/variables-cli.js remove-all-unused"
   },
@@ -44,9 +46,22 @@
     "generate-css.js",
     "config.json",
     "README.md",
-    "src/**/*",
+    "src/**/*.js",
+    "src/docs-generator/guide-styles.css",
+    "src/assets/fonts/**",
+    "src/assets/js/**",
+    "src/assets/intro.jpg",
+    "src/assets/introm.jpg",
+    "src/assets/margen.webp",
     "themes/**/*",
-    "dist/**/*"
+    "dist/output.css",
+    "dist/guide-styles.css",
+    "dist/index.html",
+    "dist/componentes.html",
+    "dist/skills.html",
+    "dist/developer-guide.md",
+    "dist/assets/**",
+    "dist/themes/**"
   ],
   "engines": {
     "node": ">=18.0.0"

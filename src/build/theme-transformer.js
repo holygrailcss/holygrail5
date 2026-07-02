@@ -136,10 +136,12 @@ ${themeLinks}
 `;
 }
 
-// Script de Lenis para el head
+// Script de Lenis para el head.
+// Vendorizado en dist/assets/js/ (copiado por AssetManager desde
+// src/assets/js/): evita depender de un CDN externo sin SRI.
 const LENIS_HEAD_SCRIPT = `
-  <!-- Lenis Smooth Scroll - Solo para demo Tema Dutti -->
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>`;
+  <!-- Lenis Smooth Scroll - Solo para demo Tema Dutti (local, sin CDN) -->
+  <script src="../assets/js/lenis.min.js"></script>`;
 
 // Script de inicialización de Lenis
 const LENIS_INIT_SCRIPT = `

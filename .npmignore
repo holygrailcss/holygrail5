@@ -5,5 +5,13 @@
 .git
 .gitignore
 node_modules/
-output.css
+# Solo la raíz: no excluir dist/output.css del paquete npm
+/output.css
+
+# Higiene del paquete: estado interno, backups y assets no usados
+src/.data/
+dist/dist.bak/
+src/skills.html
+src/assets/intro2.jpg
+src/assets/px.png
 
