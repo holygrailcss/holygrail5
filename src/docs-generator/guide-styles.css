@@ -771,10 +771,17 @@ h2 {
 .guide-text-gray,
 .guide-layout-property,
 .guide-color-var-name,
+.guide-color-class,
 .guide-color-value {
   font-family: var(--hg-typo-font-family-primary-regular);
   color: #666;
   font-size: 13px;
+}
+
+.guide-color-class {
+  font-size: 12px;
+  color: #999;
+  cursor: pointer;
 }
 
 .guide-text-small {

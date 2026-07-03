@@ -68,6 +68,7 @@ function renderColorCard(key, value, prefix, changedValues) {
               <div class="guide-color-name">${eKey}</div>
               <div class="guide-color-var-name" data-copy-value="${eVarName}" title="Click para copiar ${eVarName}">${eVarName}</div>
               <div class="guide-color-value ${isChanged ? 'guide-changed' : ''}" data-copy-value="${eValue}" title="Click para copiar ${eValue}">${eValue}</div>
+              <div class="guide-color-class" data-copy-value=".${prefix}-c-${eKey}" title="Click para copiar .${prefix}-c-${eKey}">.${prefix}-c-${eKey} · .${prefix}-bg-${eKey}</div>
             </div>
           </div>`;
 }
