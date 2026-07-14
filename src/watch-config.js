@@ -64,24 +64,27 @@ function loadAssetsConfig(configPath) {
   }
 }
 
-function copyCSSFiles(silent = false, configPath = null) {
+// `outputDir` (opcional): directorio real de salida del build en curso.
+// Igual que en BuildOrchestrator, permite que los assets aterricen junto
+// al output.css cuando el watch corre sobre una salida personalizada.
+function copyCSSFiles(silent = false, configPath = null, outputDir = null) {
   const projectRoot = path.join(__dirname, '..');
   const assetsConfig = loadAssetsConfig(configPath);
-  const assetManager = new AssetManager(projectRoot, assetsConfig);
+  const assetManager = new AssetManager(projectRoot, assetsConfig, outputDir);
   assetManager.copyCSS(silent);
 }
 
-function copyImageFiles(silent = false, configPath = null) {
+function copyImageFiles(silent = false, configPath = null, outputDir = null) {
   const projectRoot = path.join(__dirname, '..');
   const assetsConfig = loadAssetsConfig(configPath);
-  const assetManager = new AssetManager(projectRoot, assetsConfig);
+  const assetManager = new AssetManager(projectRoot, assetsConfig, outputDir);
   assetManager.copyImages(silent);
 }
 
-function copyFontFiles(silent = false, configPath = null) {
+function copyFontFiles(silent = false, configPath = null, outputDir = null) {
   const projectRoot = path.join(__dirname, '..');
   const assetsConfig = loadAssetsConfig(configPath);
-  const assetManager = new AssetManager(projectRoot, assetsConfig);
+  const assetManager = new AssetManager(projectRoot, assetsConfig, outputDir);
   assetManager.copyFonts(silent);
 }
 
@@ -223,9 +226,9 @@ function watch(configPath = path.join(__dirname, '..', 'config.json'), outputPat
         if (!silent) {
           console.log(`🔄 Detectado cambio en ${path.basename(cssFile)}, copiando a dist/...\n`);
         }
-        copyCSSFiles(silent, configPath);
-        copyImageFiles(silent, configPath);
-        copyFontFiles(silent, configPath);
+        copyCSSFiles(silent, configPath, path.dirname(outputPath));
+        copyImageFiles(silent, configPath, path.dirname(outputPath));
+        copyFontFiles(silent, configPath, path.dirname(outputPath));
         if (!silent) {
           console.log('✨ CSS actualizado - Recarga el navegador para ver los cambios\n');
         }

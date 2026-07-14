@@ -45,6 +45,7 @@ Generador de CSS + guía HTML pensado para design systems ligeros: declaras tu `
     - [Contribuir](#contribuir)
   - [15. Licencia](#15-licencia)
   - [Changelog](#changelog)
+    - [v1.0.23 – v1.0.28 - Junio/Julio 2026](#v1023--v1028---juniojulio-2026)
     - [v1.0.22 - Junio 2026](#v1022---junio-2026)
     - [v1.0.21 - Mayo 2026](#v1021---mayo-2026)
     - [v1.0.20 - Abril 2026](#v1020---abril-2026)
@@ -570,6 +571,18 @@ Usa, adapta y comparte libremente mientras conserves la atribución.
 ---
 
 ## Changelog
+
+### v1.0.23 – v1.0.28 - Junio/Julio 2026
+
+Entrada consolidada de las releases de junio–julio.
+
+- **Tipografía**: pesos de `config.typo` alineados con los cuts reales de cada `@font-face` (light=300, regular=400, medium=500, semibold=600; visualmente neutro). Nueva familia `primary-thin` + clase `.title-thin`. Fallback mono recortado a `ui-monospace, monospace` y fix de `label-mono`/`label-mono-b` (referenciaban una variable inexistente y caían a sans). Guía y demos migradas de Instrument Sans a Suisse.
+- **Helpers nuevos**: utilidades de color `.hg-c-*` y fondo `.hg-bg-*` (30 tokens), `.hg-sr-only`, colores de opacidad primary/secondary.
+- **Temas**: dutti y limited alineados con el set del `fontFamilyMap` base (7 claves, incl. thin; mono del tema dutti ya no cae a sans). Saneadas variables fantasma de `_radios.css` y oficializado el hook `--checkbox-check-color`.
+- **Guía (dist/index.html)**: reordenación (Helpers y Variables al final), compactación general (~40% menos scroll), ratios/containers a 2 columnas, layout agrupado por tipo, tablas densas, cajas explicativas a la izquierda, sin smooth-scroll (Lenis fuera de la landing), fix bullets del grid ("[object Object]"), columna "Grosor" en Font Families, buscador con escape HTML y restauración del markup al limpiar.
+- **Cross-browser**: regla explícita en skills — propiedades modernas solo como mejora progresiva con fallback (patrón `aspect-ratio`/`padding-top`, `100vh`/`100dvh`).
+- **Paquete npm**: de ~20 MB a ~3 MB (whitelist `files` precisado, `intro.jpg` comprimido 5,5 MB→200 KB, fuera backups y estado interno). Lenis vendorizado en `dist/assets/js/` (sin CDN externo). `prepack` ejecuta el build.
+- **Flujo consumidor**: `npx holygrail5 --config=... --output=...` ahora copia `guide-styles.css` y `assets/` (fuentes, imágenes, lenis) junto al output del consumidor — antes quedaban solo en el dist del paquete y la guía generada salía sin estilos.
 
 ### v1.0.22 - Junio 2026
 

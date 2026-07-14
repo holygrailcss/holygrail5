@@ -18,6 +18,10 @@ const ASSETS_CONFIG = {
       dest: 'dist/assets/intro.jpg'
     },
     {
+      source: 'src/assets/js/lenis.min.js',
+      dest: 'dist/assets/js/lenis.min.js'
+    },
+    {
       source: 'src/assets/introm.jpg',
       dest: 'dist/assets/introm.jpg'
     },
@@ -95,10 +99,35 @@ const ASSETS_CONFIG = {
 };
 
 class AssetManager {
-  constructor(projectRoot, assetsConfig = null) {
+  /**
+   * @param {string} projectRoot - Raíz del paquete (de donde se LEEN los sources).
+   * @param {Object} [assetsConfig] - Config de assets o fallback ASSETS_CONFIG.
+   * @param {string} [outputDir] - Directorio de salida real del build. Los
+   *   `dest` de la config usan el prefijo convencional `dist/`; cuando el
+   *   consumidor pasa `--output=<su-ruta>` los assets deben aterrizar junto
+   *   a ese output (no en el dist del paquete). Si se omite, se mantiene el
+   *   comportamiento histórico (dest relativo a projectRoot).
+   */
+  constructor(projectRoot, assetsConfig = null, outputDir = null) {
     this.projectRoot = projectRoot || path.join(__dirname, '..', '..');
     // Usar config pasada o fallback a ASSETS_CONFIG por defecto
     this.assetsConfig = assetsConfig || ASSETS_CONFIG;
+    this.outputDir = outputDir || null;
+  }
+
+  /**
+   * Resuelve la ruta destino de un asset. Reescribe el prefijo `dist/`
+   * hacia outputDir cuando está definido, para que `npx holygrail5
+   * --output=...` deje guide-styles.css, fuentes e imágenes junto al CSS
+   * generado del consumidor.
+   */
+  resolveDest(dest) {
+    if (path.isAbsolute(dest)) return dest;
+    const m = dest.match(/^dist[\/\\](.*)$/);
+    if (this.outputDir && m) {
+      return path.join(this.outputDir, m[1]);
+    }
+    return path.join(this.projectRoot, dest);
   }
 
   /**
@@ -109,12 +138,10 @@ class AssetManager {
    * @returns {boolean} - true si se copió exitosamente
    */
   copyFile(source, dest, silent = false) {
-    const sourcePath = path.isAbsolute(source) 
-      ? source 
+    const sourcePath = path.isAbsolute(source)
+      ? source
       : path.join(this.projectRoot, source);
-    const destPath = path.isAbsolute(dest) 
-      ? dest 
-      : path.join(this.projectRoot, dest);
+    const destPath = this.resolveDest(dest);
 
     if (!fs.existsSync(sourcePath)) {
       if (!silent) {

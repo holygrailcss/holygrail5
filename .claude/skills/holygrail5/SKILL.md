@@ -146,7 +146,7 @@ Esta skill es el índice y el contexto común; delega a las anteriores cuando la
 | `npm run watch` | `node src/watch-config.js` — observa `config.json`, CSS y `themes/`, regenera al guardar. |
 | `npm run serve` / `npm run dev` | `node src/dev-server.js` — sirve `dist/` en `127.0.0.1:3000` (solo loopback). (`dev` actualmente es alias de `serve`.) |
 | `npm run start` | `build` + `serve`. |
-| `npm test` | `node tests/run-all.js` — corre los 29 tests. |
+| `npm test` | `node tests/run-all.js` — corre los 30 tests. |
 | `npm run vars:report` | Informe de variables CSS (usadas / no usadas / históricas). |
 | `npm run vars:remove-unused` | Limpia variables históricas no referenciadas. |
 
@@ -234,7 +234,7 @@ La guía HTML (`dist/index.html`) además resalta los valores que cambiaron resp
 
 ### Tests
 
-- 29 tests en `tests/`, sin frameworks pesados — son funciones puras que imprimen `✅`/`❌`. Lánzalos con `npm test`. Tardan <1 s.
+- 30 tests en `tests/`, sin frameworks pesados — son funciones puras que imprimen `✅`/`❌`. Lánzalos con `npm test`. Tardan <1 s.
 - Cobertura clave: `config-loader`, `css-generator`, `helpers`, `html-generator`, `ratio-generator`, `asset-manager` (10), `theme-transformer` (5), `build-orchestrator` (5), `escaping` (3, anti-inyección en la guía).
 - Si tocas un generador, añade o actualiza el test correspondiente. Mantén los tests deterministas (usa `config` mínimos en memoria, no lecturas de disco salvo lo imprescindible).
 - Si añades un test con conteo propio (estilo `testX()` que devuelve `{passed, failed}`), recuérdalo enganchar en `tests/run-all.js` para que sume al total.

@@ -32,7 +32,11 @@ class BuildOrchestrator {
       // Si no se puede cargar config, usar configuración por defecto
     }
     
-    this.assetManager = new AssetManager(this.projectRoot, assetsConfig);
+    // outputDir: los assets (guide-styles, fuentes, imágenes, lenis) deben
+    // aterrizar junto al output.css generado — clave cuando un consumidor
+    // ejecuta `npx holygrail5 --output=<su-dist>/output.css`. Con el output
+    // por defecto (dist/ del paquete) el resultado es idéntico al histórico.
+    this.assetManager = new AssetManager(this.projectRoot, assetsConfig, path.dirname(this.outputPath));
     this.themeTransformer = new ThemeTransformer(this.projectRoot);
   }
 

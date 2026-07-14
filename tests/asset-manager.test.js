@@ -265,6 +265,32 @@ function testAssetManager() {
     failedTests++;
   }
 
+  // Test 15: resolveDest reescribe dist/ hacia outputDir (flujo consumidor
+  // con --output=<ruta-custom>), y sin outputDir mantiene el comportamiento
+  // histórico relativo a projectRoot.
+  try {
+    const root = path.join(__dirname, '..');
+    const consumerOut = path.join('/tmp', 'hg5-test-consumer', 'dist');
+    const withOut = new AssetManager(root, null, consumerOut);
+    const legacy = new AssetManager(root);
+
+    const rewritten = withOut.resolveDest('dist/assets/fonts/x.woff2');
+    const kept = legacy.resolveDest('dist/assets/fonts/x.woff2');
+    const absolute = withOut.resolveDest('/abs/route.css');
+
+    if (rewritten === path.join(consumerOut, 'assets/fonts/x.woff2') &&
+        kept === path.join(root, 'dist/assets/fonts/x.woff2') &&
+        absolute === '/abs/route.css') {
+      console.log('✅ Test 15: resolveDest respeta outputDir (flujo consumidor)');
+      passedTests++;
+    } else {
+      throw new Error(`rutas inesperadas: ${rewritten} | ${kept} | ${absolute}`);
+    }
+  } catch (error) {
+    console.log('❌ Test 15: Error en resolveDest/outputDir:', error.message);
+    failedTests++;
+  }
+
   // Resumen
   console.log(`\n📊 Resumen AssetManager: ${passedTests} pasados, ${failedTests} fallidos\n`);
 
