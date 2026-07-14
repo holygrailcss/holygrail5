@@ -18,6 +18,15 @@ function getFontFamilyVarName(fontFamilyName, prefix, category) {
 }
 
 /**
+ * Genera el nombre de variable CSS de peso ligada al rol de familia
+ * Empareja el peso con el mismo rol que la familia (primary-light, primary-regular, ...)
+ * para que al remapear la familia por idioma el peso viaje con ella
+ */
+function getFontWeightRoleVarName(role, prefix, category) {
+  return `--${prefix}-${category}-font-weight-${role}`;
+}
+
+/**
  * Genera el nombre de variable CSS para line-height
  * Convierte el valor numérico a un formato válido para nombres de variables
  */
@@ -58,9 +67,14 @@ function buildValueMap(classes, fontFamilyMap, prefix, category, historicalVarsP
   const fontFamilyVars = new Map(Object.entries(historicalVars.fontFamilyVars || {}));
   const lineHeightVars = new Map(Object.entries(historicalVars.lineHeightVars || {}));
   const fontWeightVars = new Map(Object.entries(historicalVars.fontWeightVars || {}));
+  const fontWeightRoleVars = new Map(Object.entries(historicalVars.fontWeightRoleVars || {}));
   const letterSpacingVars = new Map(Object.entries(historicalVars.letterSpacingVars || {}));
   const textTransformVars = new Map(Object.entries(historicalVars.textTransformVars || {}));
   const fontSizeVars = new Map(Object.entries(historicalVars.fontSizeVars || {}));
+  
+  // Pesos por rol vistos en ESTA build (para detectar inconsistencias y que el
+  // config actual gane sobre el valor histórico del mismo rol)
+  const seenRoles = new Map();
   
   const valueMap = {};
   
@@ -79,6 +93,22 @@ function buildValueMap(classes, fontFamilyMap, prefix, category, historicalVarsP
         varName: fontFamilyVars.get(cls.fontFamily).varName,
         value: cls.fontFamily
       };
+      
+      // Empareja el peso con el rol de la familia (enfoque A)
+      // Así un override de idioma que remapee la familia mueve también el peso
+      if (cls.fontWeight !== undefined) {
+        const roleVarName = getFontWeightRoleVarName(fontFamilyName, prefix, category);
+        if (seenRoles.has(fontFamilyName) && seenRoles.get(fontFamilyName) !== cls.fontWeight) {
+          console.warn(`⚠️  El rol de familia "${fontFamilyName}" tiene pesos inconsistentes (${seenRoles.get(fontFamilyName)} vs ${cls.fontWeight}). Se conserva ${seenRoles.get(fontFamilyName)}.`);
+        } else if (!seenRoles.has(fontFamilyName)) {
+          seenRoles.set(fontFamilyName, cls.fontWeight);
+          fontWeightRoleVars.set(fontFamilyName, { varName: roleVarName, value: cls.fontWeight, role: fontFamilyName });
+        }
+        valueMap[className].fontWeightRole = {
+          varName: roleVarName,
+          value: seenRoles.get(fontFamilyName)
+        };
+      }
     }
     
     // Procesa propiedades base que se comparten entre breakpoints
@@ -142,13 +172,14 @@ function buildValueMap(classes, fontFamilyMap, prefix, category, historicalVarsP
     fontFamilyVars,
     lineHeightVars,
     fontWeightVars,
+    fontWeightRoleVars,
     letterSpacingVars,
     textTransformVars,
     fontSizeVars
   };
   saveHistoricalVariables(allVariables, historicalVarsPathDefault);
   
-  return { valueMap, fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars };
+  return { valueMap, fontFamilyVars, lineHeightVars, fontWeightVars, fontWeightRoleVars, letterSpacingVars, textTransformVars, fontSizeVars };
 }
 
 /**
@@ -188,6 +219,11 @@ function generateClassCSS(className, cls, breakpointName, valueMap, prefix, cate
     if (prop === 'fontFamily') {
       const fontFamilyName = getFontFamilyName(props[prop], fontFamilyMap);
       varName = getFontFamilyVarName(fontFamilyName, prefix, category);
+    } else if (prop === 'fontWeight' && cls.fontFamily !== undefined) {
+      // Peso ligado al rol de la familia: al remapear la familia por idioma,
+      // el peso viaja con ella (enfoque A)
+      const fontFamilyName = getFontFamilyName(cls.fontFamily, fontFamilyMap);
+      varName = getFontWeightRoleVarName(fontFamilyName, prefix, category);
     } else if (prop === 'lineHeight') {
       varName = getLineHeightVarName(props[prop], prefix, category);
     } else if (prop === 'fontSize') {
@@ -227,10 +263,29 @@ ${cssClasses.join('\n\n')}
 }`;
 }
 
+/**
+ * Genera las reglas de elementos base tipográficos
+ * Aplica el rol de familia y peso "bold" a los elementos semánticos de negrita
+ * (strong, b) usando variables por rol, de modo que al remapear la familia por
+ * idioma la negrita viaja con ella sin necesitar reglas !important en el consumidor
+ */
+function generateBaseTypographyElements(prefix, category, boldRole = 'primary-bold') {
+  const familyVar = getFontFamilyVarName(boldRole, prefix, category);
+  const weightVar = getFontWeightRoleVarName(boldRole, prefix, category);
+  return `/* Elementos Base Tipográficos */
+strong,
+b {
+  font-family: var(${familyVar});
+  font-weight: var(${weightVar});
+}`;
+}
+
 module.exports = {
   buildValueMap,
   generateTypographyBlock,
+  generateBaseTypographyElements,
   getFontFamilyVarName,
+  getFontWeightRoleVarName,
   getLineHeightVarName,
   getSharedVarName
 };

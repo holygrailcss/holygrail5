@@ -22,6 +22,7 @@ function loadHistoricalVariables(historicalVarsPath) {
     fontFamilyVars: {},
     lineHeightVars: {},
     fontWeightVars: {},
+    fontWeightRoleVars: {},
     letterSpacingVars: {},
     textTransformVars: {},
     fontSizeVars: {}
@@ -44,6 +45,7 @@ function saveHistoricalVariables(variables, historicalVarsPath) {
       fontFamilyVars: {},
       lineHeightVars: {},
       fontWeightVars: {},
+      fontWeightRoleVars: {},
       letterSpacingVars: {},
       textTransformVars: {},
       fontSizeVars: {}
@@ -59,6 +61,11 @@ function saveHistoricalVariables(variables, historicalVarsPath) {
     variables.fontWeightVars.forEach((value, key) => {
       varsToSave.fontWeightVars[key] = value;
     });
+    if (variables.fontWeightRoleVars) {
+      variables.fontWeightRoleVars.forEach((value, key) => {
+        varsToSave.fontWeightRoleVars[key] = value;
+      });
+    }
     variables.letterSpacingVars.forEach((value, key) => {
       varsToSave.letterSpacingVars[key] = value;
     });
@@ -120,7 +127,7 @@ function generateColorVariables(colorsMap, prefix) {
  * Recorre todos los mapas de variables y las convierte en declaraciones CSS.
  * Si se pasa fontFamilyMap, las variables font-family se generan desde el map (una por entrada).
  */
-function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars = [], colorVars = [], fontFamilyMap = null, prefix = 'hg', category = 'typo') {
+function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, letterSpacingVars, textTransformVars, fontSizeVars, spacingVars = [], colorVars = [], fontFamilyMap = null, prefix = 'hg', category = 'typo', fontWeightRoleVars = null) {
   const variables = [];
   // Font-family: usar fontFamilyMap si existe (todas las entradas en :root), si no usar fontFamilyVars
   if (fontFamilyMap && typeof fontFamilyMap === 'object') {
@@ -129,6 +136,13 @@ function generateRootVariables(fontFamilyVars, lineHeightVars, fontWeightVars, l
     });
   } else {
     Array.from(fontFamilyVars.values()).forEach(item => {
+      variables.push(`  ${item.varName}: ${item.value};`);
+    });
+  }
+  // Peso por rol de familia (enfoque A): emparejado con cada familia para que
+  // un override de idioma que remapee la familia mueva también el peso
+  if (fontWeightRoleVars && typeof fontWeightRoleVars.values === 'function') {
+    Array.from(fontWeightRoleVars.values()).forEach(item => {
       variables.push(`  ${item.varName}: ${item.value};`);
     });
   }

@@ -80,6 +80,17 @@
   --hg-typo-font-family-mono-regular: "suisse-mono-regular", ui-monospace, monospace;
   --hg-typo-font-family-mono-bold: "suisse-mono-bold", ui-monospace, monospace;
   
+  /* Peso emparejado con cada rol de familia. Al remapear una familia por
+     idioma (p. ej. koreano), sobreescribe también su peso aquí para que
+     viajen juntos, sin necesitar reglas !important en el consumidor.
+     Estos defaults los emite el generador; se listan para poder overridearlos. */
+  --hg-typo-font-weight-primary-thin: 100;
+  --hg-typo-font-weight-primary-light: 300;
+  --hg-typo-font-weight-primary-regular: 400;
+  --hg-typo-font-weight-primary-bold: 600;
+  --hg-typo-font-weight-mono-regular: 400;
+  --hg-typo-font-weight-mono-bold: 700;
+  
   /* Bordes y radios */
   --border-radius: 0;
   --border-width: 1px;

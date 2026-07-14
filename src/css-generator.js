@@ -9,7 +9,8 @@ const {
 } = require('./generators/variables-generator');
 const { 
   buildValueMap, 
-  generateTypographyBlock 
+  generateTypographyBlock, 
+  generateBaseTypographyElements 
 } = require('./generators/typo-generator');
 const { generateSpacingHelpers } = require('./generators/spacing-generator');
 const { generateLayoutHelpers } = require('./generators/helpers-generator');
@@ -34,6 +35,7 @@ function generateCSS(configData) {
     fontFamilyVars, 
     lineHeightVars, 
     fontWeightVars, 
+    fontWeightRoleVars, 
     letterSpacingVars, 
     textTransformVars, 
     fontSizeVars 
@@ -56,7 +58,8 @@ function generateCSS(configData) {
     colorVars, 
     configData.fontFamilyMap || null, 
     prefix, 
-    category
+    category,
+    fontWeightRoleVars
   );
   
   // 4. Genera helpers de spacing (padding/margin)
@@ -112,11 +115,16 @@ function generateCSS(configData) {
     configData.fontFamilyMap
   );
   
-  // 9. Combina todos los bloques en el orden correcto
+  // 9. Genera elementos base tipográficos (strong, b)
+  const baseTypographyElements = generateBaseTypographyElements(prefix, category);
+  
+  // 10. Combina todos los bloques en el orden correcto
   return `${resetCSS}/* Variables CSS Compartidas */
 :root {
 ${rootVars}
 }
+
+${baseTypographyElements}
 
 ${spacingHelpers}${layoutHelpers}${gridSystem}${aspectRatios}${mobileTypography}
 
