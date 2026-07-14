@@ -30,8 +30,13 @@
 
   /* ─────────────────────────────────────────────
      Overrides de tipografía del tema (100% serif)
-     Suisse Works → titulares y texto corrido
+     Suisse Works → titulares y texto corrido.
+     Set completo (mismas claves que el fontFamilyMap base): sin el
+     override de thin, .title-thin caería a la Suisse sans de la base
+     y rompería el tema serif. Works no tiene cut thin → se mapea a
+     works-regular, igual que light.
      ───────────────────────────────────────────── */
+  --hg-typo-font-family-primary-thin: "suisse-works-regular", Georgia, "Times New Roman", serif;
   --hg-typo-font-family-primary-light: "suisse-works-regular", Georgia, "Times New Roman", serif;
   --hg-typo-font-family-primary-regular: "suisse-works-regular", Georgia, "Times New Roman", serif;
   --hg-typo-font-family-primary-bold: "suisse-works-bold", Georgia, "Times New Roman", serif;
@@ -119,6 +124,7 @@
 .demo-container .demo-title,
 .demo-container .hg-vars-section__title {
   font-family: var(--hg-typo-font-family-secondary);
-  font-weight: 600;
+  /* 500 = peso real del cut works-medium que resuelve secondary */
+  font-weight: 500;
   letter-spacing: 0.01em;
 }

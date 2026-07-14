@@ -23,6 +23,7 @@
   },
   "typography": {
     "fontFamilyMap": {
+      "primary-thin": "\"suisse-works-regular\", Georgia, \"Times New Roman\", serif",
       "primary-light": "\"suisse-works-regular\", Georgia, \"Times New Roman\", serif",
       "primary-regular": "\"suisse-works-regular\", Georgia, \"Times New Roman\", serif",
       "primary-bold": "\"suisse-works-bold\", Georgia, \"Times New Roman\", serif",

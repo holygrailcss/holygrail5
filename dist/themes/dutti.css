@@ -69,14 +69,17 @@
   --form-group-gap: var(--hg-spacing-16);
   
   /* Tipografía del tema Dutti — Suisse Intl (sans) por peso.
-     Cada peso es una font-family propia (suisse-light/regular/
-     medium/semibold) declaradas en guide-styles.css. */
+     Cada peso es una font-family propia (suisse-thin/light/regular/
+     medium/semibold) declaradas en guide-styles.css. Set alineado con
+     el fontFamilyMap del config base: mismas claves y mismos fallbacks
+     (mono cae a monospace, nunca a una sans). */
+  --hg-typo-font-family-primary-thin: "suisse-thin", Arial, Helvetica, sans-serif;
   --hg-typo-font-family-primary-light: "suisse-light", Arial, Helvetica, sans-serif;
   --hg-typo-font-family-primary-regular: "suisse-regular", Arial, Helvetica, sans-serif;
   --hg-typo-font-family-primary-bold: "suisse-semibold", Arial, Helvetica, sans-serif;
   --hg-typo-font-family-secondary: "suisse-medium", Arial, Helvetica, sans-serif;
-  --hg-typo-font-family-mono-regular: "suisse-mono-regular", Arial, Helvetica, sans-serif;
-  --hg-typo-font-family-mono-bold: "suisse-mono-bold", Arial, Helvetica, sans-serif;
+  --hg-typo-font-family-mono-regular: "suisse-mono-regular", ui-monospace, monospace;
+  --hg-typo-font-family-mono-bold: "suisse-mono-bold", ui-monospace, monospace;
   
   /* Bordes y radios */
   --border-radius: 0;
