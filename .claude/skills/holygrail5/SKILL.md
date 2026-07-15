@@ -21,7 +21,9 @@ Es Node puro (sin SASS, sin toolchain), pensado para que cualquier proyecto cons
 
 1. **Lee `config.json`** (o el config que apunte el usuario). Todas las clases disponibles, el prefijo, los breakpoints y los tokens se derivan de ahí. Si una clase no aparece en el config, no existe.
 2. **Mira `dist/output.css`** si dudas si algo se está generando — es la fuente de verdad de lo que va a llegar al navegador.
-3. **Identifica el modo de la tarea**: ¿el usuario quiere *consumir* HG5 (maquetar / usar clases) o *modificar el framework* (añadir un generador, ajustar un tema, publicar versión)? Las dos mitades de esta skill cubren eso.
+3. **Identifica el modo de la tarea**: ¿el usuario quiere *consumir* HG5 (maquetar / usar clases) o *modificar el framework* (añadir un generador, ajustar un tema, publicar versión)?
+   - **Maquetar / HTML / layouts / integrar npm** → lee **`.claude/skills/maquetar-dev/SKILL.md`** (superskill para devs).
+   - **Mantener el framework** → continúa con esta skill (Parte B).
 
 ---
 
@@ -69,7 +71,7 @@ cp node_modules/holygrail5/config.json ./hg5-config.json
 npx holygrail5 --config=./hg5-config.json --output=./dist/output.css
 ```
 
-`generate-css.js` acepta `--config=`, `--output=`, `--html=`. Si CSS y HTML viven en carpetas distintas, ajusta automáticamente el `href="output.css"`.
+`generate-css.js` acepta `--config=`, `--output=`, `--html=`. Si CSS y HTML viven en carpetas distintas, ajusta automáticamente el `href="output.css"`. Los **assets acompañan al output**: `guide-styles.css`, fuentes, imágenes y `assets/js/lenis.min.js` se copian al directorio del `--output` (AssetManager reescribe el prefijo `dist/` de los `dest` hacia ese directorio), de modo que la guía y las demos generadas en el proyecto consumidor funcionan sin rutas rotas.
 
 ### Cheat sheet de clases
 
@@ -88,6 +90,12 @@ npx holygrail5 --config=./hg5-config.json --output=./dist/output.css
 - `.hg-w-{100-percent|50-percent|auto|fit-content|100vw}`, `.hg-h-{100-percent|100vh|100dvh|auto}`, `.hg-min-h-{100vh|100dvh}`
 - `.hg-overflow-{hidden|auto|x-auto|y-hidden}`, `.hg-visibility-hidden`, `.hg-opacity-{0|50|100}`, `.hg-cursor-{pointer|grab|not-allowed}`, `.hg-pointer-events-none`, `.hg-object-{cover|contain}`
 - `.hg-text-{left|center|right|justify}`
+- `.hg-sr-only` (accesibilidad: visible solo para lectores de pantalla)
+
+**Color y fondo** (un helper por token de `config.colors`, 30 tokens):
+- `.hg-c-{token}` → `color` (`.hg-c-primary`, `.hg-c-error`, `.hg-c-dark-grey`…)
+- `.hg-bg-{token}` → `background-color` (`.hg-bg-white`, `.hg-bg-bg-cream`…)
+- Los tokens válidos son las claves de `config.colors`; si añades un color nuevo, recuerda añadirlo también a `config.helpers.color.values` y `background.values` (lista duplicada a mano — mantenlas sincronizadas).
 
 **Grid**:
 ```html
@@ -109,7 +117,9 @@ npx holygrail5 --config=./hg5-config.json --output=./dist/output.css
 ```
 Catálogo: `1-1`, `4-3`, `16-9`, `2-1`, `2-3`, `3-4`, `3-1`, `7-1`, `12-1`, `24-1`, `9-20`, `16-4`. La clase `.hg-aspect` sin sufijo es 2:3.
 
-**Tipografía**: depende de `config.typo`. Cada clave genera `.hg-{nombre}` mobile-first con override en `@media (min-width: 992px)`. Ejemplos típicos en este repo: `.hg-h2`, `.hg-title-l-b`, `.hg-title-l`, `.hg-title-m`, `.hg-text-m`, `.hg-suisse-1`, `.hg-semantic`, `.hg-p-tag`. **Antes de inventar una clase tipográfica, comprueba en el config qué hay**.
+**Tipografía**: depende de `config.typo`. Cada clave genera `.hg-{nombre}` mobile-first con override en `@media (min-width: 992px)`. Ejemplos típicos en este repo: `.hg-h2`, `.hg-title-l-b`, `.hg-title-l`, `.hg-title-m`, `.hg-text-m`, `.hg-suisse-1`, `.hg-semantic`, `.hg-p-tag`, `.title-thin` (display en Suisse Thin — úsala solo en tamaños grandes; en pequeño el trazo hairline desaparece). **Antes de inventar una clase tipográfica, comprueba en el config qué hay**.
+
+**Convención de pesos**: los `fontWeight` del `typo` declaran el **peso real del cut** que resuelve su familia (thin=100, light=300, regular=400, medium=500, semibold=600, mono-bold=700). Cada familia (`suisse-*`) tiene UN solo face, así que la selección real es por nombre — pero los números nunca deben mentir. `fontFamilyMap` tiene 7 claves: `primary-thin/light/regular/bold`, `secondary`, `mono-regular/bold` (`primary-bold` = SemiBold 600, no un Bold real; los mono caen a `ui-monospace, monospace`, jamás a una sans).
 
 ### Reglas que no se discuten al maquetar
 
@@ -123,7 +133,9 @@ Catálogo: `1-1`, `4-3`, `16-9`, `2-1`, `2-3`, `3-4`, `3-1`, `7-1`, `12-1`, `24-
 
 ### Skills hermanas para tareas concretas
 
-Las hay específicas en `skills/` (no en `.claude/skills/`):
+**Maquetación de devs (superskill completa):** `.claude/skills/maquetar-dev/SKILL.md` — usar SIEMPRE al maquetar HTML/layouts/componentes.
+
+Las hay específicas en `skills/`:
 
 - `skills/developer-guide/SKILL.md` — referencia exhaustiva de **todas** las clases con ejemplos (~628 líneas). Ábrelo cuando necesites el detalle completo.
 - `skills/component-generator/SKILL.md` — generar marcado HTML de componentes con clases válidas.
@@ -166,8 +178,8 @@ generate-css.js  (CLI / entry point)
         │     ├── typo-generator.js
         │     └── utils.js
         ├── docs-generator/html-generator.js  → dist/index.html
-        ├── AssetManager (build/asset-manager.js)         → copia CSS/imgs a dist/
-        ├── ThemeTransformer (build/theme-transformer.js) → combina theme.css + reescribe demo.html con sidebar/Lenis
+        ├── AssetManager (build/asset-manager.js)         → copia guide-styles/fuentes/imgs/lenis al directorio del output (`outputDir`; con --output custom aterrizan junto al CSS del consumidor)
+        ├── ThemeTransformer (build/theme-transformer.js) → combina theme.css + reescribe demo.html con sidebar/Lenis (LOCAL: dist/assets/js/lenis.min.js, sin CDN)
         └── skills-generator.js → dist/skills.html (si existe carpeta skills/)
 ```
 
@@ -178,6 +190,9 @@ Principios que conviene preservar al tocar el build:
 - **`watch` y `build` comparten orquestador**. No dupliques pipelines: si añades un paso, ponlo en `BuildOrchestrator.build()` y aparecerá en ambos.
 - **Variables tipográficas se deduplican** (`typo-generator`): no hardcodees `font-size: 14px` en una clase, registra el valor para que se materialice como `--hg-typo-font-size-14`.
 - **Compatibilidad cross-browser en el CSS generado**. Los generadores producen CSS que consumen proyectos reales en todos los navegadores: no introduzcas en un generador (ni en `themes/`) propiedades sin soporte universal salvo como mejora progresiva con fallback en la línea anterior (patrón existente: `ratio-generator` emite `padding-top` + `aspect-ratio`; los helpers de altura emiten `100vh` + `100dvh`). Verifica soporte (caniuse) antes de añadir una propiedad nueva a un generador.
+- **Sin CDNs externos en las páginas generadas**. Lenis está vendorizado en `src/assets/js/lenis.min.js` (→ `dist/assets/js/`). No reintroduzcas `<script src="https://cdn...">` en generadores ni demos: rompe offline y reabre riesgo de cadena de suministro sin SRI.
+- **Paridad config ↔ fallback**: si añades un asset a `config.assets`, añádelo también a `DEFAULT_ASSETS` en `asset-manager.js` (el fallback cuando un config no define `assets`). Ya se ha desincronizado dos veces (thin, lenis).
+- **Temas cubren el set tipográfico completo**: todo tema que redefina familias debe declarar las **7 claves** del `fontFamilyMap` (`primary-thin/light/regular/bold`, `secondary`, `mono-*`). Si falta una, esa clase cae a la fuente base y rompe la coherencia del tema (p. ej. un thin sans dentro de un tema serif). Los overrides de mono jamás caen a una sans.
 - **Escapa SIEMPRE los valores del config al volcarlos en HTML**. La guía (`dist/index.html`) y las demos se publican como documentación estática; un valor del `config.json`/`theme.json` sin escapar puede inyectar HTML/JS (la build admite `--config=` de configs no confiables). Usa `escapeHtml` de `src/generators/utils.js` (escapa `& < > " '`, válido también para atributos `title=`/`style=`/`data-*`) en CUALQUIER nuevo sink de `html-generator.js`, `sections/*`, `theme-vars-table-generator.js`, etc. Hay un test de regresión (`tests/escaping.test.js`) que lo verifica. Para inyectar bloques en `ThemeTransformer`, usa replacer de función (`replace(re, () => bloque)`) y no string, para que un `$` en el contenido no se interprete como patrón.
 
 ### Cómo añadir cosas
@@ -235,14 +250,14 @@ La guía HTML (`dist/index.html`) además resalta los valores que cambiaron resp
 ### Tests
 
 - 30 tests en `tests/`, sin frameworks pesados — son funciones puras que imprimen `✅`/`❌`. Lánzalos con `npm test`. Tardan <1 s.
-- Cobertura clave: `config-loader`, `css-generator`, `helpers`, `html-generator`, `ratio-generator`, `asset-manager` (10), `theme-transformer` (5), `build-orchestrator` (5), `escaping` (3, anti-inyección en la guía).
+- Cobertura clave: `config-loader`, `css-generator`, `helpers`, `html-generator`, `ratio-generator`, `asset-manager` (15, incl. reescritura `outputDir` del flujo consumidor), `theme-transformer` (5), `build-orchestrator` (5), `escaping` (3, anti-inyección en la guía).
 - Si tocas un generador, añade o actualiza el test correspondiente. Mantén los tests deterministas (usa `config` mínimos en memoria, no lecturas de disco salvo lo imprescindible).
 - Si añades un test con conteo propio (estilo `testX()` que devuelve `{passed, failed}`), recuérdalo enganchar en `tests/run-all.js` para que sume al total.
 
 ### Publicación / despliegue
 
-- Es un paquete npm (`name: holygrail5`, `version` en `package.json`). El `bin` `holygrail5` apunta a `generate-css.js`.
-- `files` publica solo `generate-css.js`, `config.json`, `README.md`, `src/**`, `themes/**`, `dist/**`. Asegúrate de hacer `npm run build` antes de `npm publish` para que `dist/` esté actualizado.
+- Es un paquete npm (`name: holygrail5`, `version` en `package.json`). El `bin` `holygrail5` apunta a `generate-css.js`. El script `prepack` ejecuta el build automáticamente antes de empaquetar; `npm run publish:pkg` = test + publish.
+- `files` es un **whitelist preciso** (~3 MB, 107 ficheros): JS de `src/`, fuentes/imágenes usadas, `themes/**` y los artefactos concretos de `dist/`. ⚠️ npm NO permite que `.npmignore` excluya rutas cubiertas por `files` — si hay que excluir algo, se ajusta el whitelist, no el ignore. Verifica el contenido con `npm pack --dry-run` antes de publicar (nada de backups, `.data/`, ni imágenes sin comprimir).
 - Commits: convención en español (ver `.cursorrules`). Tipos `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`, `perf:`. Indica siempre `(afecta a: ruta/componente)`. Ejemplo: `feat: añadir helper hg-grid (afecta a: src/generators/helpers-generator.js, tests/helpers.test.js)`.
 - `dist/index.html` puede publicarse como documentación estática (Netlify configurado en `netlify.toml`, GitHub Pages, Vercel, etc.).
 

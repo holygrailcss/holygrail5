@@ -58,18 +58,43 @@ function generateSpacingHelpers(spacingMap, prefix, desktopBreakpoint, baseFontS
     // NUEVAS: Padding helpers con prefijo hg- usando propiedades inline/block (mobile)
     helpers.push(`  .${prefix}-px-${key} { padding-inline: var(${varName}); }`);
     helpers.push(`  .${prefix}-py-${key} { padding-block: var(${varName}); }`);
-    
+
     // NUEVAS: Margin helpers con prefijo hg- usando propiedades inline/block (mobile)
     helpers.push(`  .${prefix}-mx-${key} { margin-inline: var(${varName}); }`);
     helpers.push(`  .${prefix}-my-${key} { margin-block: var(${varName}); }`);
-    
+
+    // NUEVAS: Padding helpers de un solo lado con prefijo hg- (mobile).
+    // Lógicas (start/end) para que respeten RTL, igual que px/py.
+    helpers.push(`  .${prefix}-pt-${key} { padding-block-start: var(${varName}); }`);
+    helpers.push(`  .${prefix}-pb-${key} { padding-block-end: var(${varName}); }`);
+    helpers.push(`  .${prefix}-pl-${key} { padding-inline-start: var(${varName}); }`);
+    helpers.push(`  .${prefix}-pr-${key} { padding-inline-end: var(${varName}); }`);
+
+    // NUEVAS: Margin helpers de un solo lado con prefijo hg- (mobile)
+    helpers.push(`  .${prefix}-mt-${key} { margin-block-start: var(${varName}); }`);
+    helpers.push(`  .${prefix}-mb-${key} { margin-block-end: var(${varName}); }`);
+    helpers.push(`  .${prefix}-ml-${key} { margin-inline-start: var(${varName}); }`);
+    helpers.push(`  .${prefix}-mr-${key} { margin-inline-end: var(${varName}); }`);
+
     // NUEVAS: Padding helpers con prefijo hg- y md: usando propiedades inline/block (desktop)
     desktopHelpers.push(`    .md\\:${prefix}-px-${key} { padding-inline: var(${varName}); }`);
     desktopHelpers.push(`    .md\\:${prefix}-py-${key} { padding-block: var(${varName}); }`);
-    
+
     // NUEVAS: Margin helpers con prefijo hg- y md: usando propiedades inline/block (desktop)
     desktopHelpers.push(`    .md\\:${prefix}-mx-${key} { margin-inline: var(${varName}); }`);
     desktopHelpers.push(`    .md\\:${prefix}-my-${key} { margin-block: var(${varName}); }`);
+
+    // NUEVAS: Padding helpers de un solo lado con prefijo hg- y md: (desktop)
+    desktopHelpers.push(`    .md\\:${prefix}-pt-${key} { padding-block-start: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-pb-${key} { padding-block-end: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-pl-${key} { padding-inline-start: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-pr-${key} { padding-inline-end: var(${varName}); }`);
+
+    // NUEVAS: Margin helpers de un solo lado con prefijo hg- y md: (desktop)
+    desktopHelpers.push(`    .md\\:${prefix}-mt-${key} { margin-block-start: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-mb-${key} { margin-block-end: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-ml-${key} { margin-inline-start: var(${varName}); }`);
+    desktopHelpers.push(`    .md\\:${prefix}-mr-${key} { margin-inline-end: var(${varName}); }`);
   });
   
   // Generar helpers con !important para los valores especificados en spacingImportant

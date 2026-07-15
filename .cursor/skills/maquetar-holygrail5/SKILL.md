@@ -1,9 +1,11 @@
 ---
 name: maquetar-holygrail5
-description: Guía a la IA para maquetar y extender el design system HolyGrail5 sin prompts detallados. Usar cuando se trabaje en HolyGrail5, temas Dutti, config.json, variables --hg-*, componentes CSS del tema (botones, inputs, checkboxes, radios, forms) o cuando el usuario pida maquetar con HolyGrail5.
+description: Guía a la IA para mantener el design system HolyGrail5 (tema, config, componentes CSS). Para maquetación de devs preferir la superskill maquetar-dev (.cursor/skills/maquetar-dev/). Usar esta skill al editar themes/dutti, config.json o componentes del tema.
 ---
 
 # Maquetar con HolyGrail5
+
+> **Superskill para devs (Claude):** **`.claude/skills/maquetar-dev/SKILL.md`** — guía completa de maquetación (instalación, clases, tema Dutti, layouts).
 
 Instrucciones para que la IA maquete y mantenga HolyGrail5 y el tema Dutti de forma autónoma, usando variables del sistema y componentes existentes.
 
@@ -83,6 +85,7 @@ La guía interactiva de variables y tipografías está en `dist/index.html`; el 
 
 ## Referencia adicional
 
+- **Superskill dev (maquetación completa)**: `.claude/skills/maquetar-dev/SKILL.md`
 - Listado de variables y clases de componentes: [reference.md](reference.md).
 - Estructura CSS y orden de declaraciones: `docs/ESTRUCTURA-CSS.md`.
 - Documentación del tema: `themes/dutti/README.md`.

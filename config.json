@@ -643,6 +643,24 @@
         "auto": "auto"
       }
     },
+    "margin-top-auto": {
+      "property": "margin-top",
+      "class": "mt",
+      "responsive": true,
+      "description": "Margin superior automático (empujar al fondo en flex column)",
+      "values": {
+        "auto": "auto"
+      }
+    },
+    "margin-bottom-auto": {
+      "property": "margin-bottom",
+      "class": "mb",
+      "responsive": true,
+      "description": "Margin inferior automático (empujar arriba en flex column)",
+      "values": {
+        "auto": "auto"
+      }
+    },
     "text-align": {
       "property": "text-align",
       "class": "text",
