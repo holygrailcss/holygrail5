@@ -57,6 +57,14 @@
         "dest": "dist/assets/fonts/suisse-intl-light.woff"
       },
       {
+        "source": "src/assets/fonts/suisse-intl-light-italic.woff2",
+        "dest": "dist/assets/fonts/suisse-intl-light-italic.woff2"
+      },
+      {
+        "source": "src/assets/fonts/suisse-intl-light-italic.woff",
+        "dest": "dist/assets/fonts/suisse-intl-light-italic.woff"
+      },
+      {
         "source": "src/assets/fonts/suisse-intl-regular.woff2",
         "dest": "dist/assets/fonts/suisse-intl-regular.woff2"
       },
@@ -152,11 +160,14 @@
     "white-15": "rgba(255, 255, 255, 0.15)",
     "white-30": "rgba(255, 255, 255, 0.3)",
     "white-60": "rgba(255, 255, 255, 0.6)",
-    "white-97": "rgba(255, 255, 255, 0.97)"
+    "white-97": "rgba(255, 255, 255, 0.97)",
+    "skeleton-base": "#e8e8e8",
+    "skeleton-highlight": "rgba(255, 255, 255, 0.65)"
   },
   "fontFamilyMap": {
     "primary-thin": "\"suisse-thin\", Arial, Helvetica, sans-serif",
     "primary-light": "\"suisse-light\", Arial, Helvetica, sans-serif",
+    "primary-light-italic": "\"suisse-light-italic\", Arial, Helvetica, sans-serif",
     "primary-regular": "\"suisse-regular\", Arial, Helvetica, sans-serif",
     "primary-bold": "\"suisse-semibold\", Arial, Helvetica, sans-serif",
     "secondary": "\"suisse-medium\", Arial, Helvetica, sans-serif",
@@ -839,6 +850,20 @@
         "lineHeight": "1"
       }
     },
+    "hg-title-xxl": {
+      "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
+      "fontWeight": "300",
+      "letterSpacing": "0.16em",
+      "textTransform": "uppercase",
+      "mobile": {
+        "fontSize": "22px",
+        "lineHeight": "1.5"
+      },
+      "desktop": {
+        "fontSize": "24px",
+        "lineHeight": "1.5"
+      }
+    },
     "h2": {
       "fontFamily": "\"suisse-semibold\", Arial, Helvetica, sans-serif",
       "fontWeight": "600",
@@ -956,6 +981,32 @@
       "desktop": {
         "fontSize": "10px",
         "lineHeight": "1"
+      }
+    },
+    "p-tag-italic": {
+      "fontFamily": "\"suisse-light-italic\", Arial, Helvetica, sans-serif",
+      "fontWeight": "300",
+      "letterSpacing": "0.16em",
+      "mobile": {
+        "fontSize": "9px",
+        "lineHeight": "1"
+      },
+      "desktop": {
+        "fontSize": "10px",
+        "lineHeight": "1"
+      }
+    },
+    "hg-body-xl": {
+      "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
+      "fontWeight": "300",
+      "letterSpacing": "0.04em",
+      "mobile": {
+        "fontSize": "14px",
+        "lineHeight": "1.5"
+      },
+      "desktop": {
+        "fontSize": "16px",
+        "lineHeight": "1.75"
       }
     },
     "hg-body-l": {
