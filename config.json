@@ -144,6 +144,7 @@
     "info": "#2037a6",
     "success": "#12882C",
     "warning": "#ffce4e",
+    "notice": "#EB8807",
     "feel": "#fb9962",
     "feel-dark": "#c94c07",
     "silver": "#87888D",
@@ -350,7 +351,8 @@
         "white-15": "var(--hg-color-white-15)",
         "white-30": "var(--hg-color-white-30)",
         "white-60": "var(--hg-color-white-60)",
-        "white-97": "var(--hg-color-white-97)"
+        "white-97": "var(--hg-color-white-97)",
+        "notice": "var(--hg-color-notice)"
       }
     },
     "background-color": {
@@ -388,7 +390,8 @@
         "white-15": "var(--hg-color-white-15)",
         "white-30": "var(--hg-color-white-30)",
         "white-60": "var(--hg-color-white-60)",
-        "white-97": "var(--hg-color-white-97)"
+        "white-97": "var(--hg-color-white-97)",
+        "notice": "var(--hg-color-notice)"
       }
     },
     "display": {
