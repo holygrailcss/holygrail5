@@ -625,7 +625,9 @@
 }
 
 .is-error.checkbox-item a,
-.is-error .checkbox-item a {
+.is-error .checkbox-item a,
+.is-error.checkbox-item .btn-tertiary,
+.is-error .checkbox-item .btn-tertiary {
   color: var(--hg-color-error) !important;
 }
 
