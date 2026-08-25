@@ -322,6 +322,19 @@ Todas las clases de helpers llevan el prefijo `hg-`. Se configuran en `config.he
 <div class="hg-text-justify">Justificado</div>
 ```
 
+### Salto de línea
+
+```html
+<div class="hg-whitespace-normal">Salta de línea con normalidad</div>
+<div class="hg-whitespace-nowrap">Nunca salta</div>
+<div class="hg-whitespace-pre">Respeta espacios y saltos</div>
+<div class="hg-whitespace-pre-line">Respeta saltos, colapsa espacios</div>
+<div class="hg-whitespace-pre-wrap">Respeta ambos y ajusta al ancho</div>
+```
+
+Tienen variante `md:`. `hg-whitespace-normal` es el que devuelve el
+comportamiento por defecto a algo que ya viene con `nowrap`.
+
 ### Overflow
 
 ```html

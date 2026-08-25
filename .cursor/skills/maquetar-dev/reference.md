@@ -49,6 +49,19 @@ Porcentajes: `20-percent`, `25-percent`, `33-percent`, `40-percent`, `50-percent
 `hg-position-static|relative|absolute|fixed|sticky`
 `hg-z-0|10|20|30|40|50|auto`
 
+### Salto de línea
+
+```html
+<div class="hg-whitespace-normal">Salta de línea con normalidad</div>
+<div class="hg-whitespace-nowrap">Nunca salta</div>
+<div class="hg-whitespace-pre">Respeta espacios y saltos</div>
+<div class="hg-whitespace-pre-line">Respeta saltos, colapsa espacios</div>
+<div class="hg-whitespace-pre-wrap">Respeta ambos y ajusta al ancho</div>
+```
+
+Tienen variante `md:`. `hg-whitespace-normal` es el que devuelve el
+comportamiento por defecto a algo que ya viene con `nowrap`.
+
 ### Overflow / visibilidad
 `hg-overflow-auto|hidden|visible|scroll`
 `hg-overflow-x-*`, `hg-overflow-y-*`

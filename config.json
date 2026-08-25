@@ -698,6 +698,19 @@
         "none": "none"
       }
     },
+    "white-space": {
+      "property": "white-space",
+      "class": "whitespace",
+      "responsive": true,
+      "description": "Control del salto de línea del texto",
+      "values": {
+        "normal": "normal",
+        "nowrap": "nowrap",
+        "pre": "pre",
+        "pre-line": "pre-line",
+        "pre-wrap": "pre-wrap"
+      }
+    },
     "position": {
       "property": "position",
       "class": "position",
