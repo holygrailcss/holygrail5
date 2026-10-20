@@ -1,0 +1,24 @@
+.claude/skills/maquetar-dev/SKILL.md
+  h_93a652f7e44518 361-362
+.cursor/skills/maquetar-dev/reference.md
+  h_93a652f7e44518 97
+.cursor/skills/maquetar-holygrail5/reference.md
+  h_93a652f7e44518 40
+config.json
+  h_93a652f7e44518 1112,1126
+dist/themes/dutti-demo.html
+  h_93a652f7e44518 889,900
+themes/dutti/README.md
+  h_93a652f7e44518 409
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7152137678594afd17814ded4eb208a2dd6b82e1",
+  "prompts": {},
+  "humans": {
+    "h_93a652f7e44518": {
+      "author": "pabloblop <pabloblop@ext.massimodutti.com>"
+    }
+  }
+}
