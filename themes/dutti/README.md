@@ -406,7 +406,7 @@ Además de los componentes del tema, puedes usar las clases tipográficas genera
 | `.label-mono` | Regular | `suisse-mono-regular` | 10px / 120% | 10px / 120% |
 | `.label-mono-b` | Bold | `suisse-mono-bold` | 10px / 120% | 10px / 120% |
 
-Comportamiento alineado con `.label-s` / `.label-s-b` (uppercase, `letter-spacing: 0.06em`). Variables CSS: `--hg-typo-font-family-mono-regular`, `--hg-typo-font-family-mono-bold`.
+Las etiquetas mono usan uppercase y `letter-spacing: 0.06em`; `.label-s` y `.label-s-b` usan `0.16em`. Variables CSS: `--hg-typo-font-family-mono-regular`, `--hg-typo-font-family-mono-bold`.
 
 ```html
 <span class="label-mono">Referencia SKU</span>
@@ -444,4 +444,3 @@ npm run serve
 ## 🤝 Integración con MDS
 
 Este sistema de theming está diseñado para integrarse fácilmente con **MDS (Massimo Dutti System)** y otros sistemas de componentes de Inditex, utilizando las mismas variables CSS base de HolyGrail5.
-

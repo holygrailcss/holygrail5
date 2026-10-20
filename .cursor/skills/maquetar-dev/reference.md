@@ -94,7 +94,7 @@ comportamiento por defecto a algo que ya viene con `nowrap`.
 | p-tag | suisse-light | 9→10px |
 | hg-body-* | light/regular | body variants |
 | label-m, label-m-b | light/regular | uppercase 12px |
-| label-s, label-s-b | light/regular | uppercase 10px |
+| label-s, label-s-b | light/regular | uppercase 10px, ls 0.16em |
 | label-mono | mono-regular | 10px/120%, uppercase |
 | label-mono-b | mono-bold | 10px/120%, uppercase |
 

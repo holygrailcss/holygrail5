@@ -1109,7 +1109,7 @@
     "label-s": {
       "fontFamily": "\"suisse-light\", Arial, Helvetica, sans-serif",
       "fontWeight": "300",
-      "letterSpacing": "0.06em",
+      "letterSpacing": "0.16em",
       "textTransform": "uppercase",
       "mobile": {
         "fontSize": "10px",
@@ -1123,7 +1123,7 @@
     "label-s-b": {
       "fontFamily": "\"suisse-regular\", Arial, Helvetica, sans-serif",
       "fontWeight": "400",
-      "letterSpacing": "0.06em",
+      "letterSpacing": "0.16em",
       "textTransform": "uppercase",
       "mobile": {
         "fontSize": "10px",

@@ -358,8 +358,8 @@ Mobile-first; override desktop @ 992px.
 | `.hg-body-m-b` | suisse-regular | 12px/lh1.5 | 12px/lh1.5 | |
 | `.label-m` | suisse-light | 12px/lh1 | 12px/lh1 | uppercase |
 | `.label-m-b` | suisse-regular | 12px/lh1 | 12px/lh1 | uppercase |
-| `.label-s` | suisse-light | 10px/lh1 | 10px/lh1 | uppercase, ls 0.06em |
-| `.label-s-b` | suisse-regular | 10px/lh1 | 10px/lh1 | uppercase |
+| `.label-s` | suisse-light | 10px/lh1 | 10px/lh1 | uppercase, ls 0.16em |
+| `.label-s-b` | suisse-regular | 10px/lh1 | 10px/lh1 | uppercase, ls 0.16em |
 | `.label-mono` | mono-regular | 10px/lh1.2 | 10px/lh1.2 | uppercase mono |
 | `.label-mono-b` | mono-bold | 10px/lh1.2 | 10px/lh1.2 | uppercase mono bold |
 

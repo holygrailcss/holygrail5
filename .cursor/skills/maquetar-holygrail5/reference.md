@@ -37,7 +37,7 @@ Valores numéricos del mapa (0, 4, 8, 12, 16, 24, 32, …) y porcentajes (20-per
 | `.label-mono` | Label mono regular | `suisse-mono-regular` | 10px / 120% (mobile y desktop) |
 | `.label-mono-b` | Label mono bold | `suisse-mono-bold` | 10px / 120% (mobile y desktop) |
 
-Mismo patrón que `.label-s` / `.label-s-b` (uppercase, `letter-spacing: 0.06em`), con familias mono. Definidas en `config.json` → `typo`.
+Las clases `.label-s` y `.label-s-b` usan `letter-spacing: 0.16em`; las etiquetas mono usan `0.06em`. Definidas en `config.json` → `typo`.
 
 ## Tema Dutti – Variables de componente (_variables.css)
 
