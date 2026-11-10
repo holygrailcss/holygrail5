@@ -1,0 +1,19 @@
+package.json
+  s_771b8a8e637d9b::t_b7e899fa4cc3b3 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "087560418d7776f4d90616873009b4aeb3eea621",
+  "prompts": {},
+  "sessions": {
+    "s_771b8a8e637d9b": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "65d58705-eae7-49c2-89fd-e5cd1451b18f",
+        "model": "claude-opus-5.5"
+      },
+      "human_author": "pabloblop <pabloblop@ext.massimodutti.com>"
+    }
+  }
+}
