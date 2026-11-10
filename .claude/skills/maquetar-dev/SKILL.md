@@ -140,7 +140,7 @@ En JSX: `className="md:hg-d-flex"`.
 
 ### Colores (config actual)
 
-`white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `grey-ultra`, `orange`, `mustard`, `primary`, `error`, `info`, `success`, `warning`, `feel`, `feel-dark`, `silver`, `gold`, `platinum`, `bg-light`, `bg-cream`, opacidades `black-3/15/30/60/97`, `white-3/15/30/60/97`.
+`white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `grey-ultra`, `orange`, `mustard`, `primary`, `error`, `info`, `success`, `warning`, `notice`, `informative-sage`, `feel`, `feel-dark`, `silver`, `gold`, `platinum`, `bg-light`, `bg-cream`, `bg-campaign` (alias de `informative-sage`, para fondos de avisos/banners informativos), opacidades `black-3/15/30/60/97`, `white-3/15/30/60/97`.
 
 ```html
 <div style="color: var(--hg-color-dark-grey); background: var(--hg-color-bg-cream)">...</div>

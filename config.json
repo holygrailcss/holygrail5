@@ -145,6 +145,7 @@
     "success": "#12882C",
     "warning": "#ffce4e",
     "notice": "#EB8807",
+    "informative-sage": "#E9EDE6",
     "feel": "#fb9962",
     "feel-dark": "#c94c07",
     "silver": "#87888D",
@@ -152,6 +153,7 @@
     "platinum": "#5B7FA1",
     "bg-light": "#f9f9f9",
     "bg-cream": "#f4f2ed",
+    "bg-campaign": "var(--hg-color-informative-sage)",
     "black-3": "rgba(0, 0, 0, 0.03)",
     "black-6": "rgba(0, 0, 0, 0.06)",
     "black-15": "rgba(0, 0, 0, 0.15)",
@@ -353,7 +355,9 @@
         "white-30": "var(--hg-color-white-30)",
         "white-60": "var(--hg-color-white-60)",
         "white-97": "var(--hg-color-white-97)",
-        "notice": "var(--hg-color-notice)"
+        "notice": "var(--hg-color-notice)",
+        "informative-sage": "var(--hg-color-informative-sage)",
+        "bg-campaign": "var(--hg-color-bg-campaign)"
       }
     },
     "background-color": {
@@ -392,7 +396,9 @@
         "white-30": "var(--hg-color-white-30)",
         "white-60": "var(--hg-color-white-60)",
         "white-97": "var(--hg-color-white-97)",
-        "notice": "var(--hg-color-notice)"
+        "notice": "var(--hg-color-notice)",
+        "informative-sage": "var(--hg-color-informative-sage)",
+        "bg-campaign": "var(--hg-color-bg-campaign)"
       }
     },
     "display": {

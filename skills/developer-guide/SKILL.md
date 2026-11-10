@@ -101,7 +101,7 @@ border-color: var(--hg-color-error);
 <div style="color: var(--hg-color-dark-grey)">Texto</div>
 ```
 
-Colores disponibles por defecto: `white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `grey-ultra`, `orange`, `mustard`, `primary`, `error`, `info`, `success`, `warning`, `feel`, `feel-dark`, `silver`, `gold`, `platinum`, `bg-light`, `bg-cream`.
+Colores disponibles por defecto: `white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `grey-ultra`, `orange`, `mustard`, `primary`, `error`, `info`, `success`, `warning`, `notice`, `informative-sage`, `feel`, `feel-dark`, `silver`, `gold`, `platinum`, `bg-light`, `bg-cream`, `bg-campaign` (alias de `informative-sage`, para fondos de avisos/banners informativos).
 
 ### Spacing
 

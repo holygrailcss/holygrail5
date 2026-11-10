@@ -15,7 +15,7 @@ Tras cambiar `config.json` hay que ejecutar `npm run build` para regenerar `dist
 
 ## Colores típicos (--hg-color-*)
 
-- `primary`, `white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `error`, `success`, `warning`, `feel`, `feel-dark`, `bg-light`, `bg-cream`, etc.  
+- `primary`, `white`, `black`, `dark-grey`, `middle-grey`, `light-grey`, `error`, `success`, `warning`, `notice`, `informative-sage`, `feel`, `feel-dark`, `bg-light`, `bg-cream`, `bg-campaign`, etc.  
 Listado completo en `config.json` → `colors`; nombres con guión → `--hg-color-{nombre}`.
 
 ## Espaciado (--hg-spacing-*)
