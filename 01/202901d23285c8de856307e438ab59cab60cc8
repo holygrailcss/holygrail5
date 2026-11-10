@@ -1,0 +1,27 @@
+.claude/skills/maquetar-dev/SKILL.md
+  s_771b8a8e637d9b::t_b76da73af10802 143
+.cursor/skills/maquetar-holygrail5/reference.md
+  s_771b8a8e637d9b::t_9478d8f6e31763 18
+config.json
+  s_771b8a8e637d9b::t_1e3b61172b7600 156,360,401
+dist/themes/dutti-demo.html
+  s_771b8a8e637d9b::t_9276a042af1fc0 300
+skills/developer-guide/SKILL.md
+  s_771b8a8e637d9b::t_d4171fcbdbd303 104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "01202901d23285c8de856307e438ab59cab60cc8",
+  "prompts": {},
+  "sessions": {
+    "s_771b8a8e637d9b": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "65d58705-eae7-49c2-89fd-e5cd1451b18f",
+        "model": "claude-opus-5.5"
+      },
+      "human_author": "pabloblop <pabloblop@ext.massimodutti.com>"
+    }
+  }
+}
